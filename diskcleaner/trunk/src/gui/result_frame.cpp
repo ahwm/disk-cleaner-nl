@@ -16,12 +16,16 @@
 */
 
 #include "result_frame.h"
+#include "gui/wxlistctrllog.h"
+
 
 result_frame::result_frame( wxWindow* parent )
 :
 result_base_frame( parent )
 {
   rerun = false;
+
+  CtrlLog = new wxListCtrlLog( result_lc );
 }
 
 void result_frame::back_btn_click( wxCommandEvent& event )
@@ -33,4 +37,9 @@ void result_frame::back_btn_click( wxCommandEvent& event )
 void result_frame::exit_btn_click( wxCommandEvent& event )
 {
 	Close();
+}
+
+void result_frame::init_result_dlg( wxInitDialogEvent& event )
+{
+    CtrlLog->ShowLog();
 }

@@ -156,14 +156,16 @@ wait_base_dlg::wait_base_dlg( wxWindow* parent, wxWindowID id, const wxString& t
 	m_staticText8->Wrap( -1 );
 	fgSizer7->Add( m_staticText8, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	progress_bar = new wxGauge( this, wxID_ANY, 100, wxDefaultPosition, wxDefaultSize, wxGA_HORIZONTAL );
-	fgSizer7->Add( progress_bar, 1, wxEXPAND|wxALL|wxALIGN_CENTER_VERTICAL, 10 );
+	progress_bar = new wxGauge( this, wxID_ANY, 100, wxDefaultPosition, wxSize( -1,20 ), wxGA_HORIZONTAL );
+	progress_bar->SetMaxSize( wxSize( -1,20 ) );
+	
+	fgSizer7->Add( progress_bar, 1, wxALL|wxALIGN_CENTER_VERTICAL|wxEXPAND, 10 );
 	
 	m_staticText9 = new wxStaticText( this, wxID_ANY, _("100 %"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText9->Wrap( -1 );
 	fgSizer7->Add( m_staticText9, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	fgSizer6->Add( fgSizer7, 1, wxEXPAND, 5 );
+	fgSizer6->Add( fgSizer7, 0, wxEXPAND, 5 );
 	
 	this->SetSizer( fgSizer6 );
 	this->Layout();
@@ -238,7 +240,7 @@ result_base_frame::result_base_frame( wxWindow* parent, wxWindowID id, const wxS
 	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
 	
 	wxFlexGridSizer* fgSizer1;
-	fgSizer1 = new wxFlexGridSizer( 3, 1, 0, 0 );
+	fgSizer1 = new wxFlexGridSizer( 2, 1, 0, 0 );
 	fgSizer1->AddGrowableCol( 0 );
 	fgSizer1->AddGrowableRow( 0 );
 	fgSizer1->SetFlexibleDirection( wxBOTH );
@@ -247,8 +249,8 @@ result_base_frame::result_base_frame( wxWindow* parent, wxWindowID id, const wxS
 	wxStaticBoxSizer* sbSizer2;
 	sbSizer2 = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("Cleaning results") ), wxVERTICAL );
 	
-	result_lb = new wxListBox( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0, NULL, 0 ); 
-	sbSizer2->Add( result_lb, 1, wxALL|wxEXPAND, 5 );
+	result_lc = new wxListCtrl( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_NO_HEADER|wxLC_REPORT );
+	sbSizer2->Add( result_lc, 1, wxALL|wxEXPAND, 5 );
 	
 	fgSizer1->Add( sbSizer2, 1, wxEXPAND|wxALL, 5 );
 	
@@ -272,6 +274,7 @@ result_base_frame::result_base_frame( wxWindow* parent, wxWindowID id, const wxS
 	this->Layout();
 	
 	// Connect Events
+	this->Connect( wxEVT_INIT_DIALOG, wxInitDialogEventHandler( result_base_frame::init_result_dlg ) );
 	back_btn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( result_base_frame::back_btn_click ), NULL, this );
 	exit_btn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( result_base_frame::exit_btn_click ), NULL, this );
 }
@@ -279,6 +282,7 @@ result_base_frame::result_base_frame( wxWindow* parent, wxWindowID id, const wxS
 result_base_frame::~result_base_frame()
 {
 	// Disconnect Events
+	this->Disconnect( wxEVT_INIT_DIALOG, wxInitDialogEventHandler( result_base_frame::init_result_dlg ) );
 	back_btn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( result_base_frame::back_btn_click ), NULL, this );
 	exit_btn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( result_base_frame::exit_btn_click ), NULL, this );
 }
@@ -310,7 +314,7 @@ prefs_dlg_base::prefs_dlg_base( wxWindow* parent, wxWindowID id, const wxString&
 	m_panel1->SetSizer( bSizer6 );
 	m_panel1->Layout();
 	bSizer6->Fit( m_panel1 );
-	prefsbook->AddPage( m_panel1, _("Global"), false );
+	prefsbook->AddPage( m_panel1, _("Global"), true );
 	m_panel3 = new wxPanel( prefsbook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxBoxSizer* bSizer12;
 	bSizer12 = new wxBoxSizer( wxVERTICAL );
@@ -343,6 +347,8 @@ prefs_dlg_base::prefs_dlg_base( wxWindow* parent, wxWindowID id, const wxString&
 	bSizer12->Fit( m_panel3 );
 	prefsbook->AddPage( m_panel3, _("System temporary files"), false );
 	m_panel4 = new wxPanel( prefsbook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	m_panel4->Hide();
+	
 	wxBoxSizer* bSizer14;
 	bSizer14 = new wxBoxSizer( wxVERTICAL );
 	
@@ -355,6 +361,8 @@ prefs_dlg_base::prefs_dlg_base( wxWindow* parent, wxWindowID id, const wxString&
 	bSizer14->Fit( m_panel4 );
 	prefsbook->AddPage( m_panel4, _("Temporary internet files"), false );
 	m_panel5 = new wxPanel( prefsbook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	m_panel5->Hide();
+	
 	wxFlexGridSizer* fgSizer8;
 	fgSizer8 = new wxFlexGridSizer( 4, 1, 0, 0 );
 	fgSizer8->AddGrowableCol( 0 );
@@ -446,8 +454,10 @@ prefs_dlg_base::prefs_dlg_base( wxWindow* parent, wxWindowID id, const wxString&
 	m_panel5->SetSizer( fgSizer8 );
 	m_panel5->Layout();
 	fgSizer8->Fit( m_panel5 );
-	prefsbook->AddPage( m_panel5, _("Cookies"), true );
+	prefsbook->AddPage( m_panel5, _("Cookies"), false );
 	m_panel2 = new wxPanel( prefsbook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	m_panel2->Hide();
+	
 	wxBoxSizer* bSizer7;
 	bSizer7 = new wxBoxSizer( wxVERTICAL );
 	

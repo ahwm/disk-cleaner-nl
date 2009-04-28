@@ -96,22 +96,15 @@ namespace
         if ( folder_copy.find(L"%commonprogramfiles%")== std::string::npos ) //but look in reg. otherwise
         {
             wxLogDebug( L"found %%commonprogramfiles%%" );
-            nFolder = 0x002b; //CSIDL_PROGRAM_FILES_COMMON;
+            nFolder = CSIDL_PROGRAM_FILES_COMMON;
         }
         if ( folder_copy.find(L"%localappdata%") == std::string::npos ) //5.0
         {
             wxLogDebug( L"found %%localappdata%%" );
-            nFolder = 0x001c; //CSIDL_LOCAL_APPDATA;
+            nFolder = CSIDL_LOCAL_APPDATA;
         }
 
-        //CSIDL_COMMON_MUSIC
-        //CSIDL_COMMON_PICTURES
-        //CSIDL_COMMON_VIDEO
-        //CSIDL_MYMUSIC
-        //CSIDL_MYVIDEO
-
-
-
+        //TODO: Implement KNOWNFOLDERID FOLDERID_LocalAppDataLow
 
         if (nFolder)
         {
@@ -123,6 +116,8 @@ namespace
                 ::wxLogDebug( L"SHGetFolderPath returns: %s", buff );
                 return std::wstring(buff);
             }
+
+
             // The CSIDL_XXX is not supported. Try the registry.
             // This shouldn't be necessary anymore since we only support win2k and higher
 //            else

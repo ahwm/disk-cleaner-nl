@@ -29,9 +29,10 @@
 #include <wx/icon.h>
 #include <wx/statbmp.h>
 #include <wx/hyperlink.h>
-#include <wx/listbox.h>
+#include <wx/listctrl.h>
 #include <wx/checkbox.h>
 #include <wx/panel.h>
+#include <wx/listbox.h>
 #include <wx/notebook.h>
 
 ///////////////////////////////////////////////////////////////////////////
@@ -93,7 +94,7 @@ class wait_base_dlg : public wxDialog
 		wxStaticText* m_staticText9;
 	
 	public:
-		wait_base_dlg( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Please wait..."), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 251,102 ), long style = wxDEFAULT_DIALOG_STYLE );
+		wait_base_dlg( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Please wait..."), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 260,103 ), long style = wxDEFAULT_DIALOG_STYLE );
 		~wait_base_dlg();
 	
 };
@@ -134,18 +135,19 @@ class result_base_frame : public wxDialog
 	private:
 	
 	protected:
+		wxListCtrl* result_lc;
 		wxButton* back_btn;
 		
 		wxButton* exit_btn;
 		
 		// Virtual event handlers, overide them in your derived class
+		virtual void init_result_dlg( wxInitDialogEvent& event ){ event.Skip(); }
 		virtual void back_btn_click( wxCommandEvent& event ){ event.Skip(); }
 		virtual void exit_btn_click( wxCommandEvent& event ){ event.Skip(); }
 		
 	
 	public:
-		wxListBox* result_lb;
-		result_base_frame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 336,300 ), long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER );
+		result_base_frame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 336,318 ), long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER );
 		~result_base_frame();
 	
 };

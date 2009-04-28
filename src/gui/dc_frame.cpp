@@ -74,9 +74,17 @@ void dc_frame::clean_btn_click( wxCommandEvent& event )
 {
 
     PlugInfo* pinfo;
-    //dcApp& app = wxGetApp();
+    dcApp& app = wxGetApp();
 
     result_frame rsframe( this );
+
+    if ( settings.global.delete_locked && !app.IsUserAdmin() )
+    {
+        wxLogWarning( _("Warning: setting 'Delete locked files on reboot' ignored. "
+                        "The required Administrator priviliges are missing.") );
+
+    }
+
 
     __int64 total_bytes = 0, total_files = 0;
 
@@ -102,22 +110,21 @@ void dc_frame::clean_btn_click( wxCommandEvent& event )
             line.Printf( L"%s: Cleaned %s in %I64d %s.", pinfo->GetShortDesc().c_str(),
                          BytesToString(pinfo->GetBytesCleaned() ).c_str(),
                          pinfo->GetItemsCleaned(), wxPLURAL( "item", "items", pinfo->GetItemsCleaned() ) );
-            rsframe.result_lb->Append( line );
+            wxLogMessage( line.c_str() );
         }
     }
 
 
-    rsframe.result_lb->Append( L"" );
     wxString schedulestr;
     schedulestr.Printf( _( "Scheduled %I64d %s for removal on reboot." ), GetFilesScheduledRemoveOnReboot(),
                         wxPLURAL( "file", "files", GetFilesScheduledRemoveOnReboot() ) );
 
-    rsframe.result_lb->Append( schedulestr );
-    rsframe.result_lb->Append( L"" );
+    wxLogMessage(  schedulestr );
+
 
     schedulestr.Printf( _( "Cleaned total of %s in %I64d %s") , BytesToString( total_bytes ).c_str(),
                         total_files, wxPLURAL( "item", "items", total_files) );
-    rsframe.result_lb->Append( schedulestr );
+    wxLogMessage(  schedulestr );
 
     Hide();
     rsframe.ShowModal();
@@ -181,13 +188,13 @@ void dc_frame::exit_btn_click( wxCommandEvent& event )
 
 void dc_frame::init_dialog()
 {
-
+    dcApp& app = wxGetApp();
     //Call load method, config class has been set in dcApp::OnCmdLineParsed
     settings.Load();
 
     if ( settings.global.delete_locked)
     {
-        SetRemoveOnReboot( true );
+        SetRemoveOnReboot( app.IsUserAdmin() );
     }
     else
     {
@@ -202,7 +209,7 @@ void dc_frame::init_dialog()
     //
     //Load text plugins
     //
-    dcApp& app = wxGetApp();
+
     std::list<std::wstring> sortlist;
 
     std::auto_ptr<PlugInfo> tempfiles (new system_temp( settings.systemp ) );

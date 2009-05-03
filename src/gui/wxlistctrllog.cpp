@@ -1,3 +1,16 @@
+/*
+** Copyright (C) 2009 Robert Moerland
+**
+** This program is free software; you can redistribute it and/or modify
+** it under the terms of the wxWindows Library Licence, Version 3.1
+**
+** This program is distributed in the hope that it will be useful,
+** but WITHOUT ANY WARRANTY; without even the implied warranty of
+** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+** wxWindows Library Licence for more details.
+**
+*/
+
 #include "wxlistctrllog.h"
 #include <wx/wx.h>
 #include <wx/listctrl.h>

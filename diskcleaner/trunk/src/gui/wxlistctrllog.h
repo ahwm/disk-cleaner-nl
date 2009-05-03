@@ -1,3 +1,16 @@
+/*
+** Copyright (C) 2009 Robert Moerland
+**
+** This program is free software; you can redistribute it and/or modify
+** it under the terms of the wxWindows Library Licence, Version 3.1
+**
+** This program is distributed in the hope that it will be useful,
+** but WITHOUT ANY WARRANTY; without even the implied warranty of
+** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+** wxWindows Library Licence for more details.
+**
+*/
+
 #ifndef WXLISTBOXLOG_H
 #define WXLISTBOXLOG_H
 

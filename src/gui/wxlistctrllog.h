@@ -29,7 +29,7 @@ public:
 
     virtual void DoLog(wxLogLevel level, const wxChar *szString, time_t t);
 
-    void ShowLog();
+    virtual void Flush();
 
 protected:
 private:

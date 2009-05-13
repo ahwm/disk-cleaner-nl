@@ -20,23 +20,25 @@
 
 #include <string>
 #include <vector>
+#include <boost/shared_ptr.hpp>
 #include "core\plugin_info_base.h"
 
 class wxConfigBase;
 class wxCheckListBox;
+class wxArrayString;
 
 namespace diskcleaner
 {
 
 
-class dcpreset_handler
-{
+    class dcpreset_handler
+    {
     public:
         dcpreset_handler(wxConfigBase* const cf, wxCheckListBox* const checklistboxwindow,
-                         std::vector<diskcleaner::PlugInfo*>& plugin_list );
+                         std::vector<boost::shared_ptr<diskcleaner::PlugInfo> >& plugin_list );
 
         //Returns a vector of wstrings containing the names of all saved presets
-        void get_saved_preset_names( std::vector<std::wstring>& presetlist );
+        void get_saved_preset_names( wxArrayString& presetlist );
 
         //bool is_enabled( const std::wstring& preset_name, const std::wstring& name );
 
@@ -44,22 +46,34 @@ class dcpreset_handler
 
         void load_preset( const std::wstring preset_name );
 
+        bool delete_preset( const std::wstring preset_name );
+
         bool save_last_used();
 
         void load_last_used();
 
     protected:
     private:
-      wxConfigBase* cfg_file;
-      wxCheckListBox* checklistbox;
-      std::vector<diskcleaner::PlugInfo*>& pi_list;
-      std::wstring current_path;
+        friend class csave_restore_path;
 
-      void save_path();
-      void restore_path();
 
-};
+        wxConfigBase* cfg_file;
+        wxCheckListBox* checklistbox;
+        std::vector<boost::shared_ptr<diskcleaner::PlugInfo> >& pi_list;
+    };
 
+    class csave_restore_path
+    {
+    private:
+        const dcpreset_handler* dph;
+        std::wstring current_path;
+
+    public:
+        csave_restore_path( const dcpreset_handler* const adph );
+
+        ~csave_restore_path();
+
+    };
 }
 
 #endif // DCPRESETS_H

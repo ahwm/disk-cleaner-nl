@@ -41,5 +41,5 @@ void result_frame::exit_btn_click( wxCommandEvent& event )
 
 void result_frame::init_result_dlg( wxInitDialogEvent& event )
 {
-    CtrlLog->ShowLog();
+    
 }

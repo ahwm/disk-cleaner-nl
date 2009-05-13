@@ -65,6 +65,7 @@ class dc_base_frame : public wxDialog
 		virtual void plugin_checkbox_itemselected( wxCommandEvent& event ){ event.Skip(); }
 		virtual void plugin_checkbox_dblclick( wxCommandEvent& event ){ event.Skip(); }
 		virtual void plugin_checkbox_toggled( wxCommandEvent& event ){ event.Skip(); }
+		virtual void preset_box_onchoice( wxCommandEvent& event ){ event.Skip(); }
 		virtual void preset_save_btn_click( wxCommandEvent& event ){ event.Skip(); }
 		virtual void preset_delete_btn_click( wxCommandEvent& event ){ event.Skip(); }
 		virtual void clean_btn_click( wxCommandEvent& event ){ event.Skip(); }

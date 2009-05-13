@@ -108,6 +108,7 @@ dc_base_frame::dc_base_frame( wxWindow* parent, wxWindowID id, const wxString& t
 	plugin_checkbox->Connect( wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler( dc_base_frame::plugin_checkbox_itemselected ), NULL, this );
 	plugin_checkbox->Connect( wxEVT_COMMAND_LISTBOX_DOUBLECLICKED, wxCommandEventHandler( dc_base_frame::plugin_checkbox_dblclick ), NULL, this );
 	plugin_checkbox->Connect( wxEVT_COMMAND_CHECKLISTBOX_TOGGLED, wxCommandEventHandler( dc_base_frame::plugin_checkbox_toggled ), NULL, this );
+	preset_box->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( dc_base_frame::preset_box_onchoice ), NULL, this );
 	preset_save_btn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( dc_base_frame::preset_save_btn_click ), NULL, this );
 	preset_delete_btn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( dc_base_frame::preset_delete_btn_click ), NULL, this );
 	clean_btn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( dc_base_frame::clean_btn_click ), NULL, this );
@@ -124,6 +125,7 @@ dc_base_frame::~dc_base_frame()
 	plugin_checkbox->Disconnect( wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler( dc_base_frame::plugin_checkbox_itemselected ), NULL, this );
 	plugin_checkbox->Disconnect( wxEVT_COMMAND_LISTBOX_DOUBLECLICKED, wxCommandEventHandler( dc_base_frame::plugin_checkbox_dblclick ), NULL, this );
 	plugin_checkbox->Disconnect( wxEVT_COMMAND_CHECKLISTBOX_TOGGLED, wxCommandEventHandler( dc_base_frame::plugin_checkbox_toggled ), NULL, this );
+	preset_box->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( dc_base_frame::preset_box_onchoice ), NULL, this );
 	preset_save_btn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( dc_base_frame::preset_save_btn_click ), NULL, this );
 	preset_delete_btn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( dc_base_frame::preset_delete_btn_click ), NULL, this );
 	clean_btn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( dc_base_frame::clean_btn_click ), NULL, this );

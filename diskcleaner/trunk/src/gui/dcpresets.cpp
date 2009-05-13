@@ -18,40 +18,46 @@
 #include "dcpresets.h"
 #include "wx/wx.h"
 #include "wx/fileconf.h"
+#include <wx/arrstr.h>
+#include <wx/log.h>
 
 namespace diskcleaner
 {
 
     dcpreset_handler::dcpreset_handler(wxConfigBase* const config, wxCheckListBox* const checklistboxwindow,
-                                       std::vector<diskcleaner::PlugInfo*>& plugin_list ) :
+                                       std::vector<boost::shared_ptr<diskcleaner::PlugInfo> >& plugin_list ) :
             cfg_file(config), checklistbox(checklistboxwindow), pi_list( plugin_list )
     {
 
     }
 
-    void dcpreset_handler::get_saved_preset_names( std::vector<std::wstring>& presetlist )
+    void dcpreset_handler::get_saved_preset_names( wxArrayString& presetlist )
     {
-        save_path();
+        csave_restore_path srp(this);
+
+
+        cfg_file->SetPath( L"/SavedPresets" );
 
         wxString preset_name;
         long index;
 
-        bool more = cfg_file->GetFirstEntry( preset_name, index );
-        presetlist.push_back( preset_name );
+        bool more = cfg_file->GetFirstGroup( preset_name, index );
 
         while ( more )
         {
-            cfg_file->GetNextEntry( preset_name, index );
-            presetlist.push_back( preset_name );
+            wxLogDebug( L"%hs: adding found preset %s", __PRETTY_FUNCTION__, preset_name.c_str() );
+            presetlist.Add( preset_name );
+            more = cfg_file->GetNextGroup( preset_name, index );
         }
 
-        restore_path();
+
     }
 
     bool dcpreset_handler::save_preset( const std::wstring preset_name )
     {
-        save_path();
-        cfg_file->SetPath( L"SavedPresets/" +  preset_name );
+        csave_restore_path srp(this);
+
+        cfg_file->SetPath( L"/SavedPresets/" +  preset_name );
 
         bool success = true;
         long count = checklistbox->GetCount();
@@ -65,17 +71,15 @@ namespace diskcleaner
 
 
         };
-
-        restore_path();
 
         return success;
     }
 
     void dcpreset_handler::load_preset( const std::wstring preset_name )
     {
-        save_path();
+        csave_restore_path srp(this);
 
-        cfg_file->SetPath( L"SavedPresets/" +  preset_name );
+        cfg_file->SetPath( L"/SavedPresets/" +  preset_name );
         long count = checklistbox->GetCount();
         for ( int k = 0; k < count; ++k )
         {
@@ -88,13 +92,24 @@ namespace diskcleaner
             checklistbox->Check( k, is_checked );
         };
 
-        restore_path();
+
+    }
+
+     bool dcpreset_handler::delete_preset( const std::wstring preset_name )
+    {
+        csave_restore_path srp(this);
+
+        cfg_file->SetPath( L"/SavedPresets" );
+
+        return cfg_file->DeleteGroup( preset_name );
+
     }
 
     bool dcpreset_handler::save_last_used( )
     {
-        save_path();
-        cfg_file->SetPath( L"LastUsedPreset" );
+        csave_restore_path srp( this );
+
+        cfg_file->SetPath( L"/LastUsedPreset" );
 
         bool success = true;
         long count = checklistbox->GetCount();
@@ -109,16 +124,15 @@ namespace diskcleaner
 
         };
 
-        restore_path();
 
         return success;
     }
 
     void dcpreset_handler::load_last_used( )
     {
-        save_path();
+        csave_restore_path srp( this );
 
-        cfg_file->SetPath( L"LastUsedPreset" );
+        cfg_file->SetPath( L"/LastUsedPreset" );
         long count = checklistbox->GetCount();
         for ( int k = 0; k < count; ++k )
         {
@@ -131,18 +145,14 @@ namespace diskcleaner
             checklistbox->Check( k, is_checked );
         };
 
-        restore_path();
+
     }
 
+    csave_restore_path::csave_restore_path( const dcpreset_handler* const adph ) :
+            dph( adph ), current_path ( dph->cfg_file->GetPath() ) {};
 
-    inline void dcpreset_handler::save_path()
+    csave_restore_path::~csave_restore_path()
     {
-        current_path = cfg_file->GetPath();
-    }
-
-    inline void dcpreset_handler::restore_path()
-    {
-        cfg_file->SetPath( current_path );
-    }
-
+        dph->cfg_file->SetPath( current_path );
+    };
 }

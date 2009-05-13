@@ -35,6 +35,7 @@
 #include <wx/log.h>
 #include <wx/fileconf.h>
 #include <wx/intl.h>
+#include <wx/textdlg.h>
 
 using namespace diskcleaner;
 
@@ -46,13 +47,49 @@ dc_frame::dc_frame( wxWindow* parent ):dc_base_frame( parent )
 
 void dc_frame::preset_save_btn_click( wxCommandEvent& event )
 {
-    // TODO: Implement preset_save_btn_click
+    wxTextEntryDialog te( this, _( "Please enter a name for the preset" ), L"Disk Cleaner" );
+
+    te.SetValue( L"" );
+
+    int result = te.ShowModal();
+
+    if ( result == wxID_CANCEL || te.GetValue() == L"" ) //Canceled or nothing entered
+    {
+        return;
+    }
+
+    ppreset_handler->save_preset( te.GetValue() );
+
+    preset_box->Append( te.GetValue() );
+
+
 }
 
 void dc_frame::preset_delete_btn_click( wxCommandEvent& event )
 {
-    // TODO: Implement preset_delete_btn_click
+    if ( preset_box->GetSelection() != 0 ) //0 == <last used>
+    {
+        ppreset_handler->delete_preset( preset_box->GetStringSelection() );
+        preset_box->Delete( preset_box->GetSelection() );
+
+        preset_box->SetSelection( 0 );
+    }
 }
+
+void dc_frame::preset_box_onchoice( wxCommandEvent& event )
+{
+    if ( preset_box->GetSelection() == 0 )
+    {
+        ppreset_handler->load_last_used();
+
+    }
+    else
+    {
+        ppreset_handler->load_preset( preset_box->GetStringSelection() );
+    }
+}
+
+
 
 void dc_frame::config_btn_click( wxCommandEvent& event )
 {
@@ -73,7 +110,7 @@ void dc_frame::config_btn_click( wxCommandEvent& event )
 void dc_frame::clean_btn_click( wxCommandEvent& event )
 {
 
-    PlugInfo* pinfo;
+    boost::shared_ptr<PlugInfo> pinfo;
     dcApp& app = wxGetApp();
 
     result_frame rsframe( this );
@@ -97,7 +134,7 @@ void dc_frame::clean_btn_click( wxCommandEvent& event )
 
         if ( plugin_checkbox->IsChecked( i ) )
         {
-            pinfo = (PlugInfo*)plugin_list[i];
+            pinfo = plugin_list[i];
             wxLogVerbose( L"Cleaning: %s", plugin_list[i]->GetShortDesc().c_str() );
             pinfo->Clean();
 
@@ -201,7 +238,7 @@ void dc_frame::init_dialog()
         SetRemoveOnReboot (false );
     }
 
-    if( !settings.global.show_description )
+    if ( !settings.global.show_description )
     {
         description_label->Show( false );
         description_box->Show( false );
@@ -212,22 +249,22 @@ void dc_frame::init_dialog()
 
     std::list<std::wstring> sortlist;
 
-    std::auto_ptr<PlugInfo> tempfiles (new system_temp( settings.systemp ) );
+    boost::shared_ptr<PlugInfo> tempfiles (new system_temp( settings.systemp ) );
     add_plugin_to_lists( tempfiles );
 
-    std::auto_ptr<PlugInfo> rbin (new RecycleBinInfo() );
+    boost::shared_ptr<PlugInfo> rbin (new RecycleBinInfo() );
     add_plugin_to_lists( rbin );
 
-    std::auto_ptr<PlugInfo> recentdocs (new recent_docs() );
+    boost::shared_ptr<PlugInfo> recentdocs (new recent_docs() );
     add_plugin_to_lists( recentdocs );
 
-    std::auto_ptr<PlugInfo> ffcache (new firefox_cache() );
+    boost::shared_ptr<PlugInfo> ffcache (new firefox_cache() );
     add_plugin_to_lists( ffcache );
 
-    std::auto_ptr<PlugInfo> ffcookies (new firefox_cookies() );
+    boost::shared_ptr<PlugInfo> ffcookies (new firefox_cookies() );
     add_plugin_to_lists( ffcookies );
 
-    std::auto_ptr<PlugInfo> ffhistory (new firefox_history() );
+    boost::shared_ptr<PlugInfo> ffhistory (new firefox_history() );
     add_plugin_to_lists( ffhistory );
 
     WIN32_FIND_DATA finddata;
@@ -260,7 +297,7 @@ void dc_frame::init_dialog()
             std::wstring FullPath =  app.GetAppDirectory() + L"\\plug-ins\\"  + *it;
             ::wxLogDebug( FullPath.c_str() );
 
-            std::auto_ptr<PlugInfo> pi (new TextPlugInfo( FullPath ) );
+            boost::shared_ptr<PlugInfo> pi (new TextPlugInfo( FullPath ) );
             ::wxLogDebug( L"Instantiated!" );
 
             waitdlg->Increment();
@@ -290,10 +327,21 @@ void dc_frame::init_dialog()
 
     set_items_selected_text();
 
+    preset_box->Clear();
+    preset_box->Append( _( "<last used>" ) );
+    preset_box->SetSelection( 0 );
+
     ppreset_handler  = boost::shared_ptr<diskcleaner::dcpreset_handler>
-                        (new diskcleaner::dcpreset_handler( wxConfigBase::Get( false ), plugin_checkbox, plugin_list ) );
+                       (new diskcleaner::dcpreset_handler( wxConfigBase::Get( false ), plugin_checkbox, plugin_list ) );
 
     ppreset_handler->load_last_used();
+
+    wxArrayString preset_list;
+    preset_list.Empty();
+
+    ppreset_handler->get_saved_preset_names( preset_list );
+
+    preset_box->Append( preset_list );
 
 }
 
@@ -304,7 +352,7 @@ void dc_frame::plugin_checkbox_itemselected( wxCommandEvent& event )
 
     if (!item_selected) return;
 
-    PlugInfo* pi = dynamic_cast<PlugInfo*>( plugin_list[item] );
+    boost::shared_ptr<PlugInfo> pi = plugin_list[item];
 
     description_box->ChangeValue( pi->GetLongDesc() );
 }
@@ -361,7 +409,7 @@ void dc_frame::set_items_selected_text()
     items_selected_text->SetLabel( String );
 }
 
-void dc_frame::add_plugin_to_lists(std::auto_ptr<PlugInfo>& pi)
+void dc_frame::add_plugin_to_lists(boost::shared_ptr<PlugInfo>& pi)
 {
     pi->Scan();
     if (pi->GetItemsFound() > 0 || settings.global.hide_empty == false )
@@ -372,7 +420,7 @@ void dc_frame::add_plugin_to_lists(std::auto_ptr<PlugInfo>& pi)
 
         plugin_checkbox->Check(index, true);
 
-        plugin_list.push_back( pi.release() );
+        plugin_list.push_back( pi );
         //IniFile->ReadBool(SettingName,String(pi->GetShortDesc()),false);
     }
 }

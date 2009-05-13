@@ -150,7 +150,7 @@ void wxListCtrlLog::DoLog(wxLogLevel level, const wxChar *szString, time_t t)
 
 }
 
-void wxListCtrlLog::ShowLog()
+void wxListCtrlLog::Flush()
 {
     wxString fmt = wxLog::GetTimestamp();
     if ( !fmt )
@@ -160,7 +160,9 @@ void wxListCtrlLog::ShowLog()
     }
 
     size_t count = m_messages.GetCount();
-    for ( size_t n = 0; n < count; n++ )
+    size_t listctrl_count = m_listctrl->GetItemCount();
+
+    for ( size_t n = 0 ; n < count; n++ )
     {
         int image = -1;
 
@@ -185,10 +187,11 @@ void wxListCtrlLog::ShowLog()
             image = -1;
         }
 
-        m_listctrl->InsertItem(n, m_messages[n], image);
+        m_listctrl->InsertItem( n + listctrl_count, m_messages[n], image );
         //m_listctrl->SetItem(n, 1, wxLog::TimeStamp(fmt, (time_t)m_times[n]));
     }
 
+    m_messages.Clear();
     // let the columns size themselves
     m_listctrl->SetColumnWidth(0, wxLIST_AUTOSIZE);
 }

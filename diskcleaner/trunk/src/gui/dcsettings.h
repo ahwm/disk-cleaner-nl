@@ -56,8 +56,8 @@ namespace diskcleaner
         tempinternetfiles_ tempinternetfiles;
         cookies_ cookies;
 
-        bool Persist();
-        bool Persist( wxConfigBase* const config_object ) ;
+        bool Save();
+        bool Save( wxConfigBase* const config_object ) ;
         bool Load();
         bool Load( wxConfigBase* const config_object );
     };

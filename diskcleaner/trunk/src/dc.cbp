@@ -14,14 +14,16 @@
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
 					<Add option="-g" />
-					<Add option="-D__WXDEBUG__" />
-					<Add directory="$(#wx.lib)\gcc_dll\mswud" />
+					<Add directory="$(#wx.lib)\gcc_lib\mswu" />
 				</Compiler>
 				<ResourceCompiler>
-					<Add directory="$(#wx.lib)\gcc_lib\mswud" />
+					<Add directory="$(#wx.lib)\gcc_lib\mswu" />
 				</ResourceCompiler>
 				<Linker>
-					<Add library="C:\wxWidgets-2.8.10\lib\gcc_dll\libwxmsw28ud.a" />
+					<Add library="libwxmsw28u_core.a" />
+					<Add library="libwxbase28u.a" />
+					<Add library="libwxmsw28u_adv.a" />
+					<Add library="libwxjpeg.a" />
 					<Add directory="$(#wx.lib)\gcc_lib" />
 				</Linker>
 			</Target>
@@ -127,8 +129,9 @@
 			<AutoVersioning>
 				<Scheme minor_max="10" build_max="0" rev_max="0" rev_rand_max="10" build_times_to_increment_minor="100000" />
 				<Settings autoincrement="0" date_declarations="1" do_auto_increment="1" ask_to_increment="0" language="C++" svn="0" svn_directory="" header_path="gui\version.h" />
-				<Changes_Log generate_log="0" app_title="released version %M.%m.%b of %p" changeslog_path="ChangesLog.txt" />
+				<Changes_Log show_changes_editor="0" app_title="released version %M.%m.%b of %p" changeslog_path="ChangesLog.txt" />
 			</AutoVersioning>
+			<envvars />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

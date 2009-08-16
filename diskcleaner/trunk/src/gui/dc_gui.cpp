@@ -362,7 +362,71 @@ prefs_dlg_base::prefs_dlg_base( wxWindow* parent, wxWindowID id, const wxString&
 	m_panel4->Layout();
 	bSizer14->Fit( m_panel4 );
 	prefsbook->AddPage( m_panel4, _("Temporary internet files"), false );
-	m_panel5 = new wxPanel( prefsbook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	
+	bSizer4->Add( prefsbook, 1, wxALL|wxEXPAND, 5 );
+	
+	ok_cancel = new wxStdDialogButtonSizer();
+	ok_cancelOK = new wxButton( this, wxID_OK );
+	ok_cancel->AddButton( ok_cancelOK );
+	ok_cancelCancel = new wxButton( this, wxID_CANCEL );
+	ok_cancel->AddButton( ok_cancelCancel );
+	ok_cancel->Realize();
+	bSizer4->Add( ok_cancel, 0, wxEXPAND|wxTOP|wxBOTTOM, 5 );
+	
+	this->SetSizer( bSizer4 );
+	this->Layout();
+	
+	// Connect Events
+	ok_cancelCancel->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( prefs_dlg_base::cancel_btn_clicked ), NULL, this );
+	ok_cancelOK->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( prefs_dlg_base::ok_btn_clicked ), NULL, this );
+}
+
+prefs_dlg_base::~prefs_dlg_base()
+{
+	// Disconnect Events
+	ok_cancelCancel->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( prefs_dlg_base::cancel_btn_clicked ), NULL, this );
+	ok_cancelOK->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( prefs_dlg_base::ok_btn_clicked ), NULL, this );
+}
+
+MyDialog6::MyDialog6( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+	
+	wxBoxSizer* bSizer16;
+	bSizer16 = new wxBoxSizer( wxVERTICAL );
+	
+	m_notebook2 = new wxNotebook( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
+	m_panel2 = new wxPanel( m_notebook2, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	m_panel2->Hide();
+	
+	wxBoxSizer* bSizer7;
+	bSizer7 = new wxBoxSizer( wxVERTICAL );
+	
+	m_staticText11 = new wxStaticText( m_panel2, wxID_ANY, _("Select a preset and click 'Install' to auto-run Disk Cleaner in quiet mode on start-up with the selected preset. Click 'Remove' to remove the shortcut."), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText11->Wrap( -1 );
+	bSizer7->Add( m_staticText11, 1, wxALL|wxEXPAND, 10 );
+	
+	wxBoxSizer* bSizer161;
+	bSizer161 = new wxBoxSizer( wxHORIZONTAL );
+	
+	wxArrayString preset_comboChoices;
+	preset_combo = new wxChoice( m_panel2, wxID_ANY, wxDefaultPosition, wxDefaultSize, preset_comboChoices, 0 );
+	preset_combo->SetSelection( 0 );
+	bSizer161->Add( preset_combo, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 10 );
+	
+	autostart_install_btn = new wxButton( m_panel2, wxID_ANY, _("&Install"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer161->Add( autostart_install_btn, 0, wxTOP|wxBOTTOM, 10 );
+	
+	autostart_remove_btn = new wxButton( m_panel2, wxID_ANY, _("&Remove"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer161->Add( autostart_remove_btn, 0, wxALL, 10 );
+	
+	bSizer7->Add( bSizer161, 0, wxEXPAND, 5 );
+	
+	m_panel2->SetSizer( bSizer7 );
+	m_panel2->Layout();
+	bSizer7->Fit( m_panel2 );
+	m_notebook2->AddPage( m_panel2, _("Autostart"), false );
+	m_panel5 = new wxPanel( m_notebook2, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	m_panel5->Hide();
 	
 	wxFlexGridSizer* fgSizer8;
@@ -456,59 +520,14 @@ prefs_dlg_base::prefs_dlg_base( wxWindow* parent, wxWindowID id, const wxString&
 	m_panel5->SetSizer( fgSizer8 );
 	m_panel5->Layout();
 	fgSizer8->Fit( m_panel5 );
-	prefsbook->AddPage( m_panel5, _("Cookies"), false );
-	m_panel2 = new wxPanel( prefsbook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-	m_panel2->Hide();
+	m_notebook2->AddPage( m_panel5, _("Cookies"), false );
 	
-	wxBoxSizer* bSizer7;
-	bSizer7 = new wxBoxSizer( wxVERTICAL );
+	bSizer16->Add( m_notebook2, 1, wxEXPAND | wxALL, 5 );
 	
-	m_staticText11 = new wxStaticText( m_panel2, wxID_ANY, _("Select a preset and click 'Install' to auto-run Disk Cleaner in quiet mode on start-up with the selected preset. Click 'Remove' to remove the shortcut."), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText11->Wrap( -1 );
-	bSizer7->Add( m_staticText11, 1, wxALL|wxEXPAND, 10 );
-	
-	wxBoxSizer* bSizer16;
-	bSizer16 = new wxBoxSizer( wxHORIZONTAL );
-	
-	wxArrayString preset_comboChoices;
-	preset_combo = new wxChoice( m_panel2, wxID_ANY, wxDefaultPosition, wxDefaultSize, preset_comboChoices, 0 );
-	preset_combo->SetSelection( 0 );
-	bSizer16->Add( preset_combo, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 10 );
-	
-	autostart_install_btn = new wxButton( m_panel2, wxID_ANY, _("&Install"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer16->Add( autostart_install_btn, 0, wxTOP|wxBOTTOM, 10 );
-	
-	autostart_remove_btn = new wxButton( m_panel2, wxID_ANY, _("&Remove"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer16->Add( autostart_remove_btn, 0, wxALL, 10 );
-	
-	bSizer7->Add( bSizer16, 0, wxEXPAND, 5 );
-	
-	m_panel2->SetSizer( bSizer7 );
-	m_panel2->Layout();
-	bSizer7->Fit( m_panel2 );
-	prefsbook->AddPage( m_panel2, _("Autostart"), false );
-	
-	bSizer4->Add( prefsbook, 1, wxALL|wxEXPAND, 5 );
-	
-	ok_cancel = new wxStdDialogButtonSizer();
-	ok_cancelOK = new wxButton( this, wxID_OK );
-	ok_cancel->AddButton( ok_cancelOK );
-	ok_cancelCancel = new wxButton( this, wxID_CANCEL );
-	ok_cancel->AddButton( ok_cancelCancel );
-	ok_cancel->Realize();
-	bSizer4->Add( ok_cancel, 0, wxEXPAND|wxTOP|wxBOTTOM, 5 );
-	
-	this->SetSizer( bSizer4 );
+	this->SetSizer( bSizer16 );
 	this->Layout();
-	
-	// Connect Events
-	ok_cancelCancel->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( prefs_dlg_base::cancel_btn_clicked ), NULL, this );
-	ok_cancelOK->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( prefs_dlg_base::ok_btn_clicked ), NULL, this );
 }
 
-prefs_dlg_base::~prefs_dlg_base()
+MyDialog6::~MyDialog6()
 {
-	// Disconnect Events
-	ok_cancelCancel->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( prefs_dlg_base::cancel_btn_clicked ), NULL, this );
-	ok_cancelOK->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( prefs_dlg_base::ok_btn_clicked ), NULL, this );
 }

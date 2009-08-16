@@ -32,8 +32,8 @@
 #include <wx/listctrl.h>
 #include <wx/checkbox.h>
 #include <wx/panel.h>
-#include <wx/listbox.h>
 #include <wx/notebook.h>
+#include <wx/listbox.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -173,6 +173,35 @@ class prefs_dlg_base : public wxDialog
 		wxChoice* minage_combo;
 		wxPanel* m_panel4;
 		wxCheckBox* tempinet_offline_cb;
+		wxStdDialogButtonSizer* ok_cancel;
+		wxButton* ok_cancelOK;
+		wxButton* ok_cancelCancel;
+		
+		// Virtual event handlers, overide them in your derived class
+		virtual void cancel_btn_clicked( wxCommandEvent& event ){ event.Skip(); }
+		virtual void ok_btn_clicked( wxCommandEvent& event ){ event.Skip(); }
+		
+	
+	public:
+		prefs_dlg_base( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Preferences"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 467,368 ), long style = wxDEFAULT_DIALOG_STYLE|wxCLIP_CHILDREN );
+		~prefs_dlg_base();
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class MyDialog6
+///////////////////////////////////////////////////////////////////////////////
+class MyDialog6 : public wxDialog 
+{
+	private:
+	
+	protected:
+		wxNotebook* m_notebook2;
+		wxPanel* m_panel2;
+		wxStaticText* m_staticText11;
+		wxChoice* preset_combo;
+		wxButton* autostart_install_btn;
+		wxButton* autostart_remove_btn;
 		wxPanel* m_panel5;
 		wxCheckBox* cookie_filter_cb;
 		wxStaticText* m_staticText13;
@@ -188,23 +217,10 @@ class prefs_dlg_base : public wxDialog
 		wxStaticText* m_staticText151;
 		wxListBox* m_listBox21;
 		wxStaticText* m_staticText18;
-		wxPanel* m_panel2;
-		wxStaticText* m_staticText11;
-		wxChoice* preset_combo;
-		wxButton* autostart_install_btn;
-		wxButton* autostart_remove_btn;
-		wxStdDialogButtonSizer* ok_cancel;
-		wxButton* ok_cancelOK;
-		wxButton* ok_cancelCancel;
-		
-		// Virtual event handlers, overide them in your derived class
-		virtual void cancel_btn_clicked( wxCommandEvent& event ){ event.Skip(); }
-		virtual void ok_btn_clicked( wxCommandEvent& event ){ event.Skip(); }
-		
 	
 	public:
-		prefs_dlg_base( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Preferences"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 467,368 ), long style = wxDEFAULT_DIALOG_STYLE|wxCLIP_CHILDREN );
-		~prefs_dlg_base();
+		MyDialog6( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 377,302 ), long style = wxDEFAULT_DIALOG_STYLE );
+		~MyDialog6();
 	
 };
 

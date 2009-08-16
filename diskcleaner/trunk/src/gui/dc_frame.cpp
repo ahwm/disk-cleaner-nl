@@ -58,7 +58,7 @@ void dc_frame::preset_save_btn_click( wxCommandEvent& event )
         return;
     }
 
-    ppreset_handler->save_preset( te.GetValue() );
+    ppreset_handler->save_preset( te.GetValue().c_str() );
 
     preset_box->Append( te.GetValue() );
 
@@ -69,7 +69,7 @@ void dc_frame::preset_delete_btn_click( wxCommandEvent& event )
 {
     if ( preset_box->GetSelection() != 0 ) //0 == <last used>
     {
-        ppreset_handler->delete_preset( preset_box->GetStringSelection() );
+        ppreset_handler->delete_preset( preset_box->GetStringSelection().c_str() );
         preset_box->Delete( preset_box->GetSelection() );
 
         preset_box->SetSelection( 0 );
@@ -85,7 +85,7 @@ void dc_frame::preset_box_onchoice( wxCommandEvent& event )
     }
     else
     {
-        ppreset_handler->load_preset( preset_box->GetStringSelection() );
+        ppreset_handler->load_preset( preset_box->GetStringSelection().c_str() );
     }
 }
 
@@ -325,7 +325,7 @@ void dc_frame::init_dialog()
         app.Button_SetShield(runasadmin_btn->GetHandle() );
     }
 
-    set_items_selected_text();
+
 
     preset_box->Clear();
     preset_box->Append( _( "<last used>" ) );
@@ -342,6 +342,8 @@ void dc_frame::init_dialog()
     ppreset_handler->get_saved_preset_names( preset_list );
 
     preset_box->Append( preset_list );
+
+    set_items_selected_text();
 
 }
 

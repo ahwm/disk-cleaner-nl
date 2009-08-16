@@ -47,10 +47,10 @@ void prefs_dlg::ok_btn_clicked( wxCommandEvent& event )
 
     rsettings.tempinternetfiles.delete_offline  = tempinet_offline_cb->IsChecked();
 
-    rsettings.cookies.use_cookie_filter         = cookie_filter_cb->IsChecked();
-    cookie_age_combo->GetString( cookie_age_combo->GetSelection() ).ToLong( &rsettings.cookies.min_cookie_age );
+//    rsettings.cookies.use_cookie_filter         = cookie_filter_cb->IsChecked();
+//    cookie_age_combo->GetString( cookie_age_combo->GetSelection() ).ToLong( &rsettings.cookies.min_cookie_age );
 
-    rsettings.Persist();
+    rsettings.Save();
 
     Close();
 }
@@ -74,8 +74,8 @@ void prefs_dlg::InitializePreferencesDialog(diskcleaner::dcsettings& prefs)
 
     tempinet_offline_cb->SetValue( prefs.tempinternetfiles.delete_offline );
 
-    cookie_filter_cb->SetValue( prefs.cookies.use_cookie_filter );
-    swprintf( age, L"%d", prefs.cookies.min_cookie_age );
-    cookie_age_combo->SetStringSelection( std::wstring( age ) );
+//    cookie_filter_cb->SetValue( prefs.cookies.use_cookie_filter );
+ //   swprintf( age, L"%d", prefs.cookies.min_cookie_age );
+ //   cookie_age_combo->SetStringSelection( std::wstring( age ) );
 }
 

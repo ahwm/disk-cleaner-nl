@@ -19,12 +19,12 @@
 
 namespace diskcleaner
 {
-    bool dcsettings::Persist()
+    bool dcsettings::Save()
     {
-        return Persist( wxConfigBase::Get( false ) );
+        return Save( wxConfigBase::Get( false ) );
     }
 
-    bool dcsettings::Persist( wxConfigBase* cf )
+    bool dcsettings::Save( wxConfigBase* cf )
     {
 
         cf->Write( L"Global/Delete Locked", global.delete_locked );

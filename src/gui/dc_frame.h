@@ -36,7 +36,7 @@ class dc_frame : public dc_base_frame
 {
 protected:
 
-    std::vector<boost::shared_ptr<diskcleaner::PlugInfo> > plugin_list;
+    //std::vector<boost::shared_ptr<diskcleaner::PlugInfo> > plugin_list;
     diskcleaner::dcsettings settings;
     boost::shared_ptr<diskcleaner::dcpreset_handler> ppreset_handler;
 
@@ -48,16 +48,16 @@ protected:
 	void runasadmin_btn_click( wxCommandEvent& event );
 	void about_btn_click( wxCommandEvent& event );
 	void exit_btn_click( wxCommandEvent& event );
-	void plugin_checkbox_itemselected( wxCommandEvent& event );
 	void plugin_checkbox_toggled( wxCommandEvent& event );
 	void dc_base_frame_onclose( wxCloseEvent& event  );
     void preset_box_onchoice( wxCommandEvent& event );
+    void plugin_listctrl_column_clicked( wxListEvent& event );
 
 	void set_items_selected_text();
 
 	void run_diskcleaner( bool as_admin );
 
-	void add_plugin_to_lists(boost::shared_ptr<diskcleaner::PlugInfo>& pi);
+	void add_plugin_to_listctrl( diskcleaner::PlugInfo * pi);
 
 
 public:

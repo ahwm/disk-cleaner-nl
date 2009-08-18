@@ -5,6 +5,8 @@
 // PLEASE DO "NOT" EDIT THIS FILE!
 ///////////////////////////////////////////////////////////////////////////
 
+#include "wxCheckedListCtrl.h"
+
 #include "dc_gui.h"
 
 ///////////////////////////////////////////////////////////////////////////
@@ -23,18 +25,8 @@ dc_base_frame::dc_base_frame( wxWindow* parent, wxWindowID id, const wxString& t
 	wxStaticBoxSizer* sbSizer2;
 	sbSizer2 = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("Select items to clean") ), wxVERTICAL );
 	
-	wxArrayString plugin_checkboxChoices;
-	plugin_checkbox = new wxCheckListBox( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, plugin_checkboxChoices, wxLB_SINGLE );
-	plugin_checkbox->SetMinSize( wxSize( 100,100 ) );
-	
-	sbSizer2->Add( plugin_checkbox, 1, wxALL|wxEXPAND, 5 );
-	
-	description_label = new wxStaticText( this, wxID_ANY, _("Description:"), wxDefaultPosition, wxDefaultSize, 0 );
-	description_label->Wrap( -1 );
-	sbSizer2->Add( description_label, 0, wxALL, 5 );
-	
-	description_box = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY );
-	sbSizer2->Add( description_box, 0, wxALL|wxEXPAND, 5 );
+	plugin_listctrl = new wxCheckedListCtrl( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT|wxLC_SINGLE_SEL );
+	sbSizer2->Add( plugin_listctrl, 1, wxALL|wxEXPAND, 5 );
 	
 	items_selected_text = new wxStaticText( this, wxID_ANY, _("n of m selected"), wxDefaultPosition, wxDefaultSize, 0 );
 	items_selected_text->Wrap( -1 );
@@ -105,9 +97,7 @@ dc_base_frame::dc_base_frame( wxWindow* parent, wxWindowID id, const wxString& t
 	
 	// Connect Events
 	this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( dc_base_frame::dc_base_frame_onclose ) );
-	plugin_checkbox->Connect( wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler( dc_base_frame::plugin_checkbox_itemselected ), NULL, this );
-	plugin_checkbox->Connect( wxEVT_COMMAND_LISTBOX_DOUBLECLICKED, wxCommandEventHandler( dc_base_frame::plugin_checkbox_dblclick ), NULL, this );
-	plugin_checkbox->Connect( wxEVT_COMMAND_CHECKLISTBOX_TOGGLED, wxCommandEventHandler( dc_base_frame::plugin_checkbox_toggled ), NULL, this );
+	plugin_listctrl->Connect( wxEVT_COMMAND_LIST_COL_CLICK, wxListEventHandler( dc_base_frame::plugin_listctrl_column_clicked ), NULL, this );
 	preset_box->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( dc_base_frame::preset_box_onchoice ), NULL, this );
 	preset_save_btn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( dc_base_frame::preset_save_btn_click ), NULL, this );
 	preset_delete_btn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( dc_base_frame::preset_delete_btn_click ), NULL, this );
@@ -122,9 +112,7 @@ dc_base_frame::~dc_base_frame()
 {
 	// Disconnect Events
 	this->Disconnect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( dc_base_frame::dc_base_frame_onclose ) );
-	plugin_checkbox->Disconnect( wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler( dc_base_frame::plugin_checkbox_itemselected ), NULL, this );
-	plugin_checkbox->Disconnect( wxEVT_COMMAND_LISTBOX_DOUBLECLICKED, wxCommandEventHandler( dc_base_frame::plugin_checkbox_dblclick ), NULL, this );
-	plugin_checkbox->Disconnect( wxEVT_COMMAND_CHECKLISTBOX_TOGGLED, wxCommandEventHandler( dc_base_frame::plugin_checkbox_toggled ), NULL, this );
+	plugin_listctrl->Disconnect( wxEVT_COMMAND_LIST_COL_CLICK, wxListEventHandler( dc_base_frame::plugin_listctrl_column_clicked ), NULL, this );
 	preset_box->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( dc_base_frame::preset_box_onchoice ), NULL, this );
 	preset_save_btn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( dc_base_frame::preset_save_btn_click ), NULL, this );
 	preset_delete_btn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( dc_base_frame::preset_delete_btn_click ), NULL, this );
@@ -308,10 +296,6 @@ prefs_dlg_base::prefs_dlg_base( wxWindow* parent, wxWindowID id, const wxString&
 	hide_empty_cb = new wxCheckBox( m_panel1, wxID_ANY, _("&Hide entries when empty (requires restart of Disk Cleaner)"), wxDefaultPosition, wxDefaultSize, 0 );
 	
 	bSizer6->Add( hide_empty_cb, 0, wxBOTTOM|wxRIGHT|wxLEFT, 10 );
-	
-	show_description_cb = new wxCheckBox( m_panel1, wxID_ANY, _("&Show descriptions of plug-ins"), wxDefaultPosition, wxDefaultSize, 0 );
-	
-	bSizer6->Add( show_description_cb, 0, wxBOTTOM|wxRIGHT|wxLEFT, 10 );
 	
 	m_panel1->SetSizer( bSizer6 );
 	m_panel1->Layout();

@@ -21,6 +21,26 @@ class wxConfigBase;
 
 namespace diskcleaner
 {
+    struct framesize_
+    {
+        int width;
+        int height;
+        int topx;
+        int topy;
+    };
+
+
+    struct UI_
+    {
+        framesize_ dc_frame_size;
+        framesize_ result_frame_size;
+        int col_sdesc_width, col_ldesc_width,
+            col_item_width, col_size_width;
+        int sort_column;
+        int sortorder; //0 ascending, 1 descending
+
+    };
+
 
     struct global_
     {
@@ -52,6 +72,7 @@ namespace diskcleaner
         public:
 
         global_ global;
+        UI_ ui;
         systemp_ systemp;
         tempinternetfiles_ tempinternetfiles;
         cookies_ cookies;

@@ -20,11 +20,11 @@
 
 #include <string>
 #include <vector>
-#include <boost/shared_ptr.hpp>
+//#include <boost/shared_ptr.hpp>
 #include "core\plugin_info_base.h"
 
 class wxConfigBase;
-class wxCheckListBox;
+class wxCheckedListCtrl;
 class wxArrayString;
 
 namespace diskcleaner
@@ -34,8 +34,7 @@ namespace diskcleaner
     class dcpreset_handler
     {
     public:
-        dcpreset_handler(wxConfigBase* const cf, wxCheckListBox* const checklistboxwindow,
-                         std::vector<boost::shared_ptr<diskcleaner::PlugInfo> >& plugin_list );
+        dcpreset_handler(wxConfigBase* const cf, wxCheckedListCtrl* const checklistboxwindow );
 
         //Returns a vector of wstrings containing the names of all saved presets
         void get_saved_preset_names( wxArrayString& presetlist );
@@ -58,8 +57,8 @@ namespace diskcleaner
 
 
         wxConfigBase* cfg_file;
-        wxCheckListBox* checklistbox;
-        std::vector<boost::shared_ptr<diskcleaner::PlugInfo> >& pi_list;
+        wxCheckedListCtrl* checklistbox;
+        //std::vector<boost::shared_ptr<diskcleaner::PlugInfo> >& pi_list;
     };
 
     class csave_restore_path

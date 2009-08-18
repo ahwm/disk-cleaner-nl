@@ -39,7 +39,6 @@ void prefs_dlg::ok_btn_clicked( wxCommandEvent& event )
 
     rsettings.global.delete_locked              = delete_locked_cb->IsChecked();
     rsettings.global.hide_empty                 = hide_empty_cb->IsChecked();
-    rsettings.global.show_description           = show_description_cb->IsChecked();
 
     rsettings.systemp.delete_ro                 =  delete_readonly_cb->IsChecked();
     rsettings.systemp.delete_subfolders         = delete_emptyfolder_cb->IsChecked();
@@ -61,7 +60,6 @@ void prefs_dlg::InitializePreferencesDialog(diskcleaner::dcsettings& prefs)
 
     delete_locked_cb->SetValue( prefs.global.delete_locked );
     hide_empty_cb->SetValue( prefs.global.hide_empty );
-    show_description_cb->SetValue( prefs.global.show_description );
 
     delete_readonly_cb->SetValue( prefs.systemp.delete_ro );
     delete_emptyfolder_cb->SetValue(prefs.systemp.delete_subfolders );

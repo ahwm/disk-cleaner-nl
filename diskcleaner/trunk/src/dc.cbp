@@ -11,9 +11,11 @@
 				<Option object_output="obj\Debug\" />
 				<Option type="0" />
 				<Option compiler="gcc" />
+				<Option parameters="-d" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
 					<Add option="-g" />
+					<Add option="-DDEBUG" />
 					<Add directory="$(#wx.lib)\gcc_lib\mswu" />
 				</Compiler>
 				<ResourceCompiler>
@@ -118,6 +120,8 @@
 		<Unit filename="gui\version.h" />
 		<Unit filename="gui\wait_dlg.cpp" />
 		<Unit filename="gui\wait_dlg.h" />
+		<Unit filename="gui\wxCheckedListCtrl.cpp" />
+		<Unit filename="gui\wxCheckedListCtrl.h" />
 		<Unit filename="gui\wxlistctrllog.cpp" />
 		<Unit filename="gui\wxlistctrllog.h" />
 		<Unit filename="resource.rc">

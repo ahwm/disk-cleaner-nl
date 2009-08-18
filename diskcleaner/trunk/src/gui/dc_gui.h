@@ -10,14 +10,15 @@
 
 #include <wx/intl.h>
 
-#include <wx/string.h>
-#include <wx/checklst.h>
+class wxCheckedListCtrl;
+
+#include <wx/listctrl.h>
 #include <wx/gdicmn.h>
 #include <wx/font.h>
 #include <wx/colour.h>
 #include <wx/settings.h>
+#include <wx/string.h>
 #include <wx/stattext.h>
-#include <wx/textctrl.h>
 #include <wx/sizer.h>
 #include <wx/statbox.h>
 #include <wx/choice.h>
@@ -29,7 +30,6 @@
 #include <wx/icon.h>
 #include <wx/statbmp.h>
 #include <wx/hyperlink.h>
-#include <wx/listctrl.h>
 #include <wx/checkbox.h>
 #include <wx/panel.h>
 #include <wx/notebook.h>
@@ -45,9 +45,7 @@ class dc_base_frame : public wxDialog
 	private:
 	
 	protected:
-		wxCheckListBox* plugin_checkbox;
-		wxStaticText* description_label;
-		wxTextCtrl* description_box;
+		wxCheckedListCtrl* plugin_listctrl;
 		wxStaticText* items_selected_text;
 		wxChoice* preset_box;
 		wxButton* preset_save_btn;
@@ -62,9 +60,7 @@ class dc_base_frame : public wxDialog
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void dc_base_frame_onclose( wxCloseEvent& event ){ event.Skip(); }
-		virtual void plugin_checkbox_itemselected( wxCommandEvent& event ){ event.Skip(); }
-		virtual void plugin_checkbox_dblclick( wxCommandEvent& event ){ event.Skip(); }
-		virtual void plugin_checkbox_toggled( wxCommandEvent& event ){ event.Skip(); }
+		virtual void plugin_listctrl_column_clicked( wxListEvent& event ){ event.Skip(); }
 		virtual void preset_box_onchoice( wxCommandEvent& event ){ event.Skip(); }
 		virtual void preset_save_btn_click( wxCommandEvent& event ){ event.Skip(); }
 		virtual void preset_delete_btn_click( wxCommandEvent& event ){ event.Skip(); }
@@ -165,7 +161,6 @@ class prefs_dlg_base : public wxDialog
 		wxPanel* m_panel1;
 		wxCheckBox* delete_locked_cb;
 		wxCheckBox* hide_empty_cb;
-		wxCheckBox* show_description_cb;
 		wxPanel* m_panel3;
 		wxCheckBox* delete_readonly_cb;
 		wxCheckBox* delete_emptyfolder_cb;

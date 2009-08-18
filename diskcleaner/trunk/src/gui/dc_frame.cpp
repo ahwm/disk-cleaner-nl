@@ -15,7 +15,7 @@
 ** Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 #include <string>
-#include <list>
+#include <vector>
 #include <memory>
 
 #include "core/text_plugins/TextPlugInfo.h"
@@ -31,6 +31,7 @@
 #include "gui/prefs_dlg.h"
 #include "gui/result_frame.h"
 #include "gui/dcApp.h"
+#include "gui/wxCheckedListCtrl.h"
 
 #include <wx/log.h>
 #include <wx/fileconf.h>
@@ -39,9 +40,68 @@
 
 using namespace diskcleaner;
 
+int wxCALLBACK listctrl_compare( long item1, long item2, long sortData )
+{
+    dcsettings* settings = ( dcsettings* ) sortData;
+    PlugInfo* pi1 = ( PlugInfo* ) item1;
+    PlugInfo* pi2 = ( PlugInfo* ) item2;
+
+    int sortorder = 1;
+    if ( settings->ui.sortorder ) //1 = desc
+    {
+        sortorder = -1;
+    }
+
+    switch ( settings->ui.sort_column )
+    {
+    case 0:
+    {
+        if (pi1->GetShortDesc() < pi2->GetShortDesc() )
+            return -1*sortorder;
+        if (pi1->GetShortDesc() > pi2->GetShortDesc() )
+            return 1*sortorder;
+        return 0;
+    }
+    case 1:
+    {
+        if (pi1->GetItemsFound() < pi2->GetItemsFound())
+            return -1*sortorder;
+        if (pi1->GetItemsFound() > pi2->GetItemsFound() )
+            return 1*sortorder;
+        return 0;
+    }
+    case 2:
+    {
+        if (pi1->GetBytesFound() < pi2->GetBytesFound())
+            return -1*sortorder;
+        if (pi1->GetBytesFound() > pi2->GetBytesFound() )
+            return 1*sortorder;
+        return 0;
+    }
+    case 3:
+    {
+        if (pi1->GetLongDesc() < pi2->GetLongDesc() )
+            return -1*sortorder;
+        if (pi1->GetLongDesc() > pi2->GetLongDesc() )
+            return 1*sortorder;
+        return 0;
+    }
+    default:
+        return 0;
+    }
+
+
+}
+
 dc_frame::dc_frame( wxWindow* parent ):dc_base_frame( parent )
 {
     wxImage::AddHandler( new wxJPEGHandler );
+
+    plugin_listctrl->ClearAll();
+    plugin_listctrl->InsertColumn( 0, _( "Title" ) );
+    plugin_listctrl->InsertColumn( 1, _( "Items" ), wxLIST_FORMAT_RIGHT );
+    plugin_listctrl->InsertColumn( 2, _( "Size" ) , wxLIST_FORMAT_RIGHT );
+    plugin_listctrl->InsertColumn( 3, _( "Description" ) );
 
 }
 
@@ -110,10 +170,18 @@ void dc_frame::config_btn_click( wxCommandEvent& event )
 void dc_frame::clean_btn_click( wxCommandEvent& event )
 {
 
-    boost::shared_ptr<PlugInfo> pinfo;
+    PlugInfo* pinfo;
     dcApp& app = wxGetApp();
 
     result_frame rsframe( this );
+
+    if ( settings.ui.result_frame_size.topx && settings.ui.result_frame_size.topy &&
+                     settings.ui.result_frame_size.width && settings.ui.result_frame_size.height )
+    {
+        rsframe.SetSize( settings.ui.result_frame_size.topx, settings.ui.result_frame_size.topy,
+                        settings.ui.result_frame_size.width, settings.ui.result_frame_size.height );
+    }
+
 
     if ( settings.global.delete_locked && !app.IsUserAdmin() )
     {
@@ -129,17 +197,17 @@ void dc_frame::clean_btn_click( wxCommandEvent& event )
 
     //wchar_t files[255] = { 0 };
 
-    for (int i = 0, num_items = plugin_checkbox->GetCount() ; i < num_items ; ++i )
+    for (int i = 0, num_items = plugin_listctrl->GetItemCount() ; i < num_items ; ++i )
     {
 
-        if ( plugin_checkbox->IsChecked( i ) )
+        if ( plugin_listctrl->IsChecked( i ) )
         {
-            pinfo = plugin_list[i];
-            wxLogVerbose( L"Cleaning: %s", plugin_list[i]->GetShortDesc().c_str() );
+            pinfo = (PlugInfo* ) plugin_listctrl->GetItemData( i );
+            wxLogVerbose( L"Cleaning: %s", pinfo->GetShortDesc().c_str() );
             pinfo->Clean();
 
-            total_files+=pinfo->GetItemsCleaned();
-            total_bytes+=pinfo->GetBytesCleaned();
+            total_files += pinfo->GetItemsCleaned();
+            total_bytes += pinfo->GetBytesCleaned();
 
             //_i64tow(pinfo->GetItemsCleaned(),files,10);
 
@@ -165,6 +233,9 @@ void dc_frame::clean_btn_click( wxCommandEvent& event )
 
     Hide();
     rsframe.ShowModal();
+
+    rsframe.GetPosition( &settings.ui.result_frame_size.topx, &settings.ui.result_frame_size.topy );
+    rsframe.GetSize( &settings.ui.result_frame_size.width, &settings.ui.result_frame_size.height );
 
     if ( rsframe.rerun )
     {
@@ -238,34 +309,42 @@ void dc_frame::init_dialog()
         SetRemoveOnReboot (false );
     }
 
-    if ( !settings.global.show_description )
+    if (settings.ui.dc_frame_size.height && settings.ui.dc_frame_size.topx &&
+            settings.ui.dc_frame_size.topy && settings.ui.dc_frame_size.width )
     {
-        description_label->Show( false );
-        description_box->Show( false );
+        SetSize( settings.ui.dc_frame_size.topx, settings.ui.dc_frame_size.topy,
+                 settings.ui.dc_frame_size.width, settings.ui.dc_frame_size.height );
     }
+
+    if ( settings.ui.col_sdesc_width ) plugin_listctrl->SetColumnWidth( 0, settings.ui.col_sdesc_width );
+    if ( settings.ui.col_item_width ) plugin_listctrl->SetColumnWidth( 1, settings.ui.col_item_width );
+    if ( settings.ui.col_size_width ) plugin_listctrl->SetColumnWidth( 2, settings.ui.col_size_width );
+    if ( settings.ui.col_ldesc_width ) plugin_listctrl->SetColumnWidth( 3, settings.ui.col_ldesc_width );
+
+
     //
     //Load text plugins
     //
 
-    std::list<std::wstring> sortlist;
+    std::vector<std::wstring> plugin_list;
 
-    boost::shared_ptr<PlugInfo> tempfiles (new system_temp( settings.systemp ) );
-    add_plugin_to_lists( tempfiles );
+    PlugInfo* tempfiles  = new system_temp( settings.systemp );
+    add_plugin_to_listctrl( tempfiles );
 
-    boost::shared_ptr<PlugInfo> rbin (new RecycleBinInfo() );
-    add_plugin_to_lists( rbin );
+    PlugInfo* rbin = (new RecycleBinInfo() );
+    add_plugin_to_listctrl( rbin );
 
-    boost::shared_ptr<PlugInfo> recentdocs (new recent_docs() );
-    add_plugin_to_lists( recentdocs );
+    PlugInfo* recentdocs = (new recent_docs() );
+    add_plugin_to_listctrl( recentdocs );
 
-    boost::shared_ptr<PlugInfo> ffcache (new firefox_cache() );
-    add_plugin_to_lists( ffcache );
+    PlugInfo* ffcache = (new firefox_cache() );
+    add_plugin_to_listctrl( ffcache );
 
-    boost::shared_ptr<PlugInfo> ffcookies (new firefox_cookies() );
-    add_plugin_to_lists( ffcookies );
+    PlugInfo* ffcookies = (new firefox_cookies() );
+    add_plugin_to_listctrl( ffcookies );
 
-    boost::shared_ptr<PlugInfo> ffhistory (new firefox_history() );
-    add_plugin_to_lists( ffhistory );
+    PlugInfo* ffhistory = (new firefox_history() );
+    add_plugin_to_listctrl( ffhistory );
 
     WIN32_FIND_DATA finddata;
     HANDLE fHandle = FindFirstFile((app.GetAppDirectory() + L"\\plug-ins\\" + L"*.dct").c_str(),&finddata);
@@ -276,37 +355,44 @@ void dc_frame::init_dialog()
         {
 
             ::wxLogDebug( L"%hs: found text plugin: %s", __FUNCTION__, finddata.cFileName );
-            sortlist.push_front(std::wstring(finddata.cFileName));
+            plugin_list.push_back(std::wstring(finddata.cFileName));
         }
         while  (FindNextFile(fHandle,&finddata));
     }
     FindClose(fHandle);
 
-    if (sortlist.size() > 0)
+    if (plugin_list.size() > 0)
     {
 
-        sortlist.sort();
-        std::list<std::wstring>::const_iterator it = sortlist.begin();
+
+        std::vector<std::wstring>::const_iterator it = plugin_list.begin();
 
         std::auto_ptr<wait_dlg> waitdlg( new wait_dlg(this) );
-        waitdlg->SetProgressRange( sortlist.size() );
+        waitdlg->SetProgressRange( plugin_list.size() );
         waitdlg->Show( true );
 
-        while ( it!=sortlist.end() )
+        while ( it!=plugin_list.end() )
         {
             std::wstring FullPath =  app.GetAppDirectory() + L"\\plug-ins\\"  + *it;
             ::wxLogDebug( FullPath.c_str() );
 
-            boost::shared_ptr<PlugInfo> pi (new TextPlugInfo( FullPath ) );
+            PlugInfo*  pi = (new TextPlugInfo( FullPath ) );
             ::wxLogDebug( L"Instantiated!" );
 
             waitdlg->Increment();
 
-            add_plugin_to_lists( pi );  //auto_ptr takes care of our unused TextPlugInfo objects
+            add_plugin_to_listctrl( pi );
             ++it;
         }
 
     }
+
+    //Sort items according to preferences of the user
+    plugin_listctrl->SortItems( listctrl_compare, (long) &settings );
+    wxListItem item;
+    item.SetMask(wxLIST_MASK_IMAGE);
+    item.SetImage( ( settings.ui.sortorder )? 3 : 2 );
+    plugin_listctrl->SetColumn(settings.ui.sort_column , item);
 
     //Only support Run As Admin button in Vista or higher
     //But not necessary to show shield when user is admin
@@ -332,7 +418,7 @@ void dc_frame::init_dialog()
     preset_box->SetSelection( 0 );
 
     ppreset_handler  = boost::shared_ptr<diskcleaner::dcpreset_handler>
-                       (new diskcleaner::dcpreset_handler( wxConfigBase::Get( false ), plugin_checkbox, plugin_list ) );
+                       (new diskcleaner::dcpreset_handler( wxConfigBase::Get( false ), plugin_listctrl ) );
 
     ppreset_handler->load_last_used();
 
@@ -343,20 +429,8 @@ void dc_frame::init_dialog()
 
     preset_box->Append( preset_list );
 
-    set_items_selected_text();
+    //set_items_selected_text();
 
-}
-
-void dc_frame::plugin_checkbox_itemselected( wxCommandEvent& event )
-{
-    int item = event.GetSelection();
-    bool item_selected =  plugin_checkbox->IsSelected(item);
-
-    if (!item_selected) return;
-
-    boost::shared_ptr<PlugInfo> pi = plugin_list[item];
-
-    description_box->ChangeValue( pi->GetLongDesc() );
 }
 
 void dc_frame::plugin_checkbox_toggled( wxCommandEvent& event )
@@ -369,14 +443,15 @@ void dc_frame::set_items_selected_text()
     __int64 numbytes_checked = 0, numitems_checked = 0;
     __int64 totalbytes = 0, totalitems = 0;
 
-    for (int n = 0, num_items = plugin_checkbox->GetCount(); n < num_items; ++n )
+    for (int n = 0, num_items = plugin_listctrl->GetItemCount(); n < num_items; ++n )
     {
-        __int64 numfound = plugin_list[n]->GetItemsFound();
-        __int64 bytesfound = plugin_list[n]->GetBytesFound();
+        PlugInfo* pi = (PlugInfo* )plugin_listctrl->GetItemData( n );
+        __int64 numfound = pi->GetItemsFound();
+        __int64 bytesfound = pi->GetBytesFound();
         totalbytes += bytesfound;
         totalitems += numfound;
 
-        if (plugin_checkbox->IsChecked( n ) )
+        if (plugin_listctrl->IsChecked( n ) )
         {
             numbytes_checked += bytesfound;
             numitems_checked += numfound;
@@ -411,24 +486,104 @@ void dc_frame::set_items_selected_text()
     items_selected_text->SetLabel( String );
 }
 
-void dc_frame::add_plugin_to_lists(boost::shared_ptr<PlugInfo>& pi)
+void dc_frame::add_plugin_to_listctrl( diskcleaner::PlugInfo* pi)
 {
     pi->Scan();
     if (pi->GetItemsFound() > 0 || settings.global.hide_empty == false )
     {
-        ::wxLogDebug( L"Adding: %s" , SetItemText( pi.get() ).c_str() );
+        ::wxLogDebug( L"Adding: %s" , SetItemText( pi ).c_str() );
 
-        int index = plugin_checkbox->Append(SetItemText( pi.get() ) );
+        wxString tmpString, bytes_string;
 
-        plugin_checkbox->Check(index, true);
+        int index = plugin_listctrl->GetItemCount();
+        //index++;
 
-        plugin_list.push_back( pi );
-        //IniFile->ReadBool(SettingName,String(pi->GetShortDesc()),false);
+        plugin_listctrl->InsertItem( index, pi->GetShortDesc() );
+
+
+        tmpString.Printf( _( "%I64d" ), pi->GetItemsFound() );
+        plugin_listctrl->SetItem( index, 1, tmpString );
+
+        int64_t bytes_found  = pi->GetBytesFound();
+
+        if ( bytes_found < 1024 )
+        {
+            bytes_string = _( "b" );
+        }
+        else
+        {
+            bytes_found /= 1024;
+            if ( bytes_found < 1024 )
+            {
+                bytes_string = _( "kB" );
+            }
+            else
+            {
+                bytes_found /= 1024;
+                if ( bytes_found < 1024 )
+                {
+                    bytes_string = _( "MB" );
+                }
+                else
+                {
+                    bytes_string = _( "GB" );
+                }
+            }
+        }
+        tmpString.Printf( _( "%I64d " ), bytes_found );
+        plugin_listctrl->SetItem( index, 2, tmpString + bytes_string );
+
+        plugin_listctrl->SetItem( index, 3, pi->GetLongDesc() );
+
+        plugin_listctrl->SetItemPtrData( index, (wxUIntPtr) pi );
+
+        plugin_listctrl->Check( index, true );
+
     }
 }
 
+void dc_frame::plugin_listctrl_column_clicked( wxListEvent& event )
+{
+    int col = event.GetColumn();
+
+    if ( col == -1 ) return;
+
+    //Remove the current sorting arrow
+    wxListItem item;
+    item.SetMask(wxLIST_MASK_IMAGE);
+    item.SetImage( -1 );
+    plugin_listctrl->SetColumn(settings.ui.sort_column , item);
+
+    if ( col == settings.ui.sort_column ) //toggle order
+    {
+        settings.ui.sortorder = ( settings.ui.sortorder == 0 ) ? 1 : 0;
+
+    }
+    else
+    {
+        settings.ui.sortorder = 0;
+    }
+    settings.ui.sort_column = col;
+
+    item.SetMask(wxLIST_MASK_IMAGE);
+    item.SetImage( ( settings.ui.sortorder == 0 ) ? 2 : 3 );
+    plugin_listctrl->SetColumn(settings.ui.sort_column , item);
+
+    plugin_listctrl->SortItems( listctrl_compare, (long) &settings );
+}
+
+
 void dc_frame::dc_base_frame_onclose( wxCloseEvent& event )
 {
+    GetSize( &settings.ui.dc_frame_size.width, &settings.ui.dc_frame_size.height );
+    GetPosition( &settings.ui.dc_frame_size.topx, &settings.ui.dc_frame_size.topy );
+    settings.ui.col_sdesc_width = plugin_listctrl->GetColumnWidth( 0 );
+    settings.ui.col_item_width = plugin_listctrl->GetColumnWidth( 1 );
+    settings.ui.col_size_width = plugin_listctrl->GetColumnWidth( 2 );
+    settings.ui.col_ldesc_width = plugin_listctrl->GetColumnWidth( 3 );
+
+    settings.Save();
+
     ppreset_handler->save_last_used();
     Destroy();
 }

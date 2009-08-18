@@ -17,82 +17,86 @@
 
 #include "plugin_info_base.h"
 
-namespace diskcleaner {
-
-std::wstring SetItemText(PlugInfo* pInfo)
+namespace diskcleaner
 {
-  wchar_t files[50];
-  std::wstring ItemString(L" items)");
-  std::wstring shortdesc=pInfo->GetShortDesc();
-  __int64 nfiles = pInfo->GetItemsFound();
-  __int64 nbytes = pInfo->GetBytesFound();
+
+    std::wstring SetItemText(PlugInfo* pInfo)
+    {
+        wchar_t files[50];
+        std::wstring ItemString(L" items)");
+        std::wstring shortdesc=pInfo->GetShortDesc();
+        __int64 nfiles = pInfo->GetItemsFound();
+        __int64 nbytes = pInfo->GetBytesFound();
 
 
-  _i64tow(nfiles,files,10);
+        _i64tow(nfiles,files,10);
 
-  if (nfiles == 1) ItemString = L" item)";
+        if (nfiles == 1) ItemString = L" item)";
 
 
-  return shortdesc + L" (" + BytesToString(nbytes)
-   + L"; " + std::wstring(files) + ItemString;
-}
+        return shortdesc + L" (" + BytesToString(nbytes)
+               + L"; " + std::wstring(files) + ItemString;
+    }
 
 //------------------------------------------------------------------------------
-std::wstring BytesToString(__int64 NrOfBytes)
-{
-  wchar_t bytes[50];
+    std::wstring BytesToString(__int64 NrOfBytes)
+    {
+        wchar_t bytes[50];
 
-  if(NrOfBytes<1024)
-  {
-    _i64tow(NrOfBytes,bytes,10);
-    lstrcat(bytes,L" bytes");
-  }
-  else if(NrOfBytes<10485760)
-  {
-    _i64tow(NrOfBytes/1024,bytes,10);
-    lstrcat(bytes,L" kB");
-  }
-  else
-  {
-      _i64tow(NrOfBytes/1048576,bytes,10);
-      lstrcat(bytes, L" MB");
-  }
-
-  return std::wstring(bytes);
-}
+        if (NrOfBytes<1024)
+        {
+            _i64tow(NrOfBytes,bytes,10);
+            lstrcat(bytes,L" b");
+        }
+        else
+        {
+            NrOfBytes /= 1024;
+            if (NrOfBytes < 1024)
+            {
+                _i64tow(NrOfBytes,bytes,10);
+                lstrcat(bytes,L" kB");
+            }
+            else
+            {
+                _i64tow(NrOfBytes/1024,bytes,10);
+                lstrcat(bytes, L" MB");
+            }
+        }
+        return std::wstring(bytes);
+    }
 
 
 //Not thread safe accessing!!
-std::map<std::wstring,HANDLE> IconList;
-std::map<std::wstring,HANDLE>::iterator icon_iterator;
+    std::map<std::wstring,HANDLE> IconList;
+    std::map<std::wstring,HANDLE>::iterator icon_iterator;
 
 //--------------------------------------------------------------------------
 //LoadIconShared - Keeps track of loaded icons. Load icons from disk
 //if needed, otherwise returns handle of already loaded icon
 //--------------------------------------------------------------------------
-HANDLE LoadIconShared(std::wstring& filename)
-{
-   transform(filename.begin(), filename.end(), filename.begin(), tolower);
-   icon_iterator = IconList.find(filename);
+    HANDLE LoadIconShared(std::wstring& filename)
+    {
+        transform(filename.begin(), filename.end(), filename.begin(), tolower);
+        icon_iterator = IconList.find(filename);
 
-   if(icon_iterator == IconList.end())
-   {
-     //addlog("Icon '" + filename + "' not found in in-memory list. Loading from file");
-     HANDLE hdl = LoadImage(NULL,filename.c_str(), IMAGE_ICON ,16,16, LR_LOADFROMFILE);
+        if (icon_iterator == IconList.end())
+        {
+            //addlog("Icon '" + filename + "' not found in in-memory list. Loading from file");
+            HANDLE hdl = LoadImage(NULL,filename.c_str(), IMAGE_ICON ,16,16, LR_LOADFROMFILE);
 
-     if(hdl)
-     {
-       IconList.insert(std::map<std::wstring,HANDLE>::value_type(filename,hdl));
-     }
+            if (hdl)
+            {
+                IconList.insert(std::map<std::wstring,HANDLE>::value_type(filename,hdl));
+            }
 
-     return hdl;
-   }
+            return hdl;
+        }
 
-   else
-   {
-     //addlog("Found Icon '" + filename + "' in list.");
-     return icon_iterator->second;
-   }
-}
+        else
+        {
+            //addlog("Found Icon '" + filename + "' in list.");
+            return icon_iterator->second;
+        }
+    }
 
 }//namespace

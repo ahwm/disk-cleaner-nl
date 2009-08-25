@@ -247,12 +247,16 @@ void dc_frame::clean_btn_click( wxCommandEvent& event )
     }
 
     wxLogDebug( L"Ending application");
+
     Close();
 }
 
 void dc_frame::runasadmin_btn_click( wxCommandEvent& event )
 {
     run_diskcleaner( true );
+
+    //Close this instance
+    Close();
 }
 
 void dc_frame::run_diskcleaner( bool as_admin )
@@ -276,10 +280,6 @@ void dc_frame::run_diskcleaner( bool as_admin )
     {
         ::wxLogError( L"Error: ShellExecuteEx failed 0x%x\n", GetLastError() );
 
-    }
-    else
-    {
-        Close();
     }
 }
 void dc_frame::about_btn_click( wxCommandEvent& event )

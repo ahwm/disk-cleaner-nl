@@ -25,8 +25,8 @@
 namespace diskcleaner
 {
 
-    dcpreset_handler::dcpreset_handler(wxConfigBase* const config, wxCheckedListCtrl* const checklistboxwindow ) :
-            cfg_file(config), checklistbox(checklistboxwindow)
+    dcpreset_handler::dcpreset_handler(wxConfigBase* const config, wxCheckedListCtrl* const checklist_ctrlwindow ) :
+            cfg_file(config), checklist_ctrl(checklist_ctrlwindow)
     {
 
     }
@@ -60,13 +60,13 @@ namespace diskcleaner
         cfg_file->SetPath( L"/SavedPresets/" +  preset_name );
 
         bool success = true;
-        long count = checklistbox->GetItemCount();
+        long count = checklist_ctrl->GetItemCount();
         for ( int k = 0; k < count; ++k )
         {
-            diskcleaner::PlugInfo* pi = (diskcleaner::PlugInfo*) checklistbox->GetItemData( k );
+            diskcleaner::PlugInfo* pi = (diskcleaner::PlugInfo*) checklist_ctrl->GetItemData( k );
             wxString item( pi->GetShortDesc() );
 
-            success &= cfg_file->Write( item, checklistbox->IsChecked( k ) );
+            success &= cfg_file->Write( item, checklist_ctrl->IsChecked( k ) );
 
         };
 
@@ -78,18 +78,18 @@ namespace diskcleaner
         csave_restore_path srp(this);
 
         cfg_file->SetPath( L"/SavedPresets/" +  preset_name );
-        long count = checklistbox->GetItemCount();
+        long count = checklist_ctrl->GetItemCount();
         for ( int k = 0; k < count; ++k )
         {
 
             bool is_checked = false;
 
-            diskcleaner::PlugInfo* pi = (diskcleaner::PlugInfo*) checklistbox->GetItemData( k );
+            diskcleaner::PlugInfo* pi = (diskcleaner::PlugInfo*) checklist_ctrl->GetItemData( k );
             wxString item( pi->GetShortDesc() );
 
             cfg_file->Read( item, &is_checked, false );
 
-            checklistbox->Check( k, is_checked );
+            checklist_ctrl->Check( k, is_checked );
         };
 
 
@@ -112,14 +112,14 @@ namespace diskcleaner
         cfg_file->SetPath( L"/LastUsedPreset" );
 
         bool success = true;
-        long count = checklistbox->GetItemCount();
-        for ( int k = 0; k < count; ++k )
-        {
-            diskcleaner::PlugInfo* pi = (diskcleaner::PlugInfo*) checklistbox->GetItemData( k );
 
+        for ( int k = 0, count = checklist_ctrl->GetItemCount(); k < count; ++k )
+        {
+            diskcleaner::PlugInfo* pi = (diskcleaner::PlugInfo*) checklist_ctrl->GetItemData( k );
+            wxLogDebug( L"%hs: saving state of %s", __FUNCTION__, pi->GetShortDesc().c_str() );
             wxString item( pi->GetShortDesc() );
 
-            success &= cfg_file->Write( item, checklistbox->IsChecked( k ) );
+            success &= cfg_file->Write( item, checklist_ctrl->IsChecked( k ) );
 
 
         };
@@ -133,18 +133,18 @@ namespace diskcleaner
         csave_restore_path srp( this );
 
         cfg_file->SetPath( L"/LastUsedPreset" );
-        long count = checklistbox->GetItemCount();
+        long count = checklist_ctrl->GetItemCount();
         for ( int k = 0; k < count; ++k )
         {
             bool is_checked = false;
 
-            diskcleaner::PlugInfo* pi = (diskcleaner::PlugInfo*) checklistbox->GetItemData( k );
+            diskcleaner::PlugInfo* pi = (diskcleaner::PlugInfo*) checklist_ctrl->GetItemData( k );
 
             wxString item(pi->GetShortDesc() );
 
             cfg_file->Read( item, &is_checked, false );
 
-            checklistbox->Check( k, is_checked );
+            checklist_ctrl->Check( k, is_checked );
         };
 
 

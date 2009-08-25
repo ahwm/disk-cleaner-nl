@@ -14,56 +14,107 @@
 dc_base_frame::dc_base_frame( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
 {
 	this->SetSizeHints( wxSize( 390,426 ), wxDefaultSize );
+	this->SetBackgroundColour( wxColour( 255, 255, 255 ) );
+	
+	wxBoxSizer* bSizer17;
+	bSizer17 = new wxBoxSizer( wxVERTICAL );
 	
 	wxFlexGridSizer* fgSizer1;
-	fgSizer1 = new wxFlexGridSizer( 3, 1, 0, 0 );
+	fgSizer1 = new wxFlexGridSizer( 5, 1, 0, 0 );
 	fgSizer1->AddGrowableCol( 0 );
 	fgSizer1->AddGrowableRow( 0 );
 	fgSizer1->SetFlexibleDirection( wxBOTH );
 	fgSizer1->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	wxStaticBoxSizer* sbSizer2;
-	sbSizer2 = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("Select items to clean") ), wxVERTICAL );
+	wxFlexGridSizer* fgSizer10;
+	fgSizer10 = new wxFlexGridSizer( 3, 1, 0, 0 );
+	fgSizer10->AddGrowableCol( 0 );
+	fgSizer10->AddGrowableRow( 1 );
+	fgSizer10->SetFlexibleDirection( wxBOTH );
+	fgSizer10->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	
+	m_staticText17 = new wxStaticText( this, wxID_ANY, _("Check the items to remove"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText17->Wrap( -1 );
+	m_staticText17->SetFont( wxFont( wxNORMAL_FONT->GetPointSize(), 70, 90, 92, false, wxEmptyString ) );
+	m_staticText17->SetForegroundColour( wxColour( 0, 0, 0 ) );
+	
+	fgSizer10->Add( m_staticText17, 0, wxTOP|wxBOTTOM|wxRIGHT, 5 );
 	
 	plugin_listctrl = new wxCheckedListCtrl( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT|wxLC_SINGLE_SEL );
-	sbSizer2->Add( plugin_listctrl, 1, wxALL|wxEXPAND, 5 );
+	fgSizer10->Add( plugin_listctrl, 1, wxEXPAND|wxALL, 5 );
 	
-	items_selected_text = new wxStaticText( this, wxID_ANY, _("n of m selected"), wxDefaultPosition, wxDefaultSize, 0 );
-	items_selected_text->Wrap( -1 );
-	sbSizer2->Add( items_selected_text, 0, wxALL, 5 );
+	fgSizer1->Add( fgSizer10, 1, wxEXPAND|wxTOP|wxRIGHT|wxLEFT, 5 );
 	
-	fgSizer1->Add( sbSizer2, 1, wxEXPAND|wxALL, 5 );
+	wxFlexGridSizer* fgSizer9;
+	fgSizer9 = new wxFlexGridSizer( 2, 2, 0, 0 );
+	fgSizer9->AddGrowableCol( 0 );
+	fgSizer9->AddGrowableRow( 1 );
+	fgSizer9->SetFlexibleDirection( wxBOTH );
+	fgSizer9->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	wxStaticBoxSizer* sbSizer1;
-	sbSizer1 = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("Presets") ), wxVERTICAL );
+	m_staticText16 = new wxStaticText( this, wxID_ANY, _("Presets"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText16->Wrap( -1 );
+	m_staticText16->SetFont( wxFont( wxNORMAL_FONT->GetPointSize(), 70, 90, 92, false, wxEmptyString ) );
+	m_staticText16->SetForegroundColour( wxColour( 0, 0, 0 ) );
+	
+	fgSizer9->Add( m_staticText16, 0, wxALL, 5 );
+	
+	m_staticText20 = new wxStaticText( this, wxID_ANY, _("Program"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText20->Wrap( -1 );
+	m_staticText20->SetFont( wxFont( wxNORMAL_FONT->GetPointSize(), 70, 90, 92, false, wxEmptyString ) );
+	m_staticText20->SetForegroundColour( wxColour( 0, 0, 0 ) );
+	
+	fgSizer9->Add( m_staticText20, 0, wxALL, 5 );
 	
 	wxFlexGridSizer* fgSizer2;
-	fgSizer2 = new wxFlexGridSizer( 1, 5, 0, 0 );
+	fgSizer2 = new wxFlexGridSizer( 1, 4, 0, 0 );
 	fgSizer2->AddGrowableCol( 0 );
+	fgSizer2->AddGrowableCol( 3 );
 	fgSizer2->SetFlexibleDirection( wxBOTH );
 	fgSizer2->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
 	wxArrayString preset_boxChoices;
 	preset_box = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, preset_boxChoices, 0 );
 	preset_box->SetSelection( 0 );
-	fgSizer2->Add( preset_box, 0, wxALL|wxEXPAND, 5 );
+	fgSizer2->Add( preset_box, 1, wxALL|wxEXPAND, 5 );
 	
 	preset_save_btn = new wxButton( this, wxID_ANY, _("&Save..."), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT );
-	fgSizer2->Add( preset_save_btn, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 2 );
+	fgSizer2->Add( preset_save_btn, 0, wxALL|wxALIGN_CENTER_VERTICAL, 2 );
 	
 	preset_delete_btn = new wxButton( this, wxID_ANY, _("Delete"), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT );
-	fgSizer2->Add( preset_delete_btn, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 2 );
+	fgSizer2->Add( preset_delete_btn, 0, wxALIGN_CENTER_VERTICAL|wxALL, 2 );
 	
-	sbSizer1->Add( fgSizer2, 0, wxEXPAND, 5 );
 	
-	fgSizer1->Add( sbSizer1, 0, wxEXPAND|wxRIGHT|wxLEFT, 5 );
+	fgSizer2->Add( 0, 0, 1, wxEXPAND, 5 );
+	
+	fgSizer9->Add( fgSizer2, 0, wxEXPAND|wxRIGHT|wxLEFT, 5 );
+	
+	wxBoxSizer* bSizer5;
+	bSizer5 = new wxBoxSizer( wxHORIZONTAL );
+	
+	config_btn = new wxButton( this, wxID_ANY, _("Options..."), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT );
+	bSizer5->Add( config_btn, 1, wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM|wxRIGHT, 2 );
+	
+	about_btn = new wxButton( this, wxID_ANY, _("About..."), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT );
+	bSizer5->Add( about_btn, 1, wxALIGN_CENTER_VERTICAL|wxALL, 2 );
+	
+	fgSizer9->Add( bSizer5, 0, wxEXPAND|wxLEFT, 10 );
+	
+	fgSizer1->Add( fgSizer9, 1, wxEXPAND|wxBOTTOM|wxRIGHT, 5 );
+	
+	m_staticText18 = new wxStaticText( this, wxID_ANY, _("Actions"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText18->Wrap( -1 );
+	m_staticText18->SetFont( wxFont( wxNORMAL_FONT->GetPointSize(), 70, 90, 92, false, wxEmptyString ) );
+	m_staticText18->SetForegroundColour( wxColour( 0, 0, 0 ) );
+	
+	fgSizer1->Add( m_staticText18, 0, wxTOP|wxRIGHT|wxLEFT, 5 );
 	
 	wxBoxSizer* bSizer3;
 	bSizer3 = new wxBoxSizer( wxHORIZONTAL );
 	
 	clean_btn = new wxButton( this, wxID_ANY, _("&Clean"), wxDefaultPosition, wxDefaultSize, 0 );
 	clean_btn->SetDefault(); 
-	bSizer3->Add( clean_btn, 0, wxEXPAND|wxTOP|wxLEFT, 5 );
+	bSizer3->Add( clean_btn, 0, wxEXPAND|wxTOP, 5 );
 	
 	
 	bSizer3->Add( 0, 0, 1, wxEXPAND, 5 );
@@ -79,20 +130,11 @@ dc_base_frame::dc_base_frame( wxWindow* parent, wxWindowID id, const wxString& t
 	exit_btn = new wxButton( this, wxID_CANCEL, _("&Exit"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer3->Add( exit_btn, 0, wxEXPAND|wxTOP|wxRIGHT, 5 );
 	
-	wxBoxSizer* bSizer5;
-	bSizer5 = new wxBoxSizer( wxVERTICAL );
+	fgSizer1->Add( bSizer3, 0, wxEXPAND|wxALL, 10 );
 	
-	about_btn = new wxButton( this, wxID_ANY, _("?"), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT );
-	bSizer5->Add( about_btn, 0, wxALIGN_CENTER_VERTICAL|wxTOP|wxRIGHT|wxEXPAND, 5 );
+	bSizer17->Add( fgSizer1, 1, wxEXPAND|wxRIGHT|wxLEFT, 10 );
 	
-	config_btn = new wxButton( this, wxID_ANY, _("C"), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT );
-	bSizer5->Add( config_btn, 0, wxALIGN_CENTER_VERTICAL|wxRIGHT|wxEXPAND, 5 );
-	
-	bSizer3->Add( bSizer5, 0, wxEXPAND, 10 );
-	
-	fgSizer1->Add( bSizer3, 0, wxEXPAND|wxBOTTOM, 10 );
-	
-	this->SetSizer( fgSizer1 );
+	this->SetSizer( bSizer17 );
 	this->Layout();
 	
 	// Connect Events
@@ -101,11 +143,11 @@ dc_base_frame::dc_base_frame( wxWindow* parent, wxWindowID id, const wxString& t
 	preset_box->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( dc_base_frame::preset_box_onchoice ), NULL, this );
 	preset_save_btn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( dc_base_frame::preset_save_btn_click ), NULL, this );
 	preset_delete_btn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( dc_base_frame::preset_delete_btn_click ), NULL, this );
+	config_btn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( dc_base_frame::config_btn_click ), NULL, this );
+	about_btn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( dc_base_frame::about_btn_click ), NULL, this );
 	clean_btn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( dc_base_frame::clean_btn_click ), NULL, this );
 	runasadmin_btn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( dc_base_frame::runasadmin_btn_click ), NULL, this );
 	exit_btn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( dc_base_frame::exit_btn_click ), NULL, this );
-	about_btn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( dc_base_frame::about_btn_click ), NULL, this );
-	config_btn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( dc_base_frame::config_btn_click ), NULL, this );
 }
 
 dc_base_frame::~dc_base_frame()
@@ -116,11 +158,11 @@ dc_base_frame::~dc_base_frame()
 	preset_box->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( dc_base_frame::preset_box_onchoice ), NULL, this );
 	preset_save_btn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( dc_base_frame::preset_save_btn_click ), NULL, this );
 	preset_delete_btn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( dc_base_frame::preset_delete_btn_click ), NULL, this );
+	config_btn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( dc_base_frame::config_btn_click ), NULL, this );
+	about_btn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( dc_base_frame::about_btn_click ), NULL, this );
 	clean_btn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( dc_base_frame::clean_btn_click ), NULL, this );
 	runasadmin_btn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( dc_base_frame::runasadmin_btn_click ), NULL, this );
 	exit_btn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( dc_base_frame::exit_btn_click ), NULL, this );
-	about_btn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( dc_base_frame::about_btn_click ), NULL, this );
-	config_btn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( dc_base_frame::config_btn_click ), NULL, this );
 }
 
 wait_base_dlg::wait_base_dlg( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
@@ -227,22 +269,28 @@ about_base_dlg::~about_base_dlg()
 
 result_base_frame::result_base_frame( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
 {
-	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+	this->SetSizeHints( wxSize( 330,300 ), wxDefaultSize );
+	this->SetBackgroundColour( wxColour( 255, 255, 255 ) );
+	
+	wxBoxSizer* bSizer18;
+	bSizer18 = new wxBoxSizer( wxVERTICAL );
 	
 	wxFlexGridSizer* fgSizer1;
-	fgSizer1 = new wxFlexGridSizer( 2, 1, 0, 0 );
+	fgSizer1 = new wxFlexGridSizer( 3, 1, 0, 0 );
 	fgSizer1->AddGrowableCol( 0 );
-	fgSizer1->AddGrowableRow( 0 );
+	fgSizer1->AddGrowableRow( 1 );
 	fgSizer1->SetFlexibleDirection( wxBOTH );
 	fgSizer1->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	wxStaticBoxSizer* sbSizer2;
-	sbSizer2 = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("Cleaning results") ), wxVERTICAL );
+	m_staticText19 = new wxStaticText( this, wxID_ANY, _("Cleaning results"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText19->Wrap( -1 );
+	m_staticText19->SetFont( wxFont( wxNORMAL_FONT->GetPointSize(), 70, 90, 92, false, wxEmptyString ) );
+	m_staticText19->SetForegroundColour( wxColour( 0, 0, 0 ) );
+	
+	fgSizer1->Add( m_staticText19, 0, wxTOP|wxBOTTOM|wxRIGHT, 5 );
 	
 	result_lc = new wxListCtrl( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_NO_HEADER|wxLC_REPORT );
-	sbSizer2->Add( result_lc, 1, wxALL|wxEXPAND, 5 );
-	
-	fgSizer1->Add( sbSizer2, 1, wxEXPAND|wxALL, 5 );
+	fgSizer1->Add( result_lc, 1, wxEXPAND|wxALL, 5 );
 	
 	wxBoxSizer* bSizer3;
 	bSizer3 = new wxBoxSizer( wxHORIZONTAL );
@@ -260,7 +308,9 @@ result_base_frame::result_base_frame( wxWindow* parent, wxWindowID id, const wxS
 	
 	fgSizer1->Add( bSizer3, 0, wxEXPAND, 5 );
 	
-	this->SetSizer( fgSizer1 );
+	bSizer18->Add( fgSizer1, 1, wxEXPAND|wxRIGHT|wxLEFT, 10 );
+	
+	this->SetSizer( bSizer18 );
 	this->Layout();
 	
 	// Connect Events
@@ -345,7 +395,7 @@ prefs_dlg_base::prefs_dlg_base( wxWindow* parent, wxWindowID id, const wxString&
 	m_panel4->SetSizer( bSizer14 );
 	m_panel4->Layout();
 	bSizer14->Fit( m_panel4 );
-	prefsbook->AddPage( m_panel4, _("Temporary internet files"), false );
+	prefsbook->AddPage( m_panel4, _("Internet Explorer Cache"), false );
 	
 	bSizer4->Add( prefsbook, 1, wxALL|wxEXPAND, 5 );
 	

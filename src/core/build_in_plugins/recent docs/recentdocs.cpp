@@ -39,15 +39,16 @@ namespace diskcleaner
 
         wchar_t* RecentDocPath = new wchar_t[MAX_PATH];           //Recent Document path
 
-        if (SHGetSpecialFolderLocation(NULL,CSIDL_RECENT,&pidl)==NOERROR)
-            if (RecentDocPath && SHGetPathFromIDList(pidl,RecentDocPath));
+        if ( SHGetSpecialFolderLocation(NULL,CSIDL_RECENT,&pidl) == NOERROR )
         {
-            lstrcat( RecentDocPath, L"\\");
-            TScanOptions so;
-            so.ReadOnly = so.Recursive = true;
-            scandata = GetFilesInFolder( RecentDocPath,L"*.*\0", &so, ItemList );
+            if ( RecentDocPath && SHGetPathFromIDList( pidl, RecentDocPath ) )
+            {
+                lstrcat( RecentDocPath, L"\\");
+                TScanOptions so;
+                so.ReadOnly = so.Recursive = true;
+                scandata = GetFilesInFolder( RecentDocPath,L"*.*\0", &so, ItemList );
+            }
         }
-
         delete RecentDocPath;
 
         BytesFound = scandata.bytes;

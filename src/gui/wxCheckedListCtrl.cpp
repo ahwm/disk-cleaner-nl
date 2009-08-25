@@ -61,7 +61,7 @@ wxCheckedListCtrl::wxCheckedListCtrl(wxWindow* parent, wxWindowID id, const wxPo
                                      const wxSize& sz, long style):
         wxListCtrl(parent, id, pt, sz, style), m_imageList(16, 16, TRUE)
 {
-    AssignImageList( &m_imageList, wxIMAGE_LIST_SMALL );
+    SetImageList( &m_imageList, wxIMAGE_LIST_SMALL );
 
 //    // Checked
 //        wxRendererNative::Get().DrawCheckBox(this, mdc, wxRect(0, 0, 16, 16), wxCONTROL_CHECKED);

@@ -43,6 +43,7 @@ namespace diskcleaner
 
         SHQUERYRBINFO shq;
         wchar_t* drive_buff = new wchar_t[256];
+        wchar_t* pdrive_buff = drive_buff;
 
 
         ZeroMemory(&shq,sizeof(shq));
@@ -61,6 +62,7 @@ namespace diskcleaner
             drive_buff += wcslen(drive_buff) + 1;
         }
 
+        delete[] pdrive_buff;
         return;
     }
 

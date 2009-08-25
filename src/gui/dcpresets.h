@@ -34,7 +34,7 @@ namespace diskcleaner
     class dcpreset_handler
     {
     public:
-        dcpreset_handler(wxConfigBase* const cf, wxCheckedListCtrl* const checklistboxwindow );
+        dcpreset_handler(wxConfigBase* const cf, wxCheckedListCtrl* const checklist_ctrlwindow );
 
         //Returns a vector of wstrings containing the names of all saved presets
         void get_saved_preset_names( wxArrayString& presetlist );
@@ -57,7 +57,7 @@ namespace diskcleaner
 
 
         wxConfigBase* cfg_file;
-        wxCheckedListCtrl* checklistbox;
+        wxCheckedListCtrl* checklist_ctrl;
         //std::vector<boost::shared_ptr<diskcleaner::PlugInfo> >& pi_list;
     };
 

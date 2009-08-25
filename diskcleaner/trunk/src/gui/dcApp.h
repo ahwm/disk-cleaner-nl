@@ -36,6 +36,8 @@ class dcApp : public wxApp
 #endif
 
     bool quiet_mode;
+    bool no_text_plugins;
+    bool no_buildin_plugins;
 
     public:
         dcApp();
@@ -45,6 +47,8 @@ class dcApp : public wxApp
                 bool IsUserAdmin();
                 bool IsVistaOrHigher();
                 bool IsQuietMode() {return quiet_mode;};
+                bool NoTextPlugins() {return no_text_plugins;};
+                bool NoBuildInPlugins() {return no_buildin_plugins;};
                 std::wstring& GetQuietModePreset() {return quiet_mode_preset; };
         void    Button_SetShield(const WXWidget ButtonWindow, bool ShowShield = true);
         const   std::wstring& GetAppDirectory() { return strAppDirectory; };

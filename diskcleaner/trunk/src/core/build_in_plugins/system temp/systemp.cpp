@@ -30,6 +30,7 @@ namespace diskcleaner
 
     system_temp::system_temp( diskcleaner::systemp_& rsettings ) : PlugInfo(), settings( rsettings )
     {
+        wxLogDebug( L"%hs: Entered constructor of system_temp plugin", __FUNCTION__ );
         ShortDesc = _( "Temporary files" );
         LongDesc = _( "Removes temporary files from the current user's temporary folder, " );
 
@@ -87,6 +88,7 @@ namespace diskcleaner
         delete[] sysfolder;
         delete[] winpath;
         delete[] tmpenv;
+        wxLogDebug( L"%hs: exit constructor", __FUNCTION__ );
     }
 //---------------------------------------------------------------------------
     void system_temp::GetFilesAsStrings(std::vector<std::wstring>& Messages)

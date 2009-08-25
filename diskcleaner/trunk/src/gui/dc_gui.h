@@ -12,15 +12,14 @@
 
 class wxCheckedListCtrl;
 
-#include <wx/listctrl.h>
+#include <wx/string.h>
+#include <wx/stattext.h>
 #include <wx/gdicmn.h>
 #include <wx/font.h>
 #include <wx/colour.h>
 #include <wx/settings.h>
-#include <wx/string.h>
-#include <wx/stattext.h>
+#include <wx/listctrl.h>
 #include <wx/sizer.h>
-#include <wx/statbox.h>
 #include <wx/choice.h>
 #include <wx/button.h>
 #include <wx/dialog.h>
@@ -45,18 +44,22 @@ class dc_base_frame : public wxDialog
 	private:
 	
 	protected:
+		wxStaticText* m_staticText17;
 		wxCheckedListCtrl* plugin_listctrl;
-		wxStaticText* items_selected_text;
+		wxStaticText* m_staticText16;
+		wxStaticText* m_staticText20;
 		wxChoice* preset_box;
 		wxButton* preset_save_btn;
 		wxButton* preset_delete_btn;
+		
+		wxButton* config_btn;
+		wxButton* about_btn;
+		wxStaticText* m_staticText18;
 		wxButton* clean_btn;
 		
 		wxButton* runasadmin_btn;
 		
 		wxButton* exit_btn;
-		wxButton* about_btn;
-		wxButton* config_btn;
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void dc_base_frame_onclose( wxCloseEvent& event ){ event.Skip(); }
@@ -64,15 +67,15 @@ class dc_base_frame : public wxDialog
 		virtual void preset_box_onchoice( wxCommandEvent& event ){ event.Skip(); }
 		virtual void preset_save_btn_click( wxCommandEvent& event ){ event.Skip(); }
 		virtual void preset_delete_btn_click( wxCommandEvent& event ){ event.Skip(); }
+		virtual void config_btn_click( wxCommandEvent& event ){ event.Skip(); }
+		virtual void about_btn_click( wxCommandEvent& event ){ event.Skip(); }
 		virtual void clean_btn_click( wxCommandEvent& event ){ event.Skip(); }
 		virtual void runasadmin_btn_click( wxCommandEvent& event ){ event.Skip(); }
 		virtual void exit_btn_click( wxCommandEvent& event ){ event.Skip(); }
-		virtual void about_btn_click( wxCommandEvent& event ){ event.Skip(); }
-		virtual void config_btn_click( wxCommandEvent& event ){ event.Skip(); }
 		
 	
 	public:
-		dc_base_frame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Disk Cleaner"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 390,426 ), long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER );
+		dc_base_frame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Disk Cleaner"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 500,426 ), long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER );
 		~dc_base_frame();
 	
 };
@@ -132,6 +135,7 @@ class result_base_frame : public wxDialog
 	private:
 	
 	protected:
+		wxStaticText* m_staticText19;
 		wxListCtrl* result_lc;
 		wxButton* back_btn;
 		
@@ -144,7 +148,7 @@ class result_base_frame : public wxDialog
 		
 	
 	public:
-		result_base_frame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 336,318 ), long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER );
+		result_base_frame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 440,318 ), long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER );
 		~result_base_frame();
 	
 };

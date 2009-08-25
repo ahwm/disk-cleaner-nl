@@ -48,7 +48,6 @@ namespace diskcleaner
         __int64 ItemsCleaned;
         __int64 BytesCleaned;
 
-
         bool SecureRemove;
     public:
 
@@ -82,10 +81,6 @@ namespace diskcleaner
         };
 
     };
-
-    std::wstring SetItemText(PlugInfo* pInfo);
-
-    std::wstring BytesToString(__int64 NrOfBytes);
 
 } //namespace
 #endif //STRUCTS_H

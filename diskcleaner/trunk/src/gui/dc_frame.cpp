@@ -23,6 +23,7 @@
 #include "core/build_in_plugins/firefox/firefox.h"
 #include "core/build_in_plugins/system temp/systemp.h"
 #include "core/build_in_plugins/recent docs/recentdocs.h"
+#include "core/build_in_plugins/internet_explorer/internet_explorer.h"
 
 
 #include "gui/dc_frame.h"
@@ -176,23 +177,23 @@ void dc_frame::clean_btn_click( wxCommandEvent& event )
     result_frame rsframe( this );
 
     if ( settings.ui.result_frame_size.topx && settings.ui.result_frame_size.topy &&
-                     settings.ui.result_frame_size.width && settings.ui.result_frame_size.height )
+            settings.ui.result_frame_size.width && settings.ui.result_frame_size.height )
     {
         rsframe.SetSize( settings.ui.result_frame_size.topx, settings.ui.result_frame_size.topy,
-                        settings.ui.result_frame_size.width, settings.ui.result_frame_size.height );
+                         settings.ui.result_frame_size.width, settings.ui.result_frame_size.height );
     }
 
 
     if ( settings.global.delete_locked && !app.IsUserAdmin() )
     {
-        wxLogWarning( _("Warning: setting 'Delete locked files on reboot' ignored. "
-                        "The required Administrator priviliges are missing.") );
+        wxLogWarning( _("Warning: setting 'Delete locked files on reboot' ignored. The required Administrator priviliges are missing.") );
 
     }
 
 
     __int64 total_bytes = 0, total_files = 0;
 
+    //sets the file count of scheduled files to zero
     ResetFilesScheduledRemoveOnReboot();
 
     //wchar_t files[255] = { 0 };
@@ -213,7 +214,7 @@ void dc_frame::clean_btn_click( wxCommandEvent& event )
 
             wxString line;
             line.Printf( L"%s: Cleaned %s in %I64d %s.", pinfo->GetShortDesc().c_str(),
-                         BytesToString(pinfo->GetBytesCleaned() ).c_str(),
+                         bytes_to_string(pinfo->GetBytesCleaned() ).c_str(),
                          pinfo->GetItemsCleaned(), wxPLURAL( "item", "items", pinfo->GetItemsCleaned() ) );
             wxLogMessage( line.c_str() );
         }
@@ -227,7 +228,7 @@ void dc_frame::clean_btn_click( wxCommandEvent& event )
     wxLogMessage(  schedulestr );
 
 
-    schedulestr.Printf( _( "Cleaned total of %s in %I64d %s") , BytesToString( total_bytes ).c_str(),
+    schedulestr.Printf( _( "Cleaned total of %s in %I64d %s") , bytes_to_string( total_bytes ).c_str(),
                         total_files, wxPLURAL( "item", "items", total_files) );
     wxLogMessage(  schedulestr );
 
@@ -296,6 +297,8 @@ void dc_frame::exit_btn_click( wxCommandEvent& event )
 
 void dc_frame::init_dialog()
 {
+    InitializeSHGetKnownFolderPath();
+
     dcApp& app = wxGetApp();
     //Call load method, config class has been set in dcApp::OnCmdLineParsed
     settings.Load();
@@ -321,70 +324,108 @@ void dc_frame::init_dialog()
     if ( settings.ui.col_size_width ) plugin_listctrl->SetColumnWidth( 2, settings.ui.col_size_width );
     if ( settings.ui.col_ldesc_width ) plugin_listctrl->SetColumnWidth( 3, settings.ui.col_ldesc_width );
 
+    //Show progress of scan (wait_dlg)
 
-    //
-    //Load text plugins
-    //
+    std::auto_ptr<wait_dlg> waitdlg( new wait_dlg(this) );
+
+    //Get the number of text plugins as input for the progress bar
 
     std::vector<std::wstring> plugin_list;
 
-    PlugInfo* tempfiles  = new system_temp( settings.systemp );
-    add_plugin_to_listctrl( tempfiles );
-
-    PlugInfo* rbin = (new RecycleBinInfo() );
-    add_plugin_to_listctrl( rbin );
-
-    PlugInfo* recentdocs = (new recent_docs() );
-    add_plugin_to_listctrl( recentdocs );
-
-    PlugInfo* ffcache = (new firefox_cache() );
-    add_plugin_to_listctrl( ffcache );
-
-    PlugInfo* ffcookies = (new firefox_cookies() );
-    add_plugin_to_listctrl( ffcookies );
-
-    PlugInfo* ffhistory = (new firefox_history() );
-    add_plugin_to_listctrl( ffhistory );
-
-    WIN32_FIND_DATA finddata;
-    HANDLE fHandle = FindFirstFile((app.GetAppDirectory() + L"\\plug-ins\\" + L"*.dct").c_str(),&finddata);
-
-    if (fHandle != INVALID_HANDLE_VALUE)
+    if ( !app.NoTextPlugins() )
     {
-        do
-        {
+        WIN32_FIND_DATA finddata;
+        HANDLE fHandle = FindFirstFile((app.GetAppDirectory() + L"\\plug-ins\\" + L"*.dct").c_str(),&finddata);
 
-            ::wxLogDebug( L"%hs: found text plugin: %s", __FUNCTION__, finddata.cFileName );
-            plugin_list.push_back(std::wstring(finddata.cFileName));
+        if (fHandle != INVALID_HANDLE_VALUE)
+        {
+            do
+            {
+
+                ::wxLogDebug( L"%hs: found text plugin: %s", __FUNCTION__, finddata.cFileName );
+                plugin_list.push_back(std::wstring(finddata.cFileName));
+            }
+            while  (FindNextFile(fHandle,&finddata));
         }
-        while  (FindNextFile(fHandle,&finddata));
+        FindClose(fHandle);
     }
-    FindClose(fHandle);
 
-    if (plugin_list.size() > 0)
+    //
+    //Initialize build-in plugins
+    //
+
+    waitdlg->SetProgressRange( plugin_list.size() + ( (app.NoBuildInPlugins() ) ? 0 : 9 ) );
+    waitdlg->Show( true );
+
+
+    if ( !app.NoBuildInPlugins() )
     {
+        wxLogDebug( L"%hs: adding build-in plugins", __FUNCTION__ );
+        wxLogDebug( L"%hs: processing system temp", __FUNCTION__ );
+        PlugInfo* tempfiles  = new system_temp( settings.systemp );
+        add_plugin_to_listctrl( tempfiles );
+        waitdlg->Increment();
 
+        PlugInfo* rbin = (new RecycleBinInfo() );
+        add_plugin_to_listctrl( rbin );
+        waitdlg->Increment();
 
-        std::vector<std::wstring>::const_iterator it = plugin_list.begin();
+        PlugInfo* recentdocs = (new recent_docs() );
+        add_plugin_to_listctrl( recentdocs );
+        waitdlg->Increment();
 
-        std::auto_ptr<wait_dlg> waitdlg( new wait_dlg(this) );
-        waitdlg->SetProgressRange( plugin_list.size() );
-        waitdlg->Show( true );
+        PlugInfo* ffcache = (new firefox_cache() );
+        add_plugin_to_listctrl( ffcache );
+        waitdlg->Increment();
 
-        while ( it!=plugin_list.end() )
+        PlugInfo* ffcookies = (new firefox_cookies() );
+        add_plugin_to_listctrl( ffcookies );
+        waitdlg->Increment();
+
+        PlugInfo* ffhistory = (new firefox_history() );
+        add_plugin_to_listctrl( ffhistory );
+        waitdlg->Increment();
+
+        PlugInfo* iecache = (new ie_cache( settings.tempinternetfiles.delete_offline ) );
+        add_plugin_to_listctrl( iecache );
+        waitdlg->Increment();
+
+        PlugInfo* iehistory = (new ie_history() );
+        add_plugin_to_listctrl( iehistory );
+        waitdlg->Increment();
+
+        PlugInfo* iecookies = (new ie_cookies() );
+        add_plugin_to_listctrl( iecookies );
+        waitdlg->Increment();
+        waitdlg->UpdateWindowUI();
+    }
+
+    //
+    // Load text plug-ins
+    //
+
+    if ( !app.NoTextPlugins() )
+    {
+        if (plugin_list.size() > 0)
         {
-            std::wstring FullPath =  app.GetAppDirectory() + L"\\plug-ins\\"  + *it;
-            ::wxLogDebug( FullPath.c_str() );
 
-            PlugInfo*  pi = (new TextPlugInfo( FullPath ) );
-            ::wxLogDebug( L"Instantiated!" );
+            std::vector<std::wstring>::const_iterator it = plugin_list.begin();
 
-            waitdlg->Increment();
+            while ( it!=plugin_list.end() )
+            {
+                std::wstring FullPath =  app.GetAppDirectory() + L"\\plug-ins\\"  + *it;
+                ::wxLogDebug( FullPath.c_str() );
 
-            add_plugin_to_listctrl( pi );
-            ++it;
+                PlugInfo*  pi = (new TextPlugInfo( FullPath ) );
+                ::wxLogDebug( L"%s instantiated", it->c_str() );
+
+                waitdlg->Increment();
+
+                add_plugin_to_listctrl( pi );
+                ++it;
+            }
+
         }
-
     }
 
     //Sort items according to preferences of the user
@@ -435,63 +476,96 @@ void dc_frame::init_dialog()
 
 void dc_frame::plugin_checkbox_toggled( wxCommandEvent& event )
 {
-    set_items_selected_text();
+//    set_items_selected_text();
 }
 
-void dc_frame::set_items_selected_text()
+//void dc_frame::set_items_selected_text()
+//{
+//    __int64 numbytes_checked = 0, numitems_checked = 0;
+//    __int64 totalbytes = 0, totalitems = 0;
+//
+//    for (int n = 0, num_items = plugin_listctrl->GetItemCount(); n < num_items; ++n )
+//    {
+//        PlugInfo* pi = (PlugInfo* )plugin_listctrl->GetItemData( n );
+//        __int64 numfound = pi->GetItemsFound();
+//        __int64 bytesfound = pi->GetBytesFound();
+//        totalbytes += bytesfound;
+//        totalitems += numfound;
+//
+//        if (plugin_listctrl->IsChecked( n ) )
+//        {
+//            numbytes_checked += bytesfound;
+//            numitems_checked += numfound;
+//        }
+//    }
+//
+//    wxString bytes_string;
+//    if ( totalbytes < 1024 )
+//    {
+//        bytes_string = _( "bytes" );
+//    }
+//    else
+//    {
+//        totalbytes /= 1024;
+//        numbytes_checked /= 1024;
+//
+//        if ( totalbytes < 1024 )
+//        {
+//            bytes_string = _( "kB" );
+//        }
+//        else
+//        {
+//            totalbytes /= 1024;
+//            numbytes_checked /= 1024;
+//            bytes_string = _( "MB" );
+//        }
+//    }
+//
+//    wxString String;
+//    String.Printf( _( "Selected %I64d of %I64d items for removal (%I64d/%I64d %s)" ), numitems_checked, totalitems,
+//                   numbytes_checked, totalbytes, bytes_string.c_str() );
+
+//}
+
+wxString dc_frame::bytes_to_string( __int64 bytes )
 {
-    __int64 numbytes_checked = 0, numitems_checked = 0;
-    __int64 totalbytes = 0, totalitems = 0;
-
-    for (int n = 0, num_items = plugin_listctrl->GetItemCount(); n < num_items; ++n )
-    {
-        PlugInfo* pi = (PlugInfo* )plugin_listctrl->GetItemData( n );
-        __int64 numfound = pi->GetItemsFound();
-        __int64 bytesfound = pi->GetBytesFound();
-        totalbytes += bytesfound;
-        totalitems += numfound;
-
-        if (plugin_listctrl->IsChecked( n ) )
-        {
-            numbytes_checked += bytesfound;
-            numitems_checked += numfound;
-        }
-    }
-
     wxString bytes_string;
-    if ( totalbytes < 1024 )
-    {
-        bytes_string = _( "bytes" );
-    }
-    else
-    {
-        totalbytes /= 1024;
-        numbytes_checked /= 1024;
 
-        if ( totalbytes < 1024 )
+    if ( bytes < 1024 )
         {
-            bytes_string = _( "kB" );
+            bytes_string.Printf( _( "%I64d b" ), bytes );
         }
         else
         {
-            totalbytes /= 1024;
-            numbytes_checked /= 1024;
-            bytes_string = _( "MB" );
+            bytes /= 1024;
+            if ( bytes < 1024 )
+            {
+                bytes_string.Printf( _( "%I64d kB" ), bytes );
+            }
+            else
+            {
+                bytes /= 1024;
+                if ( bytes < 1024 )
+                {
+                    bytes_string.Printf( _( "%I64d MB" ), bytes );
+                }
+                else
+                {
+                    bytes_string.Printf( _( "%5.2f GB" ), bytes/1024.0 );
+                }
+            }
         }
-    }
 
-    wxString String;
-    String.Printf( _( "Selected %I64d of %I64d items for removal (%I64d/%I64d %s)" ), numitems_checked, totalitems,
-                   numbytes_checked, totalbytes, bytes_string.c_str() );
-    items_selected_text->SetLabel( String );
+        return bytes_string;
 }
 
 void dc_frame::add_plugin_to_listctrl( diskcleaner::PlugInfo* pi)
 {
+    wxLogDebug( L"%hs: processing %s" , __FUNCTION__, pi->GetShortDesc().c_str() );
     pi->Scan();
     if (pi->GetItemsFound() > 0 || settings.global.hide_empty == false )
     {
-        ::wxLogDebug( L"Adding: %s" , SetItemText( pi ).c_str() );
+        ::wxLogDebug( L"%hs: adding %s" , __FUNCTION__, pi->GetShortDesc().c_str() );
 
         wxString tmpString, bytes_string;
 
@@ -504,41 +578,21 @@ void dc_frame::add_plugin_to_listctrl( diskcleaner::PlugInfo* pi)
         tmpString.Printf( _( "%I64d" ), pi->GetItemsFound() );
         plugin_listctrl->SetItem( index, 1, tmpString );
 
-        int64_t bytes_found  = pi->GetBytesFound();
+        bytes_string = bytes_to_string( pi->GetBytesFound() );
 
-        if ( bytes_found < 1024 )
-        {
-            bytes_string = _( "b" );
-        }
-        else
-        {
-            bytes_found /= 1024;
-            if ( bytes_found < 1024 )
-            {
-                bytes_string = _( "kB" );
-            }
-            else
-            {
-                bytes_found /= 1024;
-                if ( bytes_found < 1024 )
-                {
-                    bytes_string = _( "MB" );
-                }
-                else
-                {
-                    bytes_string = _( "GB" );
-                }
-            }
-        }
-        tmpString.Printf( _( "%I64d " ), bytes_found );
-        plugin_listctrl->SetItem( index, 2, tmpString + bytes_string );
+        plugin_listctrl->SetItem( index, 2, bytes_string );
 
         plugin_listctrl->SetItem( index, 3, pi->GetLongDesc() );
 
         plugin_listctrl->SetItemPtrData( index, (wxUIntPtr) pi );
 
-        plugin_listctrl->Check( index, true );
+        //plugin_listctrl->Check( index, true );
 
+    }
+    else //no items found and were hiding this item
+    {
+        wxLogDebug( L"%hs: deleting %s (unused)", __FUNCTION__, pi->GetShortDesc().c_str() );
+        delete pi;
     }
 }
 
@@ -575,6 +629,10 @@ void dc_frame::plugin_listctrl_column_clicked( wxListEvent& event )
 
 void dc_frame::dc_base_frame_onclose( wxCloseEvent& event )
 {
+
+
+    //Save the size of the main window plus the column widths
+    wxLogDebug( L"%hs: saving main window sizes", __FUNCTION__ );
     GetSize( &settings.ui.dc_frame_size.width, &settings.ui.dc_frame_size.height );
     GetPosition( &settings.ui.dc_frame_size.topx, &settings.ui.dc_frame_size.topy );
     settings.ui.col_sdesc_width = plugin_listctrl->GetColumnWidth( 0 );
@@ -584,7 +642,24 @@ void dc_frame::dc_base_frame_onclose( wxCloseEvent& event )
 
     settings.Save();
 
+    //FIRST save the currently checked and unchecked items
+    wxLogDebug( L"%hs: saving currently checked items", __FUNCTION__ );
     ppreset_handler->save_last_used();
+
+    //THEN delete all PlugInfo objects
+    for ( int k = 0, items = plugin_listctrl->GetItemCount(); k < items; ++k )
+    {
+        wxLogDebug( L"%hs: deleting %s", __FUNCTION__, plugin_listctrl->GetItemText( k ).c_str() );
+        delete (PlugInfo*) plugin_listctrl->GetItemData( k );
+        plugin_listctrl->SetItemData( k, 0 );
+
+    }
+
+    //Unload the dynamically loaded shell function SHGetKnownFolderPath()
+    //which is Vista+ only.
+    wxLogDebug( L"%hs: unloading SHGetKnownFolderPath", __FUNCTION__ );
+    UninitializeSHGetKnownFolderPath();
+
     Destroy();
 }
 

@@ -36,8 +36,11 @@ class dc_frame : public dc_base_frame
 {
 protected:
 
-    //std::vector<boost::shared_ptr<diskcleaner::PlugInfo> > plugin_list;
+    //Manages all user settings that are persistent
     diskcleaner::dcsettings settings;
+
+    //Class that manages (un)checking the items in the main
+    //window's list control, depending on the chosen preset
     boost::shared_ptr<diskcleaner::dcpreset_handler> ppreset_handler;
 
 	// Handlers for dc_base_frame events.
@@ -53,11 +56,18 @@ protected:
     void preset_box_onchoice( wxCommandEvent& event );
     void plugin_listctrl_column_clicked( wxListEvent& event );
 
-	void set_items_selected_text();
+	//void set_items_selected_text();
 
+	//Restarts Disk Cleaner, possibly as administrator
+	//Used for 'Run as Administrator' button in the main window
+	//and for the 'Back' button in the result window
 	void run_diskcleaner( bool as_admin );
 
+	//Adds the plugin to the list control, with all the information
+	//it contains.
 	void add_plugin_to_listctrl( diskcleaner::PlugInfo * pi);
+
+	wxString bytes_to_string( __int64 bytes );
 
 
 public:

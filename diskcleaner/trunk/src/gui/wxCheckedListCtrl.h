@@ -13,7 +13,7 @@ class wxCheckedListCtrl : public wxListCtrl
 
 public:
     DECLARE_DYNAMIC_CLASS( wxCheckedListCtrl )
-    wxCheckedListCtrl::wxCheckedListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pt,
+    wxCheckedListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pt,
                                          const wxSize& sz, long style);
     void OnMouseEvent(wxMouseEvent& event);
     bool IsChecked(long item) const ;

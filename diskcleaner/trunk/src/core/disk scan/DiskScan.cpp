@@ -50,7 +50,7 @@ void ProcessFilesInFolder(const wchar_t* folder, const wchar_t* masks, const TSc
 {
     HANDLE hFileSearch;
     WIN32_FIND_DATA sr;
-    static wchar_t __declspec(thread) localfolder[MAX_PATH];
+    static wchar_t __thread localfolder[MAX_PATH];
     wchar_t* ptr;
     const wchar_t* maskfw = masks;
 
@@ -59,7 +59,7 @@ void ProcessFilesInFolder(const wchar_t* folder, const wchar_t* masks, const TSc
 
     if (folder) //This is the first time the function is called. This is the base folder
     {
-        ::wxLogDebug( L"%hs setting up...", __FUNCTION__ , folder );
+        ::wxLogDebug( L"%hs setting up %s...", __FUNCTION__ , folder );
 
         lstrcpy(localfolder,folder);
 
@@ -288,7 +288,7 @@ inline bool ProcessFile( const wchar_t * const the_file, std::vector<std::wstrin
         {
             if ( DiskScan::RemoveOnReboot )
             {
-                bool mvresult = MoveFileEx( the_file, NULL,MOVEFILE_DELAY_UNTIL_REBOOT );
+                bool mvresult = ( MoveFileEx( the_file, NULL,MOVEFILE_DELAY_UNTIL_REBOOT ) == TRUE );
 
                 if ( !mvresult ) //Remove on reboot failed, need administrator priviliges
                 {

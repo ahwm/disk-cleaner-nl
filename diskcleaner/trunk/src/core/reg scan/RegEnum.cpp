@@ -22,7 +22,7 @@
 void EnumRegKey(HKEY rootkey,wchar_t* subkey,wchar_t* value,__int64& nitems,
                 __int64& nbytes, std::vector<std::wstring>& FileList, const wchar_t* rootname)
 {
-    static wchar_t __declspec(thread) keyname[4*1024];
+    static wchar_t __thread keyname[4*1024];
     wchar_t* keynamepos;
     HKEY aKey;
     DWORD cValMaxLength=0,cSubMaxLength=0,dwIndex=0;
@@ -41,7 +41,7 @@ void EnumRegKey(HKEY rootkey,wchar_t* subkey,wchar_t* value,__int64& nitems,
 
     if ( RegOpenKeyEx( rootkey, subkey, 0, KEY_READ, &aKey ) == ERROR_SUCCESS )
     {
-        ::wxLogDebug( L"%hs: RegOpenKeyEx(%s) successful", subkey );
+        ::wxLogDebug( L"%hs: RegOpenKeyEx(%s) successful", __FUNCTION__, subkey );
 
         if ( value ) //Value info is needed
         {
@@ -50,7 +50,7 @@ void EnumRegKey(HKEY rootkey,wchar_t* subkey,wchar_t* value,__int64& nitems,
             ::wxLogDebug( L"%hs: Getting size of value %s\\%s" , __FUNCTION__, keyname, value );
             if (RegQueryValueEx(aKey,value,NULL,NULL,NULL,&cbdata)==ERROR_SUCCESS)
             {
-                ::wxLogDebug( L"%hs: RegQueryValueEx successful, size of %s = %d", __FUNCTION__, subkey, value, cbdata );
+                ::wxLogDebug( L"%hs: RegQueryValueEx successful, size of %s = %d", __FUNCTION__, value, cbdata );
 
                 lstrcat( keyname, L"\\" );
                 lstrcat( keyname, value );
@@ -124,7 +124,7 @@ void EnumRegKey(HKEY rootkey,wchar_t* subkey,wchar_t* value,__int64& nitems,
 bool DelRegKey(HKEY rootkey,wchar_t* subkey,wchar_t* value,__int64& nitems,
                __int64& nbytes, std::vector<std::wstring>& FileList, const wchar_t* rootname)
 {
-    static wchar_t __declspec(thread) keyname[4*1024];
+    static wchar_t __thread keyname[4*1024];
     HKEY aKey;
     DWORD cValMaxLength=0,cSubMaxLength=0,dwIndex=0;
     bool result;

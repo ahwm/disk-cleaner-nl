@@ -57,5 +57,12 @@ protected:
 
 };
 
+
+    bool InitializeSHGetKnownFolderPath();
+    bool UninitializeSHGetKnownFolderPath();
+
+
+
+
 } //namespace
 #endif

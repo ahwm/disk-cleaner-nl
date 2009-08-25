@@ -1,7 +1,7 @@
 #include <winver.h>
 #include "gui/version.h"
 
-aaaa ICON "resource/main.ico"
+aaaa ICON "resource/main_new.ico"
 
 1 24 "dc.manifest"
 #define wxUSE_NO_MANIFEST 1

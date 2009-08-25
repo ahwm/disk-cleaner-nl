@@ -48,7 +48,11 @@ static const wxCmdLineEntryDesc cmdLineDesc[] =
         L"folder." },
     { wxCMD_LINE_OPTION, L"q", L"quiet",    L"<NOT FUNCTIONAL YET>clean without showing a GUI. Optionally takes a name of a preset as parameter",
       wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL},
+    { wxCMD_LINE_SWITCH, L"nt", L"no-text-plugins", L"Do not use text plugins (.dct files). " },
+    { wxCMD_LINE_SWITCH, L"nb", L"no-buildin-plugins", L"Do not use the build-in plugins" },
+#ifdef __WXDEBUG__
     { wxCMD_LINE_SWITCH, L"d", L"debug", L"Shows messages in a debug window " },
+#endif
     { wxCMD_LINE_NONE }
 };
 
@@ -111,7 +115,7 @@ bool dcApp::IsUserAdmin()
         FreeSid(AdministratorsGroup);
     }
 
-    return(static_cast<bool>(b) );
+    return ( b == TRUE );
 
 }
 
@@ -144,6 +148,9 @@ bool dcApp::OnCmdLineParsed(wxCmdLineParser& parser)
     }
 
     bool portable = parser.Found( L"p" );
+    no_text_plugins = parser.Found( L"nt" );
+    no_buildin_plugins = parser.Found( L"nb" );
+
     wxString wxquiet_mode_preset;
     quiet_mode    = parser.Found( L"q", &wxquiet_mode_preset );
     quiet_mode_preset = wxquiet_mode_preset;

@@ -20,7 +20,6 @@
 #include <commctrl.h>
 #include <winreg.h>
 
-
 #include <new>
 #include "../reg scan/regenum.h"
 
@@ -28,8 +27,26 @@
 
 namespace
 {
+typedef GUID KNOWNFOLDERID;
+#ifdef __cplusplus
+#define REFKNOWNFOLDERID const KNOWNFOLDERID &
+#else // !__cplusplus
+#define REFKNOWNFOLDERID const KNOWNFOLDERID * __MIDL_CONST
+#endif // __cplusplus
+
+
+    typedef HRESULT (WINAPI* nsGetKnownFolderPath)(REFKNOWNFOLDERID rfid,
+            DWORD dwFlags,
+            HANDLE hToken,
+            PWSTR *path);
+
+
+    static nsGetKnownFolderPath gGetKnownFolderPath = NULL;
+    static HINSTANCE gShell32DLLInst = NULL;
+
     std::map<std::wstring,std::wstring> ExpansionMap;
     std::map<std::wstring,std::wstring>::iterator expansion_iterator;
+
 
     std::wstring GetFolderLocation(const std::wstring& folder)
     {
@@ -37,10 +54,10 @@ namespace
         wchar_t buff[MAX_PATH];
         wcscpy(buff, folder.c_str() );
 
-        ::wxLogDebug( L" %hs: find %s", __FUNCTION__, folder.c_str() );
+        ::wxLogDebug( L"%hs: find %s", __FUNCTION__, folder.c_str() );
         std::wstring folder_copy(buff);
 
-        if ( folder_copy.find(L"%windir%") == std::string::npos )  //all
+        if ( folder_copy.find(L"%windir%") != std::string::npos )  //all
         {
 
             wxLogDebug( L"found %%windir%%" );
@@ -49,7 +66,7 @@ namespace
             wxLogDebug( L"%%windir%% = %s", buff );
             return std::wstring(buff);
         }
-        if ( folder_copy.find(L"%sysdir%") == std::string::npos ) //all
+        if ( folder_copy.find(L"%sysdir%") != std::string::npos ) //all
         {
 
             wxLogDebug( L"found %%sysdir%%" );
@@ -60,51 +77,49 @@ namespace
         }
 
 
-        if ( folder_copy.find(L"%appdata%") == std::string::npos ) //4.71
+        if ( folder_copy.find(L"%appdata%") != std::string::npos ) //4.71
         {
             wxLogDebug( L"found %%appdata%%" );
             nFolder = CSIDL_APPDATA;
         }
         else
-            if ( folder_copy.find(L"%programfiles%") == std::string::npos ) //5.0, but look in reg. otherwise
+            if ( folder_copy.find(L"%programfiles%") != std::string::npos ) //5.0, but look in reg. otherwise
             {
                 wxLogDebug( L"found %%programfiles%%" );
                 nFolder = CSIDL_PROGRAM_FILES;
             }
             else
-                if ( folder_copy.find(L"%desktop%") )
+                if ( folder_copy.find(L"%desktop%") != std::string::npos )
                 {
                     wxLogDebug( L"found %%desktop%%" );
                     nFolder = CSIDL_DESKTOPDIRECTORY;
                 }
                 else
-                    if ( folder_copy.find(L"%commonappdata%") == std::string::npos ) //5.0
+                    if ( folder_copy.find(L"%commonappdata%") != std::string::npos ) //5.0
                     {
                         wxLogDebug( L"found %%commonappdata%%" );
                         nFolder = CSIDL_COMMON_APPDATA;
                     }
-        if ( folder_copy.find(L"%commondesktop%") == std::string::npos )
+        if ( folder_copy.find(L"%commondesktop%") != std::string::npos )
         {
             wxLogDebug( L"found %%commondesktop%%" );
             nFolder = CSIDL_COMMON_DESKTOPDIRECTORY;
         }
-        if ( folder_copy.find(L"%commondocs%") == std::string::npos )
+        if ( folder_copy.find(L"%commondocs%") != std::string::npos )
         {
             wxLogDebug( L"found %%commondocs%%" );
             nFolder = CSIDL_COMMON_DOCUMENTS;  //C:\Documents and Settings\All Users\Documents
         }
-        if ( folder_copy.find(L"%commonprogramfiles%")== std::string::npos ) //but look in reg. otherwise
+        if ( folder_copy.find(L"%commonprogramfiles%") != std::string::npos ) //but look in reg. otherwise
         {
             wxLogDebug( L"found %%commonprogramfiles%%" );
             nFolder = CSIDL_PROGRAM_FILES_COMMON;
         }
-        if ( folder_copy.find(L"%localappdata%") == std::string::npos ) //5.0
+        if ( folder_copy.find(L"%localappdata%") != std::string::npos ) //5.0
         {
             wxLogDebug( L"found %%localappdata%%" );
             nFolder = CSIDL_LOCAL_APPDATA;
         }
-
-        //TODO: Implement KNOWNFOLDERID FOLDERID_LocalAppDataLow
 
         if (nFolder)
         {
@@ -116,63 +131,26 @@ namespace
                 ::wxLogDebug( L"SHGetFolderPath returns: %s", buff );
                 return std::wstring(buff);
             }
+        }
 
-
-            // The CSIDL_XXX is not supported. Try the registry.
-            // This shouldn't be necessary anymore since we only support win2k and higher
-//            else
-//            {
-//                addlog(folder + " not found. Trying registry.");
-//                HKEY hKey;
-//                ULONG size = MAX_PATH*2+1;
-//                int n;
-//                switch (nFolder)
-//                {
-//
-//
-//                case 0x0026:   //CSIDL_PROGRAM_FILES
-//                    wchar_t filedata[MAXPATH*2+1];
-//                    n = RegOpenKeyEx(HKEY_LOCAL_MACHINE ,
-//                                     L"Software\\Microsoft\\Windows\\CurrentVersion"
-//                                     ,0,KEY_READ,&hKey);
-//                    if (n == ERROR_SUCCESS)
-//                    {
-//                        if (RegQueryValueEx(hKey,L"ProgramFilesDir",NULL,NULL,
-//                                            (LPBYTE)buff,&size) != ERROR_SUCCESS)
-//                        {
-//                            buff[0] = 0;
-//                        }
-//                        else
-//                            addlog("Found key ProgramFilesDir");
-//                            RegCloseKey(hKey);
-//
-//                        return std::wstring(buff);
-//                    }
-//                    else ShowMessage(IntToStr(n));
-//                    break;
-//
-//                case 0x002b:   //CSIDL_PROGRAM_FILES_COMMON;
-//                    wchar_t filedata[MAXPATH*2+1];
-//                    if (RegOpenKeyEx(HKEY_LOCAL_MACHINE ,
-//                                     L"Software\\Microsoft\\Windows\\"
-//                                     L"CurrentVersion",0,KEY_READ,&hKey)
-//                            == ERROR_SUCCESS)
-//                    {
-//                        if (RegQueryValueEx(hKey,L"CommonFilesDir",NULL,NULL,
-//                                            (LPBYTE)buff,&size) != ERROR_SUCCESS)
-//                        {
-//                            buff[0] = 0;
-//                        }
-//                        else
-//                            addlog("Found key CommonFilesDir");
-//                            RegCloseKey(hKey);
-//                        return std::wstring(buff);
-//                    }
-//                    break;
-//                }
-//            }
-//
-//
+        if ( folder_copy.find(L"%localappdatalow%") != std::string::npos ) //5.0
+        {
+            wxLogDebug( L"found %%localappdatalow%%" );
+            if ( gGetKnownFolderPath )
+            {
+                const GUID LocalAppDataLow = {0xA520A1A4L, 0x1780, 0x4FF6, 0xBD, 0x18, 0x16, 0x73, 0x43, 0xC5, 0xAF, 0x16 };
+                std::wstring path;
+                PWSTR pszPath;
+                HRESULT error = gGetKnownFolderPath( LocalAppDataLow, 0, NULL, &pszPath );
+                if ( error == S_OK )
+                {
+                    ::wxLogDebug( L"gGetKnownFolderPath == S_OK" );
+                    ::wxLogDebug( L"gGetKnownFolderPath returns: %s", pszPath );
+                    path = pszPath;
+                    CoTaskMemFree( ( LPVOID ) pszPath );
+                    return path;
+                }
+            }
         }
 
 
@@ -203,14 +181,13 @@ namespace
 
         const wchar_t* string = source.c_str();
 
-        wchar_t* nextperc = wcsstr( string + 1, L"%" );
+        wchar_t* nextperc = wcsstr( const_cast<wchar_t*>( string ) + 1, L"%" );
 
         if ( !nextperc ) return 0;
 
-        int n = nextperc + 1 - string;
+        int n = nextperc - string + 1;
 
-        lstrcpyn( buff, string,n);
-        buff[n] = L'\0';
+        lstrcpyn( buff, string, n + 1 ); //Include NULL termination
 
         ::wxLogDebug( L"%hs: Expand %s" , __FUNCTION__, buff);
         if ( !wcsicmp( L"%drive%", buff ) )
@@ -268,20 +245,12 @@ namespace diskcleaner
 
             GetPrivateProfileString( L"Info", L"Title", L"Error: No title given", strbuff,MAX_PATH+1, aFile.c_str() );
             ShortDesc = strbuff;
-            //addlog("Reading Info: " + ShortDesc);
 
             GetPrivateProfileString( L"Info", L"Description", L"Error: No description given", strbuff,MAX_PATH+1, aFile.c_str() );
             LongDesc = strbuff;
-            //addlog("Reading description: " + LongDesc);
-
-            //std::wstring IconName = inifile->ReadString("Info","Icon","");
-            //addlog("Reading optional Icon name: " + IconName);
-
-//    if(IconName!="")
-//        IconHandle = dcstructs::LoadIconShared(ExtractFilePath(FileName)+IconName);
-
 
         }
+
         catch (std::bad_alloc& )
         {
             ShortDesc = FileName + L": Error opening file";
@@ -531,6 +500,35 @@ namespace diskcleaner
 
     }
 
+
+    bool InitializeSHGetKnownFolderPath()
+    {
+        //We always load Shell32.dll
+        gShell32DLLInst = GetModuleHandle( L"Shell32.dll" );
+        if (gShell32DLLInst)
+        {
+
+            gGetKnownFolderPath = (nsGetKnownFolderPath)GetProcAddress(gShell32DLLInst, "SHGetKnownFolderPath");
+            if ( gGetKnownFolderPath )
+            {
+                ::wxLogDebug( L"InitializeSHGetKnownFolderPath != NULL" );
+
+                 return true;
+            }
+
+        }
+
+        return false;
+    }
+
+    bool UninitializeSHGetKnownFolderPath()
+    {
+        ::wxLogDebug( L"%hs: setting variables to NULL", __FUNCTION__ );
+        gGetKnownFolderPath = NULL;
+        gShell32DLLInst = NULL;
+
+        return true;
+    }
 
 
 } //namespace

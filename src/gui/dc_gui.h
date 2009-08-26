@@ -113,7 +113,6 @@ class about_base_dlg : public wxDialog
 		wxStaticText* m_staticText3;
 		wxHyperlinkCtrl* m_hyperlink1;
 		wxStaticText* m_staticText6;
-		
 		wxStdDialogButtonSizer* ok_sizer;
 		wxButton* ok_sizerOK;
 		

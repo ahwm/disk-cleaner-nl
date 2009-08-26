@@ -49,7 +49,6 @@
 					<Add library="libwxmsw28u_core.a" />
 					<Add library="libwxbase28u.a" />
 					<Add library="libwxmsw28u_adv.a" />
-					<Add library="libwxjpeg.a" />
 					<Add directory="$(#wx.lib)\gcc_lib" />
 				</Linker>
 			</Target>

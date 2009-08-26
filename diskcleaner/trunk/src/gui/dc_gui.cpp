@@ -128,7 +128,7 @@ dc_base_frame::dc_base_frame( wxWindow* parent, wxWindowID id, const wxString& t
 	bSizer3->Add( 0, 0, 1, wxEXPAND, 5 );
 	
 	exit_btn = new wxButton( this, wxID_CANCEL, _("&Exit"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer3->Add( exit_btn, 0, wxEXPAND|wxTOP|wxRIGHT, 5 );
+	bSizer3->Add( exit_btn, 0, wxEXPAND|wxTOP, 5 );
 	
 	fgSizer1->Add( bSizer3, 0, wxEXPAND|wxALL, 10 );
 	
@@ -217,13 +217,13 @@ about_base_dlg::about_base_dlg( wxWindow* parent, wxWindowID id, const wxString&
 	fgSizer8->SetFlexibleDirection( wxBOTH );
 	fgSizer8->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	m_bitmap3 = new wxStaticBitmap( this, wxID_ANY, wxBitmap( wxT("logosm.jpg"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxDefaultSize, 0 );
+	m_bitmap3 = new wxStaticBitmap( this, wxID_ANY, wxBitmap( wxT("bmplogo"), wxBITMAP_TYPE_RESOURCE ), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer8->Add( m_bitmap3, 0, 0, 10 );
 	
 	wxBoxSizer* bSizer7;
 	bSizer7 = new wxBoxSizer( wxVERTICAL );
 	
-	m_staticText16 = new wxStaticText( this, wxID_ANY, _("Developed at a snail's pace..."), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText16 = new wxStaticText( this, wxID_ANY, _("A fast open source disk cleanup tool"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText16->Wrap( -1 );
 	bSizer7->Add( m_staticText16, 0, wxBOTTOM|wxRIGHT|wxLEFT, 5 );
 	
@@ -242,14 +242,11 @@ about_base_dlg::about_base_dlg( wxWindow* parent, wxWindowID id, const wxString&
 	m_staticText6->Wrap( -1 );
 	bSizer7->Add( m_staticText6, 0, wxBOTTOM|wxRIGHT|wxLEFT, 5 );
 	
-	
-	bSizer7->Add( 0, 0, 1, wxEXPAND, 5 );
-	
 	ok_sizer = new wxStdDialogButtonSizer();
 	ok_sizerOK = new wxButton( this, wxID_OK );
 	ok_sizer->AddButton( ok_sizerOK );
 	ok_sizer->Realize();
-	bSizer7->Add( ok_sizer, 1, wxALIGN_RIGHT|wxTOP|wxRIGHT, 10 );
+	bSizer7->Add( ok_sizer, 1, wxTOP|wxRIGHT|wxALIGN_RIGHT, 10 );
 	
 	fgSizer8->Add( bSizer7, 1, wxEXPAND|wxBOTTOM|wxLEFT, 10 );
 	

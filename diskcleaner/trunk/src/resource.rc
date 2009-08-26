@@ -3,7 +3,12 @@
 
 aaaa ICON "resource/main_new.ico"
 
+bmplogo BITMAP "resource/logo.bmp"
+
+#ifdef __GNUC__ //VC++ adds its own manifest
 1 24 "dc.manifest"
+#endif
+
 #define wxUSE_NO_MANIFEST 1
 #include "wx/msw/wx.rc"
 

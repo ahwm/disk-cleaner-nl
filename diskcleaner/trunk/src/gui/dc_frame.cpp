@@ -96,7 +96,7 @@ int wxCALLBACK listctrl_compare( long item1, long item2, long sortData )
 
 dc_frame::dc_frame( wxWindow* parent ):dc_base_frame( parent )
 {
-    wxImage::AddHandler( new wxJPEGHandler );
+   // wxImage::AddHandler( new wxJPEGHandler );
 
     plugin_listctrl->ClearAll();
     plugin_listctrl->InsertColumn( 0, _( "Title" ) );
@@ -196,7 +196,8 @@ void dc_frame::clean_btn_click( wxCommandEvent& event )
     //sets the file count of scheduled files to zero
     ResetFilesScheduledRemoveOnReboot();
 
-    //wchar_t files[255] = { 0 };
+    //Set cursor to 'Hourglass'
+    SetCursor( *wxHOURGLASS_CURSOR );
 
     for (int i = 0, num_items = plugin_listctrl->GetItemCount() ; i < num_items ; ++i )
     {
@@ -220,6 +221,7 @@ void dc_frame::clean_btn_click( wxCommandEvent& event )
         }
     }
 
+    SetCursor( *wxSTANDARD_CURSOR );
 
     wxString schedulestr;
     schedulestr.Printf( _( "Scheduled %I64d %s for removal on reboot." ), GetFilesScheduledRemoveOnReboot(),

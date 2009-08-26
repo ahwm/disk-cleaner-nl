@@ -833,7 +833,7 @@
                                 </object>
                                 <object class="sizeritem" expanded="1">
                                     <property name="border">5</property>
-                                    <property name="flag">wxEXPAND|wxTOP|wxRIGHT</property>
+                                    <property name="flag">wxEXPAND|wxTOP</property>
                                     <property name="proportion">0</property>
                                     <object class="wxButton" expanded="1">
                                         <property name="bg"></property>
@@ -1247,7 +1247,7 @@
                     <property name="proportion">0</property>
                     <object class="wxStaticBitmap" expanded="1">
                         <property name="bg"></property>
-                        <property name="bitmap">logosm.jpg; Load From File</property>
+                        <property name="bitmap">bmplogo; Load From Resource</property>
                         <property name="context_help"></property>
                         <property name="enabled">1</property>
                         <property name="fg"></property>
@@ -1311,7 +1311,7 @@
                                 <property name="font"></property>
                                 <property name="hidden">0</property>
                                 <property name="id">wxID_ANY</property>
-                                <property name="label">Developed at a snail&apos;s pace...</property>
+                                <property name="label">A fast open source disk cleanup tool</property>
                                 <property name="maximum_size"></property>
                                 <property name="minimum_size"></property>
                                 <property name="name">m_staticText16</property>
@@ -1559,18 +1559,8 @@
                             </object>
                         </object>
                         <object class="sizeritem" expanded="1">
-                            <property name="border">5</property>
-                            <property name="flag">wxEXPAND</property>
-                            <property name="proportion">1</property>
-                            <object class="spacer" expanded="1">
-                                <property name="height">0</property>
-                                <property name="permission">protected</property>
-                                <property name="width">0</property>
-                            </object>
-                        </object>
-                        <object class="sizeritem" expanded="1">
                             <property name="border">10</property>
-                            <property name="flag">wxALIGN_RIGHT|wxTOP|wxRIGHT</property>
+                            <property name="flag">wxTOP|wxRIGHT|wxALIGN_RIGHT</property>
                             <property name="proportion">1</property>
                             <object class="wxStdDialogButtonSizer" expanded="1">
                                 <property name="Apply">0</property>

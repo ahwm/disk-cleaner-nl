@@ -84,7 +84,7 @@ namespace diskcleaner
         cf->Read( L"UI/SortColumn", &ui.sort_column, 0 );
         cf->Read( L"UI/SortOrder", &ui.sortorder, 0 );
 
-        cf->Read( L"Global/Delete Locked" , &global.delete_locked, true );
+        cf->Read( L"Global/Delete Locked" , &global.delete_locked, false );
         cf->Read( L"Global/Hide Empty" , &global.hide_empty, true );
         cf->Read( L"Global/Show Description" , &global.show_description, true );
 

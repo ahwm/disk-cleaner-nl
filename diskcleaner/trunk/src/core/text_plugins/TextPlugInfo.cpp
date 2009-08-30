@@ -133,7 +133,7 @@ typedef GUID KNOWNFOLDERID;
             }
         }
 
-        if ( folder_copy.find(L"%localappdatalow%") != std::string::npos ) //5.0
+        if ( folder_copy.find(L"%localappdatalow%") != std::string::npos ) //6.0
         {
             wxLogDebug( L"found %%localappdatalow%%" );
             if ( gGetKnownFolderPath )
@@ -172,7 +172,7 @@ typedef GUID KNOWNFOLDERID;
         std::wstring temp;
         int returnval = ExpandEnvironmentStrings(source.c_str(),buff,MAX_PATH);
 
-        if (returnval && *buff!='%')
+        if ( returnval && *buff != '%' )
         {
             ::wxLogDebug( L"ExpandEnvironmentString(source) = %s", buff);
             dest.push_back(buff);

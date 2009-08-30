@@ -155,7 +155,7 @@ void ProcessFilesInFolder(const wchar_t* folder, const wchar_t* masks, const TSc
                         ::wxLogDebug( L"Removing folder %s", localfolder );
                         if ( !RemoveDirectory( localfolder ) )
                         {
-                            ::wxLogWarning( L"Could not remove folder %s as promised", localfolder );
+                            ::wxLogWarning( _T( "Could not remove folder %s as promised. It is probably not empty" ), localfolder );
                         }
                     }
 
@@ -177,7 +177,7 @@ void ProcessFilesInFolder(const wchar_t* folder, const wchar_t* masks, const TSc
             {
                 if ( !RemoveDirectory( folder ) )
                 {
-                    ::wxLogWarning( L"Unable to remove the base folder %s as requested (option /si)", folder );
+                    ::wxLogWarning( _T( "Unable to remove the base folder %s as requested (option /si)" ), folder );
                 }
             }
         }
@@ -292,7 +292,7 @@ inline bool ProcessFile( const wchar_t * const the_file, std::vector<std::wstrin
 
                 if ( !mvresult ) //Remove on reboot failed, need administrator priviliges
                 {
-                    ::wxLogWarning(L"Warning - unable to schedule for removal on reboot: %s", the_file );
+                    ::wxLogWarning( _T( "Warning - unable to schedule for removal on reboot: %s" ), the_file );
                 }
                 else
                 {
@@ -304,14 +304,15 @@ inline bool ProcessFile( const wchar_t * const the_file, std::vector<std::wstrin
 //                    }
 //                    else
                     {
-                        ::wxLogMessage( L"Scheduled for removal on reboot: %s", the_file );
+                        ::wxLogMessage( _T( "Scheduled for removal on reboot: %s" ), the_file );
                     }
                     return true;
                 }
             }
             else
             {
-                ::wxLogWarning( L"Could not delete file: %s", the_file );
+                ::wxLogWarning( _T( "Could not delete file: %s. It is probably in use." ), the_file );
+
                 return false;
             }
         }

@@ -12,11 +12,15 @@ namespace diskcleaner
 {
 
     bool firefox_base::IsInitialized = false;
+    bool firefox_base::FFPresent = false;
     wchar_t firefox_base::cachefolder[MAX_PATH] = L"\0";
     wchar_t firefox_base::localcachefolder[MAX_PATH] = L"\0";
 
-    bool firefox_base::Initialize()
+    void firefox_base::Initialize()
     {
+        //whatever happens, we don't need to try again
+        IsInitialized = true;
+
         wchar_t theinifile[MAX_PATH];
         wchar_t theFFfolder[MAX_PATH];
 
@@ -33,7 +37,10 @@ namespace diskcleaner
             ::wxLogDebug( L"%hs: SHGetPathFromIDList(pidl) = %s", __PRETTY_FUNCTION__, theFFfolder );
         }
         else
-            return false;
+        {
+            ::wxLogDebug( L"%hs: SHGetSpecialFolderLocation(CSIDL_APPDATA) != S_OK", __PRETTY_FUNCTION__ );
+
+        }
 
         if ( SHGetSpecialFolderLocation( NULL, CSIDL_LOCAL_APPDATA, &pidl ) == S_OK )
         {
@@ -44,6 +51,7 @@ namespace diskcleaner
 
             ::wxLogDebug( L"%hs: SHGetPathFromIDList(pidl) = %s", __PRETTY_FUNCTION__, localcachefolder );
         }
+
 
 
         lstrcat( theFFfolder, L"\\Mozilla\\Firefox\\" );
@@ -63,14 +71,24 @@ namespace diskcleaner
         ::wxLogDebug( L"%hs: cachefolder = %s", __PRETTY_FUNCTION__, cachefolder );
 
         if ( lstrcmp( cachefolder, L"-1" ) == 0)
-            return false;
+        {
+            //Firefox ini file not found, FF not installed(?)
+            ::wxLogDebug( L"%hs: FF's profiles.ini not found", __PRETTY_FUNCTION__ );
+
+            return;
+        }
 
 
         int IsRelative = GetPrivateProfileInt( L"Profile0", L"IsRelative", -1, theinifile );
         ::wxLogDebug( L"%hs: IsRelative = %d", __PRETTY_FUNCTION__, IsRelative );
 
         if ( IsRelative == -1 )
-            return false;
+        {
+            ::wxLogDebug( L"%hs: Cannot determine if cache folder is relative path or absolute path. Stopping.",
+                          __PRETTY_FUNCTION__ );
+
+            return;
+        }
 
 
         //Convert forward slashes to backward slashes
@@ -91,17 +109,15 @@ namespace diskcleaner
             lstrcpy( cachefolder, theFFfolder );
         }
 
-        return true;
+        FFPresent = true;
+
+        return;
 
     }
 
 
     void firefox_base::SetIcon(int ICON_ID)
     {
-
-//  IconHandle = (HICON) CopyImage(
-//                LoadIcon(GetModuleHandle(NULL),MAKEINTRESOURCE(ICON_ID)),
-//                IMAGE_ICON,16,16, LR_COPYFROMRESOURCE|LR_COPYDELETEORG);
     }
 
     void firefox_base::GetFilesAsStrings(std::vector<std::wstring>& Messages)
@@ -119,11 +135,11 @@ namespace diskcleaner
     void firefox_base::ScanFile( const wchar_t* files )
     {
         ItemList.clear();
-        wchar_t cleanfolder[MAX_PATH];
 
-        if ( *cachefolder ) //dereference item 0
-            //checks for valid string
+        if ( FFPresent ) //then also variable cachefolder will be valid
         {
+            wchar_t cleanfolder[MAX_PATH];
+
             lstrcpy( cleanfolder, cachefolder );
             lstrcat( cleanfolder, L"\\" );
             ::wxLogDebug( L"%hs: cleanfolder = %s%s", __PRETTY_FUNCTION__, cleanfolder, files );
@@ -144,11 +160,11 @@ namespace diskcleaner
 
     void firefox_base::CleanFile( const wchar_t* files, const wchar_t* warning )
     {
-        wchar_t cleanfile[MAX_PATH];
 
-        if ( *cachefolder ) //dereference item 0
-                            //checks for valid string
+        if ( FFPresent ) //then variable cachefolder is valid as well
         {
+            wchar_t cleanfile[MAX_PATH];
+
             while ( *files )
             {
                 lstrcpy( cleanfile, cachefolder );
@@ -179,15 +195,14 @@ namespace diskcleaner
     {
         ShortDesc = _( "Firefox Cache" );
         LongDesc = _( "Clear the Firefox cache" );
-//  SetTCIIcon( this, ID_FFCACHE );
     }
 
     void firefox_cache::Clean()
     {
         wchar_t cleanfolder[MAX_PATH];
 
-        if ( *cachefolder ) //dereference item 0
-            //checks for valid string
+        if ( FFPresent ) //Should never be called if !FFPresent, but still,
+                         //better check
         {
             TScanOptions so;
             so.ReadOnly = true;
@@ -219,11 +234,10 @@ namespace diskcleaner
     {
         ItemList.clear();
 
-        wchar_t cleanfolder[MAX_PATH];
-
-        if ( *cachefolder ) //dereference item 0
-            //checks for valid string
+        if ( FFPresent ) //then variable cachfolder is valid as well
         {
+            wchar_t cleanfolder[MAX_PATH];
+
             lstrcpy( cleanfolder, cachefolder );
             lstrcat( cleanfolder, L"\\Cache\\" );
             ::wxLogDebug( L"%hs: cleanfolder = %s", __PRETTY_FUNCTION__, cleanfolder );
@@ -259,16 +273,18 @@ namespace diskcleaner
     {
         ShortDesc = _( "Firefox History" );
         LongDesc = _( "Remove Firefox history records" );
-//  SetTCIIcon(this,ID_FFHIST);
     }
 
     void firefox_history::DoScan(bool Preview)
     {
+        //Checks for FFPresent
         ScanFile( L"History.dat\0places.sqlite\0" );
+
     }
 
     void firefox_history::Clean()
     {
+        //Checks for FFPresent
         CleanFile( L"History.dat\0places.sqlite\0", L"Unable to delete firefox history");
     }
 
@@ -277,18 +293,20 @@ namespace diskcleaner
     {
         ShortDesc = _( "Firefox Cookies" );
         LongDesc = _( "Remove Firefox cookies" );
-//  SetIcon(ID_FFCOOKIES);
     }
 
     void firefox_cookies::DoScan(bool Preview)
     {
+        //Checks for FFPresent
         ScanFile( L"cookies.txt\0cookies.sqlite\0" );
     }
 
 
     void firefox_cookies::Clean()
     {
+        //Checks for FFPresent
         CleanFile( L"cookies.txt\0cookies.sqlite\0", L"Unable to delete firefox cookies");
+
     }
 //---------------------------------------------------------------------------
 

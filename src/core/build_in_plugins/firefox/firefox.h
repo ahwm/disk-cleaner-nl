@@ -29,6 +29,7 @@ namespace diskcleaner
     protected:
         std::vector<std::wstring> ItemList;
         static bool IsInitialized;
+        static bool FFPresent;
         static wchar_t cachefolder[MAX_PATH];   //First to check
         static wchar_t localcachefolder[MAX_PATH];  //New in FF 1.5 - local settings\app data\etc
 
@@ -39,7 +40,7 @@ namespace diskcleaner
         void ScanFile( const wchar_t* files );
         //Show warning when removal of existing file fails
         void CleanFile( const wchar_t* files, const wchar_t* warning );
-        bool Initialize();
+        void Initialize();
 
     public:
         virtual void Preview()
@@ -54,7 +55,7 @@ namespace diskcleaner
         virtual void GetFilesAsStrings( std::vector<std::wstring>& list);
         firefox_base()
         {
-            if ( !IsInitialized ) IsInitialized = Initialize();
+            if ( !IsInitialized ) Initialize();
         };
 
     };

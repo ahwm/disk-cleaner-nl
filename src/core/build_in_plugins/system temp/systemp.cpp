@@ -130,6 +130,7 @@ namespace diskcleaner
         TScanOptions so;
         so.ReadOnly = settings.delete_ro;
         so.Recursive = settings.delete_subfolders;
+        so.minimum_age = settings.min_age;
 
         DSdata ds = CleanFilesInFolder( tempfolder.c_str(), L"*.*\0", &so, ItemList );
 

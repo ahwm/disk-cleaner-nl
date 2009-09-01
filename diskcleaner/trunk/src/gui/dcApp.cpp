@@ -46,10 +46,18 @@ static const wxCmdLineEntryDesc cmdLineDesc[] =
 {
     { wxCMD_LINE_SWITCH, L"p", L"portable", L"run in portable mode: save configuration files in the application "
         L"folder." },
-    { wxCMD_LINE_OPTION, L"q", L"quiet",    L"<NOT FUNCTIONAL YET>clean without showing a GUI. Optionally takes a name of a preset as parameter",
-      wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL},
-    { wxCMD_LINE_SWITCH, L"nt", L"no-text-plugins", L"Do not use text plugins (.dct files). " },
-    { wxCMD_LINE_SWITCH, L"nb", L"no-buildin-plugins", L"Do not use the build-in plugins" },
+    { wxCMD_LINE_SWITCH, L"q", L"quiet",    L"clean without showing a GUI. If a preset to be loaded is specified "
+                                            L"(option -r), the items checked in the specified preset will be cleaned. "
+                                            L"Otherwise, the items checked the last time Disk Cleaner was run in "
+                                            L"interactive mode are cleaned." },
+
+    { wxCMD_LINE_OPTION, L"r", L"recall-preset", L"specify preset to be recalled for use. If -q (quiet mode) "
+                                                 L"is also specified, the preset will be loaded and "
+                                                 L"used for cleaning the items specified in the preset.",
+                                                 wxCMD_LINE_VAL_STRING},
+//    { wxCMD_LINE_SWITCH, L"l", L"log-to-file", L"log the results of the cleaning to file." },
+    { wxCMD_LINE_SWITCH, L"nt", L"no-text-plugins", L"do not use text plugins (.dct files). " },
+    { wxCMD_LINE_SWITCH, L"nb", L"no-builtin-plugins", L"do not use the built-in plugins" },
 #ifdef __WXDEBUG__
     { wxCMD_LINE_SWITCH, L"d", L"debug", L"Shows messages in a debug window " },
 #endif
@@ -77,7 +85,17 @@ bool dcApp::OnInit()
         dc_frame* frame = new dc_frame(0L);
         frame->SetIcon(wxICON(aaaa)); // To Set App Icon
         frame->init_dialog();
-        frame->Show();
+
+        if ( !IsQuietMode() )
+        {
+            frame->Show();
+        }
+        else
+        {
+            wxLogDebug( L"%hs: quiet mode, perform frame->clean_btn_click()", __FUNCTION__ );
+            wxCommandEvent evt;
+            frame->clean_btn_click( evt );
+        }
 
         return true;
     }
@@ -151,14 +169,17 @@ bool dcApp::OnCmdLineParsed(wxCmdLineParser& parser)
     no_text_plugins = parser.Found( L"nt" );
     no_buildin_plugins = parser.Found( L"nb" );
 
-    wxString wxquiet_mode_preset;
-    quiet_mode    = parser.Found( L"q", &wxquiet_mode_preset );
-    quiet_mode_preset = wxquiet_mode_preset;
+    wxString wxrecall_preset;
+    quiet_mode    = parser.Found( L"q" );
+    if ( parser.Found( L"r", &wxrecall_preset ) )
+    {
+        recall_preset = wxrecall_preset;
+    }
 
 #ifdef __WXDEBUG__
     if ( parser.Found( L"d" ) )
     {
-        pLogWindow = boost::shared_ptr< wxLogWindow > (new wxLogWindow( NULL, L"Disk Cleaner debug messages", true, true ) );
+        pLogWindow = std::auto_ptr< wxLogWindow > (new wxLogWindow( NULL, L"Disk Cleaner debug messages", true, true ) );
     }
 #endif
 
@@ -177,8 +198,8 @@ bool dcApp::OnCmdLineParsed(wxCmdLineParser& parser)
         {
             if ( !::wxMkdir( configpath ) )
             {
-                wxLogError( L"Unable to save/load the per user settings in a file. Failed to create folder %s."
-                            L"Saving settings to the registry instead." , configpath.c_str() );
+                wxLogError( _( "I'm unable to save/load the per user settings in a file; I failed to create folder %s. "
+                            L"Saving settings to the registry instead." ) , configpath.c_str() );
 
                 //Let wxWidgets figure it out.
                 wxConfigBase::Create();

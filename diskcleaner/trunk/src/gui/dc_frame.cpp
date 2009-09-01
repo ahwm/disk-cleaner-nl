@@ -15,15 +15,13 @@
 ** Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 #include <string>
-#include <vector>
-#include <memory>
 
 #include "core/text_plugins/TextPlugInfo.h"
-#include "core/build_in_plugins/recycle bin/rbin.h"
-#include "core/build_in_plugins/firefox/firefox.h"
-#include "core/build_in_plugins/system temp/systemp.h"
-#include "core/build_in_plugins/recent docs/recentdocs.h"
-#include "core/build_in_plugins/internet_explorer/internet_explorer.h"
+#include "core/built_in_plugins/recycle bin/rbin.h"
+#include "core/built_in_plugins/firefox/firefox.h"
+#include "core/built_in_plugins/system temp/systemp.h"
+#include "core/built_in_plugins/recent docs/recentdocs.h"
+#include "core/built_in_plugins/internet_explorer/internet_explorer.h"
 
 
 #include "gui/dc_frame.h"
@@ -96,7 +94,7 @@ int wxCALLBACK listctrl_compare( long item1, long item2, long sortData )
 
 dc_frame::dc_frame( wxWindow* parent ):dc_base_frame( parent )
 {
-   // wxImage::AddHandler( new wxJPEGHandler );
+    // wxImage::AddHandler( new wxJPEGHandler );
 
     plugin_listctrl->ClearAll();
     plugin_listctrl->InsertColumn( 0, _( "Title" ) );
@@ -121,7 +119,12 @@ void dc_frame::preset_save_btn_click( wxCommandEvent& event )
 
     ppreset_handler->save_preset( te.GetValue().c_str() );
 
-    preset_box->Append( te.GetValue() );
+    //Only append the item if it's not already there (case insensitive compare,
+    //ppreset_handler saves presets without regarding case).
+    if( preset_box->FindString( te.GetValue(), false ) == wxNOT_FOUND )
+    {
+         preset_box->Append( te.GetValue() );
+    }
 
 
 }
@@ -234,19 +237,29 @@ void dc_frame::clean_btn_click( wxCommandEvent& event )
                         total_files, wxPLURAL( "item", "items", total_files) );
     wxLogMessage(  schedulestr );
 
-    Hide();
-    rsframe.ShowModal();
 
-    rsframe.GetPosition( &settings.ui.result_frame_size.topx, &settings.ui.result_frame_size.topy );
-    rsframe.GetSize( &settings.ui.result_frame_size.width, &settings.ui.result_frame_size.height );
-
-    if ( rsframe.rerun )
+    //Only do GUI stuff in interactive mode
+    if ( !app.IsQuietMode() )
     {
-        //Run Disk Cleaner without explicit admin rights
-        //If this process already has admin rights,
-        //then so will the new process have.
-        run_diskcleaner( false );
+        Hide();
+        rsframe.ShowModal();
+        rsframe.GetPosition( &settings.ui.result_frame_size.topx, &settings.ui.result_frame_size.topy );
+        rsframe.GetSize( &settings.ui.result_frame_size.width, &settings.ui.result_frame_size.height );
+
+        if ( rsframe.rerun )
+        {
+            //Run Disk Cleaner without explicit admin rights
+            //If this process already has admin rights,
+            //then so will the new process have.
+            run_diskcleaner( false );
+        }
+
     }
+    else
+    {
+        wxLogDebug( L"Skipping display of rsframe");
+    }
+
 
     wxLogDebug( L"Ending application");
 
@@ -299,6 +312,7 @@ void dc_frame::exit_btn_click( wxCommandEvent& event )
 
 void dc_frame::init_dialog()
 {
+    //Dynamically link with SHGetKnownfolderPath
     InitializeSHGetKnownFolderPath();
 
     dcApp& app = wxGetApp();
@@ -357,13 +371,17 @@ void dc_frame::init_dialog()
     //
 
     waitdlg->SetProgressRange( plugin_list.size() + ( (app.NoBuildInPlugins() ) ? 0 : 9 ) );
-    waitdlg->Show( true );
+
+    if ( !app.IsQuietMode() )
+    {
+        waitdlg->Show( true );
+    }
 
 
     if ( !app.NoBuildInPlugins() )
     {
         wxLogDebug( L"%hs: adding build-in plugins", __FUNCTION__ );
-        wxLogDebug( L"%hs: processing system temp", __FUNCTION__ );
+
         PlugInfo* tempfiles  = new system_temp( settings.systemp );
         add_plugin_to_listctrl( tempfiles );
         waitdlg->Increment();
@@ -455,110 +473,66 @@ void dc_frame::init_dialog()
     }
 
 
-
+    //Load (specified or last used) preset
     preset_box->Clear();
     preset_box->Append( _( "<last used>" ) );
-    preset_box->SetSelection( 0 );
 
-    ppreset_handler  = boost::shared_ptr<diskcleaner::dcpreset_handler>
+    ppreset_handler  = std::auto_ptr<diskcleaner::dcpreset_handler>
                        (new diskcleaner::dcpreset_handler( wxConfigBase::Get( false ), plugin_listctrl ) );
 
-    ppreset_handler->load_last_used();
-
+    //Get saved presets
     wxArrayString preset_list;
     preset_list.Empty();
 
     ppreset_handler->get_saved_preset_names( preset_list );
 
+    //Add the saved preset list to the preset combo box
     preset_box->Append( preset_list );
 
-    //set_items_selected_text();
+    if ( app.GetPresetToBeRecalled() == L"" )
+    {
+        ppreset_handler->load_last_used();
 
+        //Selects <last used> in the combo box
+        preset_box->SetSelection( 0 );
+    }
+    else
+    {
+        ppreset_handler->load_preset( app.GetPresetToBeRecalled() );
+        preset_box->SetSelection( preset_box->FindString( app.GetPresetToBeRecalled(), false ) );
+    }
 }
-
-void dc_frame::plugin_checkbox_toggled( wxCommandEvent& event )
-{
-//    set_items_selected_text();
-}
-
-//void dc_frame::set_items_selected_text()
-//{
-//    __int64 numbytes_checked = 0, numitems_checked = 0;
-//    __int64 totalbytes = 0, totalitems = 0;
-//
-//    for (int n = 0, num_items = plugin_listctrl->GetItemCount(); n < num_items; ++n )
-//    {
-//        PlugInfo* pi = (PlugInfo* )plugin_listctrl->GetItemData( n );
-//        __int64 numfound = pi->GetItemsFound();
-//        __int64 bytesfound = pi->GetBytesFound();
-//        totalbytes += bytesfound;
-//        totalitems += numfound;
-//
-//        if (plugin_listctrl->IsChecked( n ) )
-//        {
-//            numbytes_checked += bytesfound;
-//            numitems_checked += numfound;
-//        }
-//    }
-//
-//    wxString bytes_string;
-//    if ( totalbytes < 1024 )
-//    {
-//        bytes_string = _( "bytes" );
-//    }
-//    else
-//    {
-//        totalbytes /= 1024;
-//        numbytes_checked /= 1024;
-//
-//        if ( totalbytes < 1024 )
-//        {
-//            bytes_string = _( "kB" );
-//        }
-//        else
-//        {
-//            totalbytes /= 1024;
-//            numbytes_checked /= 1024;
-//            bytes_string = _( "MB" );
-//        }
-//    }
-//
-//    wxString String;
-//    String.Printf( _( "Selected %I64d of %I64d items for removal (%I64d/%I64d %s)" ), numitems_checked, totalitems,
-//                   numbytes_checked, totalbytes, bytes_string.c_str() );
-
-//}
 
 wxString dc_frame::bytes_to_string( __int64 bytes )
 {
     wxString bytes_string;
 
     if ( bytes < 1024 )
+    {
+        bytes_string.Printf( _( "%I64d b" ), bytes );
+    }
+    else
+    {
+        bytes /= 1024;
+        if ( bytes < 1024 )
         {
-            bytes_string.Printf( _( "%I64d b" ), bytes );
+            bytes_string.Printf( _( "%I64d kB" ), bytes );
         }
         else
         {
             bytes /= 1024;
             if ( bytes < 1024 )
             {
-                bytes_string.Printf( _( "%I64d kB" ), bytes );
+                bytes_string.Printf( _( "%I64d MB" ), bytes );
             }
             else
             {
-                bytes /= 1024;
-                if ( bytes < 1024 )
-                {
-                    bytes_string.Printf( _( "%I64d MB" ), bytes );
-                }
-                else
-                {
-                    bytes_string.Printf( _( "%5.2f GB" ), bytes/1024.0 );
-                }
+                bytes_string.Printf( _( "%5.2f GB" ), bytes/1024.0 );
             }
         }
+    }
 
-        return bytes_string;
+    return bytes_string;
 }
 
 void dc_frame::add_plugin_to_listctrl( diskcleaner::PlugInfo* pi)
@@ -632,21 +606,32 @@ void dc_frame::plugin_listctrl_column_clicked( wxListEvent& event )
 void dc_frame::dc_base_frame_onclose( wxCloseEvent& event )
 {
 
+    dcApp& app = wxGetApp();
 
-    //Save the size of the main window plus the column widths
-    wxLogDebug( L"%hs: saving main window sizes", __FUNCTION__ );
-    GetSize( &settings.ui.dc_frame_size.width, &settings.ui.dc_frame_size.height );
-    GetPosition( &settings.ui.dc_frame_size.topx, &settings.ui.dc_frame_size.topy );
-    settings.ui.col_sdesc_width = plugin_listctrl->GetColumnWidth( 0 );
-    settings.ui.col_item_width = plugin_listctrl->GetColumnWidth( 1 );
-    settings.ui.col_size_width = plugin_listctrl->GetColumnWidth( 2 );
-    settings.ui.col_ldesc_width = plugin_listctrl->GetColumnWidth( 3 );
+    //Only bother with saving sizes, checked and unchecked items
+    // and positions if we were run in interactive mode.
+    if ( !app.IsQuietMode() )
+    {
 
-    settings.Save();
+        //Save the size of the main window plus the column widths
+        wxLogDebug( L"%hs: saving main window sizes", __FUNCTION__ );
+        GetSize( &settings.ui.dc_frame_size.width, &settings.ui.dc_frame_size.height );
+        GetPosition( &settings.ui.dc_frame_size.topx, &settings.ui.dc_frame_size.topy );
+        settings.ui.col_sdesc_width = plugin_listctrl->GetColumnWidth( 0 );
+        settings.ui.col_item_width = plugin_listctrl->GetColumnWidth( 1 );
+        settings.ui.col_size_width = plugin_listctrl->GetColumnWidth( 2 );
+        settings.ui.col_ldesc_width = plugin_listctrl->GetColumnWidth( 3 );
 
-    //FIRST save the currently checked and unchecked items
-    wxLogDebug( L"%hs: saving currently checked items", __FUNCTION__ );
-    ppreset_handler->save_last_used();
+        settings.Save();
+
+        //FIRST save the currently checked and unchecked items
+        wxLogDebug( L"%hs: saving currently checked items", __FUNCTION__ );
+        ppreset_handler->save_last_used();
+    }
+    else
+    {
+        wxLogDebug( L"%hs: skipping saving of presets and sizes, quiet mode active", __FUNCTION__ );
+    }
 
     //THEN delete all PlugInfo objects
     for ( int k = 0, items = plugin_listctrl->GetItemCount(); k < items; ++k )

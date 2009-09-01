@@ -12,7 +12,7 @@
 				<Option object_output="obj\Debug\" />
 				<Option type="0" />
 				<Option compiler="gcc" />
-				<Option parameters="-nb" />
+				<Option parameters="-q" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
 					<Add option="-g" />
@@ -87,17 +87,23 @@
 			<Add library="libodbc32.a" />
 			<Add library="libwininet.a" />
 		</Linker>
-		<Unit filename="core\build_in_plugins\firefox\firefox.cpp" />
 		<Unit filename="core\build_in_plugins\firefox\firefox.h" />
-		<Unit filename="core\build_in_plugins\internet_explorer\internet_explorer.cpp" />
 		<Unit filename="core\build_in_plugins\internet_explorer\internet_explorer.h" />
 		<Unit filename="core\build_in_plugins\internet_explorer\mingw_urlhist.h" />
-		<Unit filename="core\build_in_plugins\recent docs\recentdocs.cpp" />
 		<Unit filename="core\build_in_plugins\recent docs\recentdocs.h" />
-		<Unit filename="core\build_in_plugins\recycle bin\rbin.cpp" />
 		<Unit filename="core\build_in_plugins\recycle bin\rbin.h" />
-		<Unit filename="core\build_in_plugins\system temp\systemp.cpp" />
 		<Unit filename="core\build_in_plugins\system temp\systemp.h" />
+		<Unit filename="core\built_in_plugins\firefox\firefox.cpp" />
+		<Unit filename="core\built_in_plugins\firefox\firefox.h" />
+		<Unit filename="core\built_in_plugins\internet_explorer\internet_explorer.cpp" />
+		<Unit filename="core\built_in_plugins\internet_explorer\internet_explorer.h" />
+		<Unit filename="core\built_in_plugins\internet_explorer\mingw_urlhist.h" />
+		<Unit filename="core\built_in_plugins\recent docs\recentdocs.cpp" />
+		<Unit filename="core\built_in_plugins\recent docs\recentdocs.h" />
+		<Unit filename="core\built_in_plugins\recycle bin\rbin.cpp" />
+		<Unit filename="core\built_in_plugins\recycle bin\rbin.h" />
+		<Unit filename="core\built_in_plugins\system temp\systemp.cpp" />
+		<Unit filename="core\built_in_plugins\system temp\systemp.h" />
 		<Unit filename="core\disk scan\DiskScan.cpp" />
 		<Unit filename="core\disk scan\DiskScan.h" />
 		<Unit filename="core\plugin_info_base.cpp" />

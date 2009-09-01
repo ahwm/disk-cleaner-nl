@@ -19,7 +19,7 @@
 #include <shlobj.h>
 
 #include "core/disk scan/DiskScan.h"
-#include "core/build_in_plugins/recent docs/recentdocs.h"
+#include "core/built_in_plugins/recent docs/recentdocs.h"
 
 
 namespace diskcleaner

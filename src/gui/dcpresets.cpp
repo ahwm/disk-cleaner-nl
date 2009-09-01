@@ -20,6 +20,7 @@
 #include "wx/fileconf.h"
 #include <wx/arrstr.h>
 #include <wx/log.h>
+#include <wx/intl.h>
 #include "wxCheckedListCtrl.h"
 
 namespace diskcleaner
@@ -77,7 +78,18 @@ namespace diskcleaner
     {
         csave_restore_path srp(this);
 
-        cfg_file->SetPath( L"/SavedPresets/" +  preset_name );
+        cfg_file->SetPath( L"/SavedPresets/" );
+
+        if ( cfg_file->HasGroup( preset_name ) )
+        {
+            cfg_file->SetPath( L"/SavedPresets/" +  preset_name );
+        }
+        else
+        {
+            wxMessageBox( _( "I'm sorry, but I cannot find the specified preset. Please check the spelling of the preset name." ),
+                          _( "Recall preset failed" ), wxICON_INFORMATION  );
+        }
+
         long count = checklist_ctrl->GetItemCount();
         for ( int k = 0; k < count; ++k )
         {

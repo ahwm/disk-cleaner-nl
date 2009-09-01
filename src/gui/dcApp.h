@@ -20,7 +20,7 @@
 
 #include <wx/app.h>
 #include <string>
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 
 //Forward declaration
@@ -30,28 +30,45 @@ class wxLogWindow;
 class dcApp : public wxApp
 {
     std::wstring strAppDirectory;
-    std::wstring quiet_mode_preset;
+    std::wstring recall_preset;
 #ifdef __WXDEBUG__
-    boost::shared_ptr< wxLogWindow > pLogWindow;
+    std::auto_ptr< wxLogWindow > pLogWindow;
 #endif
 
     bool quiet_mode;
     bool no_text_plugins;
     bool no_buildin_plugins;
 
-    public:
-        dcApp();
-        virtual bool OnInit();
-        virtual void OnInitCmdLine(wxCmdLineParser& parser);
-        virtual bool OnCmdLineParsed(wxCmdLineParser& parser);
-                bool IsUserAdmin();
-                bool IsVistaOrHigher();
-                bool IsQuietMode() {return quiet_mode;};
-                bool NoTextPlugins() {return no_text_plugins;};
-                bool NoBuildInPlugins() {return no_buildin_plugins;};
-                std::wstring& GetQuietModePreset() {return quiet_mode_preset; };
-        void    Button_SetShield(const WXWidget ButtonWindow, bool ShowShield = true);
-        const   std::wstring& GetAppDirectory() { return strAppDirectory; };
+public:
+    dcApp();
+    virtual bool OnInit();
+    virtual void OnInitCmdLine(wxCmdLineParser& parser);
+    virtual bool OnCmdLineParsed(wxCmdLineParser& parser);
+    bool IsUserAdmin();
+    bool IsVistaOrHigher();
+    bool IsQuietMode()
+    {
+        return quiet_mode;
+    };
+    const std::wstring& GetPresetToBeRecalled()
+    {
+        return recall_preset;
+    };
+
+    bool NoTextPlugins()
+    {
+        return no_text_plugins;
+    };
+    bool NoBuildInPlugins()
+    {
+        return no_buildin_plugins;
+    };
+
+    void    Button_SetShield(const WXWidget ButtonWindow, bool ShowShield = true);
+    const   std::wstring& GetAppDirectory()
+    {
+        return strAppDirectory;
+    };
 
 };
 

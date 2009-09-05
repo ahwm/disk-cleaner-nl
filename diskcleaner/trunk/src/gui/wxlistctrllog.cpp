@@ -13,8 +13,6 @@
 
 #include "wxlistctrllog.h"
 #include <wx/wx.h>
-#include <wx/listctrl.h>
-#include <wx/imaglist.h>
 #include <wx/artprov.h>
 #include <wx/app.h>
 
@@ -23,20 +21,15 @@
 #include  "wx/msw/private.h"
 #endif // Windows
 
-// Shamelessly copied from wxLogGui :)
-wxListCtrlLog::wxListCtrlLog(wxListCtrl* aListCtrl) : wxLog( ), m_bErrors( false )
+
+wxListCtrlLog::wxListCtrlLog(wxWindow* parent, wxWindowID id, const wxPoint& pt,
+                                         const wxSize& sz, long style) : wxLog( ),
+                                         wxListCtrl(parent, id, pt, sz, style), m_bErrors( false ),
+                                         m_imageList( 16, 16, TRUE )
 {
-    m_listctrl = aListCtrl;
-
-    m_listctrl->ClearAll();
-
-    m_listctrl->SetWindowStyle( wxSUNKEN_BORDER | wxLC_REPORT | wxLC_NO_HEADER | wxLC_SINGLE_SEL );
-
-    m_listctrl->InsertColumn(0, _T("Message"));
+    this->ClearAll();
+    this->InsertColumn(0, _T("Message"));
     //m_listctrl->InsertColumn(1, _T("Time"));
-
-    static const int ICON_SIZE = 16;
-    pimageList = boost::shared_ptr<wxImageList>( new wxImageList(ICON_SIZE, ICON_SIZE) );
 
     // order should be the same as in the switch below!
     static const wxChar* icons[] =
@@ -51,7 +44,7 @@ wxListCtrlLog::wxListCtrlLog(wxListCtrl* aListCtrl) : wxLog( ), m_bErrors( false
     for ( size_t icon = 0; icon < WXSIZEOF(icons); icon++ )
     {
         wxBitmap bmp = wxArtProvider::GetBitmap(icons[icon], wxART_MESSAGE_BOX,
-                                                wxSize(ICON_SIZE, ICON_SIZE));
+                                                wxSize( 16, 16 ));
 
         // This may very well fail if there are insufficient colours available.
         // Degrade gracefully.
@@ -63,19 +56,20 @@ wxListCtrlLog::wxListCtrlLog(wxListCtrl* aListCtrl) : wxLog( ), m_bErrors( false
             break;
         }
 
-        pimageList->Add(bmp);
+        m_imageList.Add(bmp);
     }
 
-    m_listctrl->SetImageList( pimageList.get() , wxIMAGE_LIST_SMALL );
+    this->SetImageList( &m_imageList, wxIMAGE_LIST_SMALL );
 
-    SetActiveTarget( this );
+    m_previoustarget = SetActiveTarget( this );
 
 
 }
 
 wxListCtrlLog::~wxListCtrlLog()
 {
-    //dtor
+    SetActiveTarget( m_previoustarget );
+    wxLogDebug( L"%hs: SetActive called", __FUNCTION__ );
 }
 
 void wxListCtrlLog::DoLog(wxLogLevel level, const wxChar *szString, time_t t)
@@ -160,7 +154,7 @@ void wxListCtrlLog::Flush()
     }
 
     size_t count = m_messages.GetCount();
-    size_t listctrl_count = m_listctrl->GetItemCount();
+    size_t listctrl_count = this->GetItemCount();
 
     for ( size_t n = 0 ; n < count; n++ )
     {
@@ -187,11 +181,11 @@ void wxListCtrlLog::Flush()
             image = -1;
         }
 
-        m_listctrl->InsertItem( n + listctrl_count, m_messages[n], image );
+        this->InsertItem( n + listctrl_count, m_messages[n], image );
         //m_listctrl->SetItem(n, 1, wxLog::TimeStamp(fmt, (time_t)m_times[n]));
     }
 
     m_messages.Clear();
     // let the columns size themselves
-    m_listctrl->SetColumnWidth(0, wxLIST_AUTOSIZE);
+    this->SetColumnWidth(0, wxLIST_AUTOSIZE);
 }

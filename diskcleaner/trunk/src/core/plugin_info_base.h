@@ -26,40 +26,32 @@
 #include <wx/log.h>
 
 
-//typedef void* HICON;
-//struct TCleaningInfo;
-
 namespace diskcleaner
 {
 
-//Not thread safe accessing!!
-    extern std::map<std::wstring,HANDLE> IconList;
-    extern std::map<std::wstring,HANDLE>::iterator icon_iterator;
-    HANDLE LoadIconShared(std::wstring& filename);
-
+    // This class represents the interface for all of DC's plug-ins
+    // This class is an abstract base class, though not pure virtual.
     class PlugInfo
     {
     protected:
-        std::wstring ShortDesc;          //Shown text in main form
-        std::wstring LongDesc;           //Shown when pressing ? button
+        std::wstring ShortDesc;          //Title of the plug-in
+        std::wstring LongDesc;           //Longer descriptive text
 
-        __int64 ItemsFound;
-        __int64 BytesFound;
-        __int64 ItemsCleaned;
-        __int64 BytesCleaned;
+        __int64 ItemsFound;              //The number of items found
+        __int64 BytesFound;              //The size of all items together in bytes
+        __int64 ItemsCleaned;            //After cleaning, the number of items that were removed
+        __int64 BytesCleaned;            //Disk space recovered by removing the items
 
-        bool SecureRemove;
+        bool SecureRemove;               //Not used, but indicates whether secure removal
+                                         //such as overwriting with random numbers should be used
     public:
 
-        virtual __int64 GetBytesFound() { return BytesFound; };
-        virtual __int64 GetBytesCleaned() { return BytesCleaned; };
-        virtual __int64 GetItemsFound() { return ItemsFound; };
-        virtual __int64 GetItemsCleaned() { return ItemsCleaned; };
-        virtual HICON GetIcon() { return NULL; };
-        virtual bool CanConfigure() { return false; };
-        virtual const std::wstring& GetShortDesc() { return ShortDesc; };
-        virtual const std::wstring& GetLongDesc() { return LongDesc; };
-        virtual void Configure() {};
+        virtual __int64 GetBytesFound() const { return BytesFound; };
+        virtual __int64 GetBytesCleaned() const { return BytesCleaned; } ;
+        virtual __int64 GetItemsFound() const { return ItemsFound; };
+        virtual __int64 GetItemsCleaned() const { return ItemsCleaned; };
+        virtual const std::wstring& GetShortDesc() const { return ShortDesc; };
+        virtual const std::wstring& GetLongDesc() const { return LongDesc; };
         virtual void Clean() = 0;
         virtual void Preview() = 0;
         virtual void Scan() = 0;
@@ -74,6 +66,7 @@ namespace diskcleaner
         virtual void GetFilesAsStrings(std::vector<std::wstring>&) = 0;
 
         virtual ~PlugInfo(){};
+
         PlugInfo() : ItemsFound( 0 ), BytesFound( 0 ),
                 ItemsCleaned( 0 ),BytesCleaned( 0 ), SecureRemove( false )
         {

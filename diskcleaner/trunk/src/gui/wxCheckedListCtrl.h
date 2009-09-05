@@ -1,4 +1,5 @@
 #ifndef WXCHECKEDLISTCTRL_H
+#define WXCHECKEDLISTCTRL_H
 
 #include <wx/listctrl.h>
 #include <wx/imaglist.h>

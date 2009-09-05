@@ -82,7 +82,7 @@ bool dcApp::OnInit()
     if (wxApp::OnInit() )
     {
 
-        dc_frame* frame = new dc_frame(0L);
+        frame = new dc_frame(0L);
         frame->SetIcon(wxICON(aaaa)); // To Set App Icon
         frame->init_dialog();
 
@@ -92,7 +92,7 @@ bool dcApp::OnInit()
         }
         else
         {
-            wxLogDebug( L"%hs: quiet mode, perform frame->clean_btn_click()", __FUNCTION__ );
+            wxLogDebug( L"%hs: quiet mode, not showing dc_frame", __FUNCTION__ );
             wxCommandEvent evt;
             frame->clean_btn_click( evt );
         }

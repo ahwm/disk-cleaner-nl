@@ -27,6 +27,8 @@ about_base_dlg( parent )
     text.sprintf( L"Version %d.%d (build %d)", AutoVersion::MAJOR, AutoVersion::MINOR, AutoVersion::BUILD  );
 
     version_text->SetLabel( text );
+
+    ok_sizerOK->SetFocus();
 }
 
 void about_frame::ok_btn_clicked( wxCommandEvent& event )

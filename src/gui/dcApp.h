@@ -26,9 +26,11 @@
 //Forward declaration
 class wxCmdLineParser;
 class wxLogWindow;
+class dc_frame;
 
 class dcApp : public wxApp
 {
+    dc_frame* frame;
     std::wstring strAppDirectory;
     std::wstring recall_preset;
 #ifdef __WXDEBUG__

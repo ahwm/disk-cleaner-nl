@@ -11,20 +11,22 @@
 **
 */
 
-#ifndef WXLISTBOXLOG_H
-#define WXLISTBOXLOG_H
+#ifndef WXLISTCTRLLOG_H
+#define WXLISTCTRLLOG_H
 
+#include <wx/listctrl.h>
+#include <wx/imaglist.h>
 #include <wx/log.h>
-#include <boost/shared_ptr.hpp>
 
 
-class wxListCtrl;
 class wxImageList;
 
-class wxListCtrlLog : public wxLog
+class wxListCtrlLog : public virtual wxLog, public virtual wxListCtrl
 {
 public:
-    wxListCtrlLog(wxListCtrl* ListCtrl);
+    wxListCtrlLog(wxWindow* parent, wxWindowID id, const wxPoint& pt,
+                                         const wxSize& sz, long style);
+
     ~wxListCtrlLog();
 
     virtual void DoLog(wxLogLevel level, const wxChar *szString, time_t t);
@@ -33,14 +35,14 @@ public:
 
 protected:
 private:
+    wxLog*          m_previoustarget;
     wxArrayString   m_messages;
     wxArrayInt      m_severity;
     wxArrayLong     m_times;
-    bool loadedIcons;
-    bool m_bErrors;
+    bool            loadedIcons;
+    bool            m_bErrors;
 
-    boost::shared_ptr<wxImageList> pimageList;
-    wxListCtrl* m_listctrl;
+    wxImageList     m_imageList;
 };
 
 #endif // WXLISTBOXLOG_H

@@ -39,6 +39,7 @@ protected:
 public:
 	/** Constructor */
 	result_frame( wxWindow* parent );
+	~result_frame();
 	bool rerun;
 };
 

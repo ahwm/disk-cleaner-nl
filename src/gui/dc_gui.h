@@ -11,6 +11,7 @@
 #include <wx/intl.h>
 
 class wxCheckedListCtrl;
+class wxListCtrlLog;
 
 #include <wx/string.h>
 #include <wx/stattext.h>
@@ -135,7 +136,7 @@ class result_base_frame : public wxDialog
 	
 	protected:
 		wxStaticText* m_staticText19;
-		wxListCtrl* result_lc;
+		wxListCtrlLog* result_lc;
 		wxButton* back_btn;
 		
 		wxButton* exit_btn;

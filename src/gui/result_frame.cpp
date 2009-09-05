@@ -25,7 +25,7 @@ result_base_frame( parent )
 {
   rerun = false;
 
-  CtrlLog = new wxListCtrlLog( result_lc );
+  exit_btn->SetFocus();
 }
 
 void result_frame::back_btn_click( wxCommandEvent& event )
@@ -41,5 +41,10 @@ void result_frame::exit_btn_click( wxCommandEvent& event )
 
 void result_frame::init_result_dlg( wxInitDialogEvent& event )
 {
-    
+
+}
+
+result_frame::~result_frame()
+{
+    wxLogDebug( L"%hs called", __FUNCTION__ );
 }

@@ -102,6 +102,8 @@ dc_frame::dc_frame( wxWindow* parent ):dc_base_frame( parent )
     plugin_listctrl->InsertColumn( 2, _( "Size" ) , wxLIST_FORMAT_RIGHT );
     plugin_listctrl->InsertColumn( 3, _( "Description" ) );
 
+    clean_btn->SetFocus();
+
 }
 
 void dc_frame::preset_save_btn_click( wxCommandEvent& event )
@@ -121,9 +123,9 @@ void dc_frame::preset_save_btn_click( wxCommandEvent& event )
 
     //Only append the item if it's not already there (case insensitive compare,
     //ppreset_handler saves presets without regarding case).
-    if( preset_box->FindString( te.GetValue(), false ) == wxNOT_FOUND )
+    if ( preset_box->FindString( te.GetValue(), false ) == wxNOT_FOUND )
     {
-         preset_box->Append( te.GetValue() );
+        preset_box->Append( te.GetValue() );
     }
 
 
@@ -257,7 +259,7 @@ void dc_frame::clean_btn_click( wxCommandEvent& event )
     }
     else
     {
-        wxLogDebug( L"Skipping display of rsframe");
+        wxLogDebug( L"Skipping display of result frame");
     }
 
 
@@ -417,7 +419,7 @@ void dc_frame::init_dialog()
         PlugInfo* iecookies = (new ie_cookies() );
         add_plugin_to_listctrl( iecookies );
         waitdlg->Increment();
-        waitdlg->UpdateWindowUI();
+        waitdlg->Update();
     }
 
     //
@@ -430,7 +432,7 @@ void dc_frame::init_dialog()
         {
 
             std::vector<std::wstring>::const_iterator it = plugin_list.begin();
-
+            int counter = 0;
             while ( it!=plugin_list.end() )
             {
                 std::wstring FullPath =  app.GetAppDirectory() + L"\\plug-ins\\"  + *it;
@@ -441,8 +443,15 @@ void dc_frame::init_dialog()
 
                 waitdlg->Increment();
 
+                if ( counter > 9 )
+                {
+                    waitdlg->Update();
+                    counter = 0;
+                }
                 add_plugin_to_listctrl( pi );
                 ++it;
+                ++counter;
+
             }
 
         }

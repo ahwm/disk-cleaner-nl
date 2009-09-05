@@ -6,6 +6,7 @@
 ///////////////////////////////////////////////////////////////////////////
 
 #include "wxCheckedListCtrl.h"
+#include "wxlistctrllog.h"
 
 #include "dc_gui.h"
 
@@ -112,7 +113,7 @@ dc_base_frame::dc_base_frame( wxWindow* parent, wxWindowID id, const wxString& t
 	wxBoxSizer* bSizer3;
 	bSizer3 = new wxBoxSizer( wxHORIZONTAL );
 	
-	clean_btn = new wxButton( this, wxID_ANY, _("&Clean"), wxDefaultPosition, wxDefaultSize, 0 );
+	clean_btn = new wxButton( this, wxID_OK, _("&Clean"), wxDefaultPosition, wxDefaultSize, 0 );
 	clean_btn->SetDefault(); 
 	bSizer3->Add( clean_btn, 0, wxEXPAND|wxTOP, 5 );
 	
@@ -286,7 +287,7 @@ result_base_frame::result_base_frame( wxWindow* parent, wxWindowID id, const wxS
 	
 	fgSizer1->Add( m_staticText19, 0, wxTOP|wxBOTTOM|wxRIGHT, 5 );
 	
-	result_lc = new wxListCtrl( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_NO_HEADER|wxLC_REPORT );
+	result_lc = new wxListCtrlLog( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_NO_HEADER|wxLC_REPORT );
 	fgSizer1->Add( result_lc, 1, wxEXPAND|wxALL, 5 );
 	
 	wxBoxSizer* bSizer3;

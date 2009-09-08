@@ -33,7 +33,6 @@ namespace diskcleaner
         static wchar_t cachefolder[MAX_PATH];   //First to check
         static wchar_t localcachefolder[MAX_PATH];  //New in FF 1.5 - local settings\app data\etc
 
-        void SetIcon(int ICON_ID);
         virtual void DoScan(bool Preview) = 0;
 
         //files is a '\0' separated string of files in the Firefox profile folder

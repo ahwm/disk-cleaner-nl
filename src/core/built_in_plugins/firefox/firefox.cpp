@@ -116,10 +116,6 @@ namespace diskcleaner
     }
 
 
-    void firefox_base::SetIcon(int ICON_ID)
-    {
-    }
-
     void firefox_base::GetFilesAsStrings(std::vector<std::wstring>& Messages)
     {
         unsigned int count = ItemList.size();
@@ -163,13 +159,27 @@ namespace diskcleaner
 
         if ( FFPresent ) //then variable cachefolder is valid as well
         {
-            wchar_t cleanfile[MAX_PATH];
+            wchar_t cleanfile[MAX_PATH] = { 0 };
+            wchar_t* ptr(NULL);
+
+            lstrcpy( cleanfile, cachefolder );
+            lstrcat( cleanfile, L"\\" );
+
+            // Find last backslash
+            ptr = std::wcsrchr( cleanfile, '\\' );
+
+            // Set ptr to first character after last backslash
+            ++ptr;
 
             while ( *files )
             {
-                lstrcpy( cleanfile, cachefolder );
+                // Make sure 'cleanfile' is NULL terminated
+                *ptr = 0;
+
+                // append a file name
                 lstrcat( cleanfile, files );
-                files += lstrlen( files ); //files points to next file or terminating '\0'
+                wxLogDebug( L"%hs: file to remove is: %s", __FUNCTION__, cleanfile );
+
                 DWORD file_attr = GetFileAttributes( cleanfile );
 
                 if ( file_attr != INVALID_FILE_ATTRIBUTES )
@@ -182,9 +192,12 @@ namespace diskcleaner
                     }
                     else
                     {
-                        wxLogWarning( _( "%s (%s)" ), warning, cleanfile );
+                        wxLogWarning( L"%s (%s)", warning, cleanfile );
                     }
                 }
+
+                // let 'files' point to next file or terminating '\0'
+                files += lstrlen( files ) + 1;
             }
 
         }
@@ -202,7 +215,7 @@ namespace diskcleaner
         wchar_t cleanfolder[MAX_PATH];
 
         if ( FFPresent ) //Should never be called if !FFPresent, but still,
-                         //better check
+            //better check
         {
             TScanOptions so;
             so.ReadOnly = true;
@@ -285,7 +298,7 @@ namespace diskcleaner
     void firefox_history::Clean()
     {
         //Checks for FFPresent
-        CleanFile( L"History.dat\0places.sqlite\0", L"Unable to delete firefox history");
+        CleanFile( L"History.dat\0places.sqlite\0", _( "Unable to delete firefox history" ) );
     }
 
 //---------------------------------------------------------------------------

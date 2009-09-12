@@ -1,0 +1,6 @@
+[Info]
+Title=7-Zip History
+Description=Erases 7-Zip History
+ 
+[registry]
+HKEY_CURRENT_USER|Software\7-Zip\Compression\ArcHistory

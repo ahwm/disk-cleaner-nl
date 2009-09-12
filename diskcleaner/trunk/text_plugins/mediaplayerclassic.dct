@@ -1,0 +1,7 @@
+[Info]
+Title=Media Player Classic
+Description=Erase MPC's Recent File List & Recent Dub List
+ 
+[registry]
+HKEY_CURRENT_USER|Software\Gabest\Media Player Classic\Recent File List
+HKEY_CURRENT_USER|Software\Gabest\Media Player Classic\Recent Dub List

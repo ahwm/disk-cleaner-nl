@@ -37,11 +37,13 @@ struct TScanOptions{
   bool Hidden;
   bool Recursive;       // /s    (subfolders too)
   bool SubFolderOnly;   // /so   (just the subfolders)
-  bool DelBaseFolder;   // /si    (include base folder)
+  bool DelBaseFolder;   // /si   (include base folder)
+  bool FilesOnly;       // /sf   (only remove files, keep folder structure)
   bool Secure; //Not an option yet, but uses global HSWCTXT
 
   TScanOptions() : minimum_age( 0 ), ReadOnly( false ), Hidden( false ), Recursive( false ),
-                    SubFolderOnly( false ), DelBaseFolder( false ), Secure( false ) {};
+                    SubFolderOnly( false ), DelBaseFolder( false ), FilesOnly( false ) ,
+                    Secure( false ) {};
 } ;
 
 //DSdata*  GetFilesInFolder(const wchar_t* folder, const wchar_t* masks, const TScanOptions* so);

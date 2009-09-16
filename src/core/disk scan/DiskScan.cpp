@@ -148,7 +148,7 @@ void ProcessFilesInFolder(const wchar_t* folder, const wchar_t* masks, const TSc
                     lstrcat(localfolder,L"\\");
 
                     ProcessFilesInFolder( NULL, maskfw, so_local, FileList, scandata, Remove ); //Use localfolder as is
-                    if ( Remove )
+                    if ( Remove && !so->FilesOnly )
                     {
                         *ptr = 0;
                         lstrcat(localfolder,sr.cFileName);

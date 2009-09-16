@@ -386,6 +386,11 @@ namespace diskcleaner
                     wxLogDebug( L"so.DelBaseFolder = true" );
                     so.DelBaseFolder = true;
                     break;
+                case L'F':   // > build 1.6.1273
+                case L'f':
+                    wxLogDebug( L"so.FilesOnly = true" );
+                    so.FilesOnly = true;
+                    break;
                 }
 
                 so.Recursive = true;

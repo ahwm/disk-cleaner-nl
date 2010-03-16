@@ -123,7 +123,7 @@ namespace diskcleaner
     {
         if ( !SysTempAvailable )
         {
-            ::wxLogWarning( _( "Could not clean the temporary folder" ) );
+            ::wxLogWarning( _( "Could not clean the temporary folder. The location of this folder could not be determined reliably." ) );
             return; //Fail
         }
 

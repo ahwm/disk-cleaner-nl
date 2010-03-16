@@ -43,9 +43,9 @@ void ResetFilesScheduledRemoveOnReboot()
 
 //Forward declaration
 bool ProcessFile( const wchar_t * const the_file, std::vector<std::wstring>& FileList,
-                         const TScanOptions * const so, const WIN32_FIND_DATA& find_data, bool Remove );
+                          TScanOptions *  so, const WIN32_FIND_DATA& find_data, bool Remove );
 
-void ProcessFilesInFolder(const wchar_t* folder, const wchar_t* masks, const TScanOptions* so,
+void ProcessFilesInFolder(const wchar_t* folder, const wchar_t* masks, TScanOptions* so,
                             std::vector<std::wstring>& FileList, DSdata& scandata, bool Remove = false )
 {
     HANDLE hFileSearch;
@@ -150,12 +150,20 @@ void ProcessFilesInFolder(const wchar_t* folder, const wchar_t* masks, const TSc
                     ProcessFilesInFolder( NULL, maskfw, so_local, FileList, scandata, Remove ); //Use localfolder as is
                     if ( Remove && !so->FilesOnly )
                     {
-                        *ptr = 0;
-                        lstrcat(localfolder,sr.cFileName);
-                        ::wxLogDebug( L"Removing folder %s", localfolder );
-                        if ( !RemoveDirectory( localfolder ) )
+                        if( so_local->FolderInUse )
                         {
-                            ::wxLogWarning( _T( "Could not remove folder %s as promised. It is probably not empty" ), localfolder );
+                            ::wxLogWarning( _T( "Not removing folder %s: it contains files that aren't old enough to remove." ) );
+                            so_local->FolderInUse = false;
+                        }
+                        else
+                        {
+                          *ptr = 0;
+                          lstrcat(localfolder,sr.cFileName);
+                          ::wxLogDebug( L"Removing folder %s", localfolder );
+                          if ( !RemoveDirectory( localfolder ) )
+                          {
+                              ::wxLogWarning( _T( "Could not remove folder %s as promised. It is probably not empty" ), localfolder );
+                          }
                         }
                     }
 
@@ -190,7 +198,7 @@ void ProcessFilesInFolder(const wchar_t* folder, const wchar_t* masks, const TSc
 
 
 DSdata GetFilesInFolder(const wchar_t* folder, const wchar_t* masks,
-                         const TScanOptions* so, std::vector<std::wstring>& FileList)
+                          TScanOptions* so, std::vector<std::wstring>& FileList)
 {
     DSdata ds = { 0 };
     ProcessFilesInFolder( folder, masks, so, FileList, ds, false );
@@ -199,7 +207,7 @@ DSdata GetFilesInFolder(const wchar_t* folder, const wchar_t* masks,
 
 
 DSdata CleanFilesInFolder(const wchar_t* folder, const wchar_t* masks,
-                           const TScanOptions* so, std::vector<std::wstring>& FileList)
+                            TScanOptions* so, std::vector<std::wstring>& FileList)
 {
     DSdata ds = { 0 };
     ProcessFilesInFolder (folder, masks, so, FileList, ds, true );
@@ -207,13 +215,14 @@ DSdata CleanFilesInFolder(const wchar_t* folder, const wchar_t* masks,
 }
 
 inline bool ProcessFile( const wchar_t * const the_file, std::vector<std::wstring>& FileList,
-                         const TScanOptions* const so, const WIN32_FIND_DATA& find_data, bool Remove )
+                         TScanOptions* so, const WIN32_FIND_DATA& find_data, bool Remove )
 {
-    //wxLogDebug( L"%hs: processing file %s", __FUNCTION__, the_file );
+    ::wxLogDebug( L"%hs: processing file %s", __FUNCTION__, the_file );
 
     //Get file age etc only if necessary
     if( so->minimum_age > 0 )
     {
+
         ::wxLogDebug( L"%hs: Checking file age of %s", __FUNCTION__, the_file );
         ULARGE_INTEGER ftime_int64 = { find_data.ftLastWriteTime.dwLowDateTime, find_data.ftLastWriteTime.dwHighDateTime };
 
@@ -245,6 +254,7 @@ inline bool ProcessFile( const wchar_t * const the_file, std::vector<std::wstrin
         if ( diff < so->minimum_age )
         {
             ::wxLogDebug( L"%hs: skipping %s", __FUNCTION__, the_file );
+            so->FolderInUse = true;
             return false;
         }
 
@@ -254,10 +264,9 @@ inline bool ProcessFile( const wchar_t * const the_file, std::vector<std::wstrin
     if ( !Remove )
     {
 
-
-
         FileList.push_back( std::wstring( the_file ) );
         return true;
+
     }
     else
     {
@@ -271,6 +280,8 @@ inline bool ProcessFile( const wchar_t * const the_file, std::vector<std::wstrin
 //                 FileList.push_back("Warning - unable to wipe file: " + String(localfolder));
 //                }
 //              }
+        ::wxLogDebug( L"%hs: Delete %s", __FUNCTION__, the_file );
+
         if ( DeleteFile( the_file ) )
         {
 
@@ -280,12 +291,13 @@ inline bool ProcessFile( const wchar_t * const the_file, std::vector<std::wstrin
 //                            }
 //                            else
 //            {
-            wxLogDebug( L"%hs: Deleted %s", __FUNCTION__, the_file );
+            ::wxLogDebug( L"%hs: Deleted %s", __FUNCTION__, the_file );
             return true;
 //            }
         }
         else //We might be allowed to try remove on reboot
         {
+            ::wxLogDebug( L"GetLastError(): %x" , GetLastError() );
             if ( DiskScan::RemoveOnReboot )
             {
                 bool mvresult = ( MoveFileEx( the_file, NULL,MOVEFILE_DELAY_UNTIL_REBOOT ) == TRUE );

@@ -39,20 +39,22 @@ struct TScanOptions{
   bool SubFolderOnly;   // /so   (just the subfolders)
   bool DelBaseFolder;   // /si   (include base folder)
   bool FilesOnly;       // /sf   (only remove files, keep folder structure)
-  bool Secure; //Not an option yet, but uses global HSWCTXT
+  bool FolderInUse;     // Not an option, but a marker that a folder cannot be removed as there
+                        // are files in it that are still in use
+  bool Secure;          //Not an option yet, but uses global HSWCTXT
 
   TScanOptions() : minimum_age( 0 ), ReadOnly( false ), Hidden( false ), Recursive( false ),
                     SubFolderOnly( false ), DelBaseFolder( false ), FilesOnly( false ) ,
-                    Secure( false ) {};
+                    FolderInUse( false ), Secure( false ) {};
 } ;
 
 //DSdata*  GetFilesInFolder(const wchar_t* folder, const wchar_t* masks, const TScanOptions* so);
 DSdata  GetFilesInFolder(const wchar_t* folder, const wchar_t* masks,
-                         const TScanOptions* so, std::vector<std::wstring>& FileList);
+                          TScanOptions* so, std::vector<std::wstring>& FileList);
 
 //DSdata*  CleanFilesInFolder(const wchar_t* folder, const wchar_t* masks, const TScanOptions* so);
 DSdata  CleanFilesInFolder(const wchar_t* folder, const wchar_t* masks,
-                           const TScanOptions* so, std::vector<std::wstring>& FileList);
+                            TScanOptions* so, std::vector<std::wstring>& FileList);
 
 void  SetRemoveOnReboot(bool Remove);
 __int64  GetFilesScheduledRemoveOnReboot();

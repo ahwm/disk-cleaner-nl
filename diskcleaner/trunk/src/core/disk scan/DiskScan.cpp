@@ -41,11 +41,13 @@ void ResetFilesScheduledRemoveOnReboot()
     DiskScan::FilesScheduled = 0;
 };
 
+enum ProcessFileResult{ pfFailed, pfOK, pfSkipped};
+
 //Forward declaration
-bool ProcessFile( const wchar_t * const the_file, std::vector<std::wstring>& FileList,
+ProcessFileResult ProcessFile( const wchar_t * const the_file, std::vector<std::wstring>& FileList,
                           TScanOptions *  so, const WIN32_FIND_DATA& find_data, bool Remove );
 
-void ProcessFilesInFolder(const wchar_t* folder, const wchar_t* masks, TScanOptions* so,
+bool ProcessFilesInFolder(const wchar_t* folder, const wchar_t* masks, TScanOptions* so,
                             std::vector<std::wstring>& FileList, DSdata& scandata, bool Remove = false )
 {
     HANDLE hFileSearch;
@@ -53,6 +55,7 @@ void ProcessFilesInFolder(const wchar_t* folder, const wchar_t* masks, TScanOpti
     static wchar_t __thread localfolder[MAX_PATH];
     wchar_t* ptr;
     const wchar_t* maskfw = masks;
+    bool FolderSkipped = false; // true if a folder is not empty due to files that have an age < threshold
 
     TScanOptions* so_local;
 
@@ -105,10 +108,18 @@ void ProcessFilesInFolder(const wchar_t* folder, const wchar_t* masks, TScanOpti
                         *ptr = 0;
                         lstrcat( localfolder, sr.cFileName );
 
-                        if ( ProcessFile( localfolder, FileList, so_local, sr, Remove ) )
+                        ProcessFileResult pfr = ProcessFile( localfolder, FileList, so_local, sr, Remove );
+                        if ( pfr == pfOK )
                         {
                             scandata.bytes += (sr.nFileSizeHigh * MAXDWORD) + sr.nFileSizeLow;
                             scandata.files++;
+                        }
+                        else
+                        {
+                            if (pfr == pfSkipped )
+                            {
+                                FolderSkipped = true;
+                            }
                         }
                     }
                 }
@@ -147,13 +158,13 @@ void ProcessFilesInFolder(const wchar_t* folder, const wchar_t* masks, TScanOpti
                     lstrcat(localfolder,sr.cFileName);
                     lstrcat(localfolder,L"\\");
 
-                    ProcessFilesInFolder( NULL, maskfw, so_local, FileList, scandata, Remove ); //Use localfolder as is
-                    if ( Remove && !so->FilesOnly )
+                    bool pfr = ProcessFilesInFolder( NULL, maskfw, so_local, FileList, scandata, Remove ); //Use localfolder as is
+                    if ( Remove && pfr == pfSkipped )
                     {
-                        if( so_local->FolderInUse )
+                        if( pfr )
                         {
-                            ::wxLogWarning( _T( "Not removing folder %s: it contains files that aren't old enough to remove." ) );
-                            so_local->FolderInUse = false;
+                            FolderSkipped = true;
+                            ::wxLogWarning( _T( "Not removing folder %s: it contains files that aren't old enough to remove." ), localfolder );
                         }
                         else
                         {
@@ -192,7 +203,7 @@ void ProcessFilesInFolder(const wchar_t* folder, const wchar_t* masks, TScanOpti
 
     }
 
-
+  return FolderSkipped;
 }
 
 
@@ -214,7 +225,7 @@ DSdata CleanFilesInFolder(const wchar_t* folder, const wchar_t* masks,
     return ds;
 }
 
-inline bool ProcessFile( const wchar_t * const the_file, std::vector<std::wstring>& FileList,
+inline ProcessFileResult ProcessFile( const wchar_t * const the_file, std::vector<std::wstring>& FileList,
                          TScanOptions* so, const WIN32_FIND_DATA& find_data, bool Remove )
 {
     ::wxLogDebug( L"%hs: processing file %s", __FUNCTION__, the_file );
@@ -254,8 +265,8 @@ inline bool ProcessFile( const wchar_t * const the_file, std::vector<std::wstrin
         if ( diff < so->minimum_age )
         {
             ::wxLogDebug( L"%hs: skipping %s", __FUNCTION__, the_file );
-            so->FolderInUse = true;
-            return false;
+
+            return pfSkipped;
         }
 
         ::wxLogDebug( L"%hs: adding %s", __FUNCTION__, the_file );
@@ -265,7 +276,7 @@ inline bool ProcessFile( const wchar_t * const the_file, std::vector<std::wstrin
     {
 
         FileList.push_back( std::wstring( the_file ) );
-        return true;
+        return pfOK;
 
     }
     else
@@ -292,7 +303,7 @@ inline bool ProcessFile( const wchar_t * const the_file, std::vector<std::wstrin
 //                            else
 //            {
             ::wxLogDebug( L"%hs: Deleted %s", __FUNCTION__, the_file );
-            return true;
+            return pfOK;
 //            }
         }
         else //We might be allowed to try remove on reboot
@@ -318,16 +329,16 @@ inline bool ProcessFile( const wchar_t * const the_file, std::vector<std::wstrin
                     {
                         ::wxLogMessage( _T( "Scheduled for removal on reboot: %s" ), the_file );
                     }
-                    return true;
+                    return pfOK;
                 }
             }
             else
             {
-                ::wxLogWarning( _T( "Could not delete file: %s. It is probably in use." ), the_file );
+                ::wxLogWarning( _T( "Could not delete file: %s. It is probably in use. Try again after closing all open applications" ), the_file );
 
-                return false;
+                return pfFailed;
             }
         }
     }
-    return false;
+    return pfFailed;
 }

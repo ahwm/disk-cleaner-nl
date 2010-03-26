@@ -159,9 +159,9 @@ bool ProcessFilesInFolder(const wchar_t* folder, const wchar_t* masks, TScanOpti
                     lstrcat(localfolder,L"\\");
 
                     bool pfr = ProcessFilesInFolder( NULL, maskfw, so_local, FileList, scandata, Remove ); //Use localfolder as is
-                    if ( Remove && pfr == pfSkipped )
+                    if ( Remove )
                     {
-                        if( pfr )
+                        if( pfr == pfSkipped )
                         {
                             FolderSkipped = true;
                             ::wxLogWarning( _T( "Not removing folder %s: it contains files that aren't old enough to remove." ), localfolder );

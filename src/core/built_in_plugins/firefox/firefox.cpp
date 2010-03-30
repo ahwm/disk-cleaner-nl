@@ -291,14 +291,17 @@ namespace diskcleaner
     void firefox_history::DoScan(bool Preview)
     {
         //Checks for FFPresent
-        ScanFile( L"History.dat\0places.sqlite\0" );
+        // FF 3.5+ temporarily disabled
+        ScanFile( L"History.dat\0\0places.sqlite\0" );
 
     }
 
     void firefox_history::Clean()
     {
         //Checks for FFPresent
-        CleanFile( L"History.dat\0places.sqlite\0", _( "Unable to delete firefox history" ) );
+        // FF 3.5+ temporarily disabled
+        // TODO: fix FF3.5+ history
+        CleanFile( L"History.dat\0\0places.sqlite\0", _( "Unable to delete firefox history" ) );
     }
 
 //---------------------------------------------------------------------------

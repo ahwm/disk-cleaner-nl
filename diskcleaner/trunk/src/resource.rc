@@ -27,7 +27,7 @@ LANGUAGE 0, 0
                     //VALUE "CompanyName", ""
                     VALUE "FileDescription", "Disk Cleaner main executable"
                     VALUE "FileVersion", RC_FILEVERSION_STRING
-                    VALUE "LegalCopyright", "1999-2009 R.J. Moerland"
+                    VALUE "LegalCopyright", "1999-2010 R.J. Moerland"
                     VALUE "ProductName", "Disk Cleaner"
                     VALUE "ProductVersion", RC_FILEVERSION_STRING
                 END

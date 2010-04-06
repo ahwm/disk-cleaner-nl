@@ -1,6 +1,6 @@
 [Info]
 Title=Windows Log Files
-Description=Deletes Windows Log files 
+Description=Removes Windows log files
 Icon=Disk Cleaner Mod.ico
 
 [files]

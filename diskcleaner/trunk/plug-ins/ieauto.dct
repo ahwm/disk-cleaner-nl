@@ -1,6 +1,7 @@
 [Info]
-Title=Internet Explorer Autocomplete Form History
-Description=Erases the Autocomplete Form History in Internet Explorer
+Title=IE Autocomplete Form History
+Description=Remove the Autocomplete Form history in Internet Explorer
 
 [registry]
-HKEY_CURRENT_USER|Software\Microsoft\Internet Explorer\IntelliForms\SPW
+HKEY_CURRENT_USER|Software\Microsoft\Internet Explorer\IntelliForms\Storage1
+HKEY_CURRENT_USER|Software\Microsoft\Internet Explorer\IntelliForms\Storage2

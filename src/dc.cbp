@@ -12,6 +12,7 @@
 				<Option object_output="obj\Debug\" />
 				<Option type="0" />
 				<Option compiler="gcc" />
+				<Option parameters="-nt" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
 					<Add option="-g" />
@@ -108,6 +109,11 @@
 		<Unit filename="core\plugin_info_base.h" />
 		<Unit filename="core\reg scan\RegEnum.cpp" />
 		<Unit filename="core\reg scan\RegEnum.h" />
+		<Unit filename="core\sqlite\sqlite3.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="core\sqlite\sqlite3.h" />
+		<Unit filename="core\sqlite\sqlite3ext.h" />
 		<Unit filename="core\text_plugins\TextPlugInfo.cpp" />
 		<Unit filename="core\text_plugins\TextPlugInfo.h" />
 		<Unit filename="gui\about_frame.cpp" />
@@ -142,7 +148,7 @@
 			<AutoVersioning>
 				<Scheme minor_max="10" build_max="0" rev_max="0" rev_rand_max="10" build_times_to_increment_minor="100000" />
 				<Settings autoincrement="0" date_declarations="1" do_auto_increment="1" ask_to_increment="0" language="C++" svn="0" svn_directory="" header_path="gui\version.h" />
-				<Changes_Log show_changes_editor="0" app_title="released version %M.%m.%b of %p" changeslog_path="ChangesLog.txt" />
+				<Changes_Log generate_log="0" app_title="released version %M.%m.%b of %p" changeslog_path="ChangesLog.txt" />
 			</AutoVersioning>
 			<envvars />
 		</Extensions>

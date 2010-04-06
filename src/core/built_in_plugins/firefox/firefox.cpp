@@ -238,7 +238,7 @@ void firefox_base::CleanFile( const wchar_t* files, const wchar_t* warning )
 firefox_cache::firefox_cache()
 {
     ShortDesc = _( "Firefox Cache" );
-    LongDesc = _( "Clear the Firefox cache" );
+    LongDesc = _( "Clears the Firefox cache" );
 }
 
 void firefox_cache::Clean()
@@ -316,7 +316,7 @@ void firefox_cache::DoScan(bool Preview)
 firefox_history::firefox_history()
 {
     ShortDesc = _( "Firefox History" );
-    LongDesc = _( "Remove Firefox history records" );
+    LongDesc = _( "Removes Firefox history records" );
 }
 
 void firefox_history::DoScan(bool Preview)
@@ -419,7 +419,7 @@ void firefox_history::Clean()
 firefox_cookies::firefox_cookies()
 {
     ShortDesc = _( "Firefox Cookies" );
-    LongDesc = _( "Remove Firefox cookies" );
+    LongDesc = _( "Removes Firefox cookies" );
 }
 
 void firefox_cookies::DoScan(bool Preview)

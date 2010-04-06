@@ -227,7 +227,7 @@ retry:
     {
         DeleteOfflineItems = delete_offline_items;
         ShortDesc = _( "Internet Explorer Cache" );
-        LongDesc = _( "Clear the Internet Explorer browser cache" );
+        LongDesc = _( "Clears the Internet Explorer browser cache" );
     }
 
     void ie_cache::CleanCacheItem( LPINTERNET_CACHE_ENTRY_INFO lpCacheEntry )
@@ -280,7 +280,7 @@ retry:
         CoInitialize( NULL );
 
         ShortDesc = _( "Internet Explorer History" );
-        LongDesc = _( "Remove Internet Explorer history records" );
+        LongDesc = _( "Removes Internet Explorer history records" );
 
         pUrlHistoryStg2 = NULL;
 
@@ -348,7 +348,7 @@ retry:
     ie_cookies::ie_cookies() : ie_base( COOKIE_CACHE_ENTRY )
     {
         ShortDesc = _( "Internet Explorer Cookies" );
-        LongDesc = _( "Remove Internet Explorer cookie files" );
+        LongDesc = _( "Removes Internet Explorer cookie files" );
 //  SetIcon(ID_FFCOOKIES);
     }
 

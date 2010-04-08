@@ -18,33 +18,41 @@
 #include "result_frame.h"
 #include "gui/wxlistctrllog.h"
 
+#include "gui/dc_frame.h"
 
 result_frame::result_frame( wxWindow* parent )
 :
 result_base_frame( parent )
 {
-  rerun = false;
-
   exit_btn->SetFocus();
+  parent_frame = dynamic_cast<dc_frame*>( parent );
 }
 
 void result_frame::back_btn_click( wxCommandEvent& event )
 {
-	rerun = true;
+	parent_frame->result_frame_finished_signal( true );
 	Close();
 }
 
 void result_frame::exit_btn_click( wxCommandEvent& event )
 {
+	parent_frame->result_frame_finished_signal( false );
 	Close();
-}
-
-void result_frame::init_result_dlg( wxInitDialogEvent& event )
-{
-
 }
 
 result_frame::~result_frame()
 {
     wxLogDebug( L"%hs called", __FUNCTION__ );
+}
+
+void result_frame::EnableControls()
+{
+  back_btn->Enable( true );
+  exit_btn->Enable( true );
+}
+
+void result_frame::DisableControls()
+{
+  back_btn->Enable( false );
+  exit_btn->Enable( false );
 }

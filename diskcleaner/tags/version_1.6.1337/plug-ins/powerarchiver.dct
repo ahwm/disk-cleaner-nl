@@ -1,0 +1,10 @@
+[Info]
+Title=PowerArchiver
+Description=Erase PowerArchiver History
+
+[registry]
+HKEY_CURRENT_USER|Software\PowerArchiver\Files|Active_File1
+HKEY_CURRENT_USER|Software\PowerArchiver\Files|Active_File2
+HKEY_CURRENT_USER|Software\PowerArchiver\Files|Active_File3
+HKEY_CURRENT_USER|Software\PowerArchiver\Files|Active_File4
+HKEY_CURRENT_USER|Software\PowerArchiver\Files|Active_File5

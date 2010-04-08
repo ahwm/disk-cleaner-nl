@@ -1,0 +1,6 @@
+[Info]
+Title=IZArc History
+Description=Erases the archives History in IZArc
+
+[registry]
+HKEY_CURRENT_USER|Software\IZSoftware\IZArc\History

@@ -26,6 +26,7 @@ namespace DiskScan
 {
     bool RemoveOnReboot;
     __int64 FilesScheduled;
+    bool AllFilesRemoved;
 }
 
 void SetRemoveOnReboot(bool Remove)
@@ -39,6 +40,16 @@ __int64 GetFilesScheduledRemoveOnReboot()
 void ResetFilesScheduledRemoveOnReboot()
 {
     DiskScan::FilesScheduled = 0;
+};
+
+void SetAllFilesRemoved( bool _AllFilesRemoved)
+{
+    DiskScan::AllFilesRemoved = _AllFilesRemoved;
+};
+
+bool GetAllFilesRemoved()
+{
+    return DiskScan::AllFilesRemoved;
 };
 
 enum ProcessFileResult{ pfFailed, pfOK, pfSkipped};
@@ -334,8 +345,8 @@ inline ProcessFileResult ProcessFile( const wchar_t * const the_file, std::vecto
             }
             else
             {
-                ::wxLogWarning( _T( "Could not delete file: %s. It is probably in use. Try again after closing all open applications" ), the_file );
-
+                ::wxLogWarning( _T( "Could not delete file: %s" ), the_file );
+                DiskScan::AllFilesRemoved = false;
                 return pfFailed;
             }
         }

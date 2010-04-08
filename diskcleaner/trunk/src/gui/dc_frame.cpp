@@ -184,6 +184,9 @@ void dc_frame::clean_btn_click( wxCommandEvent& event )
     //sets the file count of scheduled files to zero
     ResetFilesScheduledRemoveOnReboot();
 
+    // Set AllFilesRemoved flag to true;
+    SetAllFilesRemoved( true );
+
     if ( !app.IsQuietMode() )
     {
         rsframe.reset(new result_frame( this ) );
@@ -236,6 +239,13 @@ void dc_frame::clean_btn_click( wxCommandEvent& event )
     if ( !app.IsQuietMode() )
     {
         SetCursor( *wxSTANDARD_CURSOR );
+
+        wxLogMessage( L"" );
+
+        if ( !GetAllFilesRemoved() )
+        {
+            wxLogMessage( _("Could not remove all files. Please close all open applications and retry.") );
+        }
 
         wxString schedulestr;
         schedulestr.Printf( _( "Scheduled %I64d %s for removal on reboot." ), GetFilesScheduledRemoveOnReboot(),

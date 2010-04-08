@@ -179,31 +179,37 @@ void dc_frame::clean_btn_click( wxCommandEvent& event )
     PlugInfo* pinfo;
     dcApp& app = wxGetApp();
 
-    result_frame rsframe( this );
-
-    if ( settings.ui.result_frame_size.topx && settings.ui.result_frame_size.topy &&
-            settings.ui.result_frame_size.width && settings.ui.result_frame_size.height )
-    {
-        rsframe.SetSize( settings.ui.result_frame_size.topx, settings.ui.result_frame_size.topy,
-                         settings.ui.result_frame_size.width, settings.ui.result_frame_size.height );
-    }
-
-
-    if ( settings.global.delete_locked && !app.IsUserAdmin() )
-    {
-        wxLogWarning( _("Warning: setting 'Delete locked files on reboot' ignored. The required Administrator priviliges are missing.") );
-
-    }
-
-
     __int64 total_bytes = 0, total_files = 0;
 
     //sets the file count of scheduled files to zero
     ResetFilesScheduledRemoveOnReboot();
 
-    //Set cursor to 'Hourglass'
-    SetCursor( *wxHOURGLASS_CURSOR );
+    if ( !app.IsQuietMode() )
+    {
+        rsframe.reset(new result_frame( this ) );
 
+        if ( settings.ui.result_frame_size.topx && settings.ui.result_frame_size.topy &&
+                settings.ui.result_frame_size.width && settings.ui.result_frame_size.height )
+        {
+            rsframe->SetSize( settings.ui.result_frame_size.topx, settings.ui.result_frame_size.topy,
+                              settings.ui.result_frame_size.width, settings.ui.result_frame_size.height );
+        }
+
+        Hide();
+        rsframe->DisableControls();
+        rsframe->Show();
+
+        if ( settings.global.delete_locked && !app.IsUserAdmin() )
+        {
+            wxLogWarning( _("Warning: setting 'Delete locked files on reboot' ignored. The required Administrator priviliges are missing.") );
+
+        }
+
+        //Set cursor to 'Hourglass'
+        SetCursor( *wxHOURGLASS_CURSOR );
+    }
+
+    // Clean!
     for (int i = 0, num_items = plugin_listctrl->GetItemCount() ; i < num_items ; ++i )
     {
 
@@ -226,46 +232,31 @@ void dc_frame::clean_btn_click( wxCommandEvent& event )
         }
     }
 
-    SetCursor( *wxSTANDARD_CURSOR );
-
-    wxString schedulestr;
-    schedulestr.Printf( _( "Scheduled %I64d %s for removal on reboot." ), GetFilesScheduledRemoveOnReboot(),
-                        wxPLURAL( "file", "files", GetFilesScheduledRemoveOnReboot() ) );
-
-    wxLogMessage(  schedulestr );
-
-
-    schedulestr.Printf( _( "Cleaned total of %s in %I64d %s") , bytes_to_string( total_bytes ).c_str(),
-                        total_files, wxPLURAL( "item", "items", total_files) );
-    wxLogMessage(  schedulestr );
-
-
     //Only do GUI stuff in interactive mode
     if ( !app.IsQuietMode() )
     {
-        Hide();
-        rsframe.ShowModal();
-        rsframe.GetPosition( &settings.ui.result_frame_size.topx, &settings.ui.result_frame_size.topy );
-        rsframe.GetSize( &settings.ui.result_frame_size.width, &settings.ui.result_frame_size.height );
+        SetCursor( *wxSTANDARD_CURSOR );
 
-        if ( rsframe.rerun )
-        {
-            //Run Disk Cleaner without explicit admin rights
-            //If this process already has admin rights,
-            //then so will the new process have.
-            run_diskcleaner( false );
-        }
+        wxString schedulestr;
+        schedulestr.Printf( _( "Scheduled %I64d %s for removal on reboot." ), GetFilesScheduledRemoveOnReboot(),
+                            wxPLURAL( "file", "files", GetFilesScheduledRemoveOnReboot() ) );
+
+        wxLogMessage(  schedulestr );
+
+
+        schedulestr.Printf( _( "Cleaned total of %s in %I64d %s") , bytes_to_string( total_bytes ).c_str(),
+                            total_files, wxPLURAL( "item", "items", total_files) );
+        wxLogMessage(  schedulestr );
+
+        rsframe->EnableControls();
 
     }
     else
     {
-        wxLogDebug( L"Skipping display of result frame");
+        // We're not running as a GUI app, so close after cleaning
+        Close();
     }
 
-
-    wxLogDebug( L"Ending application");
-
-    Close();
 }
 
 void dc_frame::runasadmin_btn_click( wxCommandEvent& event )
@@ -659,3 +650,22 @@ void dc_frame::dc_base_frame_onclose( wxCloseEvent& event )
     Destroy();
 }
 
+void dc_frame::result_frame_finished_signal( bool restart )
+{
+
+    // rsframe must be a valid pointer to a result_frame instance
+    // Therefore, this function should only be called from a result_frame instance
+    rsframe->GetPosition( &settings.ui.result_frame_size.topx, &settings.ui.result_frame_size.topy );
+    rsframe->GetSize( &settings.ui.result_frame_size.width, &settings.ui.result_frame_size.height );
+
+    if ( restart )
+    {
+        //Run Disk Cleaner without explicit admin rights
+        //If this process already has admin rights,
+        //then so will the new process have.
+        run_diskcleaner( false );
+    }
+
+    // We always end here.
+    Close();
+}

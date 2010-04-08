@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Apr 16 2008)
+// C++ code generated with wxFormBuilder (version Aug 25 2009)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -232,7 +232,7 @@ about_base_dlg::about_base_dlg( wxWindow* parent, wxWindowID id, const wxString&
 	version_text->Wrap( -1 );
 	bSizer7->Add( version_text, 0, wxALL, 5 );
 	
-	m_staticText3 = new wxStaticText( this, wxID_ANY, _("Copyright 1999-2009 R. J. Moerland"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText3 = new wxStaticText( this, wxID_ANY, _("Copyright 1999-2010 R. J. Moerland"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText3->Wrap( -1 );
 	bSizer7->Add( m_staticText3, 0, wxBOTTOM|wxRIGHT|wxLEFT, 5 );
 	
@@ -338,11 +338,9 @@ prefs_dlg_base::prefs_dlg_base( wxWindow* parent, wxWindowID id, const wxString&
 	bSizer6 = new wxBoxSizer( wxVERTICAL );
 	
 	delete_locked_cb = new wxCheckBox( m_panel1, wxID_ANY, _("&Delete locked files on reboot (needs administrator privileges)"), wxDefaultPosition, wxDefaultSize, 0 );
-	
 	bSizer6->Add( delete_locked_cb, 0, wxALL, 10 );
 	
 	hide_empty_cb = new wxCheckBox( m_panel1, wxID_ANY, _("&Hide entries when empty (requires restart of Disk Cleaner)"), wxDefaultPosition, wxDefaultSize, 0 );
-	
 	bSizer6->Add( hide_empty_cb, 0, wxBOTTOM|wxRIGHT|wxLEFT, 10 );
 	
 	m_panel1->SetSizer( bSizer6 );
@@ -354,11 +352,9 @@ prefs_dlg_base::prefs_dlg_base( wxWindow* parent, wxWindowID id, const wxString&
 	bSizer12 = new wxBoxSizer( wxVERTICAL );
 	
 	delete_readonly_cb = new wxCheckBox( m_panel3, wxID_ANY, _("&Delete read-only files"), wxDefaultPosition, wxDefaultSize, 0 );
-	
 	bSizer12->Add( delete_readonly_cb, 0, wxALL, 10 );
 	
 	delete_emptyfolder_cb = new wxCheckBox( m_panel3, wxID_ANY, _("Delete &empty subfolders"), wxDefaultPosition, wxDefaultSize, 0 );
-	
 	bSizer12->Add( delete_emptyfolder_cb, 0, wxBOTTOM|wxRIGHT|wxLEFT, 10 );
 	
 	wxBoxSizer* bSizer10;
@@ -387,7 +383,6 @@ prefs_dlg_base::prefs_dlg_base( wxWindow* parent, wxWindowID id, const wxString&
 	bSizer14 = new wxBoxSizer( wxVERTICAL );
 	
 	tempinet_offline_cb = new wxCheckBox( m_panel4, wxID_ANY, _("&Delete off-line items"), wxDefaultPosition, wxDefaultSize, 0 );
-	
 	bSizer14->Add( tempinet_offline_cb, 0, wxALL|wxEXPAND, 10 );
 	
 	m_panel4->SetSizer( bSizer14 );
@@ -469,7 +464,6 @@ MyDialog6::MyDialog6( wxWindow* parent, wxWindowID id, const wxString& title, co
 	fgSizer8->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_NONE );
 	
 	cookie_filter_cb = new wxCheckBox( m_panel5, wxID_ANY, _("Use cookie filtering"), wxDefaultPosition, wxDefaultSize, 0 );
-	
 	fgSizer8->Add( cookie_filter_cb, 0, wxALL, 15 );
 	
 	wxBoxSizer* bSizer15;

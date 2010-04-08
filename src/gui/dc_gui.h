@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Apr 16 2008)
+// C++ code generated with wxFormBuilder (version Aug 25 2009)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -63,19 +63,20 @@ class dc_base_frame : public wxDialog
 		wxButton* exit_btn;
 		
 		// Virtual event handlers, overide them in your derived class
-		virtual void dc_base_frame_onclose( wxCloseEvent& event ){ event.Skip(); }
-		virtual void plugin_listctrl_column_clicked( wxListEvent& event ){ event.Skip(); }
-		virtual void preset_box_onchoice( wxCommandEvent& event ){ event.Skip(); }
-		virtual void preset_save_btn_click( wxCommandEvent& event ){ event.Skip(); }
-		virtual void preset_delete_btn_click( wxCommandEvent& event ){ event.Skip(); }
-		virtual void config_btn_click( wxCommandEvent& event ){ event.Skip(); }
-		virtual void about_btn_click( wxCommandEvent& event ){ event.Skip(); }
-		virtual void clean_btn_click( wxCommandEvent& event ){ event.Skip(); }
-		virtual void runasadmin_btn_click( wxCommandEvent& event ){ event.Skip(); }
-		virtual void exit_btn_click( wxCommandEvent& event ){ event.Skip(); }
+		virtual void dc_base_frame_onclose( wxCloseEvent& event ) { event.Skip(); }
+		virtual void plugin_listctrl_column_clicked( wxListEvent& event ) { event.Skip(); }
+		virtual void preset_box_onchoice( wxCommandEvent& event ) { event.Skip(); }
+		virtual void preset_save_btn_click( wxCommandEvent& event ) { event.Skip(); }
+		virtual void preset_delete_btn_click( wxCommandEvent& event ) { event.Skip(); }
+		virtual void config_btn_click( wxCommandEvent& event ) { event.Skip(); }
+		virtual void about_btn_click( wxCommandEvent& event ) { event.Skip(); }
+		virtual void clean_btn_click( wxCommandEvent& event ) { event.Skip(); }
+		virtual void runasadmin_btn_click( wxCommandEvent& event ) { event.Skip(); }
+		virtual void exit_btn_click( wxCommandEvent& event ) { event.Skip(); }
 		
 	
 	public:
+		
 		dc_base_frame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Disk Cleaner"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 500,426 ), long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER );
 		~dc_base_frame();
 	
@@ -95,6 +96,7 @@ class wait_base_dlg : public wxDialog
 		wxStaticText* m_staticText9;
 	
 	public:
+		
 		wait_base_dlg( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Please wait..."), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 260,103 ), long style = wxDEFAULT_DIALOG_STYLE );
 		~wait_base_dlg();
 	
@@ -118,10 +120,11 @@ class about_base_dlg : public wxDialog
 		wxButton* ok_sizerOK;
 		
 		// Virtual event handlers, overide them in your derived class
-		virtual void ok_btn_clicked( wxCommandEvent& event ){ event.Skip(); }
+		virtual void ok_btn_clicked( wxCommandEvent& event ) { event.Skip(); }
 		
 	
 	public:
+		
 		about_base_dlg( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("About"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE );
 		~about_base_dlg();
 	
@@ -142,12 +145,13 @@ class result_base_frame : public wxDialog
 		wxButton* exit_btn;
 		
 		// Virtual event handlers, overide them in your derived class
-		virtual void init_result_dlg( wxInitDialogEvent& event ){ event.Skip(); }
-		virtual void back_btn_click( wxCommandEvent& event ){ event.Skip(); }
-		virtual void exit_btn_click( wxCommandEvent& event ){ event.Skip(); }
+		virtual void init_result_dlg( wxInitDialogEvent& event ) { event.Skip(); }
+		virtual void back_btn_click( wxCommandEvent& event ) { event.Skip(); }
+		virtual void exit_btn_click( wxCommandEvent& event ) { event.Skip(); }
 		
 	
 	public:
+		
 		result_base_frame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 440,318 ), long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER );
 		~result_base_frame();
 	
@@ -177,11 +181,12 @@ class prefs_dlg_base : public wxDialog
 		wxButton* ok_cancelCancel;
 		
 		// Virtual event handlers, overide them in your derived class
-		virtual void cancel_btn_clicked( wxCommandEvent& event ){ event.Skip(); }
-		virtual void ok_btn_clicked( wxCommandEvent& event ){ event.Skip(); }
+		virtual void cancel_btn_clicked( wxCommandEvent& event ) { event.Skip(); }
+		virtual void ok_btn_clicked( wxCommandEvent& event ) { event.Skip(); }
 		
 	
 	public:
+		
 		prefs_dlg_base( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Preferences"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 467,368 ), long style = wxDEFAULT_DIALOG_STYLE|wxCLIP_CHILDREN );
 		~prefs_dlg_base();
 	
@@ -218,6 +223,7 @@ class MyDialog6 : public wxDialog
 		wxStaticText* m_staticText18;
 	
 	public:
+		
 		MyDialog6( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 377,302 ), long style = wxDEFAULT_DIALOG_STYLE );
 		~MyDialog6();
 	

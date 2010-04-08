@@ -57,6 +57,8 @@ DSdata  CleanFilesInFolder(const wchar_t* folder, const wchar_t* masks,
 void  SetRemoveOnReboot(bool Remove);
 __int64  GetFilesScheduledRemoveOnReboot();
 void ResetFilesScheduledRemoveOnReboot();
+void SetAllFilesRemoved( bool _AllFilesRemoved);
+bool GetAllFilesRemoved();
 
 
 //} //extern "C"

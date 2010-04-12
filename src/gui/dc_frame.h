@@ -42,9 +42,6 @@ class dc_frame : public dc_base_frame
     std::auto_ptr<result_frame> rsframe;
 protected:
 
-    //Let dcApp have access to event handlers (specifically clean_btn_click() )
-    friend class dcApp;
-
     //Manages all user settings that are persistent
     diskcleaner::dcsettings settings;
 
@@ -80,6 +77,9 @@ protected:
 public:
 	/** Constructor */
 	dc_frame( wxWindow* parent );
+
+	// Start actual cleaning
+	void clean(__int64& total_files, __int64& total_bytes);
 	void init_dialog();
 
 	// For result_frame instances only

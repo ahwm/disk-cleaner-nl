@@ -173,11 +173,9 @@ void dc_frame::config_btn_click( wxCommandEvent& event )
 
 }
 
+// By definition (*click*), we're in GUI mode
 void dc_frame::clean_btn_click( wxCommandEvent& event )
 {
-
-    PlugInfo* pinfo;
-    dcApp& app = wxGetApp();
 
     __int64 total_bytes = 0, total_files = 0;
 
@@ -187,30 +185,59 @@ void dc_frame::clean_btn_click( wxCommandEvent& event )
     // Set AllFilesRemoved flag to true;
     SetAllFilesRemoved( true );
 
-    if ( !app.IsQuietMode() )
+    rsframe.reset(new result_frame( this ) );
+
+    if ( settings.ui.result_frame_size.topx && settings.ui.result_frame_size.topy &&
+            settings.ui.result_frame_size.width && settings.ui.result_frame_size.height )
     {
-        rsframe.reset(new result_frame( this ) );
-
-        if ( settings.ui.result_frame_size.topx && settings.ui.result_frame_size.topy &&
-                settings.ui.result_frame_size.width && settings.ui.result_frame_size.height )
-        {
-            rsframe->SetSize( settings.ui.result_frame_size.topx, settings.ui.result_frame_size.topy,
-                              settings.ui.result_frame_size.width, settings.ui.result_frame_size.height );
-        }
-
-        Hide();
-        rsframe->DisableControls();
-        rsframe->Show();
-
-        if ( settings.global.delete_locked && !app.IsUserAdmin() )
-        {
-            wxLogWarning( _("Warning: setting 'Delete locked files on reboot' ignored. The required Administrator priviliges are missing.") );
-
-        }
-
-        //Set cursor to 'Hourglass'
-        SetCursor( *wxHOURGLASS_CURSOR );
+        rsframe->SetSize( settings.ui.result_frame_size.topx, settings.ui.result_frame_size.topy,
+                          settings.ui.result_frame_size.width, settings.ui.result_frame_size.height );
     }
+
+    Hide();
+    rsframe->DisableControls();
+    rsframe->Show();
+
+    if ( settings.global.delete_locked )
+    {
+        wxLogWarning( _("Warning: setting 'Delete locked files on reboot' ignored. The required Administrator priviliges are missing.") );
+
+    }
+
+    //Set cursor to 'Hourglass'
+    SetCursor( *wxHOURGLASS_CURSOR );
+
+    // Do the actual cleaning here
+    clean(total_files, total_bytes);
+
+    SetCursor( *wxSTANDARD_CURSOR );
+
+    wxLogMessage( L"" );
+
+    if ( !GetAllFilesRemoved() )
+    {
+        wxLogMessage( _("Could not remove all files. Please close all open applications and retry.") );
+    }
+
+    wxString schedulestr;
+    schedulestr.Printf( _( "Scheduled %I64d %s for removal on reboot." ), GetFilesScheduledRemoveOnReboot(),
+                        wxPLURAL( "file", "files", GetFilesScheduledRemoveOnReboot() ) );
+
+    wxLogMessage(  schedulestr );
+
+
+    schedulestr.Printf( _( "Cleaned total of %s in %I64d %s") , bytes_to_string( total_bytes ).c_str(),
+                        total_files, wxPLURAL( "item", "items", total_files) );
+    wxLogMessage(  schedulestr );
+
+    rsframe->EnableControls();
+
+
+}
+
+void dc_frame::clean(__int64& total_files, __int64& total_bytes)
+{
+    PlugInfo* pinfo;
 
     // Clean!
     for (int i = 0, num_items = plugin_listctrl->GetItemCount() ; i < num_items ; ++i )
@@ -234,39 +261,6 @@ void dc_frame::clean_btn_click( wxCommandEvent& event )
             wxLogMessage( line.c_str() );
         }
     }
-
-    //Only do GUI stuff in interactive mode
-    if ( !app.IsQuietMode() )
-    {
-        SetCursor( *wxSTANDARD_CURSOR );
-
-        wxLogMessage( L"" );
-
-        if ( !GetAllFilesRemoved() )
-        {
-            wxLogMessage( _("Could not remove all files. Please close all open applications and retry.") );
-        }
-
-        wxString schedulestr;
-        schedulestr.Printf( _( "Scheduled %I64d %s for removal on reboot." ), GetFilesScheduledRemoveOnReboot(),
-                            wxPLURAL( "file", "files", GetFilesScheduledRemoveOnReboot() ) );
-
-        wxLogMessage(  schedulestr );
-
-
-        schedulestr.Printf( _( "Cleaned total of %s in %I64d %s") , bytes_to_string( total_bytes ).c_str(),
-                            total_files, wxPLURAL( "item", "items", total_files) );
-        wxLogMessage(  schedulestr );
-
-        rsframe->EnableControls();
-
-    }
-    else
-    {
-        // We're not running as a GUI app, so close after cleaning
-        Close();
-    }
-
 }
 
 void dc_frame::runasadmin_btn_click( wxCommandEvent& event )

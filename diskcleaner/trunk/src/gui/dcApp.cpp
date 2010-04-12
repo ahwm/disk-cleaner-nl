@@ -93,8 +93,9 @@ bool dcApp::OnInit()
         else
         {
             wxLogDebug( L"%hs: quiet mode, not showing dc_frame", __FUNCTION__ );
-            wxCommandEvent evt;
-            frame->clean_btn_click( evt );
+            wxLogNull dont_log;
+            __int64 total_files, total_bytes; // Unused
+            frame->clean(total_files, total_bytes);
         }
 
         return true;

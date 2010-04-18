@@ -146,6 +146,9 @@ void wxListCtrlLog::DoLog(wxLogLevel level, const wxChar *szString, time_t t)
 
 void wxListCtrlLog::Flush()
 {
+    // Necessary according to docs
+    wxLog::Flush();
+
     wxString fmt = wxLog::GetTimestamp();
     if ( !fmt )
     {
@@ -160,6 +163,7 @@ void wxListCtrlLog::Flush()
     {
         int image = -1;
 
+        // If we got the images, show them
         if ( loadedIcons )
         {
             switch ( m_severity[n] )
@@ -176,16 +180,18 @@ void wxListCtrlLog::Flush()
                 image = -1;
             }
         }
-        else // failed to load images
-        {
-            image = -1;
-        }
 
-        this->InsertItem( n + listctrl_count, m_messages[n], image );
-        //m_listctrl->SetItem(n, 1, wxLog::TimeStamp(fmt, (time_t)m_times[n]));
+        int index = this->InsertItem( n + listctrl_count, m_messages[n], image );
+        if ( index != -1 ) //error during insertion
+        {
+            this->EnsureVisible( index );
+        }
     }
 
     m_messages.Clear();
+    m_severity.Clear();
+    m_times.Clear();
+
     // let the columns size themselves
     this->SetColumnWidth(0, wxLIST_AUTOSIZE);
 }

@@ -24,19 +24,26 @@ result_frame::result_frame( wxWindow* parent )
 :
 result_base_frame( parent )
 {
+  // Set focus on exit button
   exit_btn->SetFocus();
+
+  // Set parent frame
   parent_frame = dynamic_cast<dc_frame*>( parent );
 }
 
 void result_frame::back_btn_click( wxCommandEvent& event )
 {
+	// Signal our parent that the user wants to go back (rescan)
 	parent_frame->result_frame_finished_signal( true );
+
 	Close();
 }
 
 void result_frame::exit_btn_click( wxCommandEvent& event )
 {
+	// Signal our parent that the user wants to exit
 	parent_frame->result_frame_finished_signal( false );
+
 	Close();
 }
 

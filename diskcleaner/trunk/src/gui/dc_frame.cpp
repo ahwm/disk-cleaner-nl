@@ -31,8 +31,8 @@
 #include "gui/result_frame.h"
 #include "gui/dcApp.h"
 #include "gui/wxCheckedListCtrl.h"
+#include "gui/wxListCtrlLog.h"
 
-#include <wx/log.h>
 #include <wx/fileconf.h>
 #include <wx/intl.h>
 #include <wx/textdlg.h>
@@ -212,8 +212,6 @@ void dc_frame::clean_btn_click( wxCommandEvent& event )
 
     SetCursor( *wxSTANDARD_CURSOR );
 
-    wxLogMessage( L"" );
-
     if ( !GetAllFilesRemoved() )
     {
         wxLogMessage( _("Could not remove all files. Please close all open applications and retry.") );
@@ -231,34 +229,34 @@ void dc_frame::clean_btn_click( wxCommandEvent& event )
     wxLogMessage(  schedulestr );
 
     rsframe->EnableControls();
-
-
 }
 
 void dc_frame::clean(__int64& total_files, __int64& total_bytes)
 {
     PlugInfo* pinfo;
 
-    // Clean!
+    // Iterate over all cleaning plug-ins, call Clean() function if checked
     for (int i = 0, num_items = plugin_listctrl->GetItemCount() ; i < num_items ; ++i )
     {
 
         if ( plugin_listctrl->IsChecked( i ) )
         {
             pinfo = (PlugInfo* ) plugin_listctrl->GetItemData( i );
-            wxLogVerbose( L"Cleaning: %s", pinfo->GetShortDesc().c_str() );
+            wxLogMessage( L"Cleaning: %s", pinfo->GetShortDesc().c_str() );
+            wxLog::GetActiveTarget()->Flush();  //Immdediately show what we're doing
+
             pinfo->Clean();
 
             total_files += pinfo->GetItemsCleaned();
             total_bytes += pinfo->GetBytesCleaned();
 
-            //_i64tow(pinfo->GetItemsCleaned(),files,10);
-
+            // Produce result summary line
             wxString line;
             line.Printf( L"%s: Cleaned %s in %I64d %s.", pinfo->GetShortDesc().c_str(),
                          bytes_to_string(pinfo->GetBytesCleaned() ).c_str(),
                          pinfo->GetItemsCleaned(), wxPLURAL( "item", "items", pinfo->GetItemsCleaned() ) );
             wxLogMessage( line.c_str() );
+            wxLogMessage( L"" ); //Skip a line for readability
         }
     }
 }

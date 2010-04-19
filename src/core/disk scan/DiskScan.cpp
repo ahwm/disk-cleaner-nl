@@ -24,8 +24,18 @@
 
 namespace DiskScan
 {
+    // Globals related to the scheduling of files for removal on reboot
+    //
+    // RemoveOnReboot: if true, then schedule files that cannot be deleted
+    // to be removed on reboot, just give up when false
     bool RemoveOnReboot;
+
+    // Counter of how many files were scheduled for removal on reboot
     __int64 FilesScheduled;
+
+    // just an indication whether all files that should be removed were removed
+    // used to suppress 'Cannot remove folder as promised..' etc. when
+    // the folder contains files that could not be removed
     bool AllFilesRemoved;
 }
 

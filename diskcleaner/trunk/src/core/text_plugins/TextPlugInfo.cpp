@@ -415,20 +415,39 @@ namespace diskcleaner
 
     void TextPlugInfo::DoScan( bool Preview )
     {
-        wchar_t buff[32*1024-1]; //32k is limit of win95
+        HKEY rootkey;
+        BOOL fOk;
+        WIN32_FILE_ATTRIBUTE_DATA fileInfo;
+
+        ItemsFound = 0;
+        BytesFound = 0;
+
+        fOk = GetFileAttributesEx(FileName.c_str(), GetFileExInfoStandard, (void*)&fileInfo);
+        if (!fOk)
+        {
+            wxLogError( _T("Unable to determine file size. Skipping plugin %s"), FileName.c_str() );
+
+            return;
+        }
+
+        if ( fileInfo.nFileSizeHigh != 0)
+        {
+            wxLogError( _T("Extremely large plug-in file detected: %s. Skipping."), FileName.c_str() );
+
+            return;
+        }
+
+        wxLogDebug( L"%s: plugin file size is %d", FileName.c_str(), fileInfo.nFileSizeLow );
+        wchar_t* buff = new wchar_t[ fileInfo.nFileSizeLow ];
         wchar_t* pstring = buff;
         wchar_t* subkey,*value;
-        HKEY rootkey;
-
 
         FileList.clear();
 
         /* Do registry first */
-        //addlog("Reading registry section");
-        GetPrivateProfileSection( L"registry" , buff, sizeof( buff ), FileName.c_str() );
+        wxLogDebug( L"%s: Processing registry section", FileName.c_str() );
 
-        ItemsFound = 0;
-        BytesFound = 0;
+        GetPrivateProfileSection( L"registry" , buff, fileInfo.nFileSizeLow, FileName.c_str() );
 
         while ( *pstring )
         {
@@ -449,8 +468,9 @@ namespace diskcleaner
 
 
         /* Do files */
-        //addlog("Reading files section");
-        GetPrivateProfileSectionW( L"files", buff, sizeof( buff ), FileName.c_str() );
+        wxLogDebug( L"%s: Processing files section", FileName.c_str() );
+
+        GetPrivateProfileSectionW( L"files", buff, fileInfo.nFileSizeLow, FileName.c_str() );
         pstring = buff;
 
         FolderList.clear();

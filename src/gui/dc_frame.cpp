@@ -198,8 +198,7 @@ void dc_frame::clean_btn_click( wxCommandEvent& event )
     rsframe->DisableControls();
     rsframe->Show();
 
-    dcApp& app = wxGetApp();
-    if ( settings.global.delete_locked && !app.IsUserAdmin() )
+    if ( settings.global.delete_locked )
     {
         wxLogWarning( _("Warning: setting 'Delete locked files on reboot' ignored. The required Administrator priviliges are missing.") );
 

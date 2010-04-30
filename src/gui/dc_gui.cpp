@@ -139,7 +139,7 @@ dc_base_frame::dc_base_frame( wxWindow* parent, wxWindowID id, const wxString& t
 	this->Layout();
 	context_menu = new wxMenu();
 	wxMenuItem* m_select_all;
-	m_select_all = new wxMenuItem( context_menu, wxID_ANY, wxString( _("Select All") ) + wxT('\t') + wxT("CTRL+A"), wxEmptyString, wxITEM_NORMAL );
+	m_select_all = new wxMenuItem( context_menu, wxID_ANY, wxString( _("Select All") ) , wxEmptyString, wxITEM_NORMAL );
 	context_menu->Append( m_select_all );
 	
 	wxMenuItem* m_select_none;
@@ -324,10 +324,8 @@ result_base_frame::result_base_frame( wxWindow* parent, wxWindowID id, const wxS
 	back_btn->SetDefault(); 
 	bSizer3->Add( back_btn, 0, wxALL, 5 );
 	
-	m_button14 = new wxButton( this, wxID_ANY, _("&Save results..."), wxDefaultPosition, wxDefaultSize, 0 );
-	m_button14->Hide();
-	
-	bSizer3->Add( m_button14, 0, wxALL, 5 );
+	save_btn = new wxButton( this, wxID_ANY, _("&Save results..."), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer3->Add( save_btn, 0, wxALL, 5 );
 	
 	
 	bSizer3->Add( 0, 0, 1, wxEXPAND, 5 );
@@ -346,7 +344,7 @@ result_base_frame::result_base_frame( wxWindow* parent, wxWindowID id, const wxS
 	// Connect Events
 	this->Connect( wxEVT_INIT_DIALOG, wxInitDialogEventHandler( result_base_frame::init_result_dlg ) );
 	back_btn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( result_base_frame::back_btn_click ), NULL, this );
-	m_button14->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( result_base_frame::SaveResultsBtnClick ), NULL, this );
+	save_btn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( result_base_frame::save_btn_click ), NULL, this );
 	exit_btn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( result_base_frame::exit_btn_click ), NULL, this );
 }
 
@@ -355,7 +353,7 @@ result_base_frame::~result_base_frame()
 	// Disconnect Events
 	this->Disconnect( wxEVT_INIT_DIALOG, wxInitDialogEventHandler( result_base_frame::init_result_dlg ) );
 	back_btn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( result_base_frame::back_btn_click ), NULL, this );
-	m_button14->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( result_base_frame::SaveResultsBtnClick ), NULL, this );
+	save_btn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( result_base_frame::save_btn_click ), NULL, this );
 	exit_btn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( result_base_frame::exit_btn_click ), NULL, this );
 	
 }

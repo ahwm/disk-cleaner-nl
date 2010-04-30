@@ -152,14 +152,14 @@ class result_base_frame : public wxDialog
 		wxStaticText* m_staticText19;
 		wxListCtrlLog* result_lc;
 		wxButton* back_btn;
-		wxButton* m_button14;
+		wxButton* save_btn;
 		
 		wxButton* exit_btn;
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void init_result_dlg( wxInitDialogEvent& event ) { event.Skip(); }
 		virtual void back_btn_click( wxCommandEvent& event ) { event.Skip(); }
-		virtual void SaveResultsBtnClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void save_btn_click( wxCommandEvent& event ) { event.Skip(); }
 		virtual void exit_btn_click( wxCommandEvent& event ) { event.Skip(); }
 		
 	

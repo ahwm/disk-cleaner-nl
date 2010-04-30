@@ -158,6 +158,16 @@ typedef GUID KNOWNFOLDERID;
 
     }
 
+    bool TestForAdminLocations( const std::wstring& path )
+    {
+        if ( path.find( L"%windir%") != std::string::npos || path.find( L"%sysdir%") != std::string::npos ||
+              path.find( L"%programfiles%" ) != std::string::npos )
+        {
+            return true;
+        }
+        return false;
+    }
+
 //--------------------------------------------------------------------------
 //ExpandString - Expands strings in the form of %string% to their full
 //size. Currently only capable of 1 expansion per string.
@@ -323,7 +333,10 @@ namespace diskcleaner
             pstring+=len+1;
         }
 
-        /* Do files */
+        // Do files
+        //
+        // No need to read the [files] section anymore from the plug-in
+        // since it is stored in the vector<std::wstring> FolderList
 
         for (unsigned int i=0;i<FolderList.size();++i)
         {
@@ -365,10 +378,10 @@ namespace diskcleaner
     }
 //------------------------------------------------------------------------------
 
-    HICON TextPlugInfo::GetIcon()
-    {
-        return IconHandle;
-    }
+//    HICON TextPlugInfo::GetIcon()
+//    {
+//        return IconHandle;
+//    }
 
 //------------------------------------------------------------------------------
     TScanOptions TextPlugInfo::GetScanOptions(wchar_t* folder)
@@ -475,6 +488,11 @@ namespace diskcleaner
             if (CrackRegKey(pstring,rootkey,subkey,value))
             {
                 ::wxLogDebug( L"%hs: EnumRegKey(%s, %s, %s)" , __FUNCTION__, pstring, subkey, value );
+
+                if (rootkey != HKEY_CURRENT_USER ) // Assume admin priviliges are required when not editing our own
+                {                                  // (HKEY_CURRENT_USER) keys in the registry
+                    AdminRequired = true;
+                }
                 EnumRegKey( rootkey, subkey, value, ItemsFound, BytesFound, FileList, pstring);
             }
 
@@ -497,7 +515,7 @@ namespace diskcleaner
         {
             wxLogDebug( L"%hs: found in [files]: %s", __FUNCTION__, pstring );
             std::wstring tmp(pstring);
-
+            if( !AdminRequired ) AdminRequired = TestForAdminLocations( tmp );
             ExpandString(tmp, FolderList);
 
             pstring += lstrlen(pstring) + 1;

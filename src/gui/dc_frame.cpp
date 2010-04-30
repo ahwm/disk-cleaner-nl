@@ -94,8 +94,10 @@ int wxCALLBACK listctrl_compare( long item1, long item2, long sortData )
 
 dc_frame::dc_frame( wxWindow* parent ):dc_base_frame( parent )
 {
-    // wxImage::AddHandler( new wxJPEGHandler );
+    // Let the 'Select All/None/Invert' menu also show when the plugin list is right-clicked
+    plugin_listctrl->Connect( wxEVT_RIGHT_DOWN, wxMouseEventHandler( dc_base_frame::dc_base_frameOnContextMenu ), NULL, this );
 
+    // Empty ListCtrl and add columns
     plugin_listctrl->ClearAll();
     plugin_listctrl->InsertColumn( 0, _( "Title" ) );
     plugin_listctrl->InsertColumn( 1, _( "Items" ), wxLIST_FORMAT_RIGHT );
@@ -540,9 +542,19 @@ wxString dc_frame::bytes_to_string( __int64 bytes )
 
 void dc_frame::add_plugin_to_listctrl( diskcleaner::PlugInfo* pi)
 {
+    dcApp& app = wxGetApp();
+    bool is_admin = app.IsUserAdmin();
+
     wxLogDebug( L"%hs: processing %s" , __FUNCTION__, pi->GetShortDesc().c_str() );
     pi->Scan();
-    if (pi->GetItemsFound() > 0 || settings.global.hide_empty == false )
+
+    // Don't show the plug-in if:
+    // a. We need admin priviliges and we're not admin
+    // b. We don't have anything to show and the user wants to hide empty items
+    wxLogDebug( L"%hs: We are admin: %s. We need admin: %s", __FUNCTION__, ( is_admin ) ? L"true": L"false",
+                  ( pi->AdminPriviligesRequired() ) ? L"true": L"false" );
+
+    if ( ( !pi->AdminPriviligesRequired() || is_admin ) && (pi->GetItemsFound() > 0 || settings.global.hide_empty == false ) )
     {
         ::wxLogDebug( L"%hs: adding %s" , __FUNCTION__, pi->GetShortDesc().c_str() );
 
@@ -651,6 +663,33 @@ void dc_frame::dc_base_frame_onclose( wxCloseEvent& event )
     UninitializeSHGetKnownFolderPath();
 
     Destroy();
+}
+
+void dc_frame::select_all_click(wxCommandEvent& event )
+{
+    // Iterate over all cleaning plug-ins
+    for (int i = 0, num_items = plugin_listctrl->GetItemCount() ; i < num_items ; ++i )
+    {
+        plugin_listctrl->Check(i, true );
+    }
+}
+
+void dc_frame::select_none_click(wxCommandEvent& event )
+{
+    // Iterate over all cleaning plug-ins
+    for (int i = 0, num_items = plugin_listctrl->GetItemCount() ; i < num_items ; ++i )
+    {
+        plugin_listctrl->Check(i, false );
+    }
+}
+
+void dc_frame::invert_selection_click(wxCommandEvent& event )
+{
+    // Iterate over all cleaning plug-ins
+    for (int i = 0, num_items = plugin_listctrl->GetItemCount() ; i < num_items ; ++i )
+    {
+        plugin_listctrl->Check(i, !plugin_listctrl->IsChecked( i ) );
+    }
 }
 
 void dc_frame::result_frame_finished_signal( bool restart )

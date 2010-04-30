@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="dclean" />
+		<Option platforms="Windows;" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin\Debug\dclean" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj\Debug\" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Option parameters="-nt" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-g" />
+					<Add option="-DDEBUG" />
+					<Add option="-D__WXDEBUG__" />
+					<Add directory="$(#wx.lib)\gcc_lib\mswud" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="$(#wx.lib)\gcc_lib\mswud" />
+				</ResourceCompiler>
+				<Linker>
+					<Add library="libwxmsw28ud_core.a" />
+					<Add library="libwxbase28ud.a" />
+					<Add library="libwxmsw28ud_adv.a" />
+					<Add library="libwxjpeg.a" />
+					<Add directory="$(#wx.lib)\gcc_lib" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="bin\Release\dclean" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj\Release\" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-Os" />
+					<Add directory="$(#wx.lib)\gcc_lib\mswu" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="$(#wx.lib)\gcc_lib\mswu" />
+				</ResourceCompiler>
+				<Linker>
+					<Add option="-s" />
+					<Add option="-Wl,--gc-sections" />
+					<Add library="libwxmsw28u_core.a" />
+					<Add library="libwxbase28u.a" />
+					<Add library="libwxmsw28u_adv.a" />
+					<Add directory="$(#wx.lib)\gcc_lib" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-pipe" />
+			<Add option="-mthreads" />
+			<Add option='[[if (PLATFORM == PLATFORM_MSW &amp;&amp; (GetCompilerFactory().GetCompilerVersionString(_T(&quot;gcc&quot;)) &gt;= _T(&quot;4.0.0&quot;))) print(_T(&quot;-Wno-attributes&quot;));]]' />
+			<Add option="-D__GNUWIN32__" />
+			<Add option="-D__WXMSW__" />
+			<Add option="-DwxUSE_UNICODE" />
+			<Add option="-D_UNICODE" />
+			<Add option="-DUNICODE" />
+			<Add directory="$(#wx.include)" />
+			<Add directory="$(#wx)\contrib\include" />
+			<Add directory="." />
+		</Compiler>
+		<ResourceCompiler>
+			<Add directory="$(#wx.include)" />
+		</ResourceCompiler>
+		<Linker>
+			<Add library="libkernel32.a" />
+			<Add library="libuser32.a" />
+			<Add library="libgdi32.a" />
+			<Add library="libwinspool.a" />
+			<Add library="libcomdlg32.a" />
+			<Add library="libadvapi32.a" />
+			<Add library="libshell32.a" />
+			<Add library="libole32.a" />
+			<Add library="liboleaut32.a" />
+			<Add library="libuuid.a" />
+			<Add library="libcomctl32.a" />
+			<Add library="libwsock32.a" />
+			<Add library="libodbc32.a" />
+			<Add library="libwininet.a" />
+		</Linker>
+		<Unit filename="core\build_in_plugins\firefox\firefox.h" />
+		<Unit filename="core\build_in_plugins\internet_explorer\internet_explorer.h" />
+		<Unit filename="core\build_in_plugins\internet_explorer\mingw_urlhist.h" />
+		<Unit filename="core\build_in_plugins\recent docs\recentdocs.h" />
+		<Unit filename="core\build_in_plugins\recycle bin\rbin.h" />
+		<Unit filename="core\build_in_plugins\system temp\systemp.h" />
+		<Unit filename="core\built_in_plugins\firefox\firefox.cpp" />
+		<Unit filename="core\built_in_plugins\firefox\firefox.h" />
+		<Unit filename="core\built_in_plugins\internet_explorer\internet_explorer.cpp" />
+		<Unit filename="core\built_in_plugins\internet_explorer\internet_explorer.h" />
+		<Unit filename="core\built_in_plugins\internet_explorer\mingw_urlhist.h" />
+		<Unit filename="core\built_in_plugins\recent docs\recentdocs.cpp" />
+		<Unit filename="core\built_in_plugins\recent docs\recentdocs.h" />
+		<Unit filename="core\built_in_plugins\recycle bin\rbin.cpp" />
+		<Unit filename="core\built_in_plugins\recycle bin\rbin.h" />
+		<Unit filename="core\built_in_plugins\system temp\systemp.cpp" />
+		<Unit filename="core\built_in_plugins\system temp\systemp.h" />
+		<Unit filename="core\disk scan\DiskScan.cpp" />
+		<Unit filename="core\disk scan\DiskScan.h" />
+		<Unit filename="core\plugin_info_base.h" />
+		<Unit filename="core\reg scan\RegEnum.cpp" />
+		<Unit filename="core\reg scan\RegEnum.h" />
+		<Unit filename="core\sqlite\sqlite3.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="core\sqlite\sqlite3.h" />
+		<Unit filename="core\sqlite\sqlite3ext.h" />
+		<Unit filename="core\text_plugins\TextPlugInfo.cpp" />
+		<Unit filename="core\text_plugins\TextPlugInfo.h" />
+		<Unit filename="gui\about_frame.cpp" />
+		<Unit filename="gui\about_frame.h" />
+		<Unit filename="gui\dcApp.cpp" />
+		<Unit filename="gui\dcApp.h" />
+		<Unit filename="gui\dc_frame.cpp" />
+		<Unit filename="gui\dc_frame.h" />
+		<Unit filename="gui\dc_gui.cpp" />
+		<Unit filename="gui\dc_gui.h" />
+		<Unit filename="gui\dcpresets.cpp" />
+		<Unit filename="gui\dcpresets.h" />
+		<Unit filename="gui\dcsettings.cpp" />
+		<Unit filename="gui\dcsettings.h" />
+		<Unit filename="gui\prefs_dlg.cpp" />
+		<Unit filename="gui\prefs_dlg.h" />
+		<Unit filename="gui\result_frame.cpp" />
+		<Unit filename="gui\result_frame.h" />
+		<Unit filename="gui\version.h" />
+		<Unit filename="gui\wait_dlg.cpp" />
+		<Unit filename="gui\wait_dlg.h" />
+		<Unit filename="gui\wxCheckedListCtrl.cpp" />
+		<Unit filename="gui\wxCheckedListCtrl.h" />
+		<Unit filename="gui\wxlistctrllog.cpp" />
+		<Unit filename="gui\wxlistctrllog.h" />
+		<Unit filename="resource.rc">
+			<Option compilerVar="WINDRES" />
+		</Unit>
+		<Extensions>
+			<code_completion />
+			<debugger />
+			<AutoVersioning>
+				<Scheme minor_max="10" build_max="0" rev_max="0" rev_rand_max="10" build_times_to_increment_minor="100000" />
+				<Settings autoincrement="0" date_declarations="1" do_auto_increment="1" ask_to_increment="0" language="C++" svn="0" svn_directory="" header_path="gui\version.h" />
+				<Changes_Log show_changes_editor="0" app_title="released version %M.%m.%b of %p" changeslog_path="ChangesLog.txt" />
+			</AutoVersioning>
+			<envvars />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

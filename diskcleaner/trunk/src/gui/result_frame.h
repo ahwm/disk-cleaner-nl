@@ -30,12 +30,12 @@ class dc_frame;
 /** Implementing result_base_frame */
 class result_frame : public result_base_frame
 {
-        wxListCtrlLog* CtrlLog;
 protected:
 	// Handlers for result_base_frame events.
 	void back_btn_click( wxCommandEvent& event );
 	void exit_btn_click( wxCommandEvent& event );
 	void init_result_dlg( wxInitDialogEvent& event ){};
+	void save_btn_click( wxCommandEvent& event );
 
 public:
 	/** Constructor */

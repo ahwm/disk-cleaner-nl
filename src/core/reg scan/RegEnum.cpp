@@ -215,7 +215,7 @@ bool DelRegKey(HKEY rootkey,wchar_t* subkey,wchar_t* value,__int64& nitems,
     }
     else
     {
-        wxLogDebug( L"Failed to open key: %s", subkey );
+//     addlog("Failed to open key: " + std::wstring(subkey));
         result = false;
     }
     return result;

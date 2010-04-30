@@ -43,7 +43,7 @@ class TextPlugInfo : public PlugInfo
 public:
         TextPlugInfo(std::wstring& aFile);
 
-        //virtual HICON GetIcon();
+        virtual HICON GetIcon();
         virtual void Clean();
         virtual void Configure(){};
         virtual void Scan();

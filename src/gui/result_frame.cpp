@@ -15,12 +15,9 @@
 ** Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
-#include <wx/filedlg.h>
-#include <wx/textfile.h>
-#include <wx/msgdlg.h>
-
 #include "result_frame.h"
 #include "gui/wxlistctrllog.h"
+
 #include "gui/dc_frame.h"
 
 result_frame::result_frame( wxWindow* parent )
@@ -34,39 +31,6 @@ result_base_frame( parent )
   parent_frame = dynamic_cast<dc_frame*>( parent );
 }
 
-void result_frame::save_btn_click( wxCommandEvent& event )
-{
-    //Save cleaning results to a file
-    wxFileDialog SaveDialog( this,
-                            _("Choose a location to save the results"), wxEmptyString, wxEmptyString,
-                            _("Log files (*.log)|*.log"), wxFD_SAVE, wxDefaultPosition);
-
-	if (SaveDialog.ShowModal() == wxID_OK) // if the user click "Open" instead of "Cancel"
-	{
-		wxString filename = SaveDialog.GetPath();
-		wxTextFile resultfile( filename );
-        ::wxLogDebug( L"%hs: GetFileName() returned %s", __FUNCTION__, filename.c_str() );
-
-        if( !resultfile.Create() && !resultfile.Open() )
-        {
-            wxMessageBox( _("Sorry, I couldn't write to that file. Please try another name or location"),
-                        _(""), wxOK, this );
-            return;
-        }
-
-        resultfile.Clear();
-        size_t max = result_lc->GetItemCount();
-        ::wxLogDebug( L"result_lc->GetItemCount() max = %d", max );
-
-        for (int k = 0; k < max; ++k )
-        {
-            resultfile.AddLine( result_lc->GetItemText( k ) );
-        }
-
-        wxLogDebug( L"Writing to log file..." );
-        resultfile.Write();
-	}
-}
 void result_frame::back_btn_click( wxCommandEvent& event )
 {
 	// Signal our parent that the user wants to go back (rescan)
@@ -92,12 +56,10 @@ void result_frame::EnableControls()
 {
   back_btn->Enable( true );
   exit_btn->Enable( true );
-  save_btn->Enable( true );
 }
 
 void result_frame::DisableControls()
 {
   back_btn->Enable( false );
   exit_btn->Enable( false );
-  save_btn->Enable( false );
 }

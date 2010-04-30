@@ -42,8 +42,6 @@ namespace diskcleaner
         __int64 ItemsCleaned;            //After cleaning, the number of items that were removed
         __int64 BytesCleaned;            //Disk space recovered by removing the items
 
-        bool AdminRequired;
-
         bool SecureRemove;               //Not used, but indicates whether secure removal
                                          //such as overwriting with random numbers should be used
     public:
@@ -69,10 +67,8 @@ namespace diskcleaner
 
         virtual ~PlugInfo(){};
 
-        bool AdminPriviligesRequired() { return AdminRequired; };
-
         PlugInfo() : ItemsFound( 0 ), BytesFound( 0 ),
-                ItemsCleaned( 0 ),BytesCleaned( 0 ), AdminRequired( false ), SecureRemove( false )
+                ItemsCleaned( 0 ),BytesCleaned( 0 ), SecureRemove( false )
         {
             ;
         };

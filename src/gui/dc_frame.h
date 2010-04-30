@@ -61,9 +61,6 @@ protected:
 	void dc_base_frame_onclose( wxCloseEvent& event  );
     void preset_box_onchoice( wxCommandEvent& event );
     void plugin_listctrl_column_clicked( wxListEvent& event );
-    void select_all_click( wxCommandEvent& event );
-    void select_none_click( wxCommandEvent& event );
-    void invert_selection_click( wxCommandEvent& event );
 
 	//Restarts Disk Cleaner, possibly as administrator
 	//Used for 'Run as Administrator' button in the main window

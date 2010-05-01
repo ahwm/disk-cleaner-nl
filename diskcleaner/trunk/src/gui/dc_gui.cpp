@@ -596,3 +596,56 @@ MyDialog6::MyDialog6( wxWindow* parent, wxWindowID id, const wxString& title, co
 MyDialog6::~MyDialog6()
 {
 }
+
+processes_dlg_base::processes_dlg_base( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+	this->SetBackgroundColour( wxColour( 255, 255, 255 ) );
+	
+	wxFlexGridSizer* fgSizer11;
+	fgSizer11 = new wxFlexGridSizer( 5, 1, 0, 0 );
+	fgSizer11->AddGrowableCol( 0 );
+	fgSizer11->AddGrowableRow( 2 );
+	fgSizer11->SetFlexibleDirection( wxBOTH );
+	fgSizer11->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	
+	m_staticText20 = new wxStaticText( this, wxID_ANY, _("The following applications are still running."), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText20->Wrap( -1 );
+	m_staticText20->SetFont( wxFont( wxNORMAL_FONT->GetPointSize(), 70, 90, 92, false, wxEmptyString ) );
+	
+	fgSizer11->Add( m_staticText20, 0, wxALL|wxEXPAND, 5 );
+	
+	m_staticText21 = new wxStaticText( this, wxID_ANY, _("Please close them for optimal cleaning:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText21->Wrap( -1 );
+	fgSizer11->Add( m_staticText21, 0, wxALL|wxEXPAND, 5 );
+	
+	process_list_lb = new wxListBox( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0, NULL, 0 ); 
+	fgSizer11->Add( process_list_lb, 1, wxALL|wxEXPAND, 5 );
+	
+	wxBoxSizer* bSizer19;
+	bSizer19 = new wxBoxSizer( wxHORIZONTAL );
+	
+	dont_show_cb = new wxCheckBox( this, wxID_ANY, _("Never show this warning again"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer19->Add( dont_show_cb, 1, wxALL, 5 );
+	
+	m_button15 = new wxButton( this, wxID_OK, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_button15->SetDefault(); 
+	bSizer19->Add( m_button15, 0, wxALIGN_CENTER_VERTICAL|wxBOTTOM|wxRIGHT|wxLEFT, 5 );
+	
+	fgSizer11->Add( bSizer19, 1, wxEXPAND, 5 );
+	
+	this->SetSizer( fgSizer11 );
+	this->Layout();
+	
+	this->Centre( wxBOTH );
+	
+	// Connect Events
+	m_button15->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( processes_dlg_base::ok_btn_click ), NULL, this );
+}
+
+processes_dlg_base::~processes_dlg_base()
+{
+	// Disconnect Events
+	m_button15->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( processes_dlg_base::ok_btn_click ), NULL, this );
+	
+}

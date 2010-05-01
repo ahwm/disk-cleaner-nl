@@ -243,4 +243,29 @@ class MyDialog6 : public wxDialog
 	
 };
 
+///////////////////////////////////////////////////////////////////////////////
+/// Class processes_dlg_base
+///////////////////////////////////////////////////////////////////////////////
+class processes_dlg_base : public wxDialog 
+{
+	private:
+	
+	protected:
+		wxStaticText* m_staticText20;
+		wxStaticText* m_staticText21;
+		wxListBox* process_list_lb;
+		wxCheckBox* dont_show_cb;
+		wxButton* m_button15;
+		
+		// Virtual event handlers, overide them in your derived class
+		virtual void ok_btn_click( wxCommandEvent& event ) { event.Skip(); }
+		
+	
+	public:
+		
+		processes_dlg_base( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Disk Cleaner Information"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 272,219 ), long style = wxDEFAULT_DIALOG_STYLE );
+		~processes_dlg_base();
+	
+};
+
 #endif //__dc_gui__

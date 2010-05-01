@@ -47,6 +47,7 @@ namespace diskcleaner
         cf->Write( L"Global/Delete Locked", global.delete_locked );
         cf->Write( L"Global/Hide Empty", global.hide_empty );
         cf->Write( L"Global/Show Description", global.show_description );
+        cf->Write( L"Global/Show Running Processes", global.show_running_processes );
 
         cf->Write( L"System Temp/Delete ReadOnly", systemp.delete_ro );
         cf->Write( L"System Temp/Delete Empty Subfolders", systemp.delete_subfolders );
@@ -87,6 +88,7 @@ namespace diskcleaner
         cf->Read( L"Global/Delete Locked" , &global.delete_locked, false );
         cf->Read( L"Global/Hide Empty" , &global.hide_empty, true );
         cf->Read( L"Global/Show Description" , &global.show_description, true );
+        cf->Read( L"Global/Show Running Processes" , &global.show_running_processes, true );
 
         cf->Read( L"System Temp/Delete ReadOnly", &systemp.delete_ro, true );
         cf->Read( L"System Temp/Delete Empty Subfolders", &systemp.delete_subfolders, true );

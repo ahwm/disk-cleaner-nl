@@ -47,6 +47,7 @@ namespace diskcleaner
         bool delete_locked;
         bool hide_empty;
         bool show_description;
+        bool show_running_processes;
     };
 
     struct systemp_

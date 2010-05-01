@@ -19,6 +19,8 @@
 #include <shlobj.h>
 #include <commctrl.h>
 #include <winreg.h>
+#include <cctype>
+#include <algorithm>
 
 #include <new>
 #include "../reg scan/regenum.h"
@@ -44,18 +46,16 @@ typedef GUID KNOWNFOLDERID;
     static nsGetKnownFolderPath gGetKnownFolderPath = NULL;
     static HINSTANCE gShell32DLLInst = NULL;
 
-    std::map<std::wstring,std::wstring> ExpansionMap;
-    std::map<std::wstring,std::wstring>::iterator expansion_iterator;
-
-
+    // Note: for bug-free operation all %folder% constructs must be in lowercase!
     std::wstring GetFolderLocation(const std::wstring& folder)
     {
         int nFolder=0;
         wchar_t buff[MAX_PATH];
-        wcscpy(buff, folder.c_str() );
+        //wcscpy(buff, folder.c_str() );
 
         ::wxLogDebug( L"%hs: find %s", __FUNCTION__, folder.c_str() );
-        std::wstring folder_copy(buff);
+        std::wstring folder_copy( folder );
+
 
         if ( folder_copy.find(L"%windir%") != std::string::npos )  //all
         {
@@ -158,8 +158,12 @@ typedef GUID KNOWNFOLDERID;
 
     }
 
-    bool TestForAdminLocations( const std::wstring& path )
+    // Note that we create a copy of path *on purpose*
+    bool TestForAdminLocations( std::wstring path )
     {
+        std::transform(path.begin(), path.end(), path.begin(),
+               (int(*)(int)) std::tolower);
+
         if ( path.find( L"%windir%") != std::string::npos || path.find( L"%sysdir%") != std::string::npos ||
               path.find( L"%programfiles%" ) != std::string::npos )
         {
@@ -197,7 +201,10 @@ typedef GUID KNOWNFOLDERID;
 
         int n = nextperc - string + 1;
 
-        lstrcpyn( buff, string, n + 1 ); //Include NULL termination
+        lstrcpyn( buff, string, n + 1 ); // Include NULL termination
+
+        // Ensure that comparison in GetFolderLocation is in lowercase
+        CharLower( buff );
 
         ::wxLogDebug( L"%hs: Expand %s" , __FUNCTION__, buff);
         if ( !wcsicmp( L"%drive%", buff ) )
@@ -219,22 +226,20 @@ typedef GUID KNOWNFOLDERID;
             return  dest.size();
         }
 
-        //It's not covered by ExpandEnvironmentStrings, nor by %drive%
-        //Try GetFolderLocation, but see if it's stored previously first
-        expansion_iterator = ExpansionMap.find(buff);
+        temp = GetFolderLocation( std::wstring( buff ) );
+        ::wxLogDebug( L"%hs: GetFolderLocation returned %s = %s" , __FUNCTION__, buff, temp.c_str() );
 
-        if ( expansion_iterator == ExpansionMap.end() )
+        if ( temp != L"" )
         {
-            temp = GetFolderLocation( std::wstring( buff ) );
-            ::wxLogDebug( L"%hs: GetFolderLocation returned %s = %s" , __FUNCTION__, buff, temp.c_str() );
-            if ( temp != L"" )
-            {
-                //ExpansionMap.insert(std::map<std::wstring,std::wstring>::value_type(std::wstring(buff),temp));
-                dest.push_back( temp + std::wstring( nextperc + 1 ) );
-            }
+            // Add the found folder location to the Enviroment Variables
+            // Windows will take care of the substitution next time :)
+            nextperc = wcsstr( buff + 1, L"%" );
+            *nextperc = L'\0';
+            SetEnvironmentVariable( buff + 1, temp.c_str() );
+
+            // Add the folder to be scanned to the list of folders
+            dest.push_back( temp + std::wstring( nextperc + 1 ) );
         }
-        else
-            temp =  expansion_iterator->second + std::wstring(nextperc+1);
 
         return dest.size();
 
@@ -514,7 +519,7 @@ namespace diskcleaner
         while ( *pstring )
         {
             wxLogDebug( L"%hs: found in [files]: %s", __FUNCTION__, pstring );
-            std::wstring tmp(pstring);
+            std::wstring tmp( pstring );
             if( !AdminRequired ) AdminRequired = TestForAdminLocations( tmp );
             ExpandString(tmp, FolderList);
 

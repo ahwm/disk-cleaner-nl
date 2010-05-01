@@ -37,6 +37,7 @@
 #include <wx/intl.h>
 #include <wx/textdlg.h>
 
+
 using namespace diskcleaner;
 
 int wxCALLBACK listctrl_compare( long item1, long item2, long sortData )
@@ -92,7 +93,8 @@ int wxCALLBACK listctrl_compare( long item1, long item2, long sortData )
 
 }
 
-dc_frame::dc_frame( wxWindow* parent ):dc_base_frame( parent )
+dc_frame::dc_frame( wxWindow* parent, diskcleaner::dcsettings& _settings ):
+                    dc_base_frame( parent ), settings(_settings)
 {
     // Let the 'Select All/None/Invert' menu also show when the plugin list is right-clicked
     plugin_listctrl->Connect( wxEVT_RIGHT_DOWN, wxMouseEventHandler( dc_base_frame::dc_base_frameOnContextMenu ), NULL, this );
@@ -232,6 +234,7 @@ void dc_frame::clean_btn_click( wxCommandEvent& event )
     wxLogMessage(  schedulestr );
 
     rsframe->EnableControls();
+
 }
 
 void dc_frame::clean(__int64& total_files, __int64& total_bytes)
@@ -314,9 +317,6 @@ void dc_frame::init_dialog()
     InitializeSHGetKnownFolderPath();
 
     dcApp& app = wxGetApp();
-    //Call load method, config class has been set in dcApp::OnCmdLineParsed
-    settings.Load();
-
     if ( settings.global.delete_locked)
     {
         SetRemoveOnReboot( app.IsUserAdmin() );
@@ -506,6 +506,7 @@ void dc_frame::init_dialog()
         ppreset_handler->load_preset( app.GetPresetToBeRecalled() );
         preset_box->SetSelection( preset_box->FindString( app.GetPresetToBeRecalled(), false ) );
     }
+
 }
 
 wxString dc_frame::bytes_to_string( __int64 bytes )
@@ -552,7 +553,7 @@ void dc_frame::add_plugin_to_listctrl( diskcleaner::PlugInfo* pi)
     // a. We need admin priviliges and we're not admin
     // b. We don't have anything to show and the user wants to hide empty items
     wxLogDebug( L"%hs: We are admin: %s. We need admin: %s", __FUNCTION__, ( is_admin ) ? L"true": L"false",
-                  ( pi->AdminPriviligesRequired() ) ? L"true": L"false" );
+                ( pi->AdminPriviligesRequired() ) ? L"true": L"false" );
 
     if ( ( !pi->AdminPriviligesRequired() || is_admin ) && (pi->GetItemsFound() > 0 || settings.global.hide_empty == false ) )
     {

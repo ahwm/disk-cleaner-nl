@@ -39,11 +39,13 @@ class result_frame;
 /** Implementing dc_base_frame */
 class dc_frame : public dc_base_frame
 {
+    // Hide Constructor
+	dc_frame( wxWindow* parent );
+
     std::auto_ptr<result_frame> rsframe;
 protected:
 
-    //Manages all user settings that are persistent
-    diskcleaner::dcsettings settings;
+    diskcleaner::dcsettings& settings;
 
     //Class that manages (un)checking the items in the main
     //window's list control, depending on the chosen preset
@@ -79,7 +81,7 @@ protected:
 
 public:
 	/** Constructor */
-	dc_frame( wxWindow* parent );
+	dc_frame( wxWindow* parent, diskcleaner::dcsettings& _settings );
 
 	// Start actual cleaning
 	void clean(__int64& total_files, __int64& total_bytes);

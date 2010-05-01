@@ -22,11 +22,13 @@
 #include <string>
 #include <memory>
 
+#include "gui/dcsettings.h"
 
 //Forward declaration
 class wxCmdLineParser;
 class wxLogWindow;
 class dc_frame;
+
 
 class dcApp : public wxApp
 {
@@ -40,6 +42,9 @@ class dcApp : public wxApp
     bool quiet_mode;
     bool no_text_plugins;
     bool no_buildin_plugins;
+
+    //Manages all user settings that are persistent
+    diskcleaner::dcsettings settings;
 
 public:
     dcApp();

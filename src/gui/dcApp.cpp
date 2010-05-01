@@ -25,6 +25,7 @@
 
 #include "dcApp.h"
 #include "dc_frame.h"
+#include "processes_dlg.h"
 #include <wx/stdpaths.h>
 #include <wx/fileconf.h>
 #include <wx/log.h>
@@ -82,12 +83,18 @@ bool dcApp::OnInit()
     if (wxApp::OnInit() )
     {
 
-        frame = new dc_frame(0L);
+        settings.Load();
+
+        frame = new dc_frame(0L, settings);
         frame->SetIcon(wxICON(aaaa)); // To Set App Icon
         frame->init_dialog();
 
         if ( !IsQuietMode() )
         {
+            //Check for running applications
+            processes_dlg pd( NULL, settings.global );
+
+            //Show main window
             frame->Show();
         }
         else

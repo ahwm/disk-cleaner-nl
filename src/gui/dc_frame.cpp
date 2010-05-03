@@ -457,7 +457,7 @@ void dc_frame::init_dialog()
     // Check for running applications
     if ( !app.IsQuietMode() && settings.global.show_running_processes )
     {
-        processes_dlg pd( this );
+        processes_dlg pd( NULL );
 
         // Iterate over all cleaning plug-ins, call Clean() function if checked
         for (int i = 0, num_items = plugin_listctrl->GetItemCount() ; i < num_items ; ++i )

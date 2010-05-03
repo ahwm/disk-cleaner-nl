@@ -92,7 +92,8 @@ bool dcApp::OnInit()
         if ( !IsQuietMode() )
         {
             //Show main window
-            frame->Show();
+            frame->Show( true );
+            frame->Raise();
         }
         else
         {

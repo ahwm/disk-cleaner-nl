@@ -91,9 +91,6 @@ bool dcApp::OnInit()
 
         if ( !IsQuietMode() )
         {
-            //Check for running applications
-            processes_dlg pd( NULL, settings.global );
-
             //Show main window
             frame->Show();
         }

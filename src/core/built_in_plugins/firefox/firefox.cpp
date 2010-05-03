@@ -237,6 +237,8 @@ void firefox_base::CleanFile( const wchar_t* files, const wchar_t* warning )
 
 firefox_cache::firefox_cache()
 {
+    process = L"firefox.exe";
+    process_pretty_name  =_("Firefox");
     ShortDesc = _( "Firefox Cache" );
     LongDesc = _( "Clears the Firefox cache" );
 }

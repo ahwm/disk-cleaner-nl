@@ -1,56 +1,17 @@
 #include "processes_dlg.h"
-#include <wx/log.h>
 #include <windows.h>
 #include <tlhelp32.h>
+#include <wx/log.h>
 
-// For use with check_open_processes
-struct running_processes
-{
-    bool internet_explorer;
-    bool firefox;
-    bool google_chrome;
-    bool opera;
-};
-
-processes_dlg::processes_dlg( wxWindow* parent, diskcleaner::global_& gbsettings )
-        :
-        processes_dlg_base( parent )
+namespace diskcleaner
 {
 
-    if ( gbsettings.show_running_processes )
-    {
-        running_processes rp = { 0 };
-        check_open_processes( rp );
+processes_dlg::processes_dlg( wxWindow* parent )
+    :
+    processes_dlg_base( parent )
+{
 
-        if ( rp.firefox || rp.google_chrome || rp.internet_explorer || rp.opera )
-        {
-            wxArrayString as;
-
-            if ( rp.firefox )
-            {
-                as.Add( _( "Firefox" ) );
-            }
-            if ( rp.google_chrome )
-            {
-                as.Add( _( "Google Chrome" ) );
-            }
-            if ( rp.internet_explorer )
-            {
-                as.Add( _( "Internet Explorer" ) );
-            }
-            if ( rp.opera )
-            {
-                as.Add( _( "Firefox" ) );
-            }
-            process_list_lb->InsertItems( as, 0 ) ;
-            ShowModal();
-
-            if ( dont_show_cb->IsChecked() )
-            {
-                gbsettings.show_running_processes = false;
-            }
-        }
-    }
+    check_open_processes();
 }
 
 void processes_dlg::ok_btn_click( wxCommandEvent& event )
@@ -58,7 +19,12 @@ void processes_dlg::ok_btn_click( wxCommandEvent& event )
     Close();
 }
 
-void processes_dlg::check_open_processes(running_processes& rp)
+void processes_dlg::add_process_to_check( const std::wstring& process, const std::wstring& pretty_name)
+{
+    processlist.insert( make_pair ( process, pretty_name ) );
+}
+
+void processes_dlg::check_open_processes()
 {
     HANDLE hProcessSnap;
     PROCESSENTRY32 pe32;
@@ -84,22 +50,48 @@ void processes_dlg::check_open_processes(running_processes& rp)
     }
 
     // Now walk the snapshot of processes
-
     do
     {
-        wxLogDebug( L"Found process name:  %s", pe32.szExeFile );
-
-        if ( !wcsicmp( L"firefox.exe", pe32.szExeFile ) )
-        {
-            rp.firefox = true;
-        }
-        if ( !wcsicmp( L"iexplore.exe", pe32.szExeFile ) )
-        {
-            rp.internet_explorer = true;
-        }
-
+        CharLower( pe32.szExeFile );
+        running_processes.insert( pe32.szExeFile );
     }
     while ( Process32Next( hProcessSnap, &pe32 ) );
 
     CloseHandle( hProcessSnap );
+}
+
+// Return value is assignable to dcsettings::global.show_running_processes (true/false)
+bool processes_dlg::do_process_check()
+{
+    wxArrayString as;
+
+    std::map<std::wstring, std::wstring>::iterator it = processlist.begin();
+
+    // Iterate over all processes the plug-ins have specified
+    while ( it != processlist.end() )
+    {
+        // If the particular exe is found running, add the pretty name to the dialog box
+        if( running_processes.count( it->first ) > 0 )
+        {
+            as.Add( processlist[it->first] );
+        }
+
+        ++it;
+    }
+
+    // Only show the dialog if any specified processes are running
+    if ( as.GetCount() > 0 )
+    {
+        process_list_lb->InsertItems( as, 0 );
+        ShowModal();
+
+        return !dont_show_cb->IsChecked();
+    }
+
+    // We only would show the message box if dcsettings::global.show_running_processes
+    // is true. If we do not show a message box, this return value will make sure
+    // that one can be shown the next time.
+    return true;
+}
+
 }

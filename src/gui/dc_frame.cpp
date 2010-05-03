@@ -25,6 +25,7 @@
 
 
 #include "gui/dc_frame.h"
+#include "processes_dlg.h"
 #include "gui/about_frame.h"
 #include "gui/wait_dlg.h"
 #include "gui/prefs_dlg.h"
@@ -94,7 +95,7 @@ int wxCALLBACK listctrl_compare( long item1, long item2, long sortData )
 }
 
 dc_frame::dc_frame( wxWindow* parent, diskcleaner::dcsettings& _settings ):
-                    dc_base_frame( parent ), settings(_settings)
+    dc_base_frame( parent ), settings(_settings)
 {
     // Let the 'Select All/None/Invert' menu also show when the plugin list is right-clicked
     plugin_listctrl->Connect( wxEVT_RIGHT_DOWN, wxMouseEventHandler( dc_base_frame::dc_base_frameOnContextMenu ), NULL, this );
@@ -202,20 +203,20 @@ void dc_frame::clean_btn_click( wxCommandEvent& event )
     rsframe->DisableControls();
     rsframe->Show();
 
-    dcApp& app = wxGetApp();
-    if ( settings.global.delete_locked && !app.IsUserAdmin() )
-    {
-        wxLogWarning( _("Warning: setting 'Delete locked files on reboot' ignored. The required Administrator priviliges are missing.") );
-
-    }
+//    dcApp& app = wxGetApp();
+//    if ( settings.global.delete_locked && !app.IsUserAdmin() )
+//    {
+//        wxLogWarning( _("Warning: setting 'Delete locked files on reboot' ignored. The required Administrator priviliges are missing.") );
+//
+//    }
 
     //Set cursor to 'Hourglass'
-    SetCursor( *wxHOURGLASS_CURSOR );
+    wxBeginBusyCursor();
 
     // Do the actual cleaning here
     clean(total_files, total_bytes);
 
-    SetCursor( *wxSTANDARD_CURSOR );
+    wxEndBusyCursor();
 
     if ( !GetAllFilesRemoved() )
     {
@@ -340,7 +341,7 @@ void dc_frame::init_dialog()
 
     //Show progress of scan (wait_dlg)
 
-    std::auto_ptr<wait_dlg> waitdlg( new wait_dlg(this) );
+    wait_dlg waitdlg( this );
 
     //Get the number of text plugins as input for the progress bar
 
@@ -368,11 +369,11 @@ void dc_frame::init_dialog()
     //Initialize build-in plugins
     //
 
-    waitdlg->SetProgressRange( plugin_list.size() + ( (app.NoBuildInPlugins() ) ? 0 : 9 ) );
+    waitdlg.SetProgressRange( plugin_list.size() + ( (app.NoBuildInPlugins() ) ? 0 : 9 ) );
 
     if ( !app.IsQuietMode() )
     {
-        waitdlg->Show( true );
+        waitdlg.Show( true );
     }
 
 
@@ -382,40 +383,40 @@ void dc_frame::init_dialog()
 
         PlugInfo* tempfiles  = new system_temp( settings.systemp );
         add_plugin_to_listctrl( tempfiles );
-        waitdlg->Increment();
+        waitdlg.Increment();
 
         PlugInfo* rbin = (new RecycleBinInfo() );
         add_plugin_to_listctrl( rbin );
-        waitdlg->Increment();
+        waitdlg.Increment();
 
         PlugInfo* recentdocs = (new recent_docs() );
         add_plugin_to_listctrl( recentdocs );
-        waitdlg->Increment();
+        waitdlg.Increment();
 
         PlugInfo* ffcache = (new firefox_cache() );
         add_plugin_to_listctrl( ffcache );
-        waitdlg->Increment();
+        waitdlg.Increment();
 
         PlugInfo* ffcookies = (new firefox_cookies() );
         add_plugin_to_listctrl( ffcookies );
-        waitdlg->Increment();
+        waitdlg.Increment();
 
         PlugInfo* ffhistory = (new firefox_history() );
         add_plugin_to_listctrl( ffhistory );
-        waitdlg->Increment();
+        waitdlg.Increment();
 
         PlugInfo* iecache = (new ie_cache( settings.tempinternetfiles.delete_offline ) );
         add_plugin_to_listctrl( iecache );
-        waitdlg->Increment();
+        waitdlg.Increment();
 
         PlugInfo* iehistory = (new ie_history() );
         add_plugin_to_listctrl( iehistory );
-        waitdlg->Increment();
+        waitdlg.Increment();
 
         PlugInfo* iecookies = (new ie_cookies() );
         add_plugin_to_listctrl( iecookies );
-        waitdlg->Increment();
-        waitdlg->Update();
+        waitdlg.Increment();
+        waitdlg.Update();
     }
 
     //
@@ -437,11 +438,11 @@ void dc_frame::init_dialog()
                 PlugInfo*  pi = (new TextPlugInfo( FullPath ) );
                 ::wxLogDebug( L"%s instantiated", it->c_str() );
 
-                waitdlg->Increment();
+                waitdlg.Increment();
 
                 if ( counter > 9 )
                 {
-                    waitdlg->Update();
+                    waitdlg.Update();
                     counter = 0;
                 }
                 add_plugin_to_listctrl( pi );
@@ -451,6 +452,30 @@ void dc_frame::init_dialog()
             }
 
         }
+    }
+
+    // Check for running applications
+    if ( !app.IsQuietMode() && settings.global.show_running_processes )
+    {
+        processes_dlg pd( this );
+
+        // Iterate over all cleaning plug-ins, call Clean() function if checked
+        for (int i = 0, num_items = plugin_listctrl->GetItemCount() ; i < num_items ; ++i )
+        {
+
+            PlugInfo* pinfo;
+            std:: wstring process, processname;
+
+            pinfo = (PlugInfo* ) plugin_listctrl->GetItemData( i );
+
+            if( pinfo->RunningProcessCheck( process, processname ) )
+            {
+                pd.add_process_to_check( process, processname );
+            }
+
+        }
+        waitdlg.Show( false );
+        settings.global.show_running_processes = pd.do_process_check();
     }
 
     //Sort items according to preferences of the user

@@ -22,12 +22,6 @@
 
 #include "..\disk scan\DiskScan.h"
 
-#include <map>
-#include <set>
-#include <iterator>
-#include <vector>
-
-
 namespace diskcleaner {
 
 class TextPlugInfo : public PlugInfo

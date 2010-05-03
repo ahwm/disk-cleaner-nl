@@ -370,16 +370,17 @@ prefs_dlg_base::prefs_dlg_base( wxWindow* parent, wxWindowID id, const wxString&
 	wxBoxSizer* bSizer6;
 	bSizer6 = new wxBoxSizer( wxVERTICAL );
 	
-	delete_locked_cb = new wxCheckBox( m_panel1, wxID_ANY, _("&Delete locked files on reboot (needs administrator privileges)"), wxDefaultPosition, wxDefaultSize, 0 );
+	delete_locked_cb = new wxCheckBox( m_panel1, wxID_ANY, _("&Delete locked files on reboot if running as administrator"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer6->Add( delete_locked_cb, 0, wxALL, 10 );
 	
-	hide_admin_items_cb = new wxCheckBox( m_panel1, wxID_ANY, _("For normal users, &hide items that need administrator priviliges"), wxDefaultPosition, wxDefaultSize, 0 );
-	hide_admin_items_cb->Hide();
+	hide_empty_cb = new wxCheckBox( m_panel1, wxID_ANY, _("&Hide entries with zero items to clean (requires restart of Disk Cleaner)"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer6->Add( hide_empty_cb, 0, wxBOTTOM|wxRIGHT|wxLEFT, 10 );
 	
+	hide_admin_items_cb = new wxCheckBox( m_panel1, wxID_ANY, _("H&ide items that need administrator priviliges for normal users"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer6->Add( hide_admin_items_cb, 0, wxBOTTOM|wxRIGHT|wxLEFT, 10 );
 	
-	hide_empty_cb = new wxCheckBox( m_panel1, wxID_ANY, _("&Hide entries when empty (requires restart of Disk Cleaner)"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer6->Add( hide_empty_cb, 0, wxBOTTOM|wxRIGHT|wxLEFT, 10 );
+	warn_open_processes_cb = new wxCheckBox( m_panel1, wxID_ANY, _("&Warn when open applications can interfere with cleaning"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer6->Add( warn_open_processes_cb, 0, wxBOTTOM|wxRIGHT|wxLEFT, 10 );
 	
 	m_panel1->SetSizer( bSizer6 );
 	m_panel1->Layout();
@@ -619,8 +620,8 @@ processes_dlg_base::processes_dlg_base( wxWindow* parent, wxWindowID id, const w
 	m_staticText21->Wrap( -1 );
 	fgSizer11->Add( m_staticText21, 0, wxALL|wxEXPAND, 5 );
 	
-	process_list_lb = new wxListBox( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0, NULL, 0 ); 
-	fgSizer11->Add( process_list_lb, 1, wxALL|wxEXPAND, 5 );
+	process_list_lb = new wxListBox( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0, NULL, wxLB_HSCROLL|wxLB_NEEDED_SB|wxLB_SORT ); 
+	fgSizer11->Add( process_list_lb, 1, wxEXPAND|wxALL, 5 );
 	
 	wxBoxSizer* bSizer19;
 	bSizer19 = new wxBoxSizer( wxHORIZONTAL );

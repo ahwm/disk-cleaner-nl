@@ -264,6 +264,18 @@ namespace diskcleaner
             GetPrivateProfileString( L"Info", L"Description", L"Error: No description given", strbuff,MAX_PATH+1, aFile.c_str() );
             LongDesc = strbuff;
 
+            GetPrivateProfileString( L"Info", L"Process", L"", strbuff,MAX_PATH+1, aFile.c_str() );
+            process = strbuff;
+
+            wxLogDebug( L"Process = %s", strbuff );
+
+            if( !process.empty() )
+            {
+                GetPrivateProfileString( L"Info", L"Application", L"Unknown", strbuff,MAX_PATH+1, aFile.c_str() );
+                wxLogDebug( L"Application = %s", strbuff );
+                process_pretty_name = strbuff;
+            }
+
         }
 
         catch (std::bad_alloc& )
@@ -381,14 +393,7 @@ namespace diskcleaner
 
 
     }
-//------------------------------------------------------------------------------
 
-//    HICON TextPlugInfo::GetIcon()
-//    {
-//        return IconHandle;
-//    }
-
-//------------------------------------------------------------------------------
     TScanOptions TextPlugInfo::GetScanOptions(wchar_t* folder)
     {
         wxLogDebug( L"%hs( %s )", __FUNCTION__, folder);

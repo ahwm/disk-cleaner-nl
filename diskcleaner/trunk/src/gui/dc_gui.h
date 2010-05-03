@@ -181,8 +181,9 @@ class prefs_dlg_base : public wxDialog
 		wxNotebook* prefsbook;
 		wxPanel* m_panel1;
 		wxCheckBox* delete_locked_cb;
-		wxCheckBox* hide_admin_items_cb;
 		wxCheckBox* hide_empty_cb;
+		wxCheckBox* hide_admin_items_cb;
+		wxCheckBox* warn_open_processes_cb;
 		wxPanel* m_panel3;
 		wxCheckBox* delete_readonly_cb;
 		wxCheckBox* delete_emptyfolder_cb;

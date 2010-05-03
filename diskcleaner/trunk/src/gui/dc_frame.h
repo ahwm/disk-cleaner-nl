@@ -43,6 +43,10 @@ class dc_frame : public dc_base_frame
 	dc_frame( wxWindow* parent );
 
     std::auto_ptr<result_frame> rsframe;
+
+    // For result_frame instances only
+	friend class result_frame;
+	void result_frame_finished_signal( bool restart );
 protected:
 
     diskcleaner::dcsettings& settings;
@@ -87,8 +91,6 @@ public:
 	void clean(__int64& total_files, __int64& total_bytes);
 	void init_dialog();
 
-	// For result_frame instances only
-	void result_frame_finished_signal( bool restart );
 };
 
 #endif // __dc_frame__

@@ -39,9 +39,10 @@ void prefs_dlg::ok_btn_clicked( wxCommandEvent& event )
 
     rsettings.global.delete_locked              = delete_locked_cb->IsChecked();
     rsettings.global.hide_empty                 = hide_empty_cb->IsChecked();
-
-    rsettings.systemp.delete_ro                 =  delete_readonly_cb->IsChecked();
+    rsettings.global.show_running_processes     = warn_open_processes_cb->IsChecked();
+    rsettings.systemp.delete_ro                 = delete_readonly_cb->IsChecked();
     rsettings.systemp.delete_subfolders         = delete_emptyfolder_cb->IsChecked();
+
     minage_combo->GetString( minage_combo->GetSelection() ).ToLong( &rsettings.systemp.min_age );
 
     rsettings.tempinternetfiles.delete_offline  = tempinet_offline_cb->IsChecked();
@@ -58,18 +59,21 @@ void prefs_dlg::ok_btn_clicked( wxCommandEvent& event )
 void prefs_dlg::InitializePreferencesDialog(diskcleaner::dcsettings& prefs)
 {
 
+    // Global settings
     delete_locked_cb->SetValue( prefs.global.delete_locked );
     hide_empty_cb->SetValue( prefs.global.hide_empty );
+    hide_admin_items_cb->SetValue( prefs.global.hide_admin );
+    warn_open_processes_cb->SetValue( prefs.global.show_running_processes );
 
+    // System temp files settings
     delete_readonly_cb->SetValue( prefs.systemp.delete_ro );
     delete_emptyfolder_cb->SetValue(prefs.systemp.delete_subfolders );
 
     wchar_t age[17] = { 0 };
     swprintf( age, L"%d", prefs.systemp.min_age );
-
-
     minage_combo->SetStringSelection( std::wstring( age ) );
 
+    // Temporary internet files settings
     tempinet_offline_cb->SetValue( prefs.tempinternetfiles.delete_offline );
 
 //    cookie_filter_cb->SetValue( prefs.cookies.use_cookie_filter );

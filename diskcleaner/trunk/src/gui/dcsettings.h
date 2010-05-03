@@ -44,28 +44,28 @@ namespace diskcleaner
 
     struct global_
     {
-        bool delete_locked;
-        bool hide_empty;
-        bool show_description;
-        bool show_running_processes;
+        bool delete_locked;             // delete locked files on reboot, *if* admin rights
+        bool hide_empty;                // hide plug-ins with 0 items to clean
+        bool hide_admin;                // hide plug-ins that need admin rights, and the user is standard one
+        bool show_running_processes;    // show processes that need to be closed for optimal cleaning
     };
 
     struct systemp_
     {
-        bool delete_ro;
-        bool delete_subfolders;
-        long int min_age;
+        bool delete_ro;                 // delete read-only temp files
+        bool delete_subfolders;         // delete subfolders in the temp folder
+        long int min_age;               // delete files only if older than ...
     };
 
     struct tempinternetfiles_
     {
-        bool delete_offline;
+        bool delete_offline;            // delete offline files
     };
 
     struct cookies_
     {
-        bool use_cookie_filter;
-        long min_cookie_age;
+        bool use_cookie_filter;         //not implemented
+        long min_cookie_age;            //not implemented
     };
 
     class dcsettings

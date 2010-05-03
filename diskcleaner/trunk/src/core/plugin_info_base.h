@@ -42,7 +42,9 @@ namespace diskcleaner
         __int64 ItemsCleaned;            //After cleaning, the number of items that were removed
         __int64 BytesCleaned;            //Disk space recovered by removing the items
 
-        bool AdminRequired;
+        bool AdminRequired;              //Needs administrator priviliges.
+        std::wstring process;            //Process/exe name to check if running
+        std::wstring process_pretty_name;//Name of application to show in message dialogs
 
         bool SecureRemove;               //Not used, but indicates whether secure removal
                                          //such as overwriting with random numbers should be used
@@ -67,10 +69,19 @@ namespace diskcleaner
         };
         virtual void GetFilesAsStrings(std::vector<std::wstring>&) = 0;
 
-        virtual ~PlugInfo(){};
-
         bool AdminPriviligesRequired() { return AdminRequired; };
+        bool RunningProcessCheck( std::wstring& Process, std::wstring& ProcessPrettyName )
+        {
+            if( !process.empty() )
+            {
+                Process = process;
+                ProcessPrettyName = process_pretty_name;
+                return true;
+            }
+            return false;
+        }
 
+        virtual ~PlugInfo(){};
         PlugInfo() : ItemsFound( 0 ), BytesFound( 0 ),
                 ItemsCleaned( 0 ),BytesCleaned( 0 ), AdminRequired( false ), SecureRemove( false )
         {

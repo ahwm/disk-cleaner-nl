@@ -164,8 +164,10 @@ typedef GUID KNOWNFOLDERID;
         std::transform(path.begin(), path.end(), path.begin(),
                (int(*)(int)) std::tolower);
 
-        if ( path.find( L"%windir%") != std::string::npos || path.find( L"%sysdir%") != std::string::npos ||
-              path.find( L"%programfiles%" ) != std::string::npos )
+        if ( path.find( L"%windir%") != std::string::npos ||
+             path.find( L"%sysdir%") != std::string::npos ||
+             path.find( L"%programfiles%" ) != std::string::npos ||
+             path.find( L"%commonappdata%") != std::string::npos ) // needs special permissions in Vista?
         {
             return true;
         }

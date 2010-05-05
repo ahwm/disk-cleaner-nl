@@ -10,7 +10,7 @@ processes_dlg::processes_dlg( wxWindow* parent )
     :
     processes_dlg_base( parent )
 {
-
+    // Create a list of running processes
     check_open_processes();
 }
 
@@ -24,6 +24,7 @@ void processes_dlg::add_process_to_check( const std::wstring& process, const std
     processlist.insert( make_pair ( process, pretty_name ) );
 }
 
+// Create a list of running processes on the system
 void processes_dlg::check_open_processes()
 {
     HANDLE hProcessSnap;
@@ -44,7 +45,7 @@ void processes_dlg::check_open_processes()
     // and exit if unsuccessful
     if ( !Process32First( hProcessSnap, &pe32 ) )
     {
-        wxLogError( L"Process32First" ); // show cause of failure
+        wxLogError( L"%hs: Process32First failed.", __FUNCTION__ ); // show cause of failure
         CloseHandle( hProcessSnap );     // clean the snapshot object
         return ;
     }
@@ -60,6 +61,8 @@ void processes_dlg::check_open_processes()
     CloseHandle( hProcessSnap );
 }
 
+// Check for running processes and display them in a dialog box
+//
 // Return value is assignable to dcsettings::global.show_running_processes (true/false)
 bool processes_dlg::do_process_check()
 {
@@ -85,6 +88,7 @@ bool processes_dlg::do_process_check()
         process_list_lb->InsertItems( as, 0 );
         ShowModal();
 
+        // return a value that is assignable to settings.global.show_running_processes
         return !dont_show_cb->IsChecked();
     }
 

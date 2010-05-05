@@ -55,7 +55,7 @@ void result_frame::save_btn_click( wxCommandEvent& event )
         }
 
         resultfile.Clear();
-        size_t max = result_lc->GetItemCount();
+        int max = result_lc->GetItemCount();
         ::wxLogDebug( L"result_lc->GetItemCount() max = %d", max );
 
         for (int k = 0; k < max; ++k )

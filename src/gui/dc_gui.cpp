@@ -155,6 +155,7 @@ dc_base_frame::dc_base_frame( wxWindow* parent, wxWindowID id, const wxString& t
 	
 	// Connect Events
 	this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( dc_base_frame::dc_base_frame_onclose ) );
+	this->Connect( wxEVT_MOUSEWHEEL, wxMouseEventHandler( dc_base_frame::handle_mousewheel ) );
 	plugin_listctrl->Connect( wxEVT_KEY_UP, wxKeyEventHandler( dc_base_frame::plugin_listctrl_keyup ), NULL, this );
 	plugin_listctrl->Connect( wxEVT_COMMAND_LIST_COL_CLICK, wxListEventHandler( dc_base_frame::plugin_listctrl_column_clicked ), NULL, this );
 	preset_box->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( dc_base_frame::preset_box_onchoice ), NULL, this );
@@ -174,6 +175,7 @@ dc_base_frame::~dc_base_frame()
 {
 	// Disconnect Events
 	this->Disconnect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( dc_base_frame::dc_base_frame_onclose ) );
+	this->Disconnect( wxEVT_MOUSEWHEEL, wxMouseEventHandler( dc_base_frame::handle_mousewheel ) );
 	plugin_listctrl->Disconnect( wxEVT_KEY_UP, wxKeyEventHandler( dc_base_frame::plugin_listctrl_keyup ), NULL, this );
 	plugin_listctrl->Disconnect( wxEVT_COMMAND_LIST_COL_CLICK, wxListEventHandler( dc_base_frame::plugin_listctrl_column_clicked ), NULL, this );
 	preset_box->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( dc_base_frame::preset_box_onchoice ), NULL, this );
@@ -228,6 +230,8 @@ wait_base_dlg::wait_base_dlg( wxWindow* parent, wxWindowID id, const wxString& t
 	
 	this->SetSizer( fgSizer6 );
 	this->Layout();
+	
+	this->Centre( wxBOTH );
 }
 
 wait_base_dlg::~wait_base_dlg()
@@ -373,10 +377,10 @@ prefs_dlg_base::prefs_dlg_base( wxWindow* parent, wxWindowID id, const wxString&
 	delete_locked_cb = new wxCheckBox( m_panel1, wxID_ANY, _("&Delete locked files on reboot if running as administrator"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer6->Add( delete_locked_cb, 0, wxALL, 10 );
 	
-	hide_empty_cb = new wxCheckBox( m_panel1, wxID_ANY, _("&Hide entries with zero items to clean (requires restart of Disk Cleaner)"), wxDefaultPosition, wxDefaultSize, 0 );
+	hide_empty_cb = new wxCheckBox( m_panel1, wxID_ANY, _("&Hide entries with zero items to clean (restarts Disk Cleaner)"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer6->Add( hide_empty_cb, 0, wxBOTTOM|wxRIGHT|wxLEFT, 10 );
 	
-	hide_admin_items_cb = new wxCheckBox( m_panel1, wxID_ANY, _("H&ide items that need administrator priviliges for normal users"), wxDefaultPosition, wxDefaultSize, 0 );
+	hide_admin_items_cb = new wxCheckBox( m_panel1, wxID_ANY, _("H&ide items that need administrator priviliges for normal users (restarts Disk Cleaner)"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer6->Add( hide_admin_items_cb, 0, wxBOTTOM|wxRIGHT|wxLEFT, 10 );
 	
 	warn_open_processes_cb = new wxCheckBox( m_panel1, wxID_ANY, _("&Warn when open applications can interfere with cleaning"), wxDefaultPosition, wxDefaultSize, 0 );

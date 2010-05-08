@@ -66,6 +66,7 @@ class dc_base_frame : public wxDialog
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void dc_base_frame_onclose( wxCloseEvent& event ) { event.Skip(); }
+		virtual void handle_mousewheel( wxMouseEvent& event ) { event.Skip(); }
 		virtual void plugin_listctrl_keyup( wxKeyEvent& event ) { event.Skip(); }
 		virtual void plugin_listctrl_column_clicked( wxListEvent& event ) { event.Skip(); }
 		virtual void preset_box_onchoice( wxCommandEvent& event ) { event.Skip(); }

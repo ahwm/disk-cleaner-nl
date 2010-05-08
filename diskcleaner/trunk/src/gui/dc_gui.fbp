@@ -71,7 +71,7 @@
             <event name="OnMiddleUp"></event>
             <event name="OnMotion"></event>
             <event name="OnMouseEvents"></event>
-            <event name="OnMouseWheel"></event>
+            <event name="OnMouseWheel">handle_mousewheel</event>
             <event name="OnPaint"></event>
             <event name="OnRightDClick"></event>
             <event name="OnRightDown"></event>
@@ -2424,7 +2424,7 @@
                                             <property name="font"></property>
                                             <property name="hidden">0</property>
                                             <property name="id">wxID_ANY</property>
-                                            <property name="label">&amp;Hide entries with zero items to clean (requires restart of Disk Cleaner)</property>
+                                            <property name="label">&amp;Hide entries with zero items to clean (restarts Disk Cleaner)</property>
                                             <property name="maximum_size"></property>
                                             <property name="minimum_size"></property>
                                             <property name="name">hide_empty_cb</property>
@@ -2481,7 +2481,7 @@
                                             <property name="font"></property>
                                             <property name="hidden">0</property>
                                             <property name="id">wxID_ANY</property>
-                                            <property name="label">H&amp;ide items that need administrator priviliges for normal users</property>
+                                            <property name="label">H&amp;ide items that need administrator priviliges for normal users (restarts Disk Cleaner)</property>
                                             <property name="maximum_size"></property>
                                             <property name="minimum_size"></property>
                                             <property name="name">hide_admin_items_cb</property>

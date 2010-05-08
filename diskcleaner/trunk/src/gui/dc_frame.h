@@ -39,8 +39,12 @@ class result_frame;
 /** Implementing dc_base_frame */
 class dc_frame : public dc_base_frame
 {
-    // Hide Constructor
+    // Hide this constructor
 	dc_frame( wxWindow* parent );
+
+	// We'll send messages to plugin_listctrl.
+	// This variable will hold the native control's HWND
+	HWND plugin_listctrl_hwnd;
 
     std::auto_ptr<result_frame> rsframe;
 
@@ -70,6 +74,7 @@ protected:
     void select_all_click( wxCommandEvent& event );
     void select_none_click( wxCommandEvent& event );
     void invert_selection_click( wxCommandEvent& event );
+    void handle_mousewheel( wxMouseEvent& event );
 
 	//Restarts Disk Cleaner, possibly as administrator
 	//Used for 'Run as Administrator' button in the main window

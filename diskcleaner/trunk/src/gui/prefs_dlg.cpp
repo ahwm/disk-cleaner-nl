@@ -21,7 +21,7 @@
 
 
 prefs_dlg::prefs_dlg( wxWindow* parent, diskcleaner::dcsettings& prefs )
-        : prefs_dlg_base( parent ), rsettings( prefs )
+    : prefs_dlg_base( parent ), rsettings( prefs )
 {
     InitializePreferencesDialog( prefs );
     ok_cancelOK->SetDefault();
@@ -37,8 +37,20 @@ void prefs_dlg::cancel_btn_clicked( wxCommandEvent& event )
 void prefs_dlg::ok_btn_clicked( wxCommandEvent& event )
 {
 
+    // If a restart is necessary to agree with the chosen options below, set
+    // the return code to 1. Else, the return code is 0
+    if( ( rsettings.global.hide_admin != hide_admin_items_cb->IsChecked() ) ||
+            rsettings.global.hide_empty != hide_empty_cb->IsChecked() )
+    {
+        SetReturnCode( 1 );
+    }
+    else
+    {
+        SetReturnCode( 0 );
+    }
     rsettings.global.delete_locked              = delete_locked_cb->IsChecked();
     rsettings.global.hide_empty                 = hide_empty_cb->IsChecked();
+    rsettings.global.hide_admin                 = hide_admin_items_cb->IsChecked();
     rsettings.global.show_running_processes     = warn_open_processes_cb->IsChecked();
     rsettings.systemp.delete_ro                 = delete_readonly_cb->IsChecked();
     rsettings.systemp.delete_subfolders         = delete_emptyfolder_cb->IsChecked();
@@ -77,7 +89,7 @@ void prefs_dlg::InitializePreferencesDialog(diskcleaner::dcsettings& prefs)
     tempinet_offline_cb->SetValue( prefs.tempinternetfiles.delete_offline );
 
 //    cookie_filter_cb->SetValue( prefs.cookies.use_cookie_filter );
- //   swprintf( age, L"%d", prefs.cookies.min_cookie_age );
- //   cookie_age_combo->SetStringSelection( std::wstring( age ) );
+//   swprintf( age, L"%d", prefs.cookies.min_cookie_age );
+//   cookie_age_combo->SetStringSelection( std::wstring( age ) );
 }
 

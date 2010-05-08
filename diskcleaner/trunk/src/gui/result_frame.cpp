@@ -27,6 +27,8 @@ result_frame::result_frame( wxWindow* parent )
 :
 result_base_frame( parent )
 {
+  result_lc_hwnd = static_cast<HWND>( result_lc->GetHandle() );
+
   // Set focus on exit button
   exit_btn->SetFocus();
 
@@ -100,4 +102,9 @@ void result_frame::DisableControls()
   back_btn->Enable( false );
   exit_btn->Enable( false );
   save_btn->Enable( false );
+}
+
+void result_frame::handle_mousewheel(wxMouseEvent &event)
+{
+    SendMessage( result_lc_hwnd, WM_MOUSEWHEEL, MAKEWPARAM( 0, event.m_wheelRotation), MAKELPARAM( event.GetX(), event.GetY() ) );
 }

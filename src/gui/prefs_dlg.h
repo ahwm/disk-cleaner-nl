@@ -21,7 +21,8 @@
 #include "dc_gui.h"
 #include "dcsettings.h"
 
-/** Implementing prefs_dlg_base */
+/// The prefs_dlg class takes care of allowing a user to see or change preferences
+/// A reference to a global instance of the diskcleaner::dcsettings class is passed on construction.
 class prefs_dlg : public prefs_dlg_base
 {
 private:
@@ -30,13 +31,9 @@ private:
 
 protected:
 
-    diskcleaner::dcsettings& rsettings;
-
-    void InitializePreferencesDialog(diskcleaner::dcsettings& prefs);
-
+    diskcleaner::dcsettings& rsettings; ///< reference to a global diskcleaner::dcsettings instance in dc_frame
 public:
 	/** Constructor */
-
 	prefs_dlg( wxWindow* parent, diskcleaner::dcsettings& prefs );
 
 	// Virtual event handlers, overide them in your derived class

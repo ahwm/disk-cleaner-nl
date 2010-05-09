@@ -41,7 +41,7 @@ class dcApp : public wxApp
 
     bool quiet_mode;
     bool no_text_plugins;
-    bool no_buildin_plugins;
+    bool no_builtin_plugins;
 
     //Manages all user settings that are persistent
     diskcleaner::dcsettings settings;
@@ -51,27 +51,41 @@ public:
     virtual bool OnInit();
     virtual void OnInitCmdLine(wxCmdLineParser& parser);
     virtual bool OnCmdLineParsed(wxCmdLineParser& parser);
+
+    /// True if the user is an administrator
     bool IsUserAdmin();
+
+    /// True if the OS is Vista or higher
     bool IsVistaOrHigher();
+
+     /// True if quiet mode was specified on the command line
     bool IsQuietMode()
     {
         return quiet_mode;
     };
+
+    /// Returns the name of the preset to be loaded
     const std::wstring& GetPresetToBeRecalled()
     {
         return recall_preset;
     };
 
+    /// True if text plug-ins are to be skipped
     bool NoTextPlugins()
     {
         return no_text_plugins;
     };
-    bool NoBuildInPlugins()
+
+    /// True if the built-in plugins are to be skipped
+    bool NoBuiltInPlugins()
     {
-        return no_buildin_plugins;
+        return no_builtin_plugins;
     };
 
+    /// Sets a shield icon on any WXWidget button handle
     void    Button_SetShield(const WXWidget ButtonWindow, bool ShowShield = true);
+
+    /// Returns the application's installation folder
     const   std::wstring& GetAppDirectory()
     {
         return strAppDirectory;

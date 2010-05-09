@@ -47,8 +47,8 @@ public:
 	~result_frame();
 
 	dc_frame* parent_frame;
-	void EnableControls();
-	void DisableControls();
+	void enable_controls();
+	void disable_controls();
 
 };
 

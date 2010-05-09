@@ -113,7 +113,7 @@ namespace diskcleaner
             so.Recursive = settings.delete_subfolders;
             so.minimum_age = settings.min_age;
 
-            DSdata ds = GetFilesInFolder( tempfolder.c_str(), L"*.*\0", &so, ItemList );
+            diskscan_data ds = GetFilesInFolder( tempfolder.c_str(), L"*.*\0", &so, ItemList );
             ItemsFound = ds.files;
             BytesFound = ds.bytes;
         }
@@ -132,7 +132,7 @@ namespace diskcleaner
         so.Recursive = settings.delete_subfolders;
         so.minimum_age = settings.min_age;
 
-        DSdata ds = CleanFilesInFolder( tempfolder.c_str(), L"*.*\0", &so, ItemList );
+        diskscan_data ds = CleanFilesInFolder( tempfolder.c_str(), L"*.*\0", &so, ItemList );
 
         ItemsCleaned = ds.files;
         BytesCleaned = ds.bytes;

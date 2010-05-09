@@ -158,6 +158,9 @@ typedef GUID KNOWNFOLDERID;
 
     }
 
+    /// Test for writing to or deleting locations that are protected in Vista.
+    /// A standard user is denied access to these locations by default
+    /// and admin rights are needed instead.
     // Note that we create a copy of path *on purpose*
     bool TestForAdminLocations( std::wstring path )
     {
@@ -174,10 +177,10 @@ typedef GUID KNOWNFOLDERID;
         return false;
     }
 
-//--------------------------------------------------------------------------
-//ExpandString - Expands strings in the form of %string% to their full
-//size. Currently only capable of 1 expansion per string.
-//adds the expanded strings to dest
+/// ExpandString - Expands strings in the form of %string% to their full size.
+/// Currently only capable of 1 expansion per string.
+/// adds the expanded strings to dest and puts values that were not in the
+/// environment variables there.
 //--------------------------------------------------------------------------
     int ExpandString(const std::wstring& source,std::vector<std::wstring>& dest)
     {
@@ -252,7 +255,7 @@ typedef GUID KNOWNFOLDERID;
 
 namespace diskcleaner
 {
-
+    /// Create a new TextPlugInfo instance from a file name (including path)
     TextPlugInfo::TextPlugInfo(std::wstring& aFile) : PlugInfo(), FileName(aFile)
     {
         IconHandle = 0;
@@ -266,6 +269,7 @@ namespace diskcleaner
             GetPrivateProfileString( L"Info", L"Description", L"Error: No description given", strbuff,MAX_PATH+1, aFile.c_str() );
             LongDesc = strbuff;
 
+            //Process to check if running, see processes_dlg
             GetPrivateProfileString( L"Info", L"Process", L"", strbuff,MAX_PATH+1, aFile.c_str() );
             process = strbuff;
 
@@ -378,7 +382,7 @@ namespace diskcleaner
             //file = file.Trim();
 
             ::wxLogDebug(L"%s TextPlugInfo->Clean(): CleanFilesInFolder(%s,%s)", FileName.c_str(), folder, file.c_str() );
-            DSdata data = CleanFilesInFolder(folder,file.c_str(),&scanopt,FileList);
+            diskscan_data data = CleanFilesInFolder(folder,file.c_str(),&scanopt,FileList);
 
 //            if (scanopt.DelBaseFolder)
 //            {
@@ -551,7 +555,7 @@ namespace diskcleaner
 
                 *lastbkslash = 0; //Truncate folder after last backslash
 
-                DSdata data = GetFilesInFolder(folder, file_or_mask, &scanopt, FileList );
+                diskscan_data data = GetFilesInFolder(folder, file_or_mask, &scanopt, FileList );
 
                 BytesFound += data.bytes;
                 ItemsFound += data.files;

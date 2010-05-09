@@ -19,10 +19,12 @@
 
 namespace diskcleaner
 {
+    /// \see dcApp::OnCmdLineParsed(wxCmdLineParser& parser)
     bool dcsettings::Save()
     {
         return Save( wxConfigBase::Get( false ) );
     }
+
 
     bool dcsettings::Save( wxConfigBase* cf )
     {

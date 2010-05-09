@@ -168,7 +168,9 @@ void dc_frame::config_btn_click( wxCommandEvent& event )
 {
     prefs_dlg pd( this, settings );
 
-    if( pd.ShowModal() )
+    // Will return wxID_OK if a restart is necessary, wxID_CANCEL if
+    // *we* don't need to do anything.
+    if( pd.ShowModal() == wxID_OK )
     {
         // Don't try to elevate our priviliges
         // If admin, then the new process will have admin rigthts too
@@ -177,9 +179,13 @@ void dc_frame::config_btn_click( wxCommandEvent& event )
 
         Close();
     }
+
+    // Make sure that even when a normal user sets
+    // 'delete files on reboot' to true, RemoveOnReboot is set to false
+    dcApp& app = wxGetApp();
     if ( settings.global.delete_locked)
     {
-        SetRemoveOnReboot( true );
+        SetRemoveOnReboot( app.IsUserAdmin() );
     }
     else
     {
@@ -209,7 +215,7 @@ void dc_frame::clean_btn_click( wxCommandEvent& event )
     }
 
     Hide();
-    rsframe->DisableControls();
+    rsframe->disable_controls();
     rsframe->Show();
 
 //    dcApp& app = wxGetApp();
@@ -243,7 +249,7 @@ void dc_frame::clean_btn_click( wxCommandEvent& event )
                         total_files, wxPLURAL( "item", "items", total_files) );
     wxLogMessage(  schedulestr );
 
-    rsframe->EnableControls();
+    rsframe->enable_controls();
 
 }
 
@@ -378,7 +384,7 @@ void dc_frame::init_dialog()
     //Initialize build-in plugins
     //
 
-    waitdlg.SetProgressRange( plugin_list.size() + ( (app.NoBuildInPlugins() ) ? 0 : 9 ) );
+    waitdlg.SetProgressRange( plugin_list.size() + ( (app.NoBuiltInPlugins() ) ? 0 : 9 ) );
 
     if ( !app.IsQuietMode() )
     {
@@ -386,7 +392,7 @@ void dc_frame::init_dialog()
     }
 
 
-    if ( !app.NoBuildInPlugins() )
+    if ( !app.NoBuiltInPlugins() )
     {
         wxLogDebug( L"%hs: adding build-in plugins", __FUNCTION__ );
 
@@ -575,6 +581,9 @@ wxString dc_frame::bytes_to_string( __int64 bytes )
     return bytes_string;
 }
 
+// Takes a pointer to a PlugInfo class instance & lets it Scan().
+// Depending on user preferences, the plugin is then added to the
+// plugin_listctrl for the user to see (see below for exact circumstances)
 void dc_frame::add_plugin_to_listctrl( diskcleaner::PlugInfo* pi)
 {
     dcApp& app = wxGetApp();

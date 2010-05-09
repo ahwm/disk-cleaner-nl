@@ -18,11 +18,14 @@ protected:
     // Handlers for processes_dlg_base events.
     void ok_btn_click( wxCommandEvent& event );
 
-    void check_open_processes();
+    void enumerate_open_processes();
 public:
     processes_dlg( wxWindow* parent );
 
+    /// Add an executable name to the list to check if it is still running, and show the pretty_name in the dialog
     void add_process_to_check( const std::wstring& process, const std::wstring& pretty_name );
+
+    /// Check for running processes and display them in a dialog box
     bool do_process_check();
 };
 

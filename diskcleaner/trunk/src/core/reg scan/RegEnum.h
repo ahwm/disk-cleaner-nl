@@ -22,14 +22,20 @@
 #include <vector>
 #include <string>
 
+/**
+    \file
+    This file declares functions to enumerate and delete keys and values from the Windows registry
+*/
+
+/// Enumerates subkey(s) or value in registry
 void  EnumRegKey(HKEY rootkey,wchar_t* subkey,wchar_t* value,__int64& nitems,
                 __int64& nbytes, std::vector<std::wstring>&,const wchar_t* rootname);
 
-//bool DelRegKey(HKEY rootkey,wchar_t* subkey,wchar_t* value,__int64& nitems,__int64& nbytes);
-
+/// Deletes subkey(s) or value in registry
 bool  DelRegKey(HKEY rootkey,wchar_t* subkey,wchar_t* value,__int64& nitems,
                 __int64& nbytes, std::vector<std::wstring>& FileList, const wchar_t* rootname);
 
+/// Cracks a registry string as specified in a dct text plug-in into its subparts
 bool  CrackRegKey(wchar_t* regstring,HKEY& root, wchar_t*& subkey,wchar_t*& value);
 
 #endif //RegEnumH

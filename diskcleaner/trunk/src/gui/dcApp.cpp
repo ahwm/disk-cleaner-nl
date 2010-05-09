@@ -43,24 +43,25 @@ extern "C"
 
 IMPLEMENT_APP(dcApp);
 
+/// Available command line switches
 static const wxCmdLineEntryDesc cmdLineDesc[] =
 {
-    { wxCMD_LINE_SWITCH, L"p", L"portable", L"run in portable mode: save configuration files in the application "
-        L"folder." },
-    { wxCMD_LINE_SWITCH, L"q", L"quiet",    L"clean without showing a GUI. If a preset to be loaded is specified "
-                                            L"(option -r), the items checked in the specified preset will be cleaned. "
-                                            L"Otherwise, the items checked the last time Disk Cleaner was run in "
-                                            L"interactive mode are cleaned." },
+    { wxCMD_LINE_SWITCH, L"p", L"portable", _( "run in portable mode: save configuration files in the application "
+                                                "folder." ) },
+    { wxCMD_LINE_SWITCH, L"q", L"quiet",    _( "clean without showing a GUI. If a preset to be loaded is specified "
+                                               "(option -r), the items checked in the specified preset will be cleaned. "
+                                               "Otherwise, the items checked the last time Disk Cleaner was run in "
+                                               "interactive mode are cleaned." ) },
 
-    { wxCMD_LINE_OPTION, L"r", L"recall-preset", L"specify preset to be recalled for use. If -q (quiet mode) "
-                                                 L"is also specified, the preset will be loaded and "
-                                                 L"used for cleaning the items specified in the preset.",
+    { wxCMD_LINE_OPTION, L"r", L"recall-preset", _( "specify preset to be recalled for use. If -q (quiet mode) "
+                                                    "is also specified, the preset will be loaded and "
+                                                    "used for cleaning the items specified in the preset." ),
                                                  wxCMD_LINE_VAL_STRING},
 //    { wxCMD_LINE_SWITCH, L"l", L"log-to-file", L"log the results of the cleaning to file." },
-    { wxCMD_LINE_SWITCH, L"nt", L"no-text-plugins", L"do not use text plugins (.dct files). " },
-    { wxCMD_LINE_SWITCH, L"nb", L"no-builtin-plugins", L"do not use the built-in plugins" },
+    { wxCMD_LINE_SWITCH, L"nt", L"no-text-plugins", _( "do not use text plugins (.dct files). " ) },
+    { wxCMD_LINE_SWITCH, L"nb", L"no-builtin-plugins", _( "do not use the built-in plugins" ) },
 #ifdef __WXDEBUG__
-    { wxCMD_LINE_SWITCH, L"d", L"debug", L"Shows messages in a debug window " },
+    { wxCMD_LINE_SWITCH, L"d", L"debug", _( "Shows messages in a debug window " ) },
 #endif
     { wxCMD_LINE_NONE }
 };
@@ -109,22 +110,20 @@ bool dcApp::OnInit()
     return false;
 }
 
-bool dcApp::IsUserAdmin()
-{
     //FROM MSDN
-    /*++
+    /**
     Routine Description: This routine returns TRUE if the caller's
     process is a member of the Administrators local group. Caller is NOT
     expected to be impersonating anyone and is expected to be able to
     open its own process and process token.
-    Arguments: None.
-    Return Value:
-       TRUE - Caller has Administrators local group.
-       FALSE - Caller does not have Administrators local group. --
+    \return
+       true - Caller has Administrators local group.
+       false - Caller does not have Administrators local group.
     */
-
+bool dcApp::IsUserAdmin()
+{
     BOOL b;
-    SID_IDENTIFIER_AUTHORITY NtAuthority = SECURITY_NT_AUTHORITY;
+    SID_IDENTIFIER_AUTHORITY NtAuthority = {SECURITY_NT_AUTHORITY};
     PSID AdministratorsGroup;
 
     b = AllocateAndInitializeSid(&NtAuthority, 2, SECURITY_BUILTIN_DOMAIN_RID,
@@ -143,6 +142,8 @@ bool dcApp::IsUserAdmin()
 
 }
 
+/// Used to determine if a 'Run as administrator' button is displayed.
+/// \return true if the OS is Vista or higher, false otherwise
 bool dcApp::IsVistaOrHigher()
 {
     OSVERSIONINFO osversion;
@@ -163,6 +164,10 @@ void dcApp::OnInitCmdLine(wxCmdLineParser& parser)
                     L"Released under the GPL v2\n" );
 }
 
+/// Parses the command line for options and sets no_text_plugins,
+/// no_builtin_plugins, quiet_mode and defines the location where to
+/// load and save the user's preference
+/// \see NoBuiltInPlugins NoTextPlugins IsQuietMode diskcleaner::dcsettings
 bool dcApp::OnCmdLineParsed(wxCmdLineParser& parser)
 {
     if ( !wxApp::OnCmdLineParsed( parser ) )
@@ -173,7 +178,7 @@ bool dcApp::OnCmdLineParsed(wxCmdLineParser& parser)
 
     bool portable = parser.Found( L"p" );
     no_text_plugins = parser.Found( L"nt" );
-    no_buildin_plugins = parser.Found( L"nb" );
+    no_builtin_plugins = parser.Found( L"nb" );
 
     wxString wxrecall_preset;
     quiet_mode    = parser.Found( L"q" );
@@ -225,7 +230,8 @@ bool dcApp::OnCmdLineParsed(wxCmdLineParser& parser)
     return true;
 }
 
-
+/// \param ButtonWindow a handle (cast to HWND) to a button window
+/// \param ShowShield true to show, false to hide
 void  dcApp::Button_SetShield(const WXWidget ButtonWindow, bool ShowShield )
 {
     const int BCM_FIRST = 0x1600; //Normal button

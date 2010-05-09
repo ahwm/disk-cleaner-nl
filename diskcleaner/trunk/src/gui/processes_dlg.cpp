@@ -11,7 +11,7 @@ processes_dlg::processes_dlg( wxWindow* parent )
     processes_dlg_base( parent )
 {
     // Create a list of running processes
-    check_open_processes();
+    enumerate_open_processes();
 }
 
 void processes_dlg::ok_btn_click( wxCommandEvent& event )
@@ -24,8 +24,8 @@ void processes_dlg::add_process_to_check( const std::wstring& process, const std
     processlist.insert( make_pair ( process, pretty_name ) );
 }
 
-// Create a list of running processes on the system
-void processes_dlg::check_open_processes()
+/// Create a list of running processes on the system
+void processes_dlg::enumerate_open_processes()
 {
     HANDLE hProcessSnap;
     PROCESSENTRY32 pe32;
@@ -61,9 +61,9 @@ void processes_dlg::check_open_processes()
     CloseHandle( hProcessSnap );
 }
 
-// Check for running processes and display them in a dialog box
-//
-// Return value is assignable to dcsettings::global.show_running_processes (true/false)
+/// \return true if the user wants to keep checking in the future, false if not.
+/// The return value is assigned to diskcleaner::dcsettings.global.show_running_processes
+/// \see diskcleaner::dcsettings
 bool processes_dlg::do_process_check()
 {
     wxArrayString as;

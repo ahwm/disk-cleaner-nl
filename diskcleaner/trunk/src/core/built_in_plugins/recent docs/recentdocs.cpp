@@ -33,7 +33,7 @@ namespace diskcleaner
 
     void recent_docs::Scan()
     {
-        DSdata scandata = { 0 };
+        diskscan_data scandata = { 0 };
 
         LPITEMIDLIST pidl;
 

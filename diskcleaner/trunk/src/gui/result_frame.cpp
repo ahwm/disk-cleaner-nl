@@ -90,14 +90,14 @@ result_frame::~result_frame()
     wxLogDebug( L"%hs called", __FUNCTION__ );
 }
 
-void result_frame::EnableControls()
+void result_frame::enable_controls()
 {
   back_btn->Enable( true );
   exit_btn->Enable( true );
   save_btn->Enable( true );
 }
 
-void result_frame::DisableControls()
+void result_frame::disable_controls()
 {
   back_btn->Enable( false );
   exit_btn->Enable( false );

@@ -1,6 +1,8 @@
 [Info]
 Title=Opera 10 Cache
 Description=Removes the Opera 10 disk cache
+Process=opera.exe
+Application=Opera
 
 
 [files]

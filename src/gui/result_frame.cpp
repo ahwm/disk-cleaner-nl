@@ -52,7 +52,7 @@ void result_frame::save_btn_click( wxCommandEvent& event )
         if( !resultfile.Create() && !resultfile.Open() )
         {
             wxMessageBox( _("Sorry, I couldn't write to that file. Please try another name or location"),
-                        _(""), wxOK, this );
+                        L"", wxOK, this );
             return;
         }
 

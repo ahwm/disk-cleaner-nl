@@ -87,7 +87,7 @@ bool dcApp::OnInit()
         settings.Load();
 
         frame = new dc_frame(0L, settings);
-        frame->SetIcon(wxICON(aaaa)); // To Set App Icon
+        frame->SetIcon(wxICON(mainicon)); // To Set App Icon
         frame->init_dialog();
 
         if ( !IsQuietMode() )

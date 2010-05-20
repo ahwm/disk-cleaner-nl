@@ -110,6 +110,7 @@ dc_frame::dc_frame( wxWindow* parent, diskcleaner::dcsettings& _settings ):
     clean_btn->SetFocus();
 
     plugin_listctrl_hwnd = static_cast<HWND>( plugin_listctrl->GetHandle() );
+    plugin_listctrl->SetBackgroundImage( L"background_icon" );
 
 }
 
@@ -740,9 +741,6 @@ void dc_frame::invert_selection_click(wxCommandEvent& event )
 // in order to let it scroll even when unfocused.
 void dc_frame::handle_mousewheel( wxMouseEvent& event )
 {
-
-
-
       // Let the win32 list control handle the actual scrolling
       // We don't need to fuzz with event.m_wheelDelta etc.
       SendMessage(plugin_listctrl_hwnd , WM_MOUSEWHEEL, MAKEWPARAM( 0 , event.m_wheelRotation ), MAKELPARAM( event.GetX(), event.GetY() ) );

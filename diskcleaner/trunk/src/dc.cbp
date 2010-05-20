@@ -63,6 +63,8 @@
 			<Add option="-DwxUSE_UNICODE" />
 			<Add option="-D_UNICODE" />
 			<Add option="-DUNICODE" />
+			<Add option="-D_WIN32_WINNT=0x0501" />
+			<Add option="-D_WIN32_IE=0x0400" />
 			<Add directory="$(#wx.include)" />
 			<Add directory="$(#wx)\contrib\include" />
 			<Add directory="." />
@@ -85,6 +87,7 @@
 			<Add library="libwsock32.a" />
 			<Add library="libodbc32.a" />
 			<Add library="libwininet.a" />
+			<Add library="libmsimg32" />
 		</Linker>
 		<Unit filename="core\build_in_plugins\firefox\firefox.h" />
 		<Unit filename="core\build_in_plugins\internet_explorer\internet_explorer.h" />
@@ -149,7 +152,7 @@
 			<AutoVersioning>
 				<Scheme minor_max="10" build_max="0" rev_max="0" rev_rand_max="10" build_times_to_increment_minor="100000" />
 				<Settings autoincrement="0" date_declarations="1" do_auto_increment="1" ask_to_increment="0" language="C++" svn="0" svn_directory="" header_path="gui\version.h" />
-				<Changes_Log generate_log="0" app_title="released version %M.%m.%b of %p" changeslog_path="ChangesLog.txt" />
+				<Changes_Log show_changes_editor="0" app_title="released version %M.%m.%b of %p" changeslog_path="ChangesLog.txt" />
 			</AutoVersioning>
 			<envvars />
 		</Extensions>

@@ -87,7 +87,12 @@ bool dcApp::OnInit()
         settings.Load();
 
         frame = new dc_frame(0L, settings);
-        frame->SetIcon(wxICON(mainicon)); // To Set App Icon
+
+        // We use aaaa as icon identifier to make sure it's the first icon in the exe file
+        frame->SetIcon(wxICON(aaaa)); // To Set App Icon
+
+        // Start scanning for and loading text plug-ins
+        // Initialize built-in plug-ins
         frame->init_dialog();
 
         if ( !IsQuietMode() )

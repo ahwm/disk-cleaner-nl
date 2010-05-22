@@ -215,16 +215,12 @@ void dc_frame::clean_btn_click( wxCommandEvent& event )
                           settings.ui.result_frame_size.width, settings.ui.result_frame_size.height );
     }
 
+    // Hide the main window
+    // Unfortunately also hides the taskbar button
     Hide();
+
     rsframe->disable_controls();
     rsframe->Show();
-
-//    dcApp& app = wxGetApp();
-//    if ( settings.global.delete_locked && !app.IsUserAdmin() )
-//    {
-//        wxLogWarning( _("Warning: setting 'Delete locked files on reboot' ignored. The required Administrator priviliges are missing.") );
-//
-//    }
 
     //Set cursor to 'Hourglass'
     wxBeginBusyCursor();

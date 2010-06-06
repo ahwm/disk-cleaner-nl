@@ -53,7 +53,7 @@ static const wxCmdLineEntryDesc cmdLineDesc[] =
                                                "Otherwise, the items checked the last time Disk Cleaner was run in "
                                                "interactive mode are cleaned." ) },
 
-    { wxCMD_LINE_OPTION, L"r", L"recall-preset", _( "specify preset to be recalled for use. If -q (quiet mode) "
+    { wxCMD_LINE_OPTION, L"r", L"recall-preset", _( "specify preset to be recalled for use. If /q (quiet mode) "
                                                     "is also specified, the preset will be loaded and "
                                                     "used for cleaning the items specified in the preset." ),
                                                  wxCMD_LINE_VAL_STRING},
@@ -104,9 +104,19 @@ bool dcApp::OnInit()
         else
         {
             wxLogDebug( L"%hs: quiet mode, not showing dc_frame", __FUNCTION__ );
+
+// Suspend logging in release version
+// TODO: do something useful with logging in quiet mode.
+#ifndef __WXDEBUG__
             wxLogNull dont_log;
+#endif
             __int64 total_files, total_bytes; // Unused
+
+            wxLogDebug( L"%hs: Cleaning...", __FUNCTION__ );
             frame->clean(total_files, total_bytes);
+
+            wxLogDebug( L"%hs: Destroying main window", __FUNCTION__ );
+            frame->Destroy();
         }
 
         return true;
@@ -165,7 +175,7 @@ void dcApp::OnInitCmdLine(wxCmdLineParser& parser)
     wxApp::OnInitCmdLine( parser );
     parser.SetDesc (cmdLineDesc);
     parser.SetLogo( L"Disk Cleaner, a fast open source utility to recover disk space.\n"
-                    L"Copyright 1999-2009 R. J. Moerland\n"
+                    L"Copyright 1999-2010 R. J. Moerland\n"
                     L"Released under the GPL v2\n" );
 }
 

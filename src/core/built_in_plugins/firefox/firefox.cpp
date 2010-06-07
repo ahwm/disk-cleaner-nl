@@ -2,7 +2,7 @@
 #include <string>
 #include <shlobj.h>
 
-#include "sqlite\sqlite3.h"
+#include "core\sqlite\sqlite3.h"
 #include "core\disk scan\DiskScan.h"
 #include "firefox.h"
 //#include "ff_icon.h"
@@ -16,6 +16,36 @@ bool firefox_base::IsInitialized = false;
 bool firefox_base::FFPresent = false;
 wchar_t firefox_base::cachefolder[MAX_PATH] = L"\0";
 wchar_t firefox_base::localcachefolder[MAX_PATH] = L"\0";
+
+bool InitializeSqlite()
+{
+    //We always load Shell32.dll
+    /* gShell32DLLInst = GetModuleHandle( L"Shell32.dll" );
+     if (gShell32DLLInst)
+     {
+
+         gGetKnownFolderPath = (nsGetKnownFolderPath)GetProcAddress(gShell32DLLInst, "SHGetKnownFolderPath");
+         if ( gGetKnownFolderPath )
+         {
+             ::wxLogDebug( L"InitializeSHGetKnownFolderPath != NULL" );
+
+              return true;
+         }
+
+     }
+    */
+    return false;
+}
+
+bool UninitializeSqlite()
+{
+    /*
+       ::wxLogDebug( L"%hs: setting variables to NULL", __FUNCTION__ );
+       gGetKnownFolderPath = NULL;
+       gShell32DLLInst = NULL;
+    */
+    return true;
+}
 
 void firefox_base::Initialize()
 {
@@ -145,7 +175,7 @@ void firefox_base::ScanFile( const wchar_t* files )
         //so.Recursive = false; ->Now all initialized to false
         so.Hidden = true;
 
-        diskscan_data ds = GetFilesInFolder( cleanfolder, files, &so, ItemList );
+        DSdata ds = GetFilesInFolder( cleanfolder, files, &so, ItemList );
 
         ItemsFound = ds.files;
         BytesFound = ds.bytes;
@@ -207,8 +237,6 @@ void firefox_base::CleanFile( const wchar_t* files, const wchar_t* warning )
 
 firefox_cache::firefox_cache()
 {
-    process = L"firefox.exe";
-    process_pretty_name  =_("Firefox");
     ShortDesc = _( "Firefox Cache" );
     LongDesc = _( "Clears the Firefox cache" );
 }
@@ -230,8 +258,8 @@ void firefox_cache::Clean()
 
         ::wxLogDebug( L"%hs: cachefolder != 0, clean folder %s\\*.*", __PRETTY_FUNCTION__, cleanfolder );
 
-        diskscan_data ds = CleanFilesInFolder( cleanfolder, L"*.*\0", &so, ItemList );
-        diskscan_data ds2 = { 0 }; //Adding 0 does not change ItemsCleaned or BytesCleaned below.
+        DSdata ds = CleanFilesInFolder( cleanfolder, L"*.*\0", &so, ItemList );
+        DSdata ds2 = { 0 }; //Adding 0 does not change ItemsCleaned or BytesCleaned below.
 
         if ( *localcachefolder )
         {
@@ -262,8 +290,8 @@ void firefox_cache::DoScan(bool Preview)
         so.Recursive = true;
 
         //extra "\0" is paramount in L"*.*\0"!
-        diskscan_data ds = GetFilesInFolder( cleanfolder, L"*.*\0", &so, ItemList );
-        diskscan_data ds2 = { 0 };
+        DSdata ds = GetFilesInFolder( cleanfolder, L"*.*\0", &so, ItemList );
+        DSdata ds2 = { 0 };
 
         if ( *localcachefolder )
         {

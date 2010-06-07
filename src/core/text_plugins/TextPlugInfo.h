@@ -22,6 +22,12 @@
 
 #include "..\disk scan\DiskScan.h"
 
+#include <map>
+#include <set>
+#include <iterator>
+#include <vector>
+
+
 namespace diskcleaner {
 
 class TextPlugInfo : public PlugInfo
@@ -37,7 +43,7 @@ class TextPlugInfo : public PlugInfo
 public:
         TextPlugInfo(std::wstring& aFile);
 
-        //virtual HICON GetIcon();
+        virtual HICON GetIcon();
         virtual void Clean();
         virtual void Configure(){};
         virtual void Scan();

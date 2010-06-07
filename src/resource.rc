@@ -1,8 +1,7 @@
 #include <winver.h>
 #include "gui/version.h"
 
-aaaa              ICON "resource/main_new.ico"
-background_icon ICON "resource/funnel_background.ico"
+aaaa ICON "resource/main_new.ico"
 
 bmplogo BITMAP "resource/logo.bmp"
 

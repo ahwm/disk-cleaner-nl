@@ -225,8 +225,6 @@ retry:
 
     ie_cache::ie_cache( bool delete_offline_items ) :  ie_base( NORMAL_CACHE_ENTRY )
     {
-        process = L"iexplore.exe";
-        process_pretty_name = _( "Internet Explorer" );
         DeleteOfflineItems = delete_offline_items;
         ShortDesc = _( "Internet Explorer Cache" );
         LongDesc = _( "Clears the Internet Explorer browser cache" );

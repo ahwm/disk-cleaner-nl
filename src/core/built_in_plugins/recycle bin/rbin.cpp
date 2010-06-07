@@ -19,7 +19,6 @@
 #include <windows.h>
 #pragma hdrstop
 
-#include <wx/log.h>
 #include <string.h>
 #include <shellapi.h>
 #include "rbin.h"

@@ -186,10 +186,6 @@ void wxListCtrlLog::Flush()
         {
             this->EnsureVisible( index );
         }
-        else
-        {
-            wxLogDebug( L"Error during message insertion in ListCtrlLog widget" );
-        }
     }
 
     m_messages.Clear();

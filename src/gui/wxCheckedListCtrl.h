@@ -17,8 +17,6 @@ public:
     wxCheckedListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pt,
                                          const wxSize& sz, long style);
     void OnMouseEvent(wxMouseEvent& event);
-    void OnChar(wxKeyEvent& event);
-    bool SetBackgroundImage( const wchar_t* resource );
     bool IsChecked(long item) const ;
     void Check(long item, bool checked);
 };

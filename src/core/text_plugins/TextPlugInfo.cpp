@@ -19,8 +19,6 @@
 #include <shlobj.h>
 #include <commctrl.h>
 #include <winreg.h>
-#include <cctype>
-#include <algorithm>
 
 #include <new>
 #include "../reg scan/regenum.h"
@@ -46,16 +44,18 @@ typedef GUID KNOWNFOLDERID;
     static nsGetKnownFolderPath gGetKnownFolderPath = NULL;
     static HINSTANCE gShell32DLLInst = NULL;
 
-    // Note: for bug-free operation all %folder% constructs must be in lowercase!
+    std::map<std::wstring,std::wstring> ExpansionMap;
+    std::map<std::wstring,std::wstring>::iterator expansion_iterator;
+
+
     std::wstring GetFolderLocation(const std::wstring& folder)
     {
         int nFolder=0;
         wchar_t buff[MAX_PATH];
-        //wcscpy(buff, folder.c_str() );
+        wcscpy(buff, folder.c_str() );
 
         ::wxLogDebug( L"%hs: find %s", __FUNCTION__, folder.c_str() );
-        std::wstring folder_copy( folder );
-
+        std::wstring folder_copy(buff);
 
         if ( folder_copy.find(L"%windir%") != std::string::npos )  //all
         {
@@ -158,29 +158,10 @@ typedef GUID KNOWNFOLDERID;
 
     }
 
-    /// Test for writing to or deleting locations that are protected in Vista.
-    /// A standard user is denied access to these locations by default
-    /// and admin rights are needed instead.
-    // Note that we create a copy of path *on purpose*
-    bool TestForAdminLocations( std::wstring path )
-    {
-        std::transform(path.begin(), path.end(), path.begin(),
-               (int(*)(int)) std::tolower);
-
-        if ( path.find( L"%windir%") != std::string::npos ||
-             path.find( L"%sysdir%") != std::string::npos ||
-             path.find( L"%programfiles%" ) != std::string::npos ||
-             path.find( L"%commonappdata%") != std::string::npos ) // needs special permissions in Vista?
-        {
-            return true;
-        }
-        return false;
-    }
-
-/// ExpandString - Expands strings in the form of %string% to their full size.
-/// Currently only capable of 1 expansion per string.
-/// adds the expanded strings to dest and puts values that were not in the
-/// environment variables there.
+//--------------------------------------------------------------------------
+//ExpandString - Expands strings in the form of %string% to their full
+//size. Currently only capable of 1 expansion per string.
+//adds the expanded strings to dest
 //--------------------------------------------------------------------------
     int ExpandString(const std::wstring& source,std::vector<std::wstring>& dest)
     {
@@ -206,10 +187,7 @@ typedef GUID KNOWNFOLDERID;
 
         int n = nextperc - string + 1;
 
-        lstrcpyn( buff, string, n + 1 ); // Include NULL termination
-
-        // Ensure that comparison in GetFolderLocation is in lowercase
-        CharLower( buff );
+        lstrcpyn( buff, string, n + 1 ); //Include NULL termination
 
         ::wxLogDebug( L"%hs: Expand %s" , __FUNCTION__, buff);
         if ( !wcsicmp( L"%drive%", buff ) )
@@ -231,20 +209,22 @@ typedef GUID KNOWNFOLDERID;
             return  dest.size();
         }
 
-        temp = GetFolderLocation( std::wstring( buff ) );
-        ::wxLogDebug( L"%hs: GetFolderLocation returned %s = %s" , __FUNCTION__, buff, temp.c_str() );
+        //It's not covered by ExpandEnvironmentStrings, nor by %drive%
+        //Try GetFolderLocation, but see if it's stored previously first
+        expansion_iterator = ExpansionMap.find(buff);
 
-        if ( temp != L"" )
+        if ( expansion_iterator == ExpansionMap.end() )
         {
-            // Add the found folder location to the Enviroment Variables
-            // Windows will take care of the substitution next time :)
-            nextperc = wcsstr( buff + 1, L"%" );
-            *nextperc = L'\0';
-            SetEnvironmentVariable( buff + 1, temp.c_str() );
-
-            // Add the folder to be scanned to the list of folders
-            dest.push_back( temp + std::wstring( nextperc + 1 ) );
+            temp = GetFolderLocation( std::wstring( buff ) );
+            ::wxLogDebug( L"%hs: GetFolderLocation returned %s = %s" , __FUNCTION__, buff, temp.c_str() );
+            if ( temp != L"" )
+            {
+                //ExpansionMap.insert(std::map<std::wstring,std::wstring>::value_type(std::wstring(buff),temp));
+                dest.push_back( temp + std::wstring( nextperc + 1 ) );
+            }
         }
+        else
+            temp =  expansion_iterator->second + std::wstring(nextperc+1);
 
         return dest.size();
 
@@ -255,7 +235,7 @@ typedef GUID KNOWNFOLDERID;
 
 namespace diskcleaner
 {
-    /// Create a new TextPlugInfo instance from a file name (including path)
+
     TextPlugInfo::TextPlugInfo(std::wstring& aFile) : PlugInfo(), FileName(aFile)
     {
         IconHandle = 0;
@@ -268,19 +248,6 @@ namespace diskcleaner
 
             GetPrivateProfileString( L"Info", L"Description", L"Error: No description given", strbuff,MAX_PATH+1, aFile.c_str() );
             LongDesc = strbuff;
-
-            //Process to check if running, see processes_dlg
-            GetPrivateProfileString( L"Info", L"Process", L"", strbuff,MAX_PATH+1, aFile.c_str() );
-            process = strbuff;
-
-            wxLogDebug( L"Process = %s", strbuff );
-
-            if( !process.empty() )
-            {
-                GetPrivateProfileString( L"Info", L"Application", L"Unknown", strbuff,MAX_PATH+1, aFile.c_str() );
-                wxLogDebug( L"Application = %s", strbuff );
-                process_pretty_name = strbuff;
-            }
 
         }
 
@@ -313,36 +280,19 @@ namespace diskcleaner
     void TextPlugInfo::Clean()
     {
 
+
+
+        wchar_t buff[32*1024-1]; //32k is limit of win95
+        wchar_t* pstring = buff;
+        wchar_t* subkey,*value;
         HKEY rootkey;
-        BOOL fOk;
-        WIN32_FILE_ATTRIBUTE_DATA fileInfo;
+
+        FileList.clear();
+        GetPrivateProfileSection(L"registry",buff,sizeof(buff),FileName.c_str());
 
         ItemsCleaned = 0;
         BytesCleaned = 0;
 
-        fOk = GetFileAttributesEx(FileName.c_str(), GetFileExInfoStandard, (void*)&fileInfo);
-        if (!fOk)
-        {
-            wxLogError( _T("Unable to determine file size. Skipping plugin %s"), FileName.c_str() );
-
-            return;
-        }
-
-        if ( fileInfo.nFileSizeHigh != 0)
-        {
-            wxLogError( _T("Extremely large plug-in file detected: %s. Skipping."), FileName.c_str() );
-
-            return;
-        }
-
-        wxLogDebug( L"%s: plugin file size is %d", FileName.c_str(), fileInfo.nFileSizeLow );
-
-        wchar_t* buff = new wchar_t[ fileInfo.nFileSizeLow ];
-        wchar_t* pstring = buff;
-        wchar_t* subkey,*value;
-
-        FileList.clear();
-        GetPrivateProfileSection(L"registry",buff, fileInfo.nFileSizeLow, FileName.c_str());
 
         while (*pstring)
         {
@@ -356,10 +306,7 @@ namespace diskcleaner
             pstring+=len+1;
         }
 
-        // Do files
-        //
-        // No need to read the [files] section anymore from the plug-in
-        // since it is stored in the vector<std::wstring> FolderList
+        /* Do files */
 
         for (unsigned int i=0;i<FolderList.size();++i)
         {
@@ -382,7 +329,7 @@ namespace diskcleaner
             //file = file.Trim();
 
             ::wxLogDebug(L"%s TextPlugInfo->Clean(): CleanFilesInFolder(%s,%s)", FileName.c_str(), folder, file.c_str() );
-            diskscan_data data = CleanFilesInFolder(folder,file.c_str(),&scanopt,FileList);
+            DSdata data = CleanFilesInFolder(folder,file.c_str(),&scanopt,FileList);
 
 //            if (scanopt.DelBaseFolder)
 //            {
@@ -399,7 +346,14 @@ namespace diskcleaner
 
 
     }
+//------------------------------------------------------------------------------
 
+    HICON TextPlugInfo::GetIcon()
+    {
+        return IconHandle;
+    }
+
+//------------------------------------------------------------------------------
     TScanOptions TextPlugInfo::GetScanOptions(wchar_t* folder)
     {
         wxLogDebug( L"%hs( %s )", __FUNCTION__, folder);
@@ -461,39 +415,20 @@ namespace diskcleaner
 
     void TextPlugInfo::DoScan( bool Preview )
     {
-        HKEY rootkey;
-        BOOL fOk;
-        WIN32_FILE_ATTRIBUTE_DATA fileInfo;
-
-        ItemsFound = 0;
-        BytesFound = 0;
-
-        fOk = GetFileAttributesEx(FileName.c_str(), GetFileExInfoStandard, (void*)&fileInfo);
-        if (!fOk)
-        {
-            wxLogError( _T("Unable to determine file size. Skipping plugin %s"), FileName.c_str() );
-
-            return;
-        }
-
-        if ( fileInfo.nFileSizeHigh != 0)
-        {
-            wxLogError( _T("Extremely large plug-in file detected: %s. Skipping."), FileName.c_str() );
-
-            return;
-        }
-
-        wxLogDebug( L"%s: plugin file size is %d", FileName.c_str(), fileInfo.nFileSizeLow );
-        wchar_t* buff = new wchar_t[ fileInfo.nFileSizeLow ];
+        wchar_t buff[32*1024-1]; //32k is limit of win95
         wchar_t* pstring = buff;
         wchar_t* subkey,*value;
+        HKEY rootkey;
+
 
         FileList.clear();
 
         /* Do registry first */
-        wxLogDebug( L"%s: Processing registry section", FileName.c_str() );
+        //addlog("Reading registry section");
+        GetPrivateProfileSection( L"registry" , buff, sizeof( buff ), FileName.c_str() );
 
-        GetPrivateProfileSection( L"registry" , buff, fileInfo.nFileSizeLow, FileName.c_str() );
+        ItemsFound = 0;
+        BytesFound = 0;
 
         while ( *pstring )
         {
@@ -504,11 +439,6 @@ namespace diskcleaner
             if (CrackRegKey(pstring,rootkey,subkey,value))
             {
                 ::wxLogDebug( L"%hs: EnumRegKey(%s, %s, %s)" , __FUNCTION__, pstring, subkey, value );
-
-                if (rootkey != HKEY_CURRENT_USER ) // Assume admin priviliges are required when not editing our own
-                {                                  // (HKEY_CURRENT_USER) keys in the registry
-                    AdminRequired = true;
-                }
                 EnumRegKey( rootkey, subkey, value, ItemsFound, BytesFound, FileList, pstring);
             }
 
@@ -519,9 +449,8 @@ namespace diskcleaner
 
 
         /* Do files */
-        wxLogDebug( L"%s: Processing files section", FileName.c_str() );
-
-        GetPrivateProfileSectionW( L"files", buff, fileInfo.nFileSizeLow, FileName.c_str() );
+        //addlog("Reading files section");
+        GetPrivateProfileSectionW( L"files", buff, sizeof( buff ), FileName.c_str() );
         pstring = buff;
 
         FolderList.clear();
@@ -530,8 +459,8 @@ namespace diskcleaner
         while ( *pstring )
         {
             wxLogDebug( L"%hs: found in [files]: %s", __FUNCTION__, pstring );
-            std::wstring tmp( pstring );
-            if( !AdminRequired ) AdminRequired = TestForAdminLocations( tmp );
+            std::wstring tmp(pstring);
+
             ExpandString(tmp, FolderList);
 
             pstring += lstrlen(pstring) + 1;
@@ -555,7 +484,7 @@ namespace diskcleaner
 
                 *lastbkslash = 0; //Truncate folder after last backslash
 
-                diskscan_data data = GetFilesInFolder(folder, file_or_mask, &scanopt, FileList );
+                DSdata data = GetFilesInFolder(folder, file_or_mask, &scanopt, FileList );
 
                 BytesFound += data.bytes;
                 ItemsFound += data.files;

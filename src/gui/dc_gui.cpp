@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Feb 17 2010)
+// C++ code generated with wxFormBuilder (version Aug 25 2009)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -137,26 +137,9 @@ dc_base_frame::dc_base_frame( wxWindow* parent, wxWindowID id, const wxString& t
 	
 	this->SetSizer( bSizer17 );
 	this->Layout();
-	context_menu = new wxMenu();
-	wxMenuItem* m_select_all;
-	m_select_all = new wxMenuItem( context_menu, wxID_ANY, wxString( _("Select All") ) , wxEmptyString, wxITEM_NORMAL );
-	context_menu->Append( m_select_all );
-	
-	wxMenuItem* m_select_none;
-	m_select_none = new wxMenuItem( context_menu, wxID_ANY, wxString( _("Select None") ) , wxEmptyString, wxITEM_NORMAL );
-	context_menu->Append( m_select_none );
-	
-	wxMenuItem* m_invert_selection;
-	m_invert_selection = new wxMenuItem( context_menu, wxID_ANY, wxString( _("Invert Selection") ) , wxEmptyString, wxITEM_NORMAL );
-	context_menu->Append( m_invert_selection );
-	
-	this->Connect( wxEVT_RIGHT_DOWN, wxMouseEventHandler( dc_base_frame::dc_base_frameOnContextMenu ), NULL, this ); 
-	
 	
 	// Connect Events
 	this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( dc_base_frame::dc_base_frame_onclose ) );
-	this->Connect( wxEVT_MOUSEWHEEL, wxMouseEventHandler( dc_base_frame::handle_mousewheel ) );
-	plugin_listctrl->Connect( wxEVT_KEY_UP, wxKeyEventHandler( dc_base_frame::plugin_listctrl_keyup ), NULL, this );
 	plugin_listctrl->Connect( wxEVT_COMMAND_LIST_COL_CLICK, wxListEventHandler( dc_base_frame::plugin_listctrl_column_clicked ), NULL, this );
 	preset_box->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( dc_base_frame::preset_box_onchoice ), NULL, this );
 	preset_save_btn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( dc_base_frame::preset_save_btn_click ), NULL, this );
@@ -166,17 +149,12 @@ dc_base_frame::dc_base_frame( wxWindow* parent, wxWindowID id, const wxString& t
 	clean_btn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( dc_base_frame::clean_btn_click ), NULL, this );
 	runasadmin_btn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( dc_base_frame::runasadmin_btn_click ), NULL, this );
 	exit_btn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( dc_base_frame::exit_btn_click ), NULL, this );
-	this->Connect( m_select_all->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( dc_base_frame::select_all_click ) );
-	this->Connect( m_select_none->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( dc_base_frame::select_none_click ) );
-	this->Connect( m_invert_selection->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( dc_base_frame::invert_selection_click ) );
 }
 
 dc_base_frame::~dc_base_frame()
 {
 	// Disconnect Events
 	this->Disconnect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( dc_base_frame::dc_base_frame_onclose ) );
-	this->Disconnect( wxEVT_MOUSEWHEEL, wxMouseEventHandler( dc_base_frame::handle_mousewheel ) );
-	plugin_listctrl->Disconnect( wxEVT_KEY_UP, wxKeyEventHandler( dc_base_frame::plugin_listctrl_keyup ), NULL, this );
 	plugin_listctrl->Disconnect( wxEVT_COMMAND_LIST_COL_CLICK, wxListEventHandler( dc_base_frame::plugin_listctrl_column_clicked ), NULL, this );
 	preset_box->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( dc_base_frame::preset_box_onchoice ), NULL, this );
 	preset_save_btn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( dc_base_frame::preset_save_btn_click ), NULL, this );
@@ -186,17 +164,11 @@ dc_base_frame::~dc_base_frame()
 	clean_btn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( dc_base_frame::clean_btn_click ), NULL, this );
 	runasadmin_btn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( dc_base_frame::runasadmin_btn_click ), NULL, this );
 	exit_btn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( dc_base_frame::exit_btn_click ), NULL, this );
-	this->Disconnect( wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( dc_base_frame::select_all_click ) );
-	this->Disconnect( wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( dc_base_frame::select_none_click ) );
-	this->Disconnect( wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( dc_base_frame::invert_selection_click ) );
-	
-	delete context_menu; 
 }
 
 wait_base_dlg::wait_base_dlg( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
 {
 	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
-	this->SetBackgroundColour( wxColour( 255, 255, 255 ) );
 	
 	wxFlexGridSizer* fgSizer6;
 	fgSizer6 = new wxFlexGridSizer( 2, 1, 0, 0 );
@@ -230,8 +202,6 @@ wait_base_dlg::wait_base_dlg( wxWindow* parent, wxWindowID id, const wxString& t
 	
 	this->SetSizer( fgSizer6 );
 	this->Layout();
-	
-	this->Centre( wxBOTH );
 }
 
 wait_base_dlg::~wait_base_dlg()
@@ -293,7 +263,6 @@ about_base_dlg::~about_base_dlg()
 {
 	// Disconnect Events
 	ok_sizerOK->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( about_base_dlg::ok_btn_clicked ), NULL, this );
-	
 }
 
 result_base_frame::result_base_frame( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
@@ -328,13 +297,10 @@ result_base_frame::result_base_frame( wxWindow* parent, wxWindowID id, const wxS
 	back_btn->SetDefault(); 
 	bSizer3->Add( back_btn, 0, wxALL, 5 );
 	
-	save_btn = new wxButton( this, wxID_ANY, _("&Save results..."), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer3->Add( save_btn, 0, wxALL, 5 );
-	
 	
 	bSizer3->Add( 0, 0, 1, wxEXPAND, 5 );
 	
-	exit_btn = new wxButton( this, wxID_OK, _("&Exit"), wxDefaultPosition, wxDefaultSize, 0 );
+	exit_btn = new wxButton( this, wxID_ANY, _("&Exit"), wxDefaultPosition, wxDefaultSize, 0 );
 	exit_btn->SetDefault(); 
 	bSizer3->Add( exit_btn, 0, wxALL, 5 );
 	
@@ -348,7 +314,6 @@ result_base_frame::result_base_frame( wxWindow* parent, wxWindowID id, const wxS
 	// Connect Events
 	this->Connect( wxEVT_INIT_DIALOG, wxInitDialogEventHandler( result_base_frame::init_result_dlg ) );
 	back_btn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( result_base_frame::back_btn_click ), NULL, this );
-	save_btn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( result_base_frame::save_btn_click ), NULL, this );
 	exit_btn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( result_base_frame::exit_btn_click ), NULL, this );
 }
 
@@ -357,9 +322,7 @@ result_base_frame::~result_base_frame()
 	// Disconnect Events
 	this->Disconnect( wxEVT_INIT_DIALOG, wxInitDialogEventHandler( result_base_frame::init_result_dlg ) );
 	back_btn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( result_base_frame::back_btn_click ), NULL, this );
-	save_btn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( result_base_frame::save_btn_click ), NULL, this );
 	exit_btn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( result_base_frame::exit_btn_click ), NULL, this );
-	
 }
 
 prefs_dlg_base::prefs_dlg_base( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
@@ -374,17 +337,11 @@ prefs_dlg_base::prefs_dlg_base( wxWindow* parent, wxWindowID id, const wxString&
 	wxBoxSizer* bSizer6;
 	bSizer6 = new wxBoxSizer( wxVERTICAL );
 	
-	delete_locked_cb = new wxCheckBox( m_panel1, wxID_ANY, _("&Delete locked files on reboot if running as administrator"), wxDefaultPosition, wxDefaultSize, 0 );
+	delete_locked_cb = new wxCheckBox( m_panel1, wxID_ANY, _("&Delete locked files on reboot (needs administrator privileges)"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer6->Add( delete_locked_cb, 0, wxALL, 10 );
 	
-	hide_empty_cb = new wxCheckBox( m_panel1, wxID_ANY, _("&Hide entries with zero items to clean (restarts Disk Cleaner)"), wxDefaultPosition, wxDefaultSize, 0 );
+	hide_empty_cb = new wxCheckBox( m_panel1, wxID_ANY, _("&Hide entries when empty (requires restart of Disk Cleaner)"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer6->Add( hide_empty_cb, 0, wxBOTTOM|wxRIGHT|wxLEFT, 10 );
-	
-	hide_admin_items_cb = new wxCheckBox( m_panel1, wxID_ANY, _("H&ide items that need administrator priviliges for normal users (restarts Disk Cleaner)"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer6->Add( hide_admin_items_cb, 0, wxBOTTOM|wxRIGHT|wxLEFT, 10 );
-	
-	warn_open_processes_cb = new wxCheckBox( m_panel1, wxID_ANY, _("&Warn when open applications can interfere with cleaning"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer6->Add( warn_open_processes_cb, 0, wxBOTTOM|wxRIGHT|wxLEFT, 10 );
 	
 	m_panel1->SetSizer( bSizer6 );
 	m_panel1->Layout();
@@ -456,7 +413,6 @@ prefs_dlg_base::~prefs_dlg_base()
 	// Disconnect Events
 	ok_cancelCancel->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( prefs_dlg_base::cancel_btn_clicked ), NULL, this );
 	ok_cancelOK->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( prefs_dlg_base::ok_btn_clicked ), NULL, this );
-	
 }
 
 MyDialog6::MyDialog6( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
@@ -600,57 +556,4 @@ MyDialog6::MyDialog6( wxWindow* parent, wxWindowID id, const wxString& title, co
 
 MyDialog6::~MyDialog6()
 {
-}
-
-processes_dlg_base::processes_dlg_base( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
-{
-	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
-	this->SetBackgroundColour( wxColour( 255, 255, 255 ) );
-	
-	wxFlexGridSizer* fgSizer11;
-	fgSizer11 = new wxFlexGridSizer( 5, 1, 0, 0 );
-	fgSizer11->AddGrowableCol( 0 );
-	fgSizer11->AddGrowableRow( 2 );
-	fgSizer11->SetFlexibleDirection( wxBOTH );
-	fgSizer11->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
-	
-	m_staticText20 = new wxStaticText( this, wxID_ANY, _("The following applications are still running."), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText20->Wrap( -1 );
-	m_staticText20->SetFont( wxFont( wxNORMAL_FONT->GetPointSize(), 70, 90, 92, false, wxEmptyString ) );
-	
-	fgSizer11->Add( m_staticText20, 0, wxALL|wxEXPAND, 5 );
-	
-	m_staticText21 = new wxStaticText( this, wxID_ANY, _("Please close them for optimal cleaning:"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText21->Wrap( -1 );
-	fgSizer11->Add( m_staticText21, 0, wxALL|wxEXPAND, 5 );
-	
-	process_list_lb = new wxListBox( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0, NULL, wxLB_HSCROLL|wxLB_NEEDED_SB|wxLB_SORT ); 
-	fgSizer11->Add( process_list_lb, 1, wxEXPAND|wxALL, 5 );
-	
-	wxBoxSizer* bSizer19;
-	bSizer19 = new wxBoxSizer( wxHORIZONTAL );
-	
-	dont_show_cb = new wxCheckBox( this, wxID_ANY, _("Never show this warning again"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer19->Add( dont_show_cb, 1, wxALL, 5 );
-	
-	m_button15 = new wxButton( this, wxID_OK, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	m_button15->SetDefault(); 
-	bSizer19->Add( m_button15, 0, wxALIGN_CENTER_VERTICAL|wxBOTTOM|wxRIGHT|wxLEFT, 5 );
-	
-	fgSizer11->Add( bSizer19, 1, wxEXPAND, 5 );
-	
-	this->SetSizer( fgSizer11 );
-	this->Layout();
-	
-	this->Centre( wxBOTH );
-	
-	// Connect Events
-	m_button15->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( processes_dlg_base::ok_btn_click ), NULL, this );
-}
-
-processes_dlg_base::~processes_dlg_base()
-{
-	// Disconnect Events
-	m_button15->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( processes_dlg_base::ok_btn_click ), NULL, this );
-	
 }

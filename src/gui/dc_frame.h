@@ -39,21 +39,11 @@ class result_frame;
 /** Implementing dc_base_frame */
 class dc_frame : public dc_base_frame
 {
-    // Hide this constructor
-	dc_frame( wxWindow* parent );
-
-	// We'll send messages to plugin_listctrl.
-	// This variable will hold the native control's HWND
-	HWND plugin_listctrl_hwnd;
-
     std::auto_ptr<result_frame> rsframe;
-
-    // For result_frame instances only
-	friend class result_frame;
-	void result_frame_finished_signal( bool restart );
 protected:
 
-    diskcleaner::dcsettings& settings;
+    //Manages all user settings that are persistent
+    diskcleaner::dcsettings settings;
 
     //Class that manages (un)checking the items in the main
     //window's list control, depending on the chosen preset
@@ -71,10 +61,6 @@ protected:
 	void dc_base_frame_onclose( wxCloseEvent& event  );
     void preset_box_onchoice( wxCommandEvent& event );
     void plugin_listctrl_column_clicked( wxListEvent& event );
-    void select_all_click( wxCommandEvent& event );
-    void select_none_click( wxCommandEvent& event );
-    void invert_selection_click( wxCommandEvent& event );
-    void handle_mousewheel( wxMouseEvent& event );
 
 	//Restarts Disk Cleaner, possibly as administrator
 	//Used for 'Run as Administrator' button in the main window
@@ -90,12 +76,14 @@ protected:
 
 public:
 	/** Constructor */
-	dc_frame( wxWindow* parent, diskcleaner::dcsettings& _settings );
+	dc_frame( wxWindow* parent );
 
 	// Start actual cleaning
 	void clean(__int64& total_files, __int64& total_bytes);
 	void init_dialog();
 
+	// For result_frame instances only
+	void result_frame_finished_signal( bool restart );
 };
 
 #endif // __dc_frame__

@@ -24,18 +24,8 @@
 
 namespace DiskScan
 {
-    // Globals related to the scheduling of files for removal on reboot
-    //
-    /// RemoveOnReboot: if true, then schedule files that cannot be deleted
-    /// to be removed on reboot, just give up when false
     bool RemoveOnReboot;
-
-    /// Counter of how many files were scheduled for removal on reboot
     __int64 FilesScheduled;
-
-    /// just an indication whether all files that should be removed were removed
-    /// used to suppress 'Cannot remove folder as promised..' etc. when
-    /// the folder contains files that could not be removed
     bool AllFilesRemoved;
 }
 
@@ -62,17 +52,14 @@ bool GetAllFilesRemoved()
     return DiskScan::AllFilesRemoved;
 };
 
-enum ProcessFileResult{ pfFailed,   ///< removal of file failed
-                        pfOK,       ///< removal OK
-                        pfSkipped   ///< file was skipped based on file age
-                    };
+enum ProcessFileResult{ pfFailed, pfOK, pfSkipped};
 
 //Forward declaration
 ProcessFileResult ProcessFile( const wchar_t * const the_file, std::vector<std::wstring>& FileList,
                           TScanOptions *  so, const WIN32_FIND_DATA& find_data, bool Remove );
 
 bool ProcessFilesInFolder(const wchar_t* folder, const wchar_t* masks, TScanOptions* so,
-                            std::vector<std::wstring>& FileList, diskscan_data& scandata, bool Remove = false )
+                            std::vector<std::wstring>& FileList, DSdata& scandata, bool Remove = false )
 {
     HANDLE hFileSearch;
     WIN32_FIND_DATA sr;
@@ -232,19 +219,19 @@ bool ProcessFilesInFolder(const wchar_t* folder, const wchar_t* masks, TScanOpti
 
 
 
-diskscan_data GetFilesInFolder(const wchar_t* folder, const wchar_t* masks,
+DSdata GetFilesInFolder(const wchar_t* folder, const wchar_t* masks,
                           TScanOptions* so, std::vector<std::wstring>& FileList)
 {
-    diskscan_data ds = { 0 };
+    DSdata ds = { 0 };
     ProcessFilesInFolder( folder, masks, so, FileList, ds, false );
     return ds;
 }
 
 
-diskscan_data CleanFilesInFolder(const wchar_t* folder, const wchar_t* masks,
+DSdata CleanFilesInFolder(const wchar_t* folder, const wchar_t* masks,
                             TScanOptions* so, std::vector<std::wstring>& FileList)
 {
-    diskscan_data ds = { 0 };
+    DSdata ds = { 0 };
     ProcessFilesInFolder (folder, masks, so, FileList, ds, true );
     return ds;
 }
@@ -305,7 +292,7 @@ inline ProcessFileResult ProcessFile( const wchar_t * const the_file, std::vecto
     }
     else
     {
-//        int swresult = 0;
+        int swresult = 0;
 //              if(so->Secure)
 //              {
 //                swresult = SWWipeFileByName(localfolder,dcglobals::ctxt);

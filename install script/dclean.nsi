@@ -58,7 +58,6 @@ InstType Typical
  
  !insertmacro MUI_LANGUAGE "English"
 
-
  Name $installer_name
  
 	
@@ -93,7 +92,6 @@ SectionIn 1
   SetOutPath $INSTDIR
  
   ;Put files there
-  !system "upx --brute ..\src\bin\Release\dclean.exe"
   File "..\src\bin\Release\dclean.exe"
   
   SetOutPath $INSTDIR\plug-ins

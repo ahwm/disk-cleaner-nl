@@ -25,7 +25,6 @@
 
 
 #include "gui/dc_frame.h"
-#include "processes_dlg.h"
 #include "gui/about_frame.h"
 #include "gui/wait_dlg.h"
 #include "gui/prefs_dlg.h"
@@ -37,7 +36,6 @@
 #include <wx/fileconf.h>
 #include <wx/intl.h>
 #include <wx/textdlg.h>
-
 
 using namespace diskcleaner;
 
@@ -94,13 +92,10 @@ int wxCALLBACK listctrl_compare( long item1, long item2, long sortData )
 
 }
 
-dc_frame::dc_frame( wxWindow* parent, diskcleaner::dcsettings& _settings ):
-    dc_base_frame( parent ), settings(_settings)
+dc_frame::dc_frame( wxWindow* parent ):dc_base_frame( parent )
 {
-    // Let the 'Select All/None/Invert' menu also show when the plugin list is right-clicked
-    plugin_listctrl->Connect( wxEVT_RIGHT_DOWN, wxMouseEventHandler( dc_base_frame::dc_base_frameOnContextMenu ), NULL, this );
+    // wxImage::AddHandler( new wxJPEGHandler );
 
-    // Empty ListCtrl and add columns
     plugin_listctrl->ClearAll();
     plugin_listctrl->InsertColumn( 0, _( "Title" ) );
     plugin_listctrl->InsertColumn( 1, _( "Items" ), wxLIST_FORMAT_RIGHT );
@@ -108,9 +103,6 @@ dc_frame::dc_frame( wxWindow* parent, diskcleaner::dcsettings& _settings ):
     plugin_listctrl->InsertColumn( 3, _( "Description" ) );
 
     clean_btn->SetFocus();
-
-    plugin_listctrl_hwnd = static_cast<HWND>( plugin_listctrl->GetHandle() );
-    plugin_listctrl->SetBackgroundImage( L"background_icon" );
 
 }
 
@@ -169,29 +161,16 @@ void dc_frame::config_btn_click( wxCommandEvent& event )
 {
     prefs_dlg pd( this, settings );
 
-    // Will return wxID_OK if a restart is necessary, wxID_CANCEL if
-    // *we* don't need to do anything.
-    if( pd.ShowModal() == wxID_OK )
-    {
-        // Don't try to elevate our priviliges
-        // If admin, then the new process will have admin rigthts too
-        // If not, then the new process neither.
-        run_diskcleaner( false );
-
-        Close();
-    }
-
-    // Make sure that even when a normal user sets
-    // 'delete files on reboot' to true, RemoveOnReboot is set to false
-    dcApp& app = wxGetApp();
+    pd.ShowModal();
     if ( settings.global.delete_locked)
     {
-        SetRemoveOnReboot( app.IsUserAdmin() );
+        SetRemoveOnReboot( true );
     }
     else
     {
         SetRemoveOnReboot (false );
     }
+
 }
 
 // By definition (*click*), we're in GUI mode
@@ -215,20 +194,24 @@ void dc_frame::clean_btn_click( wxCommandEvent& event )
                           settings.ui.result_frame_size.width, settings.ui.result_frame_size.height );
     }
 
-    // Hide the main window
-    // Unfortunately also hides the taskbar button
     Hide();
-
-    rsframe->disable_controls();
+    rsframe->DisableControls();
     rsframe->Show();
 
+    dcApp& app = wxGetApp();
+    if ( settings.global.delete_locked && !app.IsUserAdmin() )
+    {
+        wxLogWarning( _("Warning: setting 'Delete locked files on reboot' ignored. The required Administrator priviliges are missing.") );
+
+    }
+
     //Set cursor to 'Hourglass'
-    wxBeginBusyCursor();
+    SetCursor( *wxHOURGLASS_CURSOR );
 
     // Do the actual cleaning here
     clean(total_files, total_bytes);
 
-    wxEndBusyCursor();
+    SetCursor( *wxSTANDARD_CURSOR );
 
     if ( !GetAllFilesRemoved() )
     {
@@ -246,8 +229,7 @@ void dc_frame::clean_btn_click( wxCommandEvent& event )
                         total_files, wxPLURAL( "item", "items", total_files) );
     wxLogMessage(  schedulestr );
 
-    rsframe->enable_controls();
-
+    rsframe->EnableControls();
 }
 
 void dc_frame::clean(__int64& total_files, __int64& total_bytes)
@@ -330,6 +312,9 @@ void dc_frame::init_dialog()
     InitializeSHGetKnownFolderPath();
 
     dcApp& app = wxGetApp();
+    //Call load method, config class has been set in dcApp::OnCmdLineParsed
+    settings.Load();
+
     if ( settings.global.delete_locked)
     {
         SetRemoveOnReboot( app.IsUserAdmin() );
@@ -353,7 +338,7 @@ void dc_frame::init_dialog()
 
     //Show progress of scan (wait_dlg)
 
-    wait_dlg waitdlg( this );
+    std::auto_ptr<wait_dlg> waitdlg( new wait_dlg(this) );
 
     //Get the number of text plugins as input for the progress bar
 
@@ -381,54 +366,54 @@ void dc_frame::init_dialog()
     //Initialize build-in plugins
     //
 
-    waitdlg.SetProgressRange( plugin_list.size() + ( (app.NoBuiltInPlugins() ) ? 0 : 9 ) );
+    waitdlg->SetProgressRange( plugin_list.size() + ( (app.NoBuildInPlugins() ) ? 0 : 9 ) );
 
     if ( !app.IsQuietMode() )
     {
-        waitdlg.Show( true );
+        waitdlg->Show( true );
     }
 
 
-    if ( !app.NoBuiltInPlugins() )
+    if ( !app.NoBuildInPlugins() )
     {
         wxLogDebug( L"%hs: adding build-in plugins", __FUNCTION__ );
 
         PlugInfo* tempfiles  = new system_temp( settings.systemp );
         add_plugin_to_listctrl( tempfiles );
-        waitdlg.Increment();
+        waitdlg->Increment();
 
         PlugInfo* rbin = (new RecycleBinInfo() );
         add_plugin_to_listctrl( rbin );
-        waitdlg.Increment();
+        waitdlg->Increment();
 
         PlugInfo* recentdocs = (new recent_docs() );
         add_plugin_to_listctrl( recentdocs );
-        waitdlg.Increment();
+        waitdlg->Increment();
 
         PlugInfo* ffcache = (new firefox_cache() );
         add_plugin_to_listctrl( ffcache );
-        waitdlg.Increment();
+        waitdlg->Increment();
 
         PlugInfo* ffcookies = (new firefox_cookies() );
         add_plugin_to_listctrl( ffcookies );
-        waitdlg.Increment();
+        waitdlg->Increment();
 
         PlugInfo* ffhistory = (new firefox_history() );
         add_plugin_to_listctrl( ffhistory );
-        waitdlg.Increment();
+        waitdlg->Increment();
 
         PlugInfo* iecache = (new ie_cache( settings.tempinternetfiles.delete_offline ) );
         add_plugin_to_listctrl( iecache );
-        waitdlg.Increment();
+        waitdlg->Increment();
 
         PlugInfo* iehistory = (new ie_history() );
         add_plugin_to_listctrl( iehistory );
-        waitdlg.Increment();
+        waitdlg->Increment();
 
         PlugInfo* iecookies = (new ie_cookies() );
         add_plugin_to_listctrl( iecookies );
-        waitdlg.Increment();
-        waitdlg.Update();
+        waitdlg->Increment();
+        waitdlg->Update();
     }
 
     //
@@ -450,11 +435,11 @@ void dc_frame::init_dialog()
                 PlugInfo*  pi = (new TextPlugInfo( FullPath ) );
                 ::wxLogDebug( L"%s instantiated", it->c_str() );
 
-                waitdlg.Increment();
+                waitdlg->Increment();
 
                 if ( counter > 9 )
                 {
-                    waitdlg.Update();
+                    waitdlg->Update();
                     counter = 0;
                 }
                 add_plugin_to_listctrl( pi );
@@ -464,30 +449,6 @@ void dc_frame::init_dialog()
             }
 
         }
-    }
-
-    // Check for running applications
-    if ( !app.IsQuietMode() && settings.global.show_running_processes )
-    {
-        processes_dlg pd( NULL );
-
-        // Iterate over all cleaning plug-ins, call Clean() function if checked
-        for (int i = 0, num_items = plugin_listctrl->GetItemCount() ; i < num_items ; ++i )
-        {
-
-            PlugInfo* pinfo;
-            std:: wstring process, processname;
-
-            pinfo = (PlugInfo* ) plugin_listctrl->GetItemData( i );
-
-            if( pinfo->RunningProcessCheck( process, processname ) )
-            {
-                pd.add_process_to_check( process, processname );
-            }
-
-        }
-        waitdlg.Show( false );
-        settings.global.show_running_processes = pd.do_process_check();
     }
 
     //Sort items according to preferences of the user
@@ -543,7 +504,6 @@ void dc_frame::init_dialog()
         ppreset_handler->load_preset( app.GetPresetToBeRecalled() );
         preset_box->SetSelection( preset_box->FindString( app.GetPresetToBeRecalled(), false ) );
     }
-
 }
 
 wxString dc_frame::bytes_to_string( __int64 bytes )
@@ -578,24 +538,11 @@ wxString dc_frame::bytes_to_string( __int64 bytes )
     return bytes_string;
 }
 
-// Takes a pointer to a PlugInfo class instance & lets it Scan().
-// Depending on user preferences, the plugin is then added to the
-// plugin_listctrl for the user to see (see below for exact circumstances)
 void dc_frame::add_plugin_to_listctrl( diskcleaner::PlugInfo* pi)
 {
-    dcApp& app = wxGetApp();
-    bool is_admin = app.IsUserAdmin();
-
     wxLogDebug( L"%hs: processing %s" , __FUNCTION__, pi->GetShortDesc().c_str() );
     pi->Scan();
-
-    // Don't show the plug-in if:
-    // a. We need admin priviliges and we're not admin
-    // b. We don't have anything to show and the user wants to hide empty items
-    wxLogDebug( L"%hs: We are admin: %s. We need admin: %s", __FUNCTION__, ( is_admin ) ? L"true": L"false",
-                ( pi->AdminPriviligesRequired() ) ? L"true": L"false" );
-
-    if ( ( !pi->AdminPriviligesRequired() || is_admin ) && (pi->GetItemsFound() > 0 || settings.global.hide_empty == false ) )
+    if (pi->GetItemsFound() > 0 || settings.global.hide_empty == false )
     {
         ::wxLogDebug( L"%hs: adding %s" , __FUNCTION__, pi->GetShortDesc().c_str() );
 
@@ -705,44 +652,6 @@ void dc_frame::dc_base_frame_onclose( wxCloseEvent& event )
 
     Destroy();
 }
-
-void dc_frame::select_all_click(wxCommandEvent& event )
-{
-    // Iterate over all cleaning plug-ins
-    for (int i = 0, num_items = plugin_listctrl->GetItemCount() ; i < num_items ; ++i )
-    {
-        plugin_listctrl->Check(i, true );
-    }
-}
-
-void dc_frame::select_none_click(wxCommandEvent& event )
-{
-    // Iterate over all cleaning plug-ins
-    for (int i = 0, num_items = plugin_listctrl->GetItemCount() ; i < num_items ; ++i )
-    {
-        plugin_listctrl->Check(i, false );
-    }
-}
-
-void dc_frame::invert_selection_click(wxCommandEvent& event )
-{
-    // Iterate over all cleaning plug-ins
-    for (int i = 0, num_items = plugin_listctrl->GetItemCount() ; i < num_items ; ++i )
-    {
-        plugin_listctrl->Check(i, !plugin_listctrl->IsChecked( i ) );
-    }
-}
-
-// Forward mouse wheel messages to the list control
-// in order to let it scroll even when unfocused.
-void dc_frame::handle_mousewheel( wxMouseEvent& event )
-{
-      // Let the win32 list control handle the actual scrolling
-      // We don't need to fuzz with event.m_wheelDelta etc.
-      SendMessage(plugin_listctrl_hwnd , WM_MOUSEWHEEL, MAKEWPARAM( 0 , event.m_wheelRotation ), MAKELPARAM( event.GetX(), event.GetY() ) );
-
-}
-
 
 void dc_frame::result_frame_finished_signal( bool restart )
 {

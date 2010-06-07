@@ -21,28 +21,9 @@
 
 
 prefs_dlg::prefs_dlg( wxWindow* parent, diskcleaner::dcsettings& prefs )
-    : prefs_dlg_base( parent ), rsettings( prefs )
+        : prefs_dlg_base( parent ), rsettings( prefs )
 {
-    // Global settings
-    delete_locked_cb->SetValue( prefs.global.delete_locked );
-    hide_empty_cb->SetValue( prefs.global.hide_empty );
-    hide_admin_items_cb->SetValue( prefs.global.hide_admin );
-    warn_open_processes_cb->SetValue( prefs.global.show_running_processes );
-
-    // System temp files settings
-    delete_readonly_cb->SetValue( prefs.systemp.delete_ro );
-    delete_emptyfolder_cb->SetValue(prefs.systemp.delete_subfolders );
-
-    wchar_t age[17] = { 0 };
-    swprintf( age, L"%d", prefs.systemp.min_age );
-    minage_combo->SetStringSelection( std::wstring( age ) );
-
-    // Temporary internet files settings
-    tempinet_offline_cb->SetValue( prefs.tempinternetfiles.delete_offline );
-
-//    cookie_filter_cb->SetValue( prefs.cookies.use_cookie_filter );
-//   swprintf( age, L"%d", prefs.cookies.min_cookie_age );
-//   cookie_age_combo->SetStringSelection( std::wstring( age ) );
+    InitializePreferencesDialog( prefs );
     ok_cancelOK->SetDefault();
     prefsbook->SetSelection( 0 );
 
@@ -50,34 +31,17 @@ prefs_dlg::prefs_dlg( wxWindow* parent, diskcleaner::dcsettings& prefs )
 
 void prefs_dlg::cancel_btn_clicked( wxCommandEvent& event )
 {
-    EndModal( wxID_CANCEL );
+    Close();
 }
-
 
 void prefs_dlg::ok_btn_clicked( wxCommandEvent& event )
 {
 
-    // If a restart is necessary to comply with the chosen options below, set
-    // the return code to wxID_OK. Else, the return code is wxID_CANCEL
-    // Somehow, just setting the return code with SetReturnCode() doesn't work
-    // and EndModal( returncode ) is necessary.
-
-    int returncode = wxID_OK;
-
-    if( ( rsettings.global.hide_admin == hide_admin_items_cb->IsChecked() ) &&
-            rsettings.global.hide_empty == hide_empty_cb->IsChecked() )
-    {
-        wxLogDebug( L"%hs: setting returncode to wxID_CANCEL ( %d )", __FUNCTION__, wxID_CANCEL );
-        returncode = wxID_CANCEL;
-    }
-
     rsettings.global.delete_locked              = delete_locked_cb->IsChecked();
     rsettings.global.hide_empty                 = hide_empty_cb->IsChecked();
-    rsettings.global.hide_admin                 = hide_admin_items_cb->IsChecked();
-    rsettings.global.show_running_processes     = warn_open_processes_cb->IsChecked();
-    rsettings.systemp.delete_ro                 = delete_readonly_cb->IsChecked();
-    rsettings.systemp.delete_subfolders         = delete_emptyfolder_cb->IsChecked();
 
+    rsettings.systemp.delete_ro                 =  delete_readonly_cb->IsChecked();
+    rsettings.systemp.delete_subfolders         = delete_emptyfolder_cb->IsChecked();
     minage_combo->GetString( minage_combo->GetSelection() ).ToLong( &rsettings.systemp.min_age );
 
     rsettings.tempinternetfiles.delete_offline  = tempinet_offline_cb->IsChecked();
@@ -87,8 +51,29 @@ void prefs_dlg::ok_btn_clicked( wxCommandEvent& event )
 
     rsettings.Save();
 
-    wxLogDebug( L"%hs: EndModal ( %s ) ( returncode: %d )", __FUNCTION__, (returncode == wxID_OK)? L"wxID_OK":L"wxID_CANCEL", returncode  );
-    EndModal( returncode );
+    Close();
+}
 
+
+void prefs_dlg::InitializePreferencesDialog(diskcleaner::dcsettings& prefs)
+{
+
+    delete_locked_cb->SetValue( prefs.global.delete_locked );
+    hide_empty_cb->SetValue( prefs.global.hide_empty );
+
+    delete_readonly_cb->SetValue( prefs.systemp.delete_ro );
+    delete_emptyfolder_cb->SetValue(prefs.systemp.delete_subfolders );
+
+    wchar_t age[17] = { 0 };
+    swprintf( age, L"%d", prefs.systemp.min_age );
+
+
+    minage_combo->SetStringSelection( std::wstring( age ) );
+
+    tempinet_offline_cb->SetValue( prefs.tempinternetfiles.delete_offline );
+
+//    cookie_filter_cb->SetValue( prefs.cookies.use_cookie_filter );
+ //   swprintf( age, L"%d", prefs.cookies.min_cookie_age );
+ //   cookie_age_combo->SetStringSelection( std::wstring( age ) );
 }
 

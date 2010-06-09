@@ -5,6 +5,7 @@ Title=WinRar 2.x
 
 [registry]
 HKEY_CURRENT_USER|Software\WinRAR\ArcHistory
+HKEY_CURRENT_USER|Software\WinRAR\DialogEditHistory\ArcName
 
 
 

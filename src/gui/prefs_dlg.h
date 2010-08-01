@@ -40,8 +40,6 @@ public:
     virtual void cancel_btn_clicked( wxCommandEvent& event );
 	virtual void ok_btn_clicked( wxCommandEvent& event );
 
-
-
 };
 
 #endif // __prefs_dlg__

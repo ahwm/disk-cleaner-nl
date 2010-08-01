@@ -16,6 +16,7 @@
 */
 #include "gui/dcsettings.h"
 #include <wx/confbase.h>
+#include <wx/intl.h>
 
 namespace diskcleaner
 {
@@ -50,6 +51,9 @@ namespace diskcleaner
         cf->Write( L"Global/Hide Empty", global.hide_empty );
         cf->Write( L"Global/Hide Admin", global.hide_admin );
         cf->Write( L"Global/Show Running Processes", global.show_running_processes );
+        cf->Write( L"Global/First Run", false );
+        cf->Write( L"Global/Language ID", global.language_id );
+
 
         cf->Write( L"System Temp/Delete ReadOnly", systemp.delete_ro );
         cf->Write( L"System Temp/Delete Empty Subfolders", systemp.delete_subfolders );
@@ -91,6 +95,8 @@ namespace diskcleaner
         cf->Read( L"Global/Hide Empty" , &global.hide_empty, true );
         cf->Read( L"Global/Hide Admin" , &global.hide_admin, true );
         cf->Read( L"Global/Show Running Processes" , &global.show_running_processes, true );
+        cf->Read( L"Global/First Run" , &global.first_run, true );
+        cf->Read( L"Global/Language ID" , &global.language_id, wxLANGUAGE_DEFAULT );
 
         cf->Read( L"System Temp/Delete ReadOnly", &systemp.delete_ro, true );
         cf->Read( L"System Temp/Delete Empty Subfolders", &systemp.delete_subfolders, true );

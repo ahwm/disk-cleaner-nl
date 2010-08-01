@@ -293,6 +293,8 @@ void dc_frame::run_diskcleaner( bool as_admin )
     SHELLEXECUTEINFO   sei;
     ZeroMemory ( &sei, sizeof(sei) );
 
+    dcApp& theApp = wxGetApp();
+
     wchar_t szAppPath[MAX_PATH] = {0};
 
     GetModuleFileName(0, szAppPath, sizeof(szAppPath) - 1);
@@ -302,7 +304,7 @@ void dc_frame::run_diskcleaner( bool as_admin )
     sei.fMask           = SEE_MASK_FLAG_DDEWAIT | SEE_MASK_FLAG_NO_UI;
     sei.lpVerb          = (as_admin)? _TEXT("runas"): _TEXT("open");
     sei.lpFile          = szAppPath;
-    sei.lpParameters    = NULL;
+    sei.lpParameters    = ( theApp.IsQuietMode() ) ? L"-p" : NULL;
     sei.nShow           = SW_SHOWNORMAL;
 
     if ( ! ShellExecuteEx ( &sei ) )

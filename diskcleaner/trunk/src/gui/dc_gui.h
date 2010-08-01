@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Feb 17 2010)
+// C++ code generated with wxFormBuilder (version Dec 17 2009)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -84,7 +84,7 @@ class dc_base_frame : public wxDialog
 	
 	public:
 		
-		dc_base_frame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Disk Cleaner"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 500,426 ), long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER );
+		dc_base_frame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Disk Cleaner"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER );
 		~dc_base_frame();
 		
 		void dc_base_frameOnContextMenu( wxMouseEvent &event )
@@ -109,7 +109,7 @@ class wait_base_dlg : public wxDialog
 	
 	public:
 		
-		wait_base_dlg( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Please wait..."), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 260,103 ), long style = wxDEFAULT_DIALOG_STYLE );
+		wait_base_dlg( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Please wait..."), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_DIALOG_STYLE );
 		~wait_base_dlg();
 	
 };
@@ -166,7 +166,7 @@ class result_base_frame : public wxDialog
 	
 	public:
 		
-		result_base_frame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 440,318 ), long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER );
+		result_base_frame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER );
 		~result_base_frame();
 	
 };
@@ -185,6 +185,9 @@ class prefs_dlg_base : public wxDialog
 		wxCheckBox* hide_empty_cb;
 		wxCheckBox* hide_admin_items_cb;
 		wxCheckBox* warn_open_processes_cb;
+		wxStaticText* m_staticText22;
+		wxChoice* LanguageChoice;
+		wxStaticText* m_staticText23;
 		wxPanel* m_panel3;
 		wxCheckBox* delete_readonly_cb;
 		wxCheckBox* delete_emptyfolder_cb;
@@ -203,7 +206,7 @@ class prefs_dlg_base : public wxDialog
 	
 	public:
 		
-		prefs_dlg_base( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Preferences"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 467,368 ), long style = wxDEFAULT_DIALOG_STYLE|wxCLIP_CHILDREN );
+		prefs_dlg_base( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Preferences"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_DIALOG_STYLE|wxCLIP_CHILDREN );
 		~prefs_dlg_base();
 	
 };
@@ -265,7 +268,7 @@ class processes_dlg_base : public wxDialog
 	
 	public:
 		
-		processes_dlg_base( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Disk Cleaner Information"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 272,219 ), long style = wxDEFAULT_DIALOG_STYLE );
+		processes_dlg_base( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Disk Cleaner Information"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_DIALOG_STYLE );
 		~processes_dlg_base();
 	
 };

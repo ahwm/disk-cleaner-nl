@@ -89,12 +89,6 @@
 			<Add library="libwininet.a" />
 			<Add library="libmsimg32" />
 		</Linker>
-		<Unit filename="core\build_in_plugins\firefox\firefox.h" />
-		<Unit filename="core\build_in_plugins\internet_explorer\internet_explorer.h" />
-		<Unit filename="core\build_in_plugins\internet_explorer\mingw_urlhist.h" />
-		<Unit filename="core\build_in_plugins\recent docs\recentdocs.h" />
-		<Unit filename="core\build_in_plugins\recycle bin\rbin.h" />
-		<Unit filename="core\build_in_plugins\system temp\systemp.h" />
 		<Unit filename="core\built_in_plugins\firefox\firefox.cpp" />
 		<Unit filename="core\built_in_plugins\firefox\firefox.h" />
 		<Unit filename="core\built_in_plugins\internet_explorer\internet_explorer.cpp" />
@@ -153,6 +147,7 @@
 				<Scheme minor_max="10" build_max="0" rev_max="0" rev_rand_max="10" build_times_to_increment_minor="100000" />
 				<Settings autoincrement="0" date_declarations="1" do_auto_increment="1" ask_to_increment="0" language="C++" svn="0" svn_directory="" header_path="gui\version.h" />
 				<Changes_Log show_changes_editor="0" app_title="released version %M.%m.%b of %p" changeslog_path="ChangesLog.txt" />
+				<Code header_guard="VERSION_H" namespace="AutoVersion" prefix="" />
 			</AutoVersioning>
 			<envvars />
 		</Extensions>

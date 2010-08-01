@@ -22,6 +22,8 @@
 
 #include "DiskScan.h"
 
+// Note: this *really* should be refactored into an object model.
+
 namespace DiskScan
 {
     // Globals related to the scheduling of files for removal on reboot
@@ -305,27 +307,11 @@ inline ProcessFileResult ProcessFile( const wchar_t * const the_file, std::vecto
     }
     else
     {
-//        int swresult = 0;
-//              if(so->Secure)
-//              {
-//                swresult = SWWipeFileByName(localfolder,dcglobals::ctxt);
-//                if(!swresult)
-//                {
-////                 addlog("Warning - unable to wipe file: "  + String(localfolder));
-//                 FileList.push_back("Warning - unable to wipe file: " + String(localfolder));
-//                }
-//              }
         ::wxLogDebug( L"%hs: Delete %s", __FUNCTION__, the_file );
 
         if ( DeleteFile( the_file ) )
         {
 
-//                            if (swresult)
-//                            {
-//                                FileList.push_back( ( L"Wiped and deleted: ") +  std::wstring(localfolder));
-//                            }
-//                            else
-//            {
             ::wxLogDebug( L"%hs: Deleted %s", __FUNCTION__, the_file );
             return pfOK;
 //            }
@@ -345,11 +331,6 @@ inline ProcessFileResult ProcessFile( const wchar_t * const the_file, std::vecto
                 {
                     ++DiskScan::FilesScheduled;
 
-//                    if ( swresult )
-//                    {
-//                        :wxLogMessage( L"Wiped and scheduled for removal on reboot: %s", localfolder );
-//                    }
-//                    else
                     {
                         ::wxLogMessage( _T( "Scheduled for removal on reboot: %s" ), the_file );
                     }

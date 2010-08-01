@@ -51,6 +51,8 @@ namespace diskcleaner
         bool hide_empty;                ///< Hide plug-ins with 0 items to clean.
         bool hide_admin;                ///< Hide plug-ins that need admin rights, and the user is standard one.
         bool show_running_processes;    ///< Show processes that need to be closed for optimal cleaning.
+        bool first_run;                 ///< True if the user hasn't got any saved preferences
+        long language_id;               ///< Contains the wxWidgets language ID, such as WXLANGUAGE_SPANISH
     };
 
     /// Struct to store preferences related to system temp folder cleaning

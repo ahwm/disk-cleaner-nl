@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Feb 17 2010)
+// C++ code generated with wxFormBuilder (version Dec 17 2009)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -121,9 +121,7 @@ dc_base_frame::dc_base_frame( wxWindow* parent, wxWindowID id, const wxString& t
 	bSizer3->Add( 0, 0, 1, wxEXPAND, 5 );
 	
 	runasadmin_btn = new wxButton( this, wxID_ANY, _("&Run as Administrator"), wxDefaultPosition, wxDefaultSize, 0 );
-	runasadmin_btn->SetMinSize( wxSize( 150,-1 ) );
-	
-	bSizer3->Add( runasadmin_btn, 0, wxEXPAND|wxTOP, 5 );
+	bSizer3->Add( runasadmin_btn, 0, wxTOP|wxEXPAND, 5 );
 	
 	
 	bSizer3->Add( 0, 0, 1, wxEXPAND, 5 );
@@ -137,6 +135,7 @@ dc_base_frame::dc_base_frame( wxWindow* parent, wxWindowID id, const wxString& t
 	
 	this->SetSizer( bSizer17 );
 	this->Layout();
+	bSizer17->Fit( this );
 	context_menu = new wxMenu();
 	wxMenuItem* m_select_all;
 	m_select_all = new wxMenuItem( context_menu, wxID_ANY, wxString( _("Select All") ) , wxEmptyString, wxITEM_NORMAL );
@@ -195,7 +194,7 @@ dc_base_frame::~dc_base_frame()
 
 wait_base_dlg::wait_base_dlg( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
 {
-	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+	this->SetSizeHints( wxSize( 260,103 ), wxDefaultSize );
 	this->SetBackgroundColour( wxColour( 255, 255, 255 ) );
 	
 	wxFlexGridSizer* fgSizer6;
@@ -230,6 +229,7 @@ wait_base_dlg::wait_base_dlg( wxWindow* parent, wxWindowID id, const wxString& t
 	
 	this->SetSizer( fgSizer6 );
 	this->Layout();
+	fgSizer6->Fit( this );
 	
 	this->Centre( wxBOTH );
 }
@@ -344,6 +344,7 @@ result_base_frame::result_base_frame( wxWindow* parent, wxWindowID id, const wxS
 	
 	this->SetSizer( bSizer18 );
 	this->Layout();
+	bSizer18->Fit( this );
 	
 	// Connect Events
 	this->Connect( wxEVT_INIT_DIALOG, wxInitDialogEventHandler( result_base_frame::init_result_dlg ) );
@@ -364,7 +365,7 @@ result_base_frame::~result_base_frame()
 
 prefs_dlg_base::prefs_dlg_base( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
 {
-	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+	this->SetSizeHints( wxSize( 467,368 ), wxDefaultSize );
 	
 	wxBoxSizer* bSizer4;
 	bSizer4 = new wxBoxSizer( wxVERTICAL );
@@ -385,6 +386,24 @@ prefs_dlg_base::prefs_dlg_base( wxWindow* parent, wxWindowID id, const wxString&
 	
 	warn_open_processes_cb = new wxCheckBox( m_panel1, wxID_ANY, _("&Warn when open applications can interfere with cleaning"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer6->Add( warn_open_processes_cb, 0, wxBOTTOM|wxRIGHT|wxLEFT, 10 );
+	
+	wxBoxSizer* bSizer20;
+	bSizer20 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_staticText22 = new wxStaticText( m_panel1, wxID_ANY, _("Language:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText22->Wrap( -1 );
+	bSizer20->Add( m_staticText22, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	
+	wxArrayString LanguageChoiceChoices;
+	LanguageChoice = new wxChoice( m_panel1, wxID_ANY, wxDefaultPosition, wxDefaultSize, LanguageChoiceChoices, 0 );
+	LanguageChoice->SetSelection( 0 );
+	bSizer20->Add( LanguageChoice, 0, wxALIGN_CENTER_VERTICAL|wxALL|wxEXPAND, 5 );
+	
+	bSizer6->Add( bSizer20, 1, wxEXPAND|wxBOTTOM|wxLEFT, 5 );
+	
+	m_staticText23 = new wxStaticText( m_panel1, wxID_ANY, _("Note: changing the language restarts Disk Cleaner"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText23->Wrap( -1 );
+	bSizer6->Add( m_staticText23, 0, wxALIGN_CENTER_VERTICAL|wxBOTTOM|wxRIGHT|wxLEFT, 10 );
 	
 	m_panel1->SetSizer( bSizer6 );
 	m_panel1->Layout();
@@ -433,7 +452,7 @@ prefs_dlg_base::prefs_dlg_base( wxWindow* parent, wxWindowID id, const wxString&
 	bSizer14->Fit( m_panel4 );
 	prefsbook->AddPage( m_panel4, _("Internet Explorer Cache"), false );
 	
-	bSizer4->Add( prefsbook, 1, wxALL|wxEXPAND, 5 );
+	bSizer4->Add( prefsbook, 1, wxEXPAND|wxALL, 5 );
 	
 	ok_cancel = new wxStdDialogButtonSizer();
 	ok_cancelOK = new wxButton( this, wxID_OK );
@@ -445,6 +464,7 @@ prefs_dlg_base::prefs_dlg_base( wxWindow* parent, wxWindowID id, const wxString&
 	
 	this->SetSizer( bSizer4 );
 	this->Layout();
+	bSizer4->Fit( this );
 	
 	// Connect Events
 	ok_cancelCancel->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( prefs_dlg_base::cancel_btn_clicked ), NULL, this );
@@ -604,7 +624,7 @@ MyDialog6::~MyDialog6()
 
 processes_dlg_base::processes_dlg_base( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
 {
-	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+	this->SetSizeHints( wxSize( 272,219 ), wxDefaultSize );
 	this->SetBackgroundColour( wxColour( 255, 255, 255 ) );
 	
 	wxFlexGridSizer* fgSizer11;
@@ -641,6 +661,7 @@ processes_dlg_base::processes_dlg_base( wxWindow* parent, wxWindowID id, const w
 	
 	this->SetSizer( fgSizer11 );
 	this->Layout();
+	fgSizer11->Fit( this );
 	
 	this->Centre( wxBOTH );
 	

@@ -18,16 +18,42 @@
 #include <wx/log.h>
 #include <stdlib.h>
 #include "prefs_dlg.h"
+#include "dcApp.h"
 
 
 prefs_dlg::prefs_dlg( wxWindow* parent, diskcleaner::dcsettings& prefs )
     : prefs_dlg_base( parent ), rsettings( prefs )
 {
-    // Global settings
+    dcApp& app = wxGetApp();
+
+    // Set indicators to global settings
     delete_locked_cb->SetValue( prefs.global.delete_locked );
     hide_empty_cb->SetValue( prefs.global.hide_empty );
     hide_admin_items_cb->SetValue( prefs.global.hide_admin );
     warn_open_processes_cb->SetValue( prefs.global.show_running_processes );
+
+
+    // Get installed languages and set choice box to current language
+    wxArrayString names;
+    wxArrayLong identifiers;
+    app.GetInstalledLanguages( names, identifiers );
+    for (int index = 0, size = identifiers.GetCount(); index < size; ++index )
+    {
+        LanguageChoice->Append( names[ index ], (void*) (identifiers[ index ] ) ) ;
+        if ( identifiers[ index ] == rsettings.global.language_id )
+        {
+            LanguageChoice->SetSelection( index );
+        }
+    }
+
+    // Check that the selected global.lang_id is actually selected in the choice box
+    // Can fail if the language is removed. Then, select default language.
+
+    if ( LanguageChoice->GetSelection() == wxNOT_FOUND )
+    {
+        // Bit of a hack. Assumes Default language is always present in combo box.
+        LanguageChoice->SetSelection( 0 );
+    }
 
     // System temp files settings
     delete_readonly_cb->SetValue( prefs.systemp.delete_ro );
@@ -53,7 +79,6 @@ void prefs_dlg::cancel_btn_clicked( wxCommandEvent& event )
     EndModal( wxID_CANCEL );
 }
 
-
 void prefs_dlg::ok_btn_clicked( wxCommandEvent& event )
 {
 
@@ -65,7 +90,8 @@ void prefs_dlg::ok_btn_clicked( wxCommandEvent& event )
     int returncode = wxID_OK;
 
     if( ( rsettings.global.hide_admin == hide_admin_items_cb->IsChecked() ) &&
-            rsettings.global.hide_empty == hide_empty_cb->IsChecked() )
+            rsettings.global.hide_empty == hide_empty_cb->IsChecked() &&
+            rsettings.global.language_id == (long)  LanguageChoice->GetClientData( LanguageChoice->GetSelection() ) )
     {
         wxLogDebug( L"%hs: setting returncode to wxID_CANCEL ( %d )", __FUNCTION__, wxID_CANCEL );
         returncode = wxID_CANCEL;
@@ -75,6 +101,7 @@ void prefs_dlg::ok_btn_clicked( wxCommandEvent& event )
     rsettings.global.hide_empty                 = hide_empty_cb->IsChecked();
     rsettings.global.hide_admin                 = hide_admin_items_cb->IsChecked();
     rsettings.global.show_running_processes     = warn_open_processes_cb->IsChecked();
+    rsettings.global.language_id                = (long) LanguageChoice->GetClientData( LanguageChoice->GetSelection() );
     rsettings.systemp.delete_ro                 = delete_readonly_cb->IsChecked();
     rsettings.systemp.delete_subfolders         = delete_emptyfolder_cb->IsChecked();
 

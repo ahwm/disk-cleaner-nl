@@ -45,6 +45,9 @@ class dcApp : public wxApp
     std::auto_ptr< wxLogWindow > pLogWindow;
 #endif
 
+    //true if -p is specified on command line
+    bool portable;
+
     // true if -q is specified on command line
     bool quiet_mode;
 
@@ -67,6 +70,11 @@ public:
     void GetInstalledLanguages( wxArrayString& names,
 	                        wxArrayLong& identifiers);
 
+    /// True if portable mode is specified on command line
+    bool IsPortable()
+    {
+        return portable;
+    };
 
     /// True if the user is an administrator
     bool IsUserAdmin();

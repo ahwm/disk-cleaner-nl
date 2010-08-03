@@ -215,8 +215,10 @@ void dc_frame::clean_btn_click( wxCommandEvent& event )
                           settings.ui.result_frame_size.width, settings.ui.result_frame_size.height );
     }
 
+    rsframe->set_progress_range( plugin_listctrl->GetItemCount() );
+
     // Hide the main window
-    // Unfortunately also hides the taskbar button
+    // Unfortunately also hides the taskbar button on Vista
     Hide();
 
     rsframe->disable_controls();
@@ -232,18 +234,20 @@ void dc_frame::clean_btn_click( wxCommandEvent& event )
 
     if ( !GetAllFilesRemoved() )
     {
-        wxLogMessage( _("Could not remove all files. Please close all open applications and retry.") );
+        wxLogMessage( _( "Could not remove all files. Please close all open applications and retry." ) );
     }
 
     wxString schedulestr;
-    schedulestr.Printf( _( "Scheduled %I64d %s for removal on reboot." ), GetFilesScheduledRemoveOnReboot(),
-                        wxPLURAL( "file", "files", GetFilesScheduledRemoveOnReboot() ) );
+    schedulestr.Printf( wxPLURAL( "Scheduled %I64d file for removal on reboot.",
+                                  "Scheduled %I64d files for removal on reboot." , GetFilesScheduledRemoveOnReboot() ),
+                        GetFilesScheduledRemoveOnReboot() );
 
     wxLogMessage(  schedulestr );
 
 
-    schedulestr.Printf( _( "Cleaned total of %s in %I64d %s") , bytes_to_string( total_bytes ).c_str(),
-                        total_files, wxPLURAL( "item", "items", total_files) );
+    schedulestr.Printf( wxPLURAL( "Cleaned total of %s in %I64d item",
+                                  "Cleaned total of %s in %I64d items" , total_files ),
+                        bytes_to_string( total_bytes ).c_str(), total_files );
     wxLogMessage(  schedulestr );
 
     rsframe->enable_controls();
@@ -258,6 +262,14 @@ void dc_frame::clean(__int64& total_files, __int64& total_bytes)
     for (int i = 0, num_items = plugin_listctrl->GetItemCount() ; i < num_items ; ++i )
     {
 
+        // Hack! Needs to be better separated from GUI stuff
+        // This function was created to ge rid of the IsQuietMode calls
+        // all over the place. :/
+        if ( rsframe.get() )
+        {
+            rsframe->Increment();
+        }
+
         if ( plugin_listctrl->IsChecked( i ) )
         {
             pinfo = (PlugInfo* ) plugin_listctrl->GetItemData( i );
@@ -271,11 +283,17 @@ void dc_frame::clean(__int64& total_files, __int64& total_bytes)
 
             // Produce result summary line
             wxString line;
-            line.Printf( L"%s: Cleaned %s in %I64d %s.", pinfo->GetShortDesc().c_str(),
-                         bytes_to_string(pinfo->GetBytesCleaned() ).c_str(),
-                         pinfo->GetItemsCleaned(), wxPLURAL( "item", "items", pinfo->GetItemsCleaned() ) );
+            line.Printf(
+                        wxPLURAL( "%s: Cleaned %s in %I64d item.",
+                                  "%s: Cleaned %s in %I64d items.",
+                                  pinfo->GetItemsCleaned() ),
+                            pinfo->GetShortDesc().c_str(),
+                            bytes_to_string(pinfo->GetBytesCleaned() ).c_str(),
+                            pinfo->GetItemsCleaned() );
             wxLogMessage( line.c_str() );
             wxLogMessage( L"" ); //Skip a line for readability
+
+
         }
     }
 }
@@ -304,7 +322,7 @@ void dc_frame::run_diskcleaner( bool as_admin )
     sei.fMask           = SEE_MASK_FLAG_DDEWAIT | SEE_MASK_FLAG_NO_UI;
     sei.lpVerb          = (as_admin)? _TEXT("runas"): _TEXT("open");
     sei.lpFile          = szAppPath;
-    sei.lpParameters    = ( theApp.IsQuietMode() ) ? L"-p" : NULL;
+    sei.lpParameters    = ( theApp.IsPortable() ) ? L"-p" : NULL;
     sei.nShow           = SW_SHOWNORMAL;
 
     if ( ! ShellExecuteEx ( &sei ) )
@@ -609,7 +627,7 @@ void dc_frame::add_plugin_to_listctrl( diskcleaner::PlugInfo* pi)
         plugin_listctrl->InsertItem( index, pi->GetShortDesc() );
 
 
-        tmpString.Printf( _( "%I64d" ), pi->GetItemsFound() );
+        tmpString.Printf( L"%I64d", pi->GetItemsFound() );
         plugin_listctrl->SetItem( index, 1, tmpString );
 
         bytes_string = bytes_to_string( pi->GetBytesFound() );

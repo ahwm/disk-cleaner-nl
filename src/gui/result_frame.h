@@ -46,6 +46,9 @@ public:
 	result_frame( wxWindow* parent );
 	~result_frame();
 
+    void set_progress_range( int max_range );
+    void Increment();
+
 	dc_frame* parent_frame;
 	void enable_controls();
 	void disable_controls();

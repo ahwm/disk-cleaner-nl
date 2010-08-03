@@ -20,10 +20,11 @@
 
 #include <string>
 #include <vector>
-//#include <boost/shared_ptr.hpp>
+#include "wx/fileconf.h"
+
 #include "core\plugin_info_base.h"
 
-class wxConfigBase;
+
 class wxCheckedListCtrl;
 class wxArrayString;
 
@@ -34,6 +35,8 @@ namespace diskcleaner
     class dcpreset_handler
     {
     public:
+
+        /// Constructor. checklist_ctrlwindow can be NULL
         dcpreset_handler(wxConfigBase* const cf, wxCheckedListCtrl* const checklist_ctrlwindow );
 
         //Returns a vector of wstrings containing the names of all saved presets
@@ -58,9 +61,9 @@ namespace diskcleaner
 
         wxConfigBase* cfg_file;
         wxCheckedListCtrl* checklist_ctrl;
-        //std::vector<boost::shared_ptr<diskcleaner::PlugInfo> >& pi_list;
     };
 
+    /// A utility class to save and restore the path inside a config file.
     class csave_restore_path
     {
     private:

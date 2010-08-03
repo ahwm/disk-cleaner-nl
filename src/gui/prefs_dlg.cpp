@@ -14,12 +14,20 @@
 ** along with this program; if not, write to the Free Software
 ** Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
+#include <windows.h>
+#include <shlobj.h>
+#include <objidl.h>
 
 #include <wx/log.h>
-#include <stdlib.h>
+#include <wx/stdpaths.h>
+#include <wx/msgdlg.h>
+
+
 #include "prefs_dlg.h"
 #include "dcApp.h"
+#include "dcpresets.h"
 
+const wchar_t* DCLinkName = L"\\Disk Cleaner.lnk";
 
 prefs_dlg::prefs_dlg( wxWindow* parent, diskcleaner::dcsettings& prefs )
     : prefs_dlg_base( parent ), rsettings( prefs )
@@ -72,6 +80,36 @@ prefs_dlg::prefs_dlg( wxWindow* parent, diskcleaner::dcsettings& prefs )
     ok_cancelOK->SetDefault();
     prefsbook->SetSelection( 0 );
 
+    // If we're in portable mode, don't allow the user to install an
+    // autostart shortcut
+
+    if ( app.IsPortable() )
+    {
+        shortcut_status_txt->SetLabel( _("The shortcut installtion functionality is not available in portable mode." ) );
+        m_panel2->Enable( false );
+    }
+    else
+    {
+        //Load (specified or last used) preset
+        preset_box->Clear();
+        preset_box->Append( _( "<last used>" ) );
+
+        diskcleaner::dcpreset_handler preset_handler( wxConfigBase::Get( false ), NULL );
+
+        //Get saved presets
+        wxArrayString preset_list;
+        preset_list.Empty();
+
+        preset_handler.get_saved_preset_names( preset_list );
+
+        //Add the saved preset list to the preset combo box
+        preset_box->Append( preset_list );
+        preset_box->SetSelection( 0 );
+
+        // Set status text to ""
+        shortcut_status_txt->SetLabel( L"" );
+    }
+
 }
 
 void prefs_dlg::cancel_btn_clicked( wxCommandEvent& event )
@@ -119,3 +157,82 @@ void prefs_dlg::ok_btn_clicked( wxCommandEvent& event )
 
 }
 
+// This code is largely based on the MSDN example at
+// http://msdn.microsoft.com/en-us/library/bb776891%28VS.85%29.aspx
+void prefs_dlg::autostart_install_btn_clicked( wxCommandEvent& event )
+{
+    HRESULT hres;
+    IShellLink *psl;
+    BOOL bUninitCom = FALSE;
+
+    if ( SUCCEEDED(CoInitialize(NULL)))
+    {
+        bUninitCom = TRUE;
+    }
+
+    hres = CoCreateInstance( CLSID_ShellLink, NULL, CLSCTX_INPROC_SERVER, IID_IShellLink, (void **) &psl);
+
+    if( SUCCEEDED(hres) )
+    {
+        IPersistFile *ppf;
+        wxString preset_name = preset_box->GetString( preset_box->GetSelection() );
+        if( preset_box->GetSelection() == 0 ) // Last used
+        {
+            preset_name = L"/q";
+        }
+        else preset_name = L"/q /r \"" + preset_name + L"\"";
+
+        psl->SetPath( wxStandardPaths::Get().GetExecutablePath().c_str() );
+        psl->SetDescription( L"Disk Cleaner autostart" );
+        psl->SetArguments( preset_name.c_str() );
+        psl->SetIconLocation( wxStandardPaths::Get().GetExecutablePath().c_str(), 0 );
+        psl->SetWorkingDirectory( wxStandardPaths::Get().GetExecutablePath().c_str() );
+        hres = psl->QueryInterface( IID_IPersistFile, (void **) &ppf );
+
+        if( SUCCEEDED(hres))
+        {
+            wchar_t path[ MAX_PATH ];
+
+            if (SHGetFolderPath( NULL, CSIDL_STARTUP,  NULL, 0, path ) != E_FAIL )
+            {
+                lstrcat( path, DCLinkName );
+                hres = ppf->Save( path, TRUE );
+                ppf->Release();
+            }
+        }
+
+        psl->Release();
+    }
+
+    if (bUninitCom)
+    {
+        CoUninitialize();
+    }
+
+    if (SUCCEEDED( hres ) )
+    {
+        shortcut_status_txt->SetLabel( _( "Operation was successful." ) );
+    }
+    else
+    {
+        shortcut_status_txt->SetLabel( _( "Operation failed." ) );
+    }
+}
+
+void prefs_dlg::autostart_remove_btn_clicked( wxCommandEvent& event )
+{
+    wchar_t path[ MAX_PATH ];
+
+    if (SHGetFolderPath( NULL, CSIDL_STARTUP,  NULL, 0, path ) != E_FAIL )
+    {
+        lstrcat( path, DCLinkName );
+        if ( DeleteFile( path ) )
+        {
+            shortcut_status_txt->SetLabel( _( "Operation was successful." ) );
+        }
+        else
+        {
+            shortcut_status_txt->SetLabel( _( "Operation failed." ) );
+        }
+    }
+}

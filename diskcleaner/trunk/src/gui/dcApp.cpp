@@ -111,6 +111,7 @@ bool dcApp::OnInit()
         the_locale.Init( settings.global.language_id, 0 );
         the_locale.AddCatalogLookupPathPrefix( wxPathOnly( this->argv[0] ) );
         the_locale.AddCatalog(this->GetAppName());
+        the_locale.AddCatalog( L"plugins" );
 
         frame = new dc_frame(0L, settings);
 
@@ -261,7 +262,7 @@ bool dcApp::OnCmdLineParsed(wxCmdLineParser& parser)
         return false;
     }
 
-    bool portable = parser.Found( L"p" );
+    portable = parser.Found( L"p" );
     no_text_plugins = parser.Found( L"nt" );
     no_builtin_plugins = parser.Found( L"nb" );
 

@@ -305,7 +305,7 @@ result_base_frame::result_base_frame( wxWindow* parent, wxWindowID id, const wxS
 	bSizer18 = new wxBoxSizer( wxVERTICAL );
 	
 	wxFlexGridSizer* fgSizer1;
-	fgSizer1 = new wxFlexGridSizer( 3, 1, 0, 0 );
+	fgSizer1 = new wxFlexGridSizer( 4, 1, 0, 0 );
 	fgSizer1->AddGrowableCol( 0 );
 	fgSizer1->AddGrowableRow( 1 );
 	fgSizer1->SetFlexibleDirection( wxBOTH );
@@ -320,6 +320,9 @@ result_base_frame::result_base_frame( wxWindow* parent, wxWindowID id, const wxS
 	
 	result_lc = new wxListCtrlLog( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_NO_HEADER|wxLC_REPORT );
 	fgSizer1->Add( result_lc, 1, wxEXPAND|wxALL, 5 );
+	
+	progress_bar = new wxGauge( this, wxID_ANY, 100, wxDefaultPosition, wxSize( -1,15 ), wxGA_HORIZONTAL );
+	fgSizer1->Add( progress_bar, 0, wxEXPAND|wxRIGHT|wxLEFT, 5 );
 	
 	wxBoxSizer* bSizer3;
 	bSizer3 = new wxBoxSizer( wxHORIZONTAL );
@@ -451,6 +454,44 @@ prefs_dlg_base::prefs_dlg_base( wxWindow* parent, wxWindowID id, const wxString&
 	m_panel4->Layout();
 	bSizer14->Fit( m_panel4 );
 	prefsbook->AddPage( m_panel4, _("Internet Explorer Cache"), false );
+	m_panel2 = new wxPanel( prefsbook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	m_panel2->Hide();
+	
+	wxBoxSizer* bSizer7;
+	bSizer7 = new wxBoxSizer( wxVERTICAL );
+	
+	m_staticText11 = new wxStaticText( m_panel2, wxID_ANY, _("Select a preset and click 'Install' to auto-run Disk Cleaner in quiet mode on start-up with the selected preset. "), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText11->Wrap( -1 );
+	bSizer7->Add( m_staticText11, 0, wxALL, 10 );
+	
+	m_staticText24 = new wxStaticText( m_panel2, wxID_ANY, _("Click 'Remove' to remove the shortcut."), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText24->Wrap( -1 );
+	bSizer7->Add( m_staticText24, 1, wxEXPAND|wxBOTTOM|wxRIGHT|wxLEFT, 10 );
+	
+	wxBoxSizer* bSizer161;
+	bSizer161 = new wxBoxSizer( wxHORIZONTAL );
+	
+	wxArrayString preset_boxChoices;
+	preset_box = new wxChoice( m_panel2, wxID_ANY, wxDefaultPosition, wxDefaultSize, preset_boxChoices, 0 );
+	preset_box->SetSelection( 0 );
+	bSizer161->Add( preset_box, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 10 );
+	
+	autostart_install_btn = new wxButton( m_panel2, wxID_ANY, _("&Install"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer161->Add( autostart_install_btn, 0, wxTOP|wxBOTTOM|wxALIGN_CENTER_VERTICAL, 10 );
+	
+	autostart_remove_btn = new wxButton( m_panel2, wxID_ANY, _("&Remove"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer161->Add( autostart_remove_btn, 0, wxALL|wxALIGN_CENTER_VERTICAL, 10 );
+	
+	bSizer7->Add( bSizer161, 0, wxEXPAND, 5 );
+	
+	shortcut_status_txt = new wxStaticText( m_panel2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	shortcut_status_txt->Wrap( -1 );
+	bSizer7->Add( shortcut_status_txt, 0, wxALIGN_CENTER_VERTICAL|wxBOTTOM|wxRIGHT|wxLEFT, 10 );
+	
+	m_panel2->SetSizer( bSizer7 );
+	m_panel2->Layout();
+	bSizer7->Fit( m_panel2 );
+	prefsbook->AddPage( m_panel2, _("Quiet mode autostart"), false );
 	
 	bSizer4->Add( prefsbook, 1, wxEXPAND|wxALL, 5 );
 	
@@ -467,6 +508,8 @@ prefs_dlg_base::prefs_dlg_base( wxWindow* parent, wxWindowID id, const wxString&
 	bSizer4->Fit( this );
 	
 	// Connect Events
+	autostart_install_btn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( prefs_dlg_base::autostart_install_btn_clicked ), NULL, this );
+	autostart_remove_btn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( prefs_dlg_base::autostart_remove_btn_clicked ), NULL, this );
 	ok_cancelCancel->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( prefs_dlg_base::cancel_btn_clicked ), NULL, this );
 	ok_cancelOK->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( prefs_dlg_base::ok_btn_clicked ), NULL, this );
 }
@@ -474,6 +517,8 @@ prefs_dlg_base::prefs_dlg_base( wxWindow* parent, wxWindowID id, const wxString&
 prefs_dlg_base::~prefs_dlg_base()
 {
 	// Disconnect Events
+	autostart_install_btn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( prefs_dlg_base::autostart_install_btn_clicked ), NULL, this );
+	autostart_remove_btn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( prefs_dlg_base::autostart_remove_btn_clicked ), NULL, this );
 	ok_cancelCancel->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( prefs_dlg_base::cancel_btn_clicked ), NULL, this );
 	ok_cancelOK->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( prefs_dlg_base::ok_btn_clicked ), NULL, this );
 	
@@ -487,36 +532,6 @@ MyDialog6::MyDialog6( wxWindow* parent, wxWindowID id, const wxString& title, co
 	bSizer16 = new wxBoxSizer( wxVERTICAL );
 	
 	m_notebook2 = new wxNotebook( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
-	m_panel2 = new wxPanel( m_notebook2, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-	m_panel2->Hide();
-	
-	wxBoxSizer* bSizer7;
-	bSizer7 = new wxBoxSizer( wxVERTICAL );
-	
-	m_staticText11 = new wxStaticText( m_panel2, wxID_ANY, _("Select a preset and click 'Install' to auto-run Disk Cleaner in quiet mode on start-up with the selected preset. Click 'Remove' to remove the shortcut."), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText11->Wrap( -1 );
-	bSizer7->Add( m_staticText11, 1, wxALL|wxEXPAND, 10 );
-	
-	wxBoxSizer* bSizer161;
-	bSizer161 = new wxBoxSizer( wxHORIZONTAL );
-	
-	wxArrayString preset_comboChoices;
-	preset_combo = new wxChoice( m_panel2, wxID_ANY, wxDefaultPosition, wxDefaultSize, preset_comboChoices, 0 );
-	preset_combo->SetSelection( 0 );
-	bSizer161->Add( preset_combo, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 10 );
-	
-	autostart_install_btn = new wxButton( m_panel2, wxID_ANY, _("&Install"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer161->Add( autostart_install_btn, 0, wxTOP|wxBOTTOM, 10 );
-	
-	autostart_remove_btn = new wxButton( m_panel2, wxID_ANY, _("&Remove"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer161->Add( autostart_remove_btn, 0, wxALL, 10 );
-	
-	bSizer7->Add( bSizer161, 0, wxEXPAND, 5 );
-	
-	m_panel2->SetSizer( bSizer7 );
-	m_panel2->Layout();
-	bSizer7->Fit( m_panel2 );
-	m_notebook2->AddPage( m_panel2, _("Autostart"), false );
 	m_panel5 = new wxPanel( m_notebook2, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	m_panel5->Hide();
 	

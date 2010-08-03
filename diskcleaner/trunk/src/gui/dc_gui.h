@@ -152,6 +152,7 @@ class result_base_frame : public wxDialog
 	protected:
 		wxStaticText* m_staticText19;
 		wxListCtrlLog* result_lc;
+		wxGauge* progress_bar;
 		wxButton* back_btn;
 		wxButton* save_btn;
 		
@@ -195,11 +196,20 @@ class prefs_dlg_base : public wxDialog
 		wxChoice* minage_combo;
 		wxPanel* m_panel4;
 		wxCheckBox* tempinet_offline_cb;
+		wxPanel* m_panel2;
+		wxStaticText* m_staticText11;
+		wxStaticText* m_staticText24;
+		wxChoice* preset_box;
+		wxButton* autostart_install_btn;
+		wxButton* autostart_remove_btn;
+		wxStaticText* shortcut_status_txt;
 		wxStdDialogButtonSizer* ok_cancel;
 		wxButton* ok_cancelOK;
 		wxButton* ok_cancelCancel;
 		
 		// Virtual event handlers, overide them in your derived class
+		virtual void autostart_install_btn_clicked( wxCommandEvent& event ) { event.Skip(); }
+		virtual void autostart_remove_btn_clicked( wxCommandEvent& event ) { event.Skip(); }
 		virtual void cancel_btn_clicked( wxCommandEvent& event ) { event.Skip(); }
 		virtual void ok_btn_clicked( wxCommandEvent& event ) { event.Skip(); }
 		
@@ -220,11 +230,6 @@ class MyDialog6 : public wxDialog
 	
 	protected:
 		wxNotebook* m_notebook2;
-		wxPanel* m_panel2;
-		wxStaticText* m_staticText11;
-		wxChoice* preset_combo;
-		wxButton* autostart_install_btn;
-		wxButton* autostart_remove_btn;
 		wxPanel* m_panel5;
 		wxCheckBox* cookie_filter_cb;
 		wxStaticText* m_staticText13;

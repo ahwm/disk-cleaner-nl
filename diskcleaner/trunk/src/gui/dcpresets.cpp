@@ -17,7 +17,6 @@
 
 #include "dcpresets.h"
 #include "wx/wx.h"
-#include "wx/fileconf.h"
 #include <wx/arrstr.h>
 #include <wx/log.h>
 #include <wx/intl.h>
@@ -56,6 +55,12 @@ namespace diskcleaner
 
     bool dcpreset_handler::save_preset( const std::wstring preset_name )
     {
+        if ( checklist_ctrl == NULL )
+        {
+            wxLogWarning( L"Tried to save/load a preset without having a wxCheckListCtrl attached");
+            return true;
+        }
+
         csave_restore_path srp(this);
 
         cfg_file->SetPath( L"/SavedPresets/" +  preset_name );
@@ -76,6 +81,12 @@ namespace diskcleaner
 
     void dcpreset_handler::load_preset( const std::wstring preset_name )
     {
+        if ( checklist_ctrl == NULL )
+        {
+            wxLogWarning( L"Tried to save/load a preset without having a wxCheckListCtrl attached");
+            return;
+        }
+
         csave_restore_path srp(this);
 
         cfg_file->SetPath( L"/SavedPresets/" );
@@ -119,6 +130,12 @@ namespace diskcleaner
 
     bool dcpreset_handler::save_last_used( )
     {
+        if ( checklist_ctrl == NULL )
+        {
+            wxLogWarning( L"Tried to save a preset without having a wxCheckListCtrl attached");
+            return true;
+        }
+
         csave_restore_path srp( this );
 
         cfg_file->SetPath( L"/LastUsedPreset" );
@@ -142,6 +159,12 @@ namespace diskcleaner
 
     void dcpreset_handler::load_last_used( )
     {
+        if ( checklist_ctrl == NULL )
+        {
+            wxLogWarning( L"Tried to save a preset without having a wxCheckListCtrl attached");
+            return;
+        }
+
         csave_restore_path srp( this );
 
         cfg_file->SetPath( L"/LastUsedPreset" );
@@ -162,9 +185,15 @@ namespace diskcleaner
 
     }
 
+    /// The Constructor saves the current path in a config file into the variable current_path.
+    /// The path is restored upon destruction of this class.
     csave_restore_path::csave_restore_path( const dcpreset_handler* const adph ) :
-            dph( adph ), current_path ( dph->cfg_file->GetPath() ) {};
+            dph( adph ), current_path ( dph->cfg_file->GetPath() )
+    {
 
+    };
+
+    /// The destructor restores the path in a config file to its original settings
     csave_restore_path::~csave_restore_path()
     {
         dph->cfg_file->SetPath( current_path );

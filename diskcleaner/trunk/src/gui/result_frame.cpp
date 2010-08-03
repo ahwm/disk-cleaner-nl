@@ -95,6 +95,8 @@ void result_frame::enable_controls()
   back_btn->Enable( true );
   exit_btn->Enable( true );
   save_btn->Enable( true );
+
+  progress_bar->Hide();
 }
 
 void result_frame::disable_controls()
@@ -107,4 +109,14 @@ void result_frame::disable_controls()
 void result_frame::handle_mousewheel(wxMouseEvent &event)
 {
     SendMessage( result_lc_hwnd, WM_MOUSEWHEEL, MAKEWPARAM( 0, event.m_wheelRotation), MAKELPARAM( event.GetX(), event.GetY() ) );
+}
+
+void result_frame::set_progress_range( int max_range )
+{
+    progress_bar->SetRange( max_range );
+}
+
+void result_frame::Increment()
+{
+    progress_bar->SetValue( progress_bar->GetValue() + 1 );
 }

@@ -18,8 +18,10 @@
 #ifndef __prefs_dlg__
 #define __prefs_dlg__
 
+#include "wx/fileconf.h"
 #include "dc_gui.h"
 #include "dcsettings.h"
+
 
 /// The prefs_dlg class takes care of allowing a user to see or change preferences
 /// A reference to a global instance of the diskcleaner::dcsettings class is passed on construction.
@@ -39,6 +41,8 @@ public:
 	// Virtual event handlers, overide them in your derived class
     virtual void cancel_btn_clicked( wxCommandEvent& event );
 	virtual void ok_btn_clicked( wxCommandEvent& event );
+	virtual void autostart_install_btn_clicked( wxCommandEvent& event );
+	virtual void autostart_remove_btn_clicked( wxCommandEvent& event );
 
 };
 

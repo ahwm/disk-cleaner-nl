@@ -85,7 +85,7 @@ prefs_dlg::prefs_dlg( wxWindow* parent, diskcleaner::dcsettings& prefs )
 
     if ( app.IsPortable() )
     {
-        shortcut_status_txt->SetLabel( _("The shortcut installtion functionality is not available in portable mode." ) );
+        shortcut_status_txt->SetLabel( _("The shortcut installation functionality is not available in portable mode." ) );
         m_panel2->Enable( false );
     }
     else

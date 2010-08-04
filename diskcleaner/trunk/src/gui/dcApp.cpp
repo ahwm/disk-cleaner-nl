@@ -101,8 +101,18 @@ bool dcApp::OnInit()
             wxArrayString names;
             wxArrayLong identifiers;
             GetInstalledLanguages( names, identifiers );
-            lang_index = wxGetSingleChoiceIndex(_("Please select the language"),
-                                                _("Languages"), names);
+
+            if (identifiers.GetCount() < 2 )
+            {
+                lang_index = wxLANGUAGE_DEFAULT;
+            }
+            else
+            {
+                lang_index = wxGetSingleChoiceIndex(_("Please select the language"),
+                                                    _("Languages"), names);
+
+                if ( lang_index == -1 ) lang_index = 0;
+            }
 
             settings.global.language_id = identifiers[ lang_index ];
 

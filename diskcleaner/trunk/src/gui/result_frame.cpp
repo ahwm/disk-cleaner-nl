@@ -18,6 +18,7 @@
 #include <wx/filedlg.h>
 #include <wx/textfile.h>
 #include <wx/msgdlg.h>
+#include <wx/stdpaths.h>
 
 #include "result_frame.h"
 #include "gui/wxlistctrllog.h"
@@ -29,11 +30,17 @@ result_base_frame( parent )
 {
   result_lc_hwnd = static_cast<HWND>( result_lc->GetHandle() );
 
+#ifdef __WXDEBUG__
+  result_lc->SetDebugFile( wxStandardPaths::Get().GetUserConfigDir()  + L"\\Disk Cleaner" );
+#endif
+
   // Set focus on exit button
   exit_btn->SetFocus();
 
   // Set parent frame
   parent_frame = dynamic_cast<dc_frame*>( parent );
+
+
 }
 
 void result_frame::save_btn_click( wxCommandEvent& event )

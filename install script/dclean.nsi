@@ -14,7 +14,7 @@ RequestExecutionLevel admin
 InstType Typical
 
 ;!ifdef HAVE_UPX
-!packhdr tmp.dat "upx --brute tmp.dat"
+!packhdr tmp.dat "upx --lzma --best --all-filters --compress-icons=1 tmp.dat"
 ;!endif
 
 	Var /GLOBAL installer_name
@@ -56,7 +56,8 @@ InstType Typical
 ;--------------------------------
 ;Languages
  
- !insertmacro MUI_LANGUAGE "English"
+  !insertmacro MUI_LANGUAGE "English"
+  !insertmacro MUI_LANGUAGE "Dutch"
 
 
  Name $installer_name
@@ -93,7 +94,7 @@ SectionIn 1
   SetOutPath $INSTDIR
  
   ;Put files there
-  !system "upx --brute ..\src\bin\Release\dclean.exe"
+  ;!system "upx --brute ..\src\bin\Release\dclean.exe"
   File "..\src\bin\Release\dclean.exe"
   
   SetOutPath $INSTDIR\plug-ins

@@ -25,25 +25,35 @@
 #include "gui/dcsettings.h"
 
 //Forward declaration
-class wxCmdLineParser;
-class wxLogWindow;
 class dc_frame;
+class wxLogWindow;
 
 
 class dcApp : public wxApp
 {
+    // Main window pointer
     dc_frame* frame;
     std::wstring strAppDirectory;
+
+    // Name of preset to recall
     std::wstring recall_preset;
 #ifdef __WXDEBUG__
     std::auto_ptr< wxLogWindow > pLogWindow;
 #endif
 
+    //true if -p is specified on command line
+    bool portable;
+
+    // true if -q is specified on command line
     bool quiet_mode;
+
+    // true if -nt is specified on command line
     bool no_text_plugins;
+
+    // true if -nb is specified on command line
     bool no_builtin_plugins;
 
-    //Manages all user settings that are persistent
+    // Manages all user settings that are persistent
     diskcleaner::dcsettings settings;
 
 public:
@@ -51,6 +61,12 @@ public:
     virtual bool OnInit();
     virtual void OnInitCmdLine(wxCmdLineParser& parser);
     virtual bool OnCmdLineParsed(wxCmdLineParser& parser);
+
+    /// True if portable mode is specified on command line
+    bool IsPortable()
+    {
+        return portable;
+    };
 
     /// True if the user is an administrator
     bool IsUserAdmin();

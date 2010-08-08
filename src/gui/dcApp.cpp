@@ -191,7 +191,7 @@ bool dcApp::OnCmdLineParsed(wxCmdLineParser& parser)
         return false;
     }
 
-    bool portable = parser.Found( L"p" );
+    portable = parser.Found( L"p" );
     no_text_plugins = parser.Found( L"nt" );
     no_builtin_plugins = parser.Found( L"nb" );
 

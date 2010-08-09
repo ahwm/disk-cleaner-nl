@@ -108,8 +108,8 @@ void EnumRegKey(HKEY rootkey,wchar_t* subkey,wchar_t* value,__int64& nitems,
 
             }
 
-            delete subsubkey;
-            delete keyvals;
+            delete[] subsubkey;
+            delete[] keyvals;
 
         }
 
@@ -209,8 +209,8 @@ bool DelRegKey(HKEY rootkey,wchar_t* subkey,wchar_t* value,__int64& nitems,
             RegCloseKey(aKey);
             result = (RegDeleteKey(rootkey,subkey)==ERROR_SUCCESS);
 
-            delete subsubkey;
-            delete keyvals;
+            delete[] subsubkey;
+            delete[] keyvals;
         }
     }
     else

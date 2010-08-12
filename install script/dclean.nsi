@@ -14,7 +14,7 @@ RequestExecutionLevel admin
 InstType Typical
 
 ;!ifdef HAVE_UPX
-!packhdr tmp.dat "upx --brute tmp.dat"
+!packhdr tmp.dat "upx --best --lzma --all-filters tmp.dat"
 ;!endif
 
 	Var /GLOBAL installer_name
@@ -93,7 +93,7 @@ SectionIn 1
   SetOutPath $INSTDIR
  
   ;Put files there
-  !system "upx --brute ..\src\bin\Release\dclean.exe"
+  !system "upx --lzma --best --all-filters --compress-icons=1 ..\src\bin\Release\dclean.exe"
   File "..\src\bin\Release\dclean.exe"
   
   SetOutPath $INSTDIR\plug-ins

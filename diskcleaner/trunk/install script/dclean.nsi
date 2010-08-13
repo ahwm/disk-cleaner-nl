@@ -14,35 +14,27 @@ RequestExecutionLevel admin
 InstType Typical
 
 ;!ifdef HAVE_UPX
-!packhdr tmp.dat "upx --lzma --best --all-filters --compress-icons=1 tmp.dat"
+!packhdr tmp.dat "upx --lzma --best --all-filters tmp.dat"
 ;!endif
 
 	Var /GLOBAL installer_name
 	Var /GLOBAL outfile_target
 	
 ;Modern UI Configuration
-	!define MUI_ICON "main.ico"
-	!define MUI_HEADERBITMAP "logo.bmp"
+	!define MUI_ICON "../src/resource/main_new.ico"
+	;!define MUI_HEADER_IMAGE
+	;!define MUI_HEADER_IMAGE_BITMAP "logo.bmp"
 	!define MUI_UNICON "del.ico"
 	!define MUI_UNINSTALLER
-  	
-
 	!define MUI_COMPONENTSPAGE_NODESC 
 
   	!insertmacro MUI_PAGE_WELCOME
-	
-
 	!define MUI_ABORTWARNING
-  
-  
 
   	!insertmacro MUI_PAGE_LICENSE "COPYING"
   	!insertmacro MUI_PAGE_COMPONENTS
-
- 
   	!insertmacro MUI_PAGE_DIRECTORY
  	!insertmacro MUI_PAGE_INSTFILES
-  
   	  !define MUI_FINISHPAGE_RUN "$INSTDIR\dclean.exe"
   	  !define MUI_FINISHPAGE_RUN_NOTCHECKED
  	  ;!define MUI_FINISHPAGE_SHOWREADME "$INSTDIR\readme.txt"
@@ -57,7 +49,7 @@ InstType Typical
 ;Languages
  
   !insertmacro MUI_LANGUAGE "English"
-  !insertmacro MUI_LANGUAGE "Dutch"
+  ;!insertmacro MUI_LANGUAGE "Dutch"
 
 
  Name $installer_name
@@ -77,7 +69,7 @@ InstallDir "$PROGRAMFILES\Disk Cleaner"
 InstallDirRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\DiskCleaner" "UninstallString"
 
 ;Specify icon
-Icon main.ico
+Icon "../src/resource/main_new.ico"
 
 ;Compiler flags
 SetOverwrite ifnewer
@@ -94,12 +86,25 @@ SectionIn 1
   SetOutPath $INSTDIR
  
   ;Put files there
-  ;!system "upx --brute ..\src\bin\Release\dclean.exe"
+  !system "upx --best --lzma --all-filters --compress-icons=0 ..\src\bin\Release\dclean.exe"
   File "..\src\bin\Release\dclean.exe"
   
   SetOutPath $INSTDIR\plug-ins
 
-  File "plug-ins\*.dct"
+  File "..\plug-ins\*.dct"
+  
+  SetOutPath $INSTDIR\lang\es
+  File  /oname=dclean.mo "..\languages\dclean\es.mo" 
+  
+  SetOutPath $INSTDIR\lang\nl
+  File  /oname=dclean.mo "..\languages\dclean\nl.mo" 
+  
+  SetOutPath $INSTDIR\lang\ru
+  File  /oname=dclean.mo "..\languages\dclean\ru.mo" 
+  
+  SetOutPath $INSTDIR\lang\tr
+  File  /oname=dclean.mo "..\languages\dclean\tr.mo" 
+  
 ; Write the uninstall keys for Windows
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\DiskCleaner" "DisplayName" "Disk Cleaner (remove only)"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\DiskCleaner" "UninstallString" '"$INSTDIR\uninstall.exe"'
@@ -176,17 +181,28 @@ Section "Uninstall"
   DeleteRegKey HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\DiskCleaner"
   DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\Disk Cleaner"
   ; remove all files
-  Delete "$INSTDIR\*.*"
+  Delete "$INSTDIR\dclean.exe"
   Delete "$INSTDIR\plug-ins\*.*"
+  Delete "$INSTDIR\lang\es\*.*"
+  Delete "$INSTDIR\lang\tr\*.*"
+  Delete "$INSTDIR\lang\nl\*.*"
+  Delete "$INSTDIR\lang\ru\*.*"
   
   ; MUST REMOVE UNINSTALLER, too
+  Delete "$INSTDIR\uninstall.exe"
   ; remove shortcuts, if any.
   Delete "$SMPROGRAMS\Disk Cleaner\*.*"
   ; remove directories used.
   RMDir "$SMPROGRAMS\Disk Cleaner"
   RMDir "$INSTDIR\plug-ins"
+  RMDir /r "$INSTDIR\lang"
   RMDir "$INSTDIR"
   Delete "$QUICKLAUNCH\Disk Cleaner.lnk"
+  
+  ; ; Remove user's settings as well. 
+  ; SetShellVarContext current
+  ; Delete "$APPDATA\Disk Cleaner\*.*"
+  ; RMDir "$APPDATA\Disk Cleaner"
 SectionEnd
 
 ; eof
@@ -206,4 +222,14 @@ Function .onInit
 	StrCpy $installer_name "Disk Cleaner $R2.$R3.$R4"
 	
 	StrCpy $outfile_target "target\dcsetup_$R2.$R3.$R4.exe"
+	
+	;!insertmacro MUI_LANGDLL_DISPLAY
+	
 FunctionEnd
+
+
+; Function un.onInit
+
+  ; !insertmacro MUI_UNGETLANGUAGE
+  
+; FunctionEnd

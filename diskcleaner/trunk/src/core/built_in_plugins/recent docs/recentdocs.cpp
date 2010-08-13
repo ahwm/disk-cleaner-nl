@@ -49,7 +49,7 @@ namespace diskcleaner
                 scandata = GetFilesInFolder( RecentDocPath,L"*.*\0", &so, ItemList );
             }
         }
-        delete RecentDocPath;
+        delete[] RecentDocPath;
 
         BytesFound = scandata.bytes;
         ItemsFound = scandata.files;

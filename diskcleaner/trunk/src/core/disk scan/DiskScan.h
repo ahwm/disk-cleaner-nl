@@ -44,10 +44,11 @@ struct TScanOptions{
   bool DelBaseFolder;   ///< include base folder (text plug-in file: /si)
   bool FilesOnly;       ///< only remove files, keep folder structure (text plug-in file: /sf)
   bool Secure;          ///< not implemented
+  bool System;          ///< remove system files, such as desktop.ini
 
   TScanOptions() : minimum_age( 0 ), ReadOnly( false ), Hidden( false ), Recursive( false ),
                     SubFolderOnly( false ), DelBaseFolder( false ), FilesOnly( false ) ,
-                    Secure( false ) {};
+                    Secure( false ), System( false ) {};
 } ;
 
 /// Scan for files in folder 'folder', with search masks 'masks'

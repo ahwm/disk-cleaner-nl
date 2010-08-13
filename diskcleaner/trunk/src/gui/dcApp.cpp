@@ -119,7 +119,7 @@ bool dcApp::OnInit()
         }
 
         the_locale.Init( settings.global.language_id, 0 );
-        the_locale.AddCatalogLookupPathPrefix( wxPathOnly( this->argv[0] ) );
+        the_locale.AddCatalogLookupPathPrefix( strAppDirectory + L"\\lang" );
         the_locale.AddCatalog(this->GetAppName());
         the_locale.AddCatalog( L"plugins" );
 
@@ -168,8 +168,7 @@ void dcApp::GetInstalledLanguages( wxArrayString& names,
     names.Clear();
     identifiers.Clear();
 
-    wxDir dir( GetAppDirectory() );
-    wxString filename;
+    wxString lang_dir = strAppDirectory + L"\\lang";
 
     const wxLanguageInfo * langinfo;
 
@@ -182,7 +181,7 @@ void dcApp::GetInstalledLanguages( wxArrayString& names,
     }
 
     WIN32_FIND_DATA finddata;
-    HANDLE fHandle = FindFirstFile( ( GetAppDirectory() + L"\\*.*" ).c_str(), &finddata );
+    HANDLE fHandle = FindFirstFile( ( lang_dir + L"\\*.*" ).c_str(), &finddata );
 
     if (fHandle != INVALID_HANDLE_VALUE)
     {
@@ -190,7 +189,7 @@ void dcApp::GetInstalledLanguages( wxArrayString& names,
         {
 
             if ( finddata.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY &&
-                    !( GetFileAttributes( GetAppDirectory() + L"\\" + wxString( finddata.cFileName ) + L"\\"
+                    !( GetFileAttributes( lang_dir + L"\\" + wxString( finddata.cFileName ) + L"\\"
                                           + GetAppName() + L".mo" )  & FILE_ATTRIBUTE_DIRECTORY ) )
             {
                 langinfo = wxLocale::FindLanguageInfo( finddata.cFileName );

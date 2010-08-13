@@ -256,7 +256,7 @@ about_base_dlg::about_base_dlg( wxWindow* parent, wxWindowID id, const wxString&
 	
 	m_staticText16 = new wxStaticText( this, wxID_ANY, _("A fast open source disk cleanup tool"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText16->Wrap( -1 );
-	bSizer7->Add( m_staticText16, 0, wxBOTTOM|wxRIGHT|wxLEFT, 5 );
+	bSizer7->Add( m_staticText16, 0, wxALL, 5 );
 	
 	version_text = new wxStaticText( this, wxID_ANY, _("Version"), wxDefaultPosition, wxDefaultSize, 0 );
 	version_text->Wrap( -1 );

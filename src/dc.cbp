@@ -73,6 +73,7 @@
 			<Add directory="$(#wx.include)" />
 		</ResourceCompiler>
 		<Linker>
+			<Add option="--static" />
 			<Add library="libkernel32.a" />
 			<Add library="libuser32.a" />
 			<Add library="libgdi32.a" />

@@ -31,7 +31,7 @@ result_base_frame( parent )
   result_lc_hwnd = static_cast<HWND>( result_lc->GetHandle() );
 
 #ifdef __WXDEBUG__
-  result_lc->SetDebugFile( wxStandardPaths::Get().GetUserConfigDir()  + L"\\Disk Cleaner" );
+  result_lc->SetDebugFile( wxStandardPaths::Get().GetUserConfigDir()  + L"\\Disk Cleaner\\debug.log" );
 #endif
 
   // Set focus on exit button

@@ -112,6 +112,14 @@ bool ProcessFilesInFolder(const wchar_t* folder, const wchar_t* masks, TScanOpti
 
     if ( !so->SubFolderOnly ) //Do scan in this folder (option:  /so)
     {
+
+        // Set the attributes that files to be cleaned should NOT have
+        DWORD unwanted_attributes = FILE_ATTRIBUTE_DIRECTORY | FILE_ATTRIBUTE_OFFLINE;
+        if ( !so->System )
+        {
+            unwanted_attributes |= FILE_ATTRIBUTE_SYSTEM;
+        }
+
         //scan this folder with the masks provided
         while ( *masks )
         {
@@ -126,9 +134,7 @@ bool ProcessFilesInFolder(const wchar_t* folder, const wchar_t* masks, TScanOpti
             {
                 do
                 {
-                    if ( !(sr.dwFileAttributes & (FILE_ATTRIBUTE_DIRECTORY|
-                                                 FILE_ATTRIBUTE_OFFLINE|
-                                                 FILE_ATTRIBUTE_SYSTEM) ) )
+                    if ( !(sr.dwFileAttributes & unwanted_attributes ) )
                     {
                         ::wxLogDebug( L"%hs: FindFirstFile() found: %s ",__FUNCTION__, sr.cFileName );
                         *ptr = 0;

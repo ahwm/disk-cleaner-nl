@@ -1,0 +1,543 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Robert Moerland <veel_mail@xs4all.nl>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#  7zip.dct
+msgid "7-Zip History"
+msgstr "7-Zip History"
+
+#  7zip.dct
+msgid "Clear 7-Zip History"
+msgstr "Clear 7-Zip History"
+
+#  abilityoffice.dct
+msgid "Ability Office 4 Recent Files"
+msgstr "Ability Office 4 Recent Files"
+
+#  abilityoffice.dct
+msgid "Delete Ability 4 Recent Documents list"
+msgstr "Delete Ability 4 Recent Documents list"
+
+#  acdsee.dct
+msgid "ACDSee"
+msgstr "ACDSee"
+
+#  acdsee.dct
+msgid "Erase ACDSee's Last Open Folder and Favorites"
+msgstr "Erase ACDSee's Last Open Folder and Favorites"
+
+#  acroread.dct
+msgid "Acrobat Reader"
+msgstr "Acrobat Reader"
+
+#  acroread.dct
+msgid "Clears Acrobat Reader's Recent Files list and Cache"
+msgstr "Clears Acrobat Reader's Recent Files list and Cache"
+
+#  aoltoolbar.dct
+msgid "AOL Toolbar"
+msgstr "AOL Toolbar"
+
+#  aoltoolbar.dct
+msgid "Deletes AOL Toolbar Search History and Pop-up Kills"
+msgstr "Deletes AOL Toolbar Search History and Pop-up Kills"
+
+#  axicons4.dct
+msgid "AX-Icons 4.x"
+msgstr "AX-Icons 4.x"
+
+#  axicons4.dct
+msgid "Erase Ax-Icon's Recent Files"
+msgstr "Erase Ax-Icon's Recent Files"
+
+#  ccgifanimator.dct
+msgid "CoffeeCup GIF Animator"
+msgstr "CoffeeCup GIF Animator"
+
+#  ccgifanimator.dct
+msgid "Erase Recent Files Of CoffeeCup GIF Animator"
+msgstr "Erase Recent Files Of CoffeeCup GIF Animator"
+
+#  commondialog.dct
+msgid "Common Dialog MRUs"
+msgstr "Common Dialog MRUs"
+
+#  commondialog.dct
+msgid "Clear Common Dialog (Open, Save) most recently used file names"
+msgstr "Clear Common Dialog (Open, Save) most recently used file names"
+
+#  cuteftp40.dct
+msgid "CuteFTP 4.0 "
+msgstr "CuteFTP 4.0 "
+
+#  cuteftp40.dct
+msgid "Erase CuteFTP's Log Files & History Data"
+msgstr "Erase CuteFTP's Log Files & History Data"
+
+#  cutehtml.dct
+msgid "CuteHTML "
+msgstr "CuteHTML "
+
+#  cutehtml.dct
+msgid "Erase CuteHTML Recent Files"
+msgstr "Erase CuteHTML Recent Files"
+
+#  CutePDFWriter.dct
+msgid "CutePDF Writer"
+msgstr "CutePDF Writer"
+
+#  CutePDFWriter.dct
+msgid "Deletes CutePDF Writer mru"
+msgstr "Deletes CutePDF Writer mru"
+
+#  divxplayer.dct
+msgid "Divx Player"
+msgstr "Divx Player"
+
+#  divxplayer.dct
+msgid "Erase Divx Player Playlist"
+msgstr "Erase Divx Player Playlist"
+
+#  editPad.dct
+msgid "EditPad"
+msgstr "EditPad"
+
+#  editPad.dct
+msgid "Cleans EditPad"
+msgstr "Cleans EditPad"
+
+#  editPlus2.dct
+msgid "EditPlus2"
+msgstr "EditPlus2"
+
+#  editPlus2.dct
+msgid "Cleans EditPlus2"
+msgstr "Cleans EditPlus2"
+
+#  feedreadercache.dct
+msgid "Feedreader Cache"
+msgstr "Feedreader Cache"
+
+#  feedreadercache.dct
+msgid "Clears Feedreader's cache of read articles"
+msgstr "Clears Feedreader's cache of read articles"
+
+#  flashcookies.dct
+msgid "Adobe Flash Player"
+msgstr "Adobe Flash Player"
+
+#  flashcookies.dct
+msgid "Clears Flash Player shared objects (Flash cookies)"
+msgstr "Clears Flash Player shared objects (Flash cookies)"
+
+#  fotocanvaslite.dct
+msgid "FotoCanvas Lite"
+msgstr "FotoCanvas Lite"
+
+#  fotocanvaslite.dct
+msgid "Delete FotoCanvas Lite's recent files"
+msgstr "Delete FotoCanvas Lite's recent files"
+
+#  foxitreader.dct
+msgid "Foxit PDF Reader"
+msgstr "Foxit PDF Reader"
+
+#  foxitreader.dct
+msgid "Erase Foxit PDF Reader Recent File List"
+msgstr "Erase Foxit PDF Reader Recent File List"
+
+#  freshdownload.dct
+msgid "FreshDownload"
+msgstr "FreshDownload"
+
+#  freshdownload.dct
+msgid "Erase FreshDownload History"
+msgstr "Erase FreshDownload History"
+
+#  goldwave.dct
+msgid "GoldWave History"
+msgstr "GoldWave History"
+
+#  goldwave.dct
+msgid "Cleans GoldWave History"
+msgstr "Cleans GoldWave History"
+
+#  googlechromecache.dct
+msgid "Google Chrome Cache"
+msgstr "Google Chrome Cache"
+
+#  googlechromecache.dct
+msgid "Erase Google Chrome browser cache"
+msgstr "Erase Google Chrome browser cache"
+
+#  googletoolbar.dct
+msgid "Google Tool Bar"
+msgstr "Google Tool Bar"
+
+#  googletoolbar.dct
+msgid "Deletes Google Tool Bar Search History and Pop-up Kills"
+msgstr "Deletes Google Tool Bar Search History and Pop-up Kills"
+
+#  ieauto.dct
+msgid "Internet Explorer Autocomplete Form History"
+msgstr "Internet Explorer Autocomplete Form History"
+
+#  ieauto.dct
+msgid "Clears the Autocomplete Form History in Internet Explorer"
+msgstr "Clears the Autocomplete Form History in Internet Explorer"
+
+#  ieurls.dct
+msgid "Internet Explorer Address Bar Typed URLs"
+msgstr "Internet Explorer Address Bar Typed URLs"
+
+#  ieurls.dct
+msgid "Clears Internet Explorer Address bar Typed URLs"
+msgstr "Clears Internet Explorer Address bar Typed URLs"
+
+#  innoSetup.dct
+msgid "Inno Setup"
+msgstr "Inno Setup"
+
+#  innoSetup.dct
+msgid "Cleans Inno Setup"
+msgstr "Cleans Inno Setup"
+
+#  izarc.dct
+msgid "IZArc"
+msgstr "IZArc"
+
+#  izarc.dct
+msgid "Clears IZArc History"
+msgstr "Clears IZArc History"
+
+#  lotussmartsuite.dct
+msgid "Lotus SmartSuite 96/97/9.5/9.6/9.7"
+msgstr "Lotus SmartSuite 96/97/9.5/9.6/9.7"
+
+#  lotussmartsuite.dct
+msgid "Removes Lotus SmartSuite recent file list"
+msgstr "Removes Lotus SmartSuite recent file list"
+
+#  macromediadreamweaver40.dct
+msgid "Macromedia Dreamweaver 4.0"
+msgstr "Macromedia Dreamweaver 4.0"
+
+#  macromediadreamweaver40.dct
+msgid "Erase Recent Files Of Macromedia Dreamweaver  4.0"
+msgstr "Erase Recent Files Of Macromedia Dreamweaver  4.0"
+
+#  mapnetwork.dct
+msgid "Map Network Drive MRU"
+msgstr "Map Network Drive MRU"
+
+#  mapnetwork.dct
+msgid "Erases the Map Network Drive most recently used paths."
+msgstr "Erases the Map Network Drive most recently used paths."
+
+#  mediaplayerclassic.dct
+msgid "Media Player Classic"
+msgstr "Media Player Classic"
+
+#  mediaplayerclassic.dct
+msgid "Erases Media Player Classic's Recent File List & Recent Dub List"
+msgstr "Erases Media Player Classic's Recent File List & Recent Dub List"
+
+#  metapad.dct
+msgid "Metapad"
+msgstr "Metapad"
+
+#  metapad.dct
+msgid "Erase Metapad Recent File List"
+msgstr "Erase Metapad Recent File List"
+
+#  microangelo.dct
+msgid "Microangelo"
+msgstr "Microangelo"
+
+#  microangelo.dct
+msgid "Clears Microangelo History"
+msgstr "Clears Microangelo History"
+
+#  msfrontpage.dct
+msgid "Microsoft FrontPage Express"
+msgstr "Microsoft FrontPage Express"
+
+#  msfrontpage.dct
+msgid "Removes the Microsoft FrontPage Express recent file list"
+msgstr "Removes the Microsoft FrontPage Express recent file list"
+
+#  msimaging.dct
+msgid "MS Imaging"
+msgstr "MS Imaging"
+
+#  msimaging.dct
+msgid "Erase MS Imaging Recent Files"
+msgstr "Erase MS Imaging Recent Files"
+
+#  msntoolbar.dct
+msgid "MSN Toolbar"
+msgstr "MSN Toolbar"
+
+#  msntoolbar.dct
+msgid "MSN Toolbar Data"
+msgstr "MSN Toolbar Data"
+
+#  msphotoeditor.dct
+msgid "Microsoft Photo Editor"
+msgstr "Microsoft Photo Editor"
+
+#  msphotoeditor.dct
+msgid "Erase the recent files of Microsoft Photo Editor"
+msgstr "Erase the recent files of Microsoft Photo Editor"
+
+#  mspublisher.dct
+msgid "Microsoft Publisher"
+msgstr "Microsoft Publisher"
+
+#  mspublisher.dct
+msgid "Removes recent file list"
+msgstr "Removes recent file list"
+
+#  netcaptor.dct
+msgid "NetCaptor"
+msgstr "NetCaptor"
+
+#  netcaptor.dct
+msgid "Erase NetCaptor's Location Bar History And Last Open site"
+msgstr "Erase NetCaptor's Location Bar History And Last Open site"
+
+#  officexp2000.dct
+msgid "Office 95, 97, 2000, XP and 2003 Recent Files"
+msgstr "Office 95, 97, 2000, XP and 2003 Recent Files"
+
+#  officexp2000.dct
+msgid "Removes Office 95, 97, 2000, XP and 2003 Recent Files"
+msgstr "Removes Office 95, 97, 2000, XP and 2003 Recent Files"
+
+#  openoffice.dct
+msgid "OpenOffice 3 Recently opened files"
+msgstr "OpenOffice 3 Recently opened files"
+
+#  openoffice.dct
+msgid "Deletes OpenOffice 3's most recently opened files."
+msgstr "Deletes OpenOffice 3's most recently opened files."
+
+#  operacache.dct
+msgid "Opera 10 Cache"
+msgstr "Opera 10 Cache"
+
+#  operacache.dct
+msgid "Removes the Opera 10 disk cache"
+msgstr "Removes the Opera 10 disk cache"
+
+#  paintshoppro7.dct
+msgid "Paint Shop Pro 7/8/9"
+msgstr "Paint Shop Pro 7/8/9"
+
+#  paintshoppro7.dct
+msgid "Erase Paint Shop Pro's recent files"
+msgstr "Erase Paint Shop Pro's recent files"
+
+#  popthis.dct
+msgid "PopThis"
+msgstr "PopThis"
+
+#  popthis.dct
+msgid "PopThis popcount"
+msgstr "PopThis popcount"
+
+#  powerarchiver.dct
+msgid "PowerArchiver"
+msgstr "PowerArchiver"
+
+#  powerarchiver.dct
+msgid "Clears PowerArchiver History"
+msgstr "Clears PowerArchiver History"
+
+#  powerzip60.dct
+msgid "PowerZip 6.0"
+msgstr "PowerZip 6.0"
+
+#  powerzip60.dct
+msgid "Erase PowerZip recent extract files"
+msgstr "Erase PowerZip recent extract files"
+
+#  quicktime.dct
+msgid "Apple QuickTime Player"
+msgstr "Apple QuickTime Player"
+
+#  quicktime.dct
+msgid "Clears the Apple QuickTime Player Recent Movies history"
+msgstr "Clears the Apple QuickTime Player Recent Movies history"
+
+#  realone.dct
+msgid "RealOne"
+msgstr "RealOne"
+
+#  realone.dct
+msgid "Erase RealOne recent playlist and URls History"
+msgstr "Erase RealOne recent playlist and URls History"
+
+#  regeditRecentKey.dct
+msgid "Regedit Recent Key"
+msgstr "Regedit Recent Key"
+
+#  regeditRecentKey.dct
+msgid "Removes Windows' Regedit Recent Key"
+msgstr "Removes Windows' Regedit Recent Key"
+
+#  runmrulist.dct
+msgid "Run... Most Recently Used list"
+msgstr "Run... Most Recently Used list"
+
+#  runmrulist.dct
+msgid "Clears Windows' Run... Most Recently Used list"
+msgstr "Clears Windows' Run... Most Recently Used list"
+
+#  serifphotoplus.dct
+msgid "Serif PhotoPlus 6"
+msgstr "Serif PhotoPlus 6"
+
+#  serifphotoplus.dct
+msgid "Removes the Serif PhotoPlus 6 recent file list"
+msgstr "Removes the Serif PhotoPlus 6 recent file list"
+
+#  setupfactory.dct
+msgid "Setup Factory"
+msgstr "Setup Factory"
+
+#  setupfactory.dct
+msgid "Cleans Setup Factory"
+msgstr "Cleans Setup Factory"
+
+#  smartdraw6.dct
+msgid "SmartDraw 6"
+msgstr "SmartDraw 6"
+
+#  smartdraw6.dct
+msgid "Erase SmardDraw 6's recent files"
+msgstr "Erase SmardDraw 6's recent files"
+
+#  sonique.dct
+msgid "Sonique "
+msgstr "Sonique "
+
+#  sunsjava.dct
+msgid "Java Runtime Cache"
+msgstr "Java Runtime Cache"
+
+#  sunsjava.dct
+msgid "Cleans Sun's Java cache folder"
+msgstr "Cleans Sun's Java cache folder"
+
+#  swiffplayer.dct
+msgid "Swiff Player"
+msgstr "Swiff Player"
+
+#  swiffplayer.dct
+msgid "Deletes Swiff Player mru"
+msgstr "Deletes Swiff Player mru"
+
+#  swish20.dct
+msgid "SWiSH 2.0"
+msgstr "SWiSH 2.0"
+
+#  swish20.dct
+msgid "Erase Recent Files Of SWiSH 2.0"
+msgstr "Erase Recent Files Of SWiSH 2.0"
+
+#  theplaye.dct
+msgid "The Playa"
+msgstr "The Playa"
+
+#  theplaye.dct
+msgid "Erase The Playa's Playlist"
+msgstr "Erase The Playa's Playlist"
+
+#  uleadgifanimator.dct
+msgid "Ulead GIF Animator"
+msgstr "Ulead GIF Animator"
+
+#  uleadgifanimator.dct
+msgid "Erase  Ulead GIF Animator's Recent Files"
+msgstr "Erase  Ulead GIF Animator's Recent Files"
+
+#  webferret.dct
+msgid "WebFerret"
+msgstr "WebFerret"
+
+#  webferret.dct
+msgid "Erase WebFerret Search History"
+msgstr "Erase WebFerret Search History"
+
+#  winace.dct
+msgid "WinAce "
+msgstr "WinAce "
+
+#  winace.dct
+msgid "Delete WinAce"
+msgstr "Delete WinAce"
+
+#  windowsdefender.dct
+msgid "Windows Defender"
+msgstr "Windows Defender"
+
+#  windowsdefender.dct
+msgid "Removes Windows Defender Scan History"
+msgstr "Removes Windows Defender Scan History"
+
+#  windump.dct
+msgid "Windows Memory Dump"
+msgstr "Windows Memory Dump"
+
+#  windump.dct
+msgid "Removes Windows Memory dump files (*.dmp) that are created when Windows crashes."
+msgstr "Removes Windows Memory dump files (*.dmp) that are created when Windows crashes."
+
+#  winimp.dct
+msgid "WinImp History"
+msgstr "WinImp History"
+
+#  winimp.dct
+msgid "Erases WinImp History"
+msgstr "Erases WinImp History"
+
+#  winlog.dct
+msgid "Windows Log Files"
+msgstr "Windows Log Files"
+
+#  winlog.dct
+msgid "Removes Windows log files"
+msgstr "Removes Windows log files"
+
+#  winrar2x.dct
+msgid "Delete WinRar 2.x Recent Files"
+msgstr "Delete WinRar 2.x Recent Files"
+
+#  winrar2x.dct
+msgid "WinRar 2.x"
+msgstr "WinRar 2.x"
+
+#  wintemp.dct
+msgid "Forced \\Windows\\Temp"
+msgstr "Forced \\Windows\\Temp"
+
+#  wintemp.dct
+msgid "Removes leftover files in %windir%\\temp. Some applications do not use %TEMP%, which is the default."
+msgstr "Removes leftover files in %windir%\\temp. Some applications do not use %TEMP%, which is the default."
+
+#  wperfect.dct
+msgid "WordPerfect 7/8/9/10/11"
+msgstr "WordPerfect 7/8/9/10/11"
+
+#  wperfect.dct
+msgid "Erases history items in WordPerfect 7 to 11"
+msgstr "Erases history items in WordPerfect 7 to 11"
+

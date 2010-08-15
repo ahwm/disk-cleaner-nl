@@ -1,0 +1,418 @@
+# Italian translation for dclean
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# This file is distributed under the same license as the dclean package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: dclean\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2010-08-14 13:30+0000\n"
+"PO-Revision-Date: 2010-08-15 14:11+0100\n"
+"Last-Translator: Robert Moerland <veel_mail@xs4all.nl>\n"
+"Language-Team: Italian <it@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-08-15 11:56+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+msgid "7-Zip History"
+msgstr "Cronologia di 7-zip"
+
+msgid "Clear 7-Zip History"
+msgstr "Svuota la cronologia di 7-zip"
+
+msgid "Ability Office 4 Recent Files"
+msgstr "FIle recenti di Ability Office 4"
+
+msgid "Delete Ability 4 Recent Documents list"
+msgstr "Cancella la lista di documenti recenti di Ability 4"
+
+msgid "ACDSee"
+msgstr "ACDSee"
+
+msgid "Erase ACDSee's Last Open Folder and Favorites"
+msgstr "RIpulisce i preferiti e l'ultima cartella aperta in ACDSee"
+
+msgid "Acrobat Reader"
+msgstr "Acrobat Reader"
+
+msgid "Clears Acrobat Reader's Recent Files list and Cache"
+msgstr "RIpulisce la cache e la lista di file recenti di Acrobat Reader"
+
+msgid "AOL Toolbar"
+msgstr "AOL Toolbar"
+
+msgid "Deletes AOL Toolbar Search History and Pop-up Kills"
+msgstr "Cancella la cronologia delle ricerche della AOL Toolbar e delle Pop-up Kills"
+
+msgid "AX-Icons 4.x"
+msgstr "AX-Icons 4.x"
+
+msgid "Erase Ax-Icon's Recent Files"
+msgstr "Cancella la lista dei files recenti di Ax-Icons"
+
+msgid "CoffeeCup GIF Animator"
+msgstr "CoffeeCup GIF Animator"
+
+msgid "Erase Recent Files Of CoffeeCup GIF Animator"
+msgstr "Cancella la lista dei files recenti di CoffeeCup GIF Animator"
+
+msgid "Common Dialog MRUs"
+msgstr "Common Dialog MRUs (liste dei file recenti)"
+
+msgid "Clear Common Dialog (Open, Save) most recently used file names"
+msgstr "Cancella la lista dei files recenti di Common Dialog (Apri, Salva)"
+
+msgid "CuteFTP 4.0 "
+msgstr "CuteFTP 4.0 "
+
+msgid "Erase CuteFTP's Log Files & History Data"
+msgstr "Cancella i files di log e i dati della cronologia di CuteFTP"
+
+msgid "CuteHTML "
+msgstr "CuteHTML "
+
+msgid "Erase CuteHTML Recent Files"
+msgstr "Cancella la lista dei files recenti di  CuteHTML"
+
+msgid "CutePDF Writer"
+msgstr "CutePDF Writer"
+
+msgid "Deletes CutePDF Writer mru"
+msgstr "Cancella la lista dei files recenti di CutePDF"
+
+msgid "Divx Player"
+msgstr "Divx Player"
+
+msgid "Erase Divx Player Playlist"
+msgstr "Cancella la playlist di Divx Player"
+
+msgid "EditPad"
+msgstr "EditPad"
+
+msgid "Cleans EditPad"
+msgstr "Pulizia di EditPad"
+
+msgid "EditPlus2"
+msgstr "EditPlus2"
+
+msgid "Cleans EditPlus2"
+msgstr "Pulizia di EditPlus2"
+
+msgid "Feedreader Cache"
+msgstr "Cache di Feedreader"
+
+msgid "Clears Feedreader's cache of read articles"
+msgstr "Ripulisce la cache degli articoli letti in Feedreader"
+
+msgid "Adobe Flash Player"
+msgstr "Adobe Flash Player"
+
+msgid "Clears Flash Player shared objects (Flash cookies)"
+msgstr "Ripulisce gli oggetti condivisi di Flash Player ('i cookies di Flash')"
+
+msgid "FotoCanvas Lite"
+msgstr "FotoCanvas Lite"
+
+msgid "Delete FotoCanvas Lite's recent files"
+msgstr "Cancella la lista dei files usati recentemente di FotoCanvas Lite"
+
+msgid "Foxit PDF Reader"
+msgstr "Foxit PDF Reader"
+
+msgid "Erase Foxit PDF Reader Recent File List"
+msgstr "Cancella la lista dei files usati recentemente di Foxit PDF Reader"
+
+msgid "FreshDownload"
+msgstr "FreshDownload"
+
+msgid "Erase FreshDownload History"
+msgstr "Cancella la cronologia di FreshDownload"
+
+msgid "GoldWave History"
+msgstr "GoldWave History"
+
+msgid "Cleans GoldWave History"
+msgstr "Cancella la cronologia di GoldWave"
+
+msgid "Google Chrome Cache"
+msgstr "Cache di Google Chrome"
+
+msgid "Erase Google Chrome browser cache"
+msgstr "Cancella la cronologia del browser Google Chrome"
+
+msgid "Google Tool Bar"
+msgstr "Google Tool Bar"
+
+msgid "Deletes Google Tool Bar Search History and Pop-up Kills"
+msgstr "Google Toolbar: Cancellazione della cronologia delle ricerche e la lista dei pop-up bloccati"
+
+msgid "Internet Explorer Autocomplete Form History"
+msgstr "Cronologia autocompletamento form di Internet Explorer"
+
+msgid "Clears the Autocomplete Form History in Internet Explorer"
+msgstr "Cancella la Cronologia dell'autocompletamento dei form di Internet Explorer"
+
+msgid "Internet Explorer Address Bar Typed URLs"
+msgstr "Indirizzi digitati direttamente nella barra di Internet Explorer"
+
+msgid "Clears Internet Explorer Address bar Typed URLs"
+msgstr "Cancella l'elenco degli URL digitati direttamente nella barra di Internet Explorer"
+
+msgid "Inno Setup"
+msgstr "Inno Setup"
+
+msgid "Cleans Inno Setup"
+msgstr "Pulizia di Inno Setup"
+
+msgid "IZArc"
+msgstr "IZArc"
+
+msgid "Clears IZArc History"
+msgstr "Cancella la cronologia di IZArc"
+
+msgid "Lotus SmartSuite 96/97/9.5/9.6/9.7"
+msgstr "Lotus SmartSuite 96/97/9.5/9.6/9.7"
+
+msgid "Removes Lotus SmartSuite recent file list"
+msgstr "Cancella la lista dei files usati di recente di Lotus SmartSuite"
+
+msgid "Macromedia Dreamweaver 4.0"
+msgstr "Macromedia Dreamweaver 4.0"
+
+msgid "Erase Recent Files Of Macromedia Dreamweaver  4.0"
+msgstr "Cancella la lista dei files usati di recente di Macromedia Dreamweaver 4.0"
+
+msgid "Map Network Drive MRU"
+msgstr "Lista MRU di Map Network Drive"
+
+msgid "Erases the Map Network Drive most recently used paths."
+msgstr "Cancella la lista dei percorsi usati di recente di Map Network Drive"
+
+msgid "Media Player Classic"
+msgstr "Media Player Classic"
+
+msgid "Erases Media Player Classic's Recent File List & Recent Dub List"
+msgstr "Cancella la lista dei files usati di recente di Media Player Classic e la lista dei Recent Dub"
+
+msgid "Metapad"
+msgstr "Metapad"
+
+msgid "Erase Metapad Recent File List"
+msgstr "Cancella la lista dei files usati recentemente di Metapad"
+
+msgid "Microangelo"
+msgstr "Microangelo"
+
+msgid "Clears Microangelo History"
+msgstr "Cancella la cronologia di Microangelo"
+
+msgid "Microsoft FrontPage Express"
+msgstr "Microsoft FrontPage Express"
+
+msgid "Removes the Microsoft FrontPage Express recent file list"
+msgstr "Cancella la lista dei files usati recentemente di MS FrontPage Express"
+
+msgid "MS Imaging"
+msgstr "MS Imaging"
+
+msgid "Erase MS Imaging Recent Files"
+msgstr "Cancella la lista dei files usati recentemente di MS Imaging"
+
+msgid "MSN Toolbar"
+msgstr "MSN Toolbar"
+
+msgid "MSN Toolbar Data"
+msgstr "Dati relativi alla MSN Toolbar"
+
+msgid "Microsoft Photo Editor"
+msgstr "Microsoft Photo Editor"
+
+msgid "Erase the recent files of Microsoft Photo Editor"
+msgstr "Cancella la lista dei files usati recentemente di MS Photo Editor"
+
+msgid "Microsoft Publisher"
+msgstr "Microsoft Publisher"
+
+msgid "Removes recent file list"
+msgstr "Cancella la lista dei files usati recentemente"
+
+msgid "NetCaptor"
+msgstr "NetCaptor"
+
+msgid "Erase NetCaptor's Location Bar History And Last Open site"
+msgstr "Cancella la cronologia e l'ultimo file aperto della NetCaptor Location Bar"
+
+msgid "Office 95, 97, 2000, XP and 2003 Recent Files"
+msgstr "File recenti di Office 95, 97, 2000, XP e 2003"
+
+msgid "Removes Office 95, 97, 2000, XP and 2003 Recent Files"
+msgstr "Cancella la lista dei files usati recentemente di MS Office da 95 a 2003"
+
+msgid "OpenOffice 3 Recently opened files"
+msgstr "Ultimi file aperti da OpenOffice 3"
+
+msgid "Deletes OpenOffice 3's most recently opened files."
+msgstr "Cancella la lista dei files aperti recentemente di OpenOffice 3"
+
+msgid "Opera 10 Cache"
+msgstr "Cache di Opera 10"
+
+msgid "Removes the Opera 10 disk cache"
+msgstr "Rimuove la cache su disco di Opera 10"
+
+msgid "Paint Shop Pro 7/8/9"
+msgstr "Paint Shop Pro 7/8/9"
+
+msgid "Erase Paint Shop Pro's recent files"
+msgstr "Cancella la lista dei files usati recentemente di Paint Shop Pro"
+
+msgid "PopThis"
+msgstr "PopThis"
+
+msgid "PopThis popcount"
+msgstr "Conteggio dei pop di PopThis"
+
+msgid "PowerArchiver"
+msgstr "PowerArchiver"
+
+msgid "Clears PowerArchiver History"
+msgstr "Cancella la cronologia di PowerArchiver"
+
+msgid "PowerZip 6.0"
+msgstr "PowerZip 6.0"
+
+msgid "Erase PowerZip recent extract files"
+msgstr "Cancella la lista dei files recentemente estratti di PowerZip"
+
+msgid "Apple QuickTime Player"
+msgstr "Apple QuickTime Player"
+
+msgid "Clears the Apple QuickTime Player Recent Movies history"
+msgstr "Cancella la lista dei filmati usati recentemente di QuickTime Player"
+
+msgid "RealOne"
+msgstr "RealOne"
+
+msgid "Erase RealOne recent playlist and URls History"
+msgstr "Cancella la lista dei files e playlist usati recentemente di RealOne"
+
+msgid "Regedit Recent Key"
+msgstr "chiave di Regedit"
+
+msgid "Removes Windows' Regedit Recent Key"
+msgstr "Rimuove l'ultima chiave usata memorizzata in Regedit di Windows"
+
+msgid "Run... Most Recently Used list"
+msgstr "Cronologia di 'Esegui...' di Windows"
+
+msgid "Clears Windows' Run... Most Recently Used list"
+msgstr "Cancella la cronologia di 'Esegui...' di Windows"
+
+msgid "Serif PhotoPlus 6"
+msgstr "Serif PhotoPlus 6"
+
+msgid "Removes the Serif PhotoPlus 6 recent file list"
+msgstr "Cancella la lista dei files usati recentemente di Serif PhotoPlus 6"
+
+msgid "Setup Factory"
+msgstr "Setup Factory"
+
+msgid "Cleans Setup Factory"
+msgstr "Ripulisce Setup Factory"
+
+msgid "SmartDraw 6"
+msgstr "SmartDraw 6"
+
+msgid "Erase SmardDraw 6's recent files"
+msgstr "Cancella la lista dei files usati recentemente di SmartDraw 6"
+
+msgid "Sonique "
+msgstr "Sonique "
+
+msgid "Java Runtime Cache"
+msgstr "Cache di Java Runtime"
+
+msgid "Cleans Sun's Java cache folder"
+msgstr "Ripulisce la cartella della cache di Java"
+
+msgid "Swiff Player"
+msgstr "Swiff Player"
+
+msgid "Deletes Swiff Player mru"
+msgstr "Cancella la lista dei files usati recentemente di Swiff Player"
+
+msgid "SWiSH 2.0"
+msgstr "SWiSH 2.0"
+
+msgid "Erase Recent Files Of SWiSH 2.0"
+msgstr "Cancella la lista dei files usati recentemente di SWiSH 2.0"
+
+msgid "The Playa"
+msgstr "The Playa"
+
+msgid "Erase The Playa's Playlist"
+msgstr "Cancella la/e playlist di 'The Playa'"
+
+msgid "Ulead GIF Animator"
+msgstr "Ulead GIF Animator"
+
+msgid "Erase  Ulead GIF Animator's Recent Files"
+msgstr "Cancella la lista dei files usati recentemente di Ulead GIF Animator"
+
+msgid "WebFerret"
+msgstr "WebFerret"
+
+msgid "Erase WebFerret Search History"
+msgstr "Cancella la lista delle ricerche di WebFerret"
+
+msgid "WinAce "
+msgstr "WinAce "
+
+msgid "Delete WinAce"
+msgstr "Ripulisce WinAce"
+
+msgid "Windows Defender"
+msgstr "Windows Defender"
+
+msgid "Removes Windows Defender Scan History"
+msgstr "Cancella la cronologia delle scansioni di Windows Defender"
+
+msgid "Windows Memory Dump"
+msgstr "Windows Memory Dump"
+
+msgid "Removes Windows Memory dump files (*.dmp) that are created when Windows crashes."
+msgstr "Cancella i Windows Memory dump files (files *.dmp) che sono stati creati in occasione dei crash di Windows."
+
+msgid "WinImp History"
+msgstr "Cronologia di WinImp"
+
+msgid "Erases WinImp History"
+msgstr "Cancella la cronologia di WinImp"
+
+msgid "Windows Log Files"
+msgstr "Files di log di Windows"
+
+msgid "Removes Windows log files"
+msgstr "Cancella i files di log di Windows"
+
+msgid "Delete WinRar 2.x Recent Files"
+msgstr "Cancella la lista dei files usati di recente di WinRar 2.x"
+
+msgid "WinRar 2.x"
+msgstr "WinRar 2.x"
+
+msgid "Forced \\Windows\\Temp"
+msgstr "\\Windows\\Temp forzato"
+
+msgid "Removes leftover files in %windir%\\temp. Some applications do not use %TEMP%, which is the default."
+msgstr "Rimuove i file rimasti in %windir%\\temp. Alcune applicazioni non usano %TEMP%, che sarebbe il default."
+
+msgid "WordPerfect 7/8/9/10/11"
+msgstr "WordPerfect 7/8/9/10/11"
+
+msgid "Erases history items in WordPerfect 7 to 11"
+msgstr "Cancella le voci di cronologia in WordPerfect versioni da 7 ad 11"
+

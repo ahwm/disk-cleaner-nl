@@ -27,8 +27,8 @@ namespace diskcleaner
     recent_docs::recent_docs()
 
     {
-        ShortDesc =  L"Recent Documents" ;
-        LongDesc =   L"Clears the Recent Documents in the Start menu" ;
+        ShortDesc =  _( "Recent Documents" );
+        LongDesc =   _( "Clears the Recent Documents in the Start menu" );
     }
 
     void recent_docs::Scan()

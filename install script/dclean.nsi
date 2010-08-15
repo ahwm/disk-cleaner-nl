@@ -93,53 +93,26 @@ SectionIn 1
 
   File "..\plug-ins\*.dct"
   
-  SetOutPath $INSTDIR\lang\es
-  File  /oname=dclean.mo "..\languages\dclean\es.mo" 
-  
-  SetOutPath $INSTDIR\lang\nl
-  File  /oname=dclean.mo "..\languages\dclean\nl.mo" 
-  
-  SetOutPath $INSTDIR\lang\ru
-  File  /oname=dclean.mo "..\languages\dclean\ru.mo" 
-  
-  SetOutPath $INSTDIR\lang\tr
-  File  /oname=dclean.mo "..\languages\dclean\tr.mo" 
-  
-; Write the uninstall keys for Windows
+  ; Write the uninstall keys for Windows
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\DiskCleaner" "DisplayName" "Disk Cleaner (remove only)"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\DiskCleaner" "UninstallString" '"$INSTDIR\uninstall.exe"'
 
   WriteUninstaller "$INSTDIR\uninstall.exe"
+
+
+ SectionEnd
  
+ Section "!Additional languages"
+SectionIn 1
+ ; Create the .mo folder structure
+ !cd ..\languages
+ !system po2mo.bat
+ !cd "..\install script"
+  SetOutPath $INSTDIR\lang
+  File /r ..\languages\lang\*.*
+  
 ;end
 SectionEnd
-
-
-;SubSection "!Plug-ins"
-	
-	
-	; FindFirst $0 $1 *.dct
-	; loop_start:
-		; StrCmp $1 "" done
-		
-		; ReadINIStr $2 $1 "Info" "Title"
-		; #ReadINIStr $3 $1 "Info" "Description"
-		
-		
-		; Section $2
-			
-			; SectionIn 1
-			; SetOutPath "$INSTDIR\plug-ins"
-			; File "plug-ins\$1"
-
-		; SectionEnd  
-		
-		; FindNext $0 $1
-		; Goto loop_start
-	; done:
-	; FindClose $0
-
-;SubSectionEnd
 
 
 SubSection "!Shortcuts"
@@ -181,28 +154,19 @@ Section "Uninstall"
   DeleteRegKey HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\DiskCleaner"
   DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\Disk Cleaner"
   ; remove all files
-  Delete "$INSTDIR\dclean.exe"
-  Delete "$INSTDIR\plug-ins\*.*"
-  Delete "$INSTDIR\lang\es\*.*"
-  Delete "$INSTDIR\lang\tr\*.*"
-  Delete "$INSTDIR\lang\nl\*.*"
-  Delete "$INSTDIR\lang\ru\*.*"
+  Delete /REBOOTOK "$INSTDIR\dclean.exe"
+   
   
   ; MUST REMOVE UNINSTALLER, too
-  Delete "$INSTDIR\uninstall.exe"
-  ; remove shortcuts, if any.
-  Delete "$SMPROGRAMS\Disk Cleaner\*.*"
+  Delete /REBOOTOK "$INSTDIR\uninstall.exe"
+  
   ; remove directories used.
-  RMDir "$SMPROGRAMS\Disk Cleaner"
-  RMDir "$INSTDIR\plug-ins"
-  RMDir /r "$INSTDIR\lang"
-  RMDir "$INSTDIR"
+  RMDir /r /REBOOTOK "$SMPROGRAMS\Disk Cleaner"
+  RMDir /r /REBOOTOK "$INSTDIR\plug-ins"
+  RMDir /r /REBOOTOK "$INSTDIR\lang"
+  RMDir "$INSTDIR" ;will only work if empty. User's files are safe
   Delete "$QUICKLAUNCH\Disk Cleaner.lnk"
   
-  ; ; Remove user's settings as well. 
-  ; SetShellVarContext current
-  ; Delete "$APPDATA\Disk Cleaner\*.*"
-  ; RMDir "$APPDATA\Disk Cleaner"
 SectionEnd
 
 ; eof

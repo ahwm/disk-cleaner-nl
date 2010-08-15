@@ -1,115 +1,147 @@
+# Italian translation for dclean
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# This file is distributed under the same license as the dclean package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: Disk Cleaner 1.8\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-15 14:50+0100\n"
-"PO-Revision-Date: 2010-08-15 14:51+0100\n"
-"Last-Translator: Robert Moerland <veel_mail@xs4all.nl>\n"
-"Language-Team: \n"
+"Project-Id-Version: dclean\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2010-08-03 13:59+0100\n"
+"PO-Revision-Date: 2010-08-15 00:25+0000\n"
+"Last-Translator: Giulio Fornasar <Unknown>\n"
+"Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-KeywordsList: _;gettext;gettext_noop;wxPLURAL:1,2\n"
-"X-Poedit-Basepath: C:\\Users\\Robert\\Documents\\Projects\\DiskCleaner\\diskcleaner\\src\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Poedit-SearchPath-0: gui\n"
-"X-Poedit-SearchPath-1: core\n"
+"X-Launchpad-Export-Date: 2010-08-15 11:56+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
 
 #: gui/dcApp.cpp:53
-msgid "run in portable mode: save configuration files in the application folder."
-msgstr "run in portable mode: save configuration files in the application folder."
+msgid ""
+"run in portable mode: save configuration files in the application folder."
+msgstr ""
+"esegui in portable mode: salva i files di configurazione nella cartella "
+"dell'applicazione."
 
 #: gui/dcApp.cpp:57
-msgid "clean without showing a GUI. If a preset to be loaded is specified (option -r), the items checked in the specified preset will be cleaned. Otherwise, the items checked the last time Disk Cleaner was run in interactive mode are cleaned."
-msgstr "clean without showing a GUI. If a preset to be loaded is specified (option -r), the items checked in the specified preset will be cleaned. Otherwise, the items checked the last time Disk Cleaner was run in interactive mode are cleaned."
+msgid ""
+"clean without showing a GUI. If a preset to be loaded is specified (option -"
+"r), the items checked in the specified preset will be cleaned. Otherwise, "
+"the items checked the last time Disk Cleaner was run in interactive mode are "
+"cleaned."
+msgstr ""
+"esegui la pulizia senza mostrare interfacce grafiche (GUI). Se si specifica "
+"di caricare un set precompilato (opzione -r), verrà effettuata la pulizia "
+"sulle voci selezionate in tale preset. Altrimenti verrà effettuata la "
+"pulizia corrispondente alle voci selezionate l'ultima volta che Disk Cleaner "
+"è stato eseguito in modalità interattiva."
 
 #: gui/dcApp.cpp:64
-msgid "specify preset to be recalled for use. If /q (quiet mode) is also specified, the preset will be loaded and used for cleaning the items specified in the preset."
-msgstr "specify preset to be recalled for use. If /q (quiet mode) is also specified, the preset will be loaded and used for cleaning the items specified in the preset."
+msgid ""
+"specify preset to be recalled for use. If /q (quiet mode) is also specified, "
+"the preset will be loaded and used for cleaning the items specified in the "
+"preset."
+msgstr ""
+"specifica il preset che deve essere richiamato per l'uso. Se viene "
+"specificata anche l'opzione /q (quiet mode) il preset verrà caricato ed "
+"usato per effettuare la pulizia relativa alle voci specificate nel preset."
 
 #: gui/dcApp.cpp:70
 msgid "do not use text plugins (.dct files). "
-msgstr "do not use text plugins (.dct files). "
+msgstr "non usare plugin di testo (files .dct). "
 
 #: gui/dcApp.cpp:71
 msgid "do not use the built-in plugins"
-msgstr "do not use the built-in plugins"
+msgstr "non usare i plugin incorporati"
 
 #: gui/dcApp.cpp:73
 msgid "Shows messages in a debug window "
-msgstr "Shows messages in a debug window "
+msgstr "mostra i messaggi in una finestra di debug "
 
-#: gui/dcApp.cpp:111
+#: gui/dcApp.cpp:104
 msgid "Please select the language"
-msgstr "Please select the language"
+msgstr "prego selezionare la lingua"
 
-#: gui/dcApp.cpp:112
+#: gui/dcApp.cpp:105
 msgid "Languages"
-msgstr "Languages"
+msgstr "Lingue"
 
-#: gui/dcApp.cpp:179
+#: gui/dcApp.cpp:170
 msgid "Default"
 msgstr "Default"
 
-#: gui/dcApp.cpp:307
+#: gui/dcApp.cpp:298
 #, c-format
-msgid "I'm unable to save/load the per user settings in a file; I failed to create folder %s. "
-msgstr "I'm unable to save/load the per user settings in a file; I failed to create folder %s. "
+msgid ""
+"I'm unable to save/load the per user settings in a file; I failed to create "
+"folder %s. "
+msgstr ""
+"Impossibile salvare/caricare le impostazioni per-user in un un file; "
+"impossibile creare la cartella %s. "
 
 #: gui/dcpresets.cpp:100
-msgid "I'm sorry, but I cannot find the specified preset. Please check the spelling of the preset name."
-msgstr "I'm sorry, but I cannot find the specified preset. Please check the spelling of the preset name."
+msgid ""
+"I'm sorry, but I cannot find the specified preset. Please check the spelling "
+"of the preset name."
+msgstr ""
+"Impossibile trovare il preset specificato. Per favore controllare con "
+"attenzione il modo in cui è stato scritto il nome del preset."
 
 #: gui/dcpresets.cpp:101
 msgid "Recall preset failed"
-msgstr "Recall preset failed"
+msgstr "Richiamo del preset: fallito."
 
 #: gui/dc_frame.cpp:105
 msgid "Title"
-msgstr "Title"
+msgstr "Titolo"
 
 #: gui/dc_frame.cpp:106
 msgid "Items"
-msgstr "Items"
+msgstr "Voci"
 
 #: gui/dc_frame.cpp:107
 msgid "Size"
-msgstr "Size"
+msgstr "Dimensione"
 
 #: gui/dc_frame.cpp:108
 msgid "Description"
-msgstr "Description"
+msgstr "Descrizione"
 
 #: gui/dc_frame.cpp:119
 msgid "Please enter a name for the preset"
-msgstr "Please enter a name for the preset"
+msgstr "Prego, inserire un nome per il set precompilato (preset)"
 
 #: gui/dc_frame.cpp:237
-msgid "Could not remove all files. Please close all open applications and retry."
-msgstr "Could not remove all files. Please close all open applications and retry."
+msgid ""
+"Could not remove all files. Please close all open applications and retry."
+msgstr ""
+"Impossibile rimuovere tutti i file. Per favore chiudere tutte le "
+"applicazioni aperte e riprovare."
 
 #: gui/dc_frame.cpp:241
 msgid "Scheduled %I64d file for removal on reboot."
 msgid_plural "Scheduled %I64d files for removal on reboot."
-msgstr[0] "Scheduled %I64d file for removal on reboot."
-msgstr[1] "Scheduled %I64d files for removal on reboot."
+msgstr[0] "Pianificata la rimozione del file %I64d al riavvio."
+msgstr[1] "Pianificata la rimozione dei files %I64d al riavvio."
 
 #: gui/dc_frame.cpp:248
 msgid "Cleaned total of %s in %I64d item"
 msgid_plural "Cleaned total of %s in %I64d items"
-msgstr[0] "Cleaned total of %s in %I64d item"
-msgstr[1] "Cleaned total of %s in %I64d items"
+msgstr[0] "Ripulito un totale di %s relativo alla voce %I64d"
+msgstr[1] "Ripulito un totale di %s relativo alle voci %I64d"
 
 #: gui/dc_frame.cpp:287
 msgid "%s: Cleaned %s in %I64d item."
 msgid_plural "%s: Cleaned %s in %I64d items."
-msgstr[0] "%s: Cleaned %s in %I64d item."
-msgstr[1] "%s: Cleaned %s in %I64d items."
+msgstr[0] "%s: ripulito %s nella voce %I64d ."
+msgstr[1] "%s: ripuliti %s nelle voci %I64d ."
 
 #: gui/dc_frame.cpp:540
 #: gui/prefs_dlg.cpp:95
 msgid "<last used>"
-msgstr "<last used>"
+msgstr "<ultimo utilizzato>"
 
 #: gui/dc_frame.cpp:575
 msgid "%I64d b"
@@ -130,64 +162,64 @@ msgstr "%5.2f GB"
 
 #: gui/dc_gui.cpp:37
 msgid "Check the items to remove"
-msgstr "Check the items to remove"
+msgstr "Controllare le voci da rimuovere"
 
 #: gui/dc_gui.cpp:56
 msgid "Presets"
-msgstr "Presets"
+msgstr "Preimpostazioni"
 
 #: gui/dc_gui.cpp:63
 msgid "Program"
-msgstr "Program"
+msgstr "Programma"
 
 #: gui/dc_gui.cpp:82
 msgid "&Save..."
-msgstr "&Save..."
+msgstr "&Salva..."
 
 #: gui/dc_gui.cpp:85
 msgid "Delete"
-msgstr "Delete"
+msgstr "Elimina"
 
 #: gui/dc_gui.cpp:96
 msgid "Options..."
-msgstr "Options..."
+msgstr "Preferenze..."
 
 #: gui/dc_gui.cpp:99
 msgid "About..."
-msgstr "About..."
+msgstr "Info su questo programma..."
 
 #: gui/dc_gui.cpp:106
 msgid "Actions"
-msgstr "Actions"
+msgstr "Azioni"
 
 #: gui/dc_gui.cpp:116
 msgid "&Clean"
-msgstr "&Clean"
+msgstr "&Pulisci"
 
 #: gui/dc_gui.cpp:123
 msgid "&Run as Administrator"
-msgstr "&Run as Administrator"
+msgstr "Eseg&ui come Amministratore"
 
 #: gui/dc_gui.cpp:129
 #: gui/dc_gui.cpp:340
 msgid "&Exit"
-msgstr "&Exit"
+msgstr "&Esci"
 
 #: gui/dc_gui.cpp:141
 msgid "Select All"
-msgstr "Select All"
+msgstr "Seleziona tutto"
 
 #: gui/dc_gui.cpp:145
 msgid "Select None"
-msgstr "Select None"
+msgstr "Seleziona nessuno"
 
 #: gui/dc_gui.cpp:149
 msgid "Invert Selection"
-msgstr "Invert Selection"
+msgstr "Inverti selezione"
 
 #: gui/dc_gui.cpp:205
 msgid "Please wait, Disk Cleaner is scanning the system."
-msgstr "Please wait, Disk Cleaner is scanning the system."
+msgstr "Attendere prego. Disk Cleaner sta analizzando il sistema."
 
 #: gui/dc_gui.cpp:215
 msgid "0 %"
@@ -199,11 +231,11 @@ msgstr "100 %"
 
 #: gui/dc_gui.cpp:257
 msgid "A fast open source disk cleanup tool"
-msgstr "A fast open source disk cleanup tool"
+msgstr "Uno strumento di pulizia del disco veloce ed open source"
 
 #: gui/dc_gui.cpp:261
 msgid "Version"
-msgstr "Version"
+msgstr "Versione"
 
 #: gui/dc_gui.cpp:265
 msgid "Copyright 1999-2010 R. J. Moerland"
@@ -215,59 +247,68 @@ msgstr "http://www.diskcleaner.nl"
 
 #: gui/dc_gui.cpp:272
 msgid "Released under the GPL v2"
-msgstr "Released under the GPL v2"
+msgstr "Realizzato sotto la licenza GPL v2"
 
 #: gui/dc_gui.cpp:314
 msgid "Cleaning results"
-msgstr "Cleaning results"
+msgstr "Risultato delle operazioni di pulizia"
 
 #: gui/dc_gui.cpp:330
 msgid "&Back"
-msgstr "&Back"
+msgstr "In&dietro"
 
 #: gui/dc_gui.cpp:334
 msgid "&Save results..."
-msgstr "&Save results..."
+msgstr "&Salva i risultati..."
 
 #: gui/dc_gui.cpp:381
 msgid "&Delete locked files on reboot if running as administrator"
-msgstr "&Delete locked files on reboot if running as administrator"
+msgstr ""
+"&Elimina file bloccati al riavvio se si sta eseguendo come amministratore"
 
 #: gui/dc_gui.cpp:384
 msgid "&Hide entries with zero items to clean (restarts Disk Cleaner)"
-msgstr "&Hide entries with zero items to clean (restarts Disk Cleaner)"
+msgstr ""
+"&Nascondi voci che non contengono nulla da cancellare (necessario riavviare "
+"Disk Cleaner)"
 
 #: gui/dc_gui.cpp:387
-msgid "H&ide items that need administrator priviliges for normal users (restarts Disk Cleaner)"
-msgstr "H&ide items that need administrator priviliges for normal users (restarts Disk Cleaner)"
+msgid ""
+"H&ide items that need administrator priviliges for normal users (restarts "
+"Disk Cleaner)"
+msgstr ""
+"Nascond&i agli utenti normali voci che richiedono privilegi di "
+"amministratore (necessario riavviare Disk Cleaner)"
 
 #: gui/dc_gui.cpp:390
 msgid "&Warn when open applications can interfere with cleaning"
-msgstr "&Warn when open applications can interfere with cleaning"
+msgstr ""
+"A&vverti quando ci sono applicazioni aperte che possono interferire con le "
+"operazioni di pulizia"
 
 #: gui/dc_gui.cpp:396
 msgid "Language:"
-msgstr "Language:"
+msgstr "Lingua:"
 
 #: gui/dc_gui.cpp:407
 msgid "Note: changing the language restarts Disk Cleaner"
-msgstr "Note: changing the language restarts Disk Cleaner"
+msgstr "Nota: cambiare la lingua riavvia necessariamente Disk Cleaner"
 
 #: gui/dc_gui.cpp:414
 msgid "Global"
-msgstr "Global"
+msgstr "Globale"
 
 #: gui/dc_gui.cpp:419
 msgid "&Delete read-only files"
-msgstr "&Delete read-only files"
+msgstr "Cancella files rea&d-only (sola lettura)"
 
 #: gui/dc_gui.cpp:422
 msgid "Delete &empty subfolders"
-msgstr "Delete &empty subfolders"
+msgstr "Cancella cartell&e vuote"
 
 #: gui/dc_gui.cpp:428
 msgid "Minimum age before removal (days)"
-msgstr "Minimum age before removal (days)"
+msgstr "Non rimuovere prima di (giorni)"
 
 #: gui/dc_gui.cpp:432
 #: gui/dc_gui.cpp:555
@@ -306,52 +347,57 @@ msgstr "50"
 
 #: gui/dc_gui.cpp:443
 msgid "System temporary files"
-msgstr "System temporary files"
+msgstr "Files temporanei di sistema"
 
 #: gui/dc_gui.cpp:450
 msgid "&Delete off-line items"
-msgstr "&Delete off-line items"
+msgstr "&Elimina voci off-line"
 
 #: gui/dc_gui.cpp:456
 #: core/built_in_plugins/internet_explorer/internet_explorer.cpp:231
 msgid "Internet Explorer Cache"
-msgstr "Internet Explorer Cache"
+msgstr "Cache di Internet Explorer"
 
 #: gui/dc_gui.cpp:463
-msgid "Select a preset and click 'Install' to auto-run Disk Cleaner in quiet mode on start-up with the selected preset. "
-msgstr "Select a preset and click 'Install' to auto-run Disk Cleaner in quiet mode on start-up with the selected preset. "
+msgid ""
+"Select a preset and click 'Install' to auto-run Disk Cleaner in quiet mode "
+"on start-up with the selected preset. "
+msgstr ""
+"Seleziona un set di valori preimpostati (preset) e clicca 'Installa' per "
+"eseguire automaticamente Disk Cleaner in quiet mode all'avvio con il preset "
+"selezionato. "
 
 #: gui/dc_gui.cpp:467
 msgid "Click 'Remove' to remove the shortcut."
-msgstr "Click 'Remove' to remove the shortcut."
+msgstr "Clicca 'Rimuovi' per eliminare il collegamento."
 
 #: gui/dc_gui.cpp:479
 msgid "&Install"
-msgstr "&Install"
+msgstr "&Installa"
 
 #: gui/dc_gui.cpp:482
 msgid "&Remove"
-msgstr "&Remove"
+msgstr "&Rimuovi"
 
 #: gui/dc_gui.cpp:494
 msgid "Quiet mode autostart"
-msgstr "Quiet mode autostart"
+msgstr "Avvio automatico in quiet-mode (silenzioso)"
 
 #: gui/dc_gui.cpp:545
 msgid "Use cookie filtering"
-msgstr "Use cookie filtering"
+msgstr "Utilizza il filtraggio dei cookies"
 
 #: gui/dc_gui.cpp:551
 msgid "Keep cookies for "
-msgstr "Keep cookies for "
+msgstr "Mantieni i cookies per "
 
 #: gui/dc_gui.cpp:561
 msgid "days"
-msgstr "days"
+msgstr "giorno/i"
 
 #: gui/dc_gui.cpp:578
 msgid "Protected cookies:"
-msgstr "Protected cookies:"
+msgstr "Cookies protetti:"
 
 #: gui/dc_gui.cpp:596
 msgid "&<"
@@ -363,11 +409,11 @@ msgstr "&>"
 
 #: gui/dc_gui.cpp:610
 msgid "Unprotected cookies:"
-msgstr "Unprotected cookies:"
+msgstr "Cookies non protetti:"
 
 #: gui/dc_gui.cpp:621
 msgid "Protected cookies are never deleted"
-msgstr "Protected cookies are never deleted"
+msgstr "I cookies non vengono mai cancellati"
 
 #: gui/dc_gui.cpp:628
 msgid "Cookies"
@@ -375,45 +421,49 @@ msgstr "Cookies"
 
 #: gui/dc_gui.cpp:652
 msgid "The following applications are still running."
-msgstr "The following applications are still running."
+msgstr "Le seguenti applicazioni sono ancora in esecuzione."
 
 #: gui/dc_gui.cpp:658
 msgid "Please close them for optimal cleaning:"
-msgstr "Please close them for optimal cleaning:"
+msgstr "Per favore chiuderle per una pulizia ottimale:"
 
 #: gui/dc_gui.cpp:668
 msgid "Never show this warning again"
-msgstr "Never show this warning again"
+msgstr "Non mostrare più questo avviso"
 
 #: gui/prefs_dlg.cpp:88
-msgid "The shortcut installation functionality is not available in portable mode."
-msgstr "The shortcut installation functionality is not available in portable mode."
+msgid ""
+"The shortcut installation functionality is not available in portable mode."
+msgstr ""
+"La funzione link di installazione non è disponibile in 'portable mode'."
 
 #: gui/prefs_dlg.cpp:214
 #: gui/prefs_dlg.cpp:231
 msgid "Operation was successful."
-msgstr "Operation was successful."
+msgstr "Operazione eseguita correttamente."
 
 #: gui/prefs_dlg.cpp:218
 #: gui/prefs_dlg.cpp:235
 msgid "Operation failed."
-msgstr "Operation failed."
+msgstr "Operazione non riuscita."
 
-#: gui/result_frame.cpp:50
+#: gui/result_frame.cpp:43
 msgid "Choose a location to save the results"
-msgstr "Choose a location to save the results"
+msgstr "Scegliere in quale cartella salvare i risultati"
 
-#: gui/result_frame.cpp:51
+#: gui/result_frame.cpp:44
 msgid "Log files (*.log)|*.log"
 msgstr "Log files (*.log)|*.log"
 
-#: gui/result_frame.cpp:61
-msgid "Sorry, I couldn't write to that file. Please try another name or location"
-msgstr "Sorry, I couldn't write to that file. Please try another name or location"
+#: gui/result_frame.cpp:54
+msgid ""
+"Sorry, I couldn't write to that file. Please try another name or location"
+msgstr ""
+"Impossibile scrivere il file. Per favore tentare con un altro nome o percorso"
 
-#: gui/wxlistctrllog.cpp:134
+#: gui/wxlistctrllog.cpp:117
 msgid "Fatal error"
-msgstr "Fatal error"
+msgstr "Errore critico"
 
 #: core/built_in_plugins/firefox/firefox.cpp:211
 msgid "Firefox"
@@ -421,39 +471,41 @@ msgstr "Firefox"
 
 #: core/built_in_plugins/firefox/firefox.cpp:212
 msgid "Firefox Cache"
-msgstr "Firefox Cache"
+msgstr "Cache di Firefox"
 
 #: core/built_in_plugins/firefox/firefox.cpp:213
 msgid "Clears the Firefox cache"
-msgstr "Clears the Firefox cache"
+msgstr "Ripulisce la cache di Firefox"
 
 #: core/built_in_plugins/firefox/firefox.cpp:290
 msgid "Firefox History"
-msgstr "Firefox History"
+msgstr "Cronologia di Firefox"
 
 #: core/built_in_plugins/firefox/firefox.cpp:291
 msgid "Removes Firefox history records"
-msgstr "Removes Firefox history records"
+msgstr "Rimuove le voci dalla cronologia di Firefox"
 
 #: core/built_in_plugins/firefox/firefox.cpp:344
 msgid "Unable to delete firefox history"
-msgstr "Unable to delete firefox history"
+msgstr "Impossibile ripulire la cronologia di Firefox"
 
 #: core/built_in_plugins/firefox/firefox.cpp:377
 msgid "Compacting the Firefox history database"
-msgstr "Compacting the Firefox history database"
+msgstr "Compressione database cronologia di Firefox"
 
 #: core/built_in_plugins/firefox/firefox.cpp:383
 msgid "I cannot open Firefox' history file, is Firefox still running?"
-msgstr "I cannot open Firefox' history file, is Firefox still running?"
+msgstr ""
+"Impossibile aprire il file della cronologia di Firefox. Firefox è ancora in "
+"esecuzione?"
 
 #: core/built_in_plugins/firefox/firefox.cpp:393
 msgid "Firefox Cookies"
-msgstr "Firefox Cookies"
+msgstr "Cookies di Firefox"
 
 #: core/built_in_plugins/firefox/firefox.cpp:394
 msgid "Removes Firefox cookies"
-msgstr "Removes Firefox cookies"
+msgstr "Cancella i cookies di Firefox"
 
 #: core/built_in_plugins/internet_explorer/internet_explorer.cpp:229
 msgid "Internet Explorer"
@@ -461,55 +513,52 @@ msgstr "Internet Explorer"
 
 #: core/built_in_plugins/internet_explorer/internet_explorer.cpp:232
 msgid "Clears the Internet Explorer browser cache"
-msgstr "Clears the Internet Explorer browser cache"
+msgstr "Cancella la cache del browser Internet Explorer"
 
 #: core/built_in_plugins/internet_explorer/internet_explorer.cpp:284
 msgid "Internet Explorer History"
-msgstr "Internet Explorer History"
+msgstr "Cronologia di Internet Explorer"
 
 #: core/built_in_plugins/internet_explorer/internet_explorer.cpp:285
 msgid "Removes Internet Explorer history records"
-msgstr "Removes Internet Explorer history records"
+msgstr "Rimuove le voci della cronologia di Internet Explorer"
 
 #: core/built_in_plugins/internet_explorer/internet_explorer.cpp:352
 msgid "Internet Explorer Cookies"
-msgstr "Internet Explorer Cookies"
+msgstr "Cookies di Internet Explorer"
 
 #: core/built_in_plugins/internet_explorer/internet_explorer.cpp:353
 msgid "Removes Internet Explorer cookie files"
-msgstr "Removes Internet Explorer cookie files"
-
-#: core/built_in_plugins/recent docs/recentdocs.cpp:31
-msgid "Recent Documents"
-msgstr "Recent Documents"
-
-#: core/built_in_plugins/recent docs/recentdocs.cpp:32
-msgid "Clears the Recent Documents in the Start menu"
-msgstr "Clears the Recent Documents in the Start menu"
+msgstr "Rimuove i files dei cookie di Internet Explorer"
 
 #: core/built_in_plugins/recycle bin/rbin.cpp:32
 msgid "Recycle Bin"
-msgstr "Recycle Bin"
+msgstr "Cestino"
 
 #: core/built_in_plugins/recycle bin/rbin.cpp:33
 msgid "Empties the Recycle Bin on the desktop"
-msgstr "Empties the Recycle Bin on the desktop"
+msgstr "Svuota il cestino del desktop"
 
 #: core/built_in_plugins/recycle bin/rbin.cpp:82
 msgid "Recycle bin does not support file listing"
-msgstr "Recycle bin does not support file listing"
+msgstr "Il cestino non supporta l'elencazione dei files"
 
 #: core/built_in_plugins/system temp/systemp.cpp:34
 msgid "Temporary files"
-msgstr "Temporary files"
+msgstr "File temporanei"
 
 #: core/built_in_plugins/system temp/systemp.cpp:35
 msgid "Removes temporary files from the current user's temporary folder, "
-msgstr "Removes temporary files from the current user's temporary folder, "
+msgstr ""
+"Rimuove i file temporanei dalla cartella temporanea dell'utente corrente, "
 
-#: core/built_in_plugins/system temp/systemp.cpp:127
-msgid "Could not clean the temporary folder. The location of this folder could not be determined reliably."
-msgstr "Could not clean the temporary folder. The location of this folder could not be determined reliably."
+#: core/built_in_plugins/system temp/systemp.cpp:126
+msgid ""
+"Could not clean the temporary folder. The location of this folder could not "
+"be determined reliably."
+msgstr ""
+"Impossibile ripulire la cartella temporenea. La posizione di questa cartella "
+"non può essere determinata in modo attendibile."
 
 #: gui/dc_gui.h:87
 msgid "Disk Cleaner"
@@ -517,19 +566,19 @@ msgstr "Disk Cleaner"
 
 #: gui/dc_gui.h:112
 msgid "Please wait..."
-msgstr "Please wait..."
+msgstr "Attendere prego..."
 
 #: gui/dc_gui.h:140
 msgid "About"
-msgstr "About"
+msgstr "Riguardo a"
 
 #: gui/dc_gui.h:219
 msgid "Preferences"
-msgstr "Preferences"
+msgstr "Opzioni"
 
 #: gui/dc_gui.h:276
 msgid "Disk Cleaner Information"
-msgstr "Disk Cleaner Information"
+msgstr "Informazioni su Disk Cleaner"
 
-#~ msgid "Autostart"
-#~ msgstr "Autostart"
+msgid "Autostart"
+msgstr "Avvio automatico"

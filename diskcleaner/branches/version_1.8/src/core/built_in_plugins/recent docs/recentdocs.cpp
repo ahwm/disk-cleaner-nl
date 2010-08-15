@@ -17,6 +17,7 @@
 
 #include <windows.h>
 #include <shlobj.h>
+#include <wx/intl.h>
 
 #include "core/disk scan/DiskScan.h"
 #include "core/built_in_plugins/recent docs/recentdocs.h"

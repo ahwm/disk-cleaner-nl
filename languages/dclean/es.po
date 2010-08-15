@@ -8,27 +8,44 @@ msgstr ""
 "Project-Id-Version: dclean\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-08-03 13:59+0100\n"
-"PO-Revision-Date: 2010-08-12 15:50+0100\n"
-"Last-Translator: Robert Moerland <veel_mail@xs4all.nl>\n"
+"PO-Revision-Date: 2010-08-14 14:31+0000\n"
+"Last-Translator: Robert Moerland <Unknown>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2010-08-12 13:32+0000\n"
+"X-Launchpad-Export-Date: 2010-08-15 11:56+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: gui/dcApp.cpp:53
-msgid "run in portable mode: save configuration files in the application folder."
-msgstr "ejecutar en modo portable: guarde los archivos de configuración en la carpeta de la aplicación."
+msgid ""
+"run in portable mode: save configuration files in the application folder."
+msgstr ""
+"ejecutar en modo portable: guarde los archivos de configuración en la "
+"carpeta de la aplicación."
 
 #: gui/dcApp.cpp:57
-msgid "clean without showing a GUI. If a preset to be loaded is specified (option -r), the items checked in the specified preset will be cleaned. Otherwise, the items checked the last time Disk Cleaner was run in interactive mode are cleaned."
-msgstr "limpiar sin presentar un GUI. Si hay configurado que se cargue (option -r), los objetos especificados en la configuración predefinida serán borrados. Por lo contrario, los objetos comprobados la última vez que se ejecutó Disk Cleaner en modo interactivo son borrados."
+msgid ""
+"clean without showing a GUI. If a preset to be loaded is specified (option -"
+"r), the items checked in the specified preset will be cleaned. Otherwise, "
+"the items checked the last time Disk Cleaner was run in interactive mode are "
+"cleaned."
+msgstr ""
+"limpiar sin presentar un GUI. Si hay configurado que se cargue (option -r), "
+"los objetos especificados en la configuración predefinida serán borrados. "
+"Por lo contrario, los objetos comprobados la última vez que se ejecutó Disk "
+"Cleaner en modo interactivo son borrados."
 
 #: gui/dcApp.cpp:64
-msgid "specify preset to be recalled for use. If /q (quiet mode) is also specified, the preset will be loaded and used for cleaning the items specified in the preset."
-msgstr "especifique predefinido que debe usarse. Si también se especifica /q (modo silencioso), el predefinido se cargará y se usará para borrar los objetos especificados como predefinidos."
+msgid ""
+"specify preset to be recalled for use. If /q (quiet mode) is also specified, "
+"the preset will be loaded and used for cleaning the items specified in the "
+"preset."
+msgstr ""
+"especifique predefinido que debe usarse. Si también se especifica /q (modo "
+"silencioso), el predefinido se cargará y se usará para borrar los objetos "
+"especificados como predefinidos."
 
 #: gui/dcApp.cpp:70
 msgid "do not use text plugins (.dct files). "
@@ -56,12 +73,20 @@ msgstr "Predeterminado"
 
 #: gui/dcApp.cpp:298
 #, c-format
-msgid "I'm unable to save/load the per user settings in a file; I failed to create folder %s. "
-msgstr "No ha sido posible guardar/cargar las configuraciones de usuario en un archivo; No se ha podido crear carpeta %s. "
+msgid ""
+"I'm unable to save/load the per user settings in a file; I failed to create "
+"folder %s. "
+msgstr ""
+"No ha sido posible guardar/cargar las configuraciones de usuario en un "
+"archivo; No se ha podido crear carpeta %s. "
 
 #: gui/dcpresets.cpp:100
-msgid "I'm sorry, but I cannot find the specified preset. Please check the spelling of the preset name."
-msgstr "Lo siento, pero no se ha podido localizar la predefinición especificada. Por favor, compruebe la nomenclatura de la predefinición."
+msgid ""
+"I'm sorry, but I cannot find the specified preset. Please check the spelling "
+"of the preset name."
+msgstr ""
+"Lo siento, pero no se ha podido localizar la predefinición especificada. Por "
+"favor, compruebe la nomenclatura de la predefinición."
 
 #: gui/dcpresets.cpp:101
 msgid "Recall preset failed"
@@ -88,8 +113,11 @@ msgid "Please enter a name for the preset"
 msgstr "Por favor, introduzca un nombre para la predefinición"
 
 #: gui/dc_frame.cpp:237
-msgid "Could not remove all files. Please close all open applications and retry."
-msgstr "No se han podido eliminar todos los archivos. Por favor, cierre todas las aplicaciones y reinténtelo."
+msgid ""
+"Could not remove all files. Please close all open applications and retry."
+msgstr ""
+"No se han podido eliminar todos los archivos. Por favor, cierre todas las "
+"aplicaciones y reinténtelo."
 
 #: gui/dc_frame.cpp:241
 msgid "Scheduled %I64d file for removal on reboot."
@@ -234,19 +262,29 @@ msgstr "&Guardar resltados..."
 
 #: gui/dc_gui.cpp:381
 msgid "&Delete locked files on reboot if running as administrator"
-msgstr "&Borrar los archivos bloqueados al reiniciar si se está trabajando como administrador"
+msgstr ""
+"&Borrar los archivos bloqueados al reiniciar si se está trabajando como "
+"administrador"
 
 #: gui/dc_gui.cpp:384
 msgid "&Hide entries with zero items to clean (restarts Disk Cleaner)"
-msgstr "&Ocultar las entradas a eliminar de los objetos de longitud cero (reiniciar Disk Cleaner)"
+msgstr ""
+"&Ocultar las entradas a eliminar de los objetos de longitud cero (reiniciar "
+"Disk Cleaner)"
 
 #: gui/dc_gui.cpp:387
-msgid "H&ide items that need administrator priviliges for normal users (restarts Disk Cleaner)"
-msgstr "O&cultar objetos que necesitan privilegios de administrador a los usuarios normales (reiniciar Disk Cleaner)"
+msgid ""
+"H&ide items that need administrator priviliges for normal users (restarts "
+"Disk Cleaner)"
+msgstr ""
+"O&cultar objetos que necesitan privilegios de administrador a los usuarios "
+"normales (reiniciar Disk Cleaner)"
 
 #: gui/dc_gui.cpp:390
 msgid "&Warn when open applications can interfere with cleaning"
-msgstr "&Advertir cuando hay aplicaciones abiertas que puedan interferr en la limpieza"
+msgstr ""
+"&Advertir cuando hay aplicaciones abiertas que puedan interferr en la "
+"limpieza"
 
 #: gui/dc_gui.cpp:396
 msgid "Language:"
@@ -321,8 +359,13 @@ msgid "Internet Explorer Cache"
 msgstr "Caché del Internet Explorer"
 
 #: gui/dc_gui.cpp:463
-msgid "Select a preset and click 'Install' to auto-run Disk Cleaner in quiet mode on start-up with the selected preset. "
-msgstr "Seleccione un predeterminado y oprima 'Instalar' para auto-ejecutar Disk Cleaner en modo silencioso cuando se reinicie con el predeterminado seleccionado. "
+msgid ""
+"Select a preset and click 'Install' to auto-run Disk Cleaner in quiet mode "
+"on start-up with the selected preset. "
+msgstr ""
+"Seleccione un predeterminado y oprima 'Instalar' para auto-ejecutar Disk "
+"Cleaner en modo silencioso cuando se reinicie con el predeterminado "
+"seleccionado. "
 
 #: gui/dc_gui.cpp:467
 msgid "Click 'Remove' to remove the shortcut."
@@ -389,8 +432,11 @@ msgid "Never show this warning again"
 msgstr "Nunca presentar esta advertencia nuevamente"
 
 #: gui/prefs_dlg.cpp:88
-msgid "The shortcut installation functionality is not available in portable mode."
-msgstr "La funcionalidad de instalación del acceso rápido no está disponible en el modo portable,"
+msgid ""
+"The shortcut installation functionality is not available in portable mode."
+msgstr ""
+"La funcionalidad de instalación del acceso rápido no está disponible en el "
+"modo portable,"
 
 #: gui/prefs_dlg.cpp:214
 #: gui/prefs_dlg.cpp:231
@@ -411,8 +457,11 @@ msgid "Log files (*.log)|*.log"
 msgstr "Archivos Log (*.log)|*.log"
 
 #: gui/result_frame.cpp:54
-msgid "Sorry, I couldn't write to that file. Please try another name or location"
-msgstr "Lo siento, no se puede escribir en ese archivo. Pruebe con diferente nombre o localización"
+msgid ""
+"Sorry, I couldn't write to that file. Please try another name or location"
+msgstr ""
+"Lo siento, no se puede escribir en ese archivo. Pruebe con diferente nombre "
+"o localización"
 
 #: gui/wxlistctrllog.cpp:117
 msgid "Fatal error"
@@ -448,7 +497,9 @@ msgstr "Compactando la base de datos de historiales de Firefox"
 
 #: core/built_in_plugins/firefox/firefox.cpp:383
 msgid "I cannot open Firefox' history file, is Firefox still running?"
-msgstr "No se ha podido abrir el archivo de historial de Firefox. ¿Está Firefox todavía ejecutándose?"
+msgstr ""
+"No se ha podido abrir el archivo de historial de Firefox. ¿Está Firefox "
+"todavía ejecutándose?"
 
 #: core/built_in_plugins/firefox/firefox.cpp:393
 msgid "Firefox Cookies"
@@ -500,11 +551,17 @@ msgstr "Archivos temporales"
 
 #: core/built_in_plugins/system temp/systemp.cpp:35
 msgid "Removes temporary files from the current user's temporary folder, "
-msgstr "Elimina los archivos temporales de la carpeta de archivos temporales del usuario actual, "
+msgstr ""
+"Elimina los archivos temporales de la carpeta de archivos temporales del "
+"usuario actual, "
 
 #: core/built_in_plugins/system temp/systemp.cpp:126
-msgid "Could not clean the temporary folder. The location of this folder could not be determined reliably."
-msgstr "No se puede borrar la carpeta temporal. La localización de esa carpeta no ha podido ser determinada de forma efectiva."
+msgid ""
+"Could not clean the temporary folder. The location of this folder could not "
+"be determined reliably."
+msgstr ""
+"No se puede borrar la carpeta temporal. La localización de esa carpeta no ha "
+"podido ser determinada de forma efectiva."
 
 #: gui/dc_gui.h:87
 msgid "Disk Cleaner"
@@ -528,4 +585,3 @@ msgstr "Información de Disk Cleaner"
 
 msgid "Autostart"
 msgstr "Autoinicio"
-

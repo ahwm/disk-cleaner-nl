@@ -1,0 +1,7 @@
+[Info]
+Title=Comodo Dragon History
+Description=Remove Comodo Dragon History & Archived records
+
+[files]
+%localappdata%\COMODO\Dragon\User Data\Default\History*
+%localappdata%\COMODO\Dragon\User Data\Default\Archived*

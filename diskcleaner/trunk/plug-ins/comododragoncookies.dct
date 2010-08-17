@@ -1,0 +1,6 @@
+[Info]
+Title=Comodo Dragon Cookies
+Description=Removes Comodo Dragon cookies
+
+[files]
+%localappdata%\COMODO\Dragon\User Data\Default\Cookies

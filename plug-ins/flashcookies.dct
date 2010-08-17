@@ -4,4 +4,4 @@ Description=Clears Flash Player shared objects (Flash cookies)
 
 [files]
 %appdata%\Macromedia\*.* /s
-%APPDATA%\Adobe\Flash Player\AssetCache\*.* /s
+%appdata%\Adobe\Flash Player\AssetCache\*.* /s

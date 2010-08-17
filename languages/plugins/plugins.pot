@@ -41,6 +41,57 @@ msgstr "Acrobat Reader"
 msgid "Clears Acrobat Reader's Recent Files list and Cache"
 msgstr "Clears Acrobat Reader's Recent Files list and Cache"
 
+#  cutehtml.dct
+#, fuzzy
+msgid "Adobe Creative Suite Recent Files"
+msgstr "Erase CuteHTML Recent Files"
+
+# adobecsmru.dct
+msgid "Clear Adobe Creative Suite list of recent files"
+msgstr "Clear Adobe Creative Suite list of recent files"
+
+#  winlog.dct
+#, fuzzy
+msgid "aMule Log Files"
+msgstr "Windows Log Files"
+
+#  winlog.dct
+#, fuzzy
+msgid "Removes aMule's log file and backups."
+msgstr "Removes Windows log files"
+
+# amuletemp.dct
+msgid "aMule Temporary Files"
+msgstr "aMule Temporary Files"
+
+# amuletemp.dct
+msgid "Removes aMule's Temporary Files"
+msgstr "Removes aMule's Temporary Files"
+
+# anishop3.dct
+msgid "JASC Animation Shop 3.0"
+msgstr "JASC Animation Shop 3.0"
+
+# anishop3.dct
+msgid "Erase JASC Animation Shop 3.0's last open folder"
+msgstr "Erase JASC Animation Shop 3.0's last open folder"
+
+# antivirdesktop.dct
+msgid "AntiVir Desktop"
+msgstr "AntiVir Desktop"
+
+# antivirdesktop.dct
+msgid "Clear AntiVir Desktop temp files"
+msgstr "Clear AntiVir Desktop temp files"
+
+# antivirpersonal.dct
+msgid "AntiVir Personal 8"
+msgstr "AntiVir Personal 8"
+
+# antivirpersonal.dct
+msgid "Clear AntiVir Personal 8 temp files and logs"
+msgstr "Clear AntiVir Personal 8 temp files and logs"
+
 #  aoltoolbar.dct
 msgid "AOL Toolbar"
 msgstr "AOL Toolbar"
@@ -48,6 +99,22 @@ msgstr "AOL Toolbar"
 #  aoltoolbar.dct
 msgid "Deletes AOL Toolbar Search History and Pop-up Kills"
 msgstr "Deletes AOL Toolbar Search History and Pop-up Kills"
+
+# avastantivrus.dct
+msgid "Avast! Antivirus "
+msgstr "Avast! Antivirus "
+
+# avastantivrus.dct
+msgid "Clear Avast! Antivirus temporary files and logs"
+msgstr "Clear Avast! Antivirus temporary files and logs"
+
+# avgantivirus.dct
+msgid "AVG AntiVirus"
+msgstr "AVG AntiVirus"
+
+# avgantivirus.dct
+msgid "Clear AVG AntiVirus logs and temporary files"
+msgstr "Clear AVG AntiVirus logs and temporary files"
 
 #  axicons4.dct
 msgid "AX-Icons 4.x"
@@ -72,6 +139,30 @@ msgstr "Common Dialog MRUs"
 #  commondialog.dct
 msgid "Clear Common Dialog (Open, Save) most recently used file names"
 msgstr "Clear Common Dialog (Open, Save) most recently used file names"
+
+# comododragoncache.dct
+msgid "Comodo Dragon Cache"
+msgstr "Comodo Dragon Cache"
+
+# comododragoncache.dct
+msgid "Clear the Comodo Dragon cache"
+msgstr "Clear the Comodo Dragon cache"
+
+# comododragoncookies.dct
+msgid "Comodo Dragon Cookies"
+msgstr "Comodo Dragon Cookies"
+
+# comododragoncookies.dct
+msgid "Removes Comodo Dragon cookies"
+msgstr "Removes Comodo Dragon cookies"
+
+# comododragonhistory.dct
+msgid "Comodo Dragon History"
+msgstr "Comodo Dragon History"
+
+# comododragonhistory.dct
+msgid "Remove Comodo Dragon History & Archived records"
+msgstr "Remove Comodo Dragon History & Archived records"
 
 #  cuteftp40.dct
 msgid "CuteFTP 4.0 "
@@ -129,6 +220,23 @@ msgstr "Feedreader Cache"
 msgid "Clears Feedreader's cache of read articles"
 msgstr "Clears Feedreader's cache of read articles"
 
+# findcomputermru.dct
+msgid "Windows Explorer Find Computer"
+msgstr "Windows Explorer Find Computer"
+
+# findcomputermru.dct
+msgid "Clear list of entered items in the Find Computer dialog"
+msgstr "Clear list of entered items in the Find Computer dialog"
+
+#  winlog.dct
+#, fuzzy
+msgid "Windows Explorer Find Files List"
+msgstr "Windows Log Files"
+
+# findfilesmru.dct
+msgid "Clear the list of entered items in the Find Files dialog"
+msgstr "Clear the list of entered items in the Find Files dialog"
+
 #  flashcookies.dct
 msgid "Adobe Flash Player"
 msgstr "Adobe Flash Player"
@@ -177,6 +285,14 @@ msgstr "Google Chrome Cache"
 msgid "Erase Google Chrome browser cache"
 msgstr "Erase Google Chrome browser cache"
 
+# googlechromesession.dct
+msgid "Google Chrome Current and Last Session"
+msgstr "Google Chrome Current and Last Session"
+
+# googlechromesession.dct
+msgid "Remove data about the current and last session"
+msgstr "Remove data about the current and last session"
+
 #  googletoolbar.dct
 msgid "Google Tool Bar"
 msgstr "Google Tool Bar"
@@ -184,6 +300,15 @@ msgstr "Google Tool Bar"
 #  googletoolbar.dct
 msgid "Deletes Google Tool Bar Search History and Pop-up Kills"
 msgstr "Deletes Google Tool Bar Search History and Pop-up Kills"
+
+#  googlechromecache.dct
+#, fuzzy
+msgid "Google Updater Cache"
+msgstr "Google Chrome Cache"
+
+# googleupdatercache.dct
+msgid "Removes Google Updater Cache Files"
+msgstr "Removes Google Updater Cache Files"
 
 #  ieauto.dct
 msgid "Internet Explorer Autocomplete Form History"
@@ -216,6 +341,14 @@ msgstr "IZArc"
 #  izarc.dct
 msgid "Clears IZArc History"
 msgstr "Clears IZArc History"
+
+# jumplist.dct
+msgid "Windows Recent Destinations"
+msgstr "Windows Recent Destinations"
+
+# jumplist.dct
+msgid "Removes the automatically added recent items in the task bar's jump list."
+msgstr "Removes the automatically added recent items in the task bar's jump list."
 
 #  lotussmartsuite.dct
 msgid "Lotus SmartSuite 96/97/9.5/9.6/9.7"
@@ -285,9 +418,18 @@ msgstr "Erase MS Imaging Recent Files"
 msgid "MSN Toolbar"
 msgstr "MSN Toolbar"
 
-#  msntoolbar.dct
-msgid "MSN Toolbar Data"
-msgstr "MSN Toolbar Data"
+# msntoolbar.dct
+msgid "MSN Toolbar History and PopGuard Count"
+msgstr "MSN Toolbar History and PopGuard Count"
+
+#  msphotoeditor.dct
+#, fuzzy
+msgid "Microsoft Paint History"
+msgstr "Microsoft Photo Editor"
+
+# mspaint.dct
+msgid "Clear the list of recent files in Paint"
+msgstr "Clear the list of recent files in Paint"
 
 #  msphotoeditor.dct
 msgid "Microsoft Photo Editor"
@@ -305,6 +447,14 @@ msgstr "Microsoft Publisher"
 msgid "Removes recent file list"
 msgstr "Removes recent file list"
 
+#  msphotoeditor.dct
+msgid "Microsoft Wordpad History"
+msgstr "Microsoft Wordpad History"
+
+# mswordpad.dct
+msgid "Clear the list of recent files in Wordpad"
+msgstr "Clear the list of recent files in Wordpad"
+
 #  netcaptor.dct
 msgid "NetCaptor"
 msgstr "NetCaptor"
@@ -313,13 +463,13 @@ msgstr "NetCaptor"
 msgid "Erase NetCaptor's Location Bar History And Last Open site"
 msgstr "Erase NetCaptor's Location Bar History And Last Open site"
 
-#  officexp2000.dct
-msgid "Office 95, 97, 2000, XP and 2003 Recent Files"
-msgstr "Office 95, 97, 2000, XP and 2003 Recent Files"
+#  abilityoffice.dct
+msgid "Microsoft Office Recent Files"
+msgstr "Microsoft Office Recent Files"
 
-#  officexp2000.dct
-msgid "Removes Office 95, 97, 2000, XP and 2003 Recent Files"
-msgstr "Removes Office 95, 97, 2000, XP and 2003 Recent Files"
+#  serifphotoplus.dct
+msgid "Removes the list of recent files in Microsoft Office"
+msgstr "Removes the list of recent files in Microsoft Office"
 
 #  openoffice.dct
 msgid "OpenOffice 3 Recently opened files"
@@ -401,6 +551,14 @@ msgstr "Run... Most Recently Used list"
 msgid "Clears Windows' Run... Most Recently Used list"
 msgstr "Clears Windows' Run... Most Recently Used list"
 
+#  webferret.dct
+msgid "Windows Explorer Search History"
+msgstr "Windows Explorer Search History"
+
+# searchhistory.dct
+msgid "Clear the list of entered items in the Search dialog"
+msgstr "Clear the list of entered items in the Search dialog"
+
 #  serifphotoplus.dct
 msgid "Serif PhotoPlus 6"
 msgstr "Serif PhotoPlus 6"
@@ -428,6 +586,10 @@ msgstr "Erase SmardDraw 6's recent files"
 #  sonique.dct
 msgid "Sonique "
 msgstr "Sonique "
+
+#  theplaye.dct
+msgid "Erase Sonique Playlist and PlayURLs"
+msgstr "Erase Sonique Playlist and PlayURLs"
 
 #  sunsjava.dct
 msgid "Java Runtime Cache"
@@ -461,6 +623,14 @@ msgstr "The Playa"
 msgid "Erase The Playa's Playlist"
 msgstr "Erase The Playa's Playlist"
 
+# thumbnailcache.dct
+msgid "Windows Explorer Thumbnail Cache"
+msgstr "Windows Explorer Thumbnail Cache"
+
+# thumbnailcache.dct
+msgid "Delete the thumbnail cache of Windows Explorer"
+msgstr "Delete the thumbnail cache of Windows Explorer"
+
 #  uleadgifanimator.dct
 msgid "Ulead GIF Animator"
 msgstr "Ulead GIF Animator"
@@ -485,6 +655,14 @@ msgstr "WinAce "
 msgid "Delete WinAce"
 msgstr "Delete WinAce"
 
+# winamprecentcache.dct
+msgid "Winamp Recent & Cache Files"
+msgstr "Winamp Recent & Cache Files"
+
+# winamprecentcache.dct
+msgid "Deletes Winamp list of recent files and Cache Files"
+msgstr "Deletes Winamp list of recent files and Cache Files"
+
 #  windowsdefender.dct
 msgid "Windows Defender"
 msgstr "Windows Defender"
@@ -492,6 +670,30 @@ msgstr "Windows Defender"
 #  windowsdefender.dct
 msgid "Removes Windows Defender Scan History"
 msgstr "Removes Windows Defender Scan History"
+
+#  webferret.dct
+msgid "File Search History"
+msgstr "File Search History"
+
+# windowsfilesearchhistory.dct
+msgid "Clear File search history in Windows 7"
+msgstr "Clear File search history in Windows 7"
+
+#  windowsdefender.dct
+msgid "Windows Media Player History"
+msgstr "Windows Media Player History"
+
+# windowsmediaplayer.dct
+msgid "Clear the list of recent files and URLs in Windows Media Player"
+msgstr "Clear the list of recent files and URLs in Windows Media Player"
+
+#  mediaplayerclassic.dct
+msgid "Windows Media Player cache"
+msgstr "Windows Media Player cache"
+
+# windowsmediaplayercache.dct
+msgid "Removes DataBase, Image, transcoded & Playlists cache files"
+msgstr "Removes DataBase, Image, transcoded & Playlists cache files"
 
 #  windump.dct
 msgid "Windows Memory Dump"
@@ -532,6 +734,14 @@ msgstr "Forced \\Windows\\Temp"
 #  wintemp.dct
 msgid "Removes leftover files in %windir%\\temp. Some applications do not use %TEMP%, which is the default."
 msgstr "Removes leftover files in %windir%\\temp. Some applications do not use %TEMP%, which is the default."
+
+#  winimp.dct
+msgid "Winzip History"
+msgstr "Winzip History"
+
+#  7zip.dct
+msgid "Clears Winzip history"
+msgstr "Clears Winzip history"
 
 #  wperfect.dct
 msgid "WordPerfect 7/8/9/10/11"

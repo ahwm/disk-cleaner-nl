@@ -1,0 +1,8 @@
+[Info]
+Title=Winamp Recent & Cache Files
+Description=Deletes Winamp list of recent files and Cache Files
+
+[files]
+%appdata%\Winamp\Plugins\ml\recent.dat
+%appdata%\Winamp\winamp.m3u
+%appdata%\Winamp\Plugins\ml\cache\*.* /s

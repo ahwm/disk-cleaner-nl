@@ -1,6 +1,6 @@
 [Info]
-Title=Office 95, 97, 2000, XP and 2003 Recent Files
-Description=Removes Office 95, 97, 2000, XP and 2003 Recent Files
+Title=Microsoft Office Recent Files
+Description=Removes the list of recent files in Microsoft Office
 
 [registry]
 HKEY_CURRENT_USER|Software\Microsoft\Office\10.0\Access\Settings

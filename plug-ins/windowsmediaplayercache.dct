@@ -1,0 +1,8 @@
+[Info]
+Title=Windows Media Player cache
+Description=Removes DataBase, Image, transcoded & Playlists cache files
+process=wmplayer.exe
+Application=Windows Media Player
+
+[files]
+%localappdata%\Microsoft\Media Player\*.* /s

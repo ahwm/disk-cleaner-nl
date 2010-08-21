@@ -112,6 +112,9 @@ dc_frame::dc_frame( wxWindow* parent, diskcleaner::dcsettings& _settings ):
     plugin_listctrl_hwnd = static_cast<HWND>( plugin_listctrl->GetHandle() );
     plugin_listctrl->SetBackgroundImage( L"background_icon" );
 
+    // settings should be saved before exit
+    settings_already_saved = false;
+
 }
 
 void dc_frame::preset_save_btn_click( wxCommandEvent& event )
@@ -290,6 +293,12 @@ void dc_frame::runasadmin_btn_click( wxCommandEvent& event )
 
 void dc_frame::run_diskcleaner( bool as_admin )
 {
+    // First save the UI settings
+    // done here to prevent clash with child process
+    // sets settings_already_saved to true
+    save_settings();
+
+    // Create child process
     SHELLEXECUTEINFO   sei;
     ZeroMemory ( &sei, sizeof(sei) );
 
@@ -663,32 +672,18 @@ void dc_frame::plugin_listctrl_column_clicked( wxListEvent& event )
 
 void dc_frame::dc_base_frame_onclose( wxCloseEvent& event )
 {
+    // We used to save the settings here first, and then close the app.
+    // Unfortunately this clashes with the back and run-as-admin buttons
+    // on slow (flash) disks. Before Disk Cleaner has written the data, the new
+    // process is created immediately accessing the config file. This causes the parent
+    // process to be denied access to the config file, resulting in an error.
+    //
+    // Workaround: *before* starting the child process, save the settings.
+    // Raise a flag that settings are already saved, so don't do it here again.
 
-    dcApp& app = wxGetApp();
-
-    //Only bother with saving sizes, checked and unchecked items
-    // and positions if we were run in interactive mode.
-    if ( !app.IsQuietMode() )
+    if ( !settings_already_saved )
     {
-
-        //Save the size of the main window plus the column widths
-        wxLogDebug( L"%hs: saving main window sizes", __FUNCTION__ );
-        GetSize( &settings.ui.dc_frame_size.width, &settings.ui.dc_frame_size.height );
-        GetPosition( &settings.ui.dc_frame_size.topx, &settings.ui.dc_frame_size.topy );
-        settings.ui.col_sdesc_width = plugin_listctrl->GetColumnWidth( 0 );
-        settings.ui.col_item_width = plugin_listctrl->GetColumnWidth( 1 );
-        settings.ui.col_size_width = plugin_listctrl->GetColumnWidth( 2 );
-        settings.ui.col_ldesc_width = plugin_listctrl->GetColumnWidth( 3 );
-
-        settings.Save();
-
-        //FIRST save the currently checked and unchecked items
-        wxLogDebug( L"%hs: saving currently checked items", __FUNCTION__ );
-        ppreset_handler->save_last_used();
-    }
-    else
-    {
-        wxLogDebug( L"%hs: skipping saving of presets and sizes, quiet mode active", __FUNCTION__ );
+      save_settings();
     }
 
     //THEN delete all PlugInfo objects
@@ -764,4 +759,36 @@ void dc_frame::result_frame_finished_signal( bool restart )
 
     // We always end here.
     Close();
+}
+
+void dc_frame::save_settings()
+{
+    dcApp& app = wxGetApp();
+
+    //Only bother with saving sizes, checked and unchecked items
+    // and positions if we were run in interactive mode.
+    if ( !app.IsQuietMode() )
+    {
+
+        //Save the size of the main window plus the column widths
+        wxLogDebug( L"%hs: saving main window sizes", __FUNCTION__ );
+        GetSize( &settings.ui.dc_frame_size.width, &settings.ui.dc_frame_size.height );
+        GetPosition( &settings.ui.dc_frame_size.topx, &settings.ui.dc_frame_size.topy );
+        settings.ui.col_sdesc_width = plugin_listctrl->GetColumnWidth( 0 );
+        settings.ui.col_item_width = plugin_listctrl->GetColumnWidth( 1 );
+        settings.ui.col_size_width = plugin_listctrl->GetColumnWidth( 2 );
+        settings.ui.col_ldesc_width = plugin_listctrl->GetColumnWidth( 3 );
+
+        settings.Save();
+
+        //FIRST save the currently checked and unchecked items
+        wxLogDebug( L"%hs: saving currently checked items", __FUNCTION__ );
+        ppreset_handler->save_last_used();
+    }
+    else
+    {
+        wxLogDebug( L"%hs: skipping saving of presets and sizes, quiet mode active", __FUNCTION__ );
+    }
+
+    settings_already_saved = true;
 }

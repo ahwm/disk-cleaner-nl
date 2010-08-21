@@ -22,7 +22,7 @@ namespace diskcleaner
     /// \see dcApp::OnCmdLineParsed(wxCmdLineParser& parser)
     bool dcsettings::Save()
     {
-        return Save( wxConfigBase::Get( false ) );
+        bool value = Save( wxConfigBase::Get( false ) );
     }
 
 
@@ -58,6 +58,10 @@ namespace diskcleaner
         cf->Write( L"Temporary Internet Files/Delete Offline", tempinternetfiles.delete_offline );
         cf->Write( L"Internet Explorer Cookies/Use Cookie Filter", cookies.use_cookie_filter );
         cf->Write( L"Internet Explorer Cookies/Minimum Age", cookies.min_cookie_age );
+
+        // Immediately flush the settings, otherwise we clash with any possible
+        // child process that we've created.
+        cf->Flush();
 
         //TODO: return something meaningful
         return true;

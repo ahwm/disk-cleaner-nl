@@ -93,12 +93,12 @@ SectionIn 1
   SetOutPath $INSTDIR
  
   ;Put files there
-  !system "upx --lzma --best --all-filters --compress-icons=1 ..\src\bin\Release\dclean.exe"
+  !system "upx --lzma --best --all-filters --compress-icons=0 ..\src\bin\Release\dclean.exe"
   File "..\src\bin\Release\dclean.exe"
   
   SetOutPath $INSTDIR\plug-ins
 
-  File "plug-ins\*.dct"
+  File "..\plug-ins\*.dct"
 ; Write the uninstall keys for Windows
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\DiskCleaner" "DisplayName" "Disk Cleaner (remove only)"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\DiskCleaner" "UninstallString" '"$INSTDIR\uninstall.exe"'

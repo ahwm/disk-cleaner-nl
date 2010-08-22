@@ -1,0 +1,7 @@
+[Info]
+Title=Windows Explorer Thumbnail Cache
+Description=Delete the thumbnail cache of Windows Explorer
+
+[files]
+%localappdata%\Microsoft\Windows\Explorer\thumbcache*.db
+%userprofile%\.thumbnails\normal\*.*

@@ -1,0 +1,16 @@
+[Info]
+Title=AVG AntiVirus
+Description=Clear AVG AntiVirus logs and temporary files
+
+
+[files]
+%commonappdata%\avg8\Log\*.log
+%commonappdata%\avg8\scanlogs\*.log
+%commonappdata%\avg8\Log\*.xml
+%commonappdata%\avg8\update\backup\*.*
+%commonappdata%\avg8\temp\*.tmp
+%commonappdata%\avg9\Log\*.log
+%commonappdata%\avg9\scanlogs\*.log
+%commonappdata%\avg9\Log\*.xml
+%commonappdata%\avg9\update\backup\*.*
+%commonappdata%\avg9\Emc\Log\*.log

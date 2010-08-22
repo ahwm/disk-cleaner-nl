@@ -7,28 +7,47 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dclean\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-08-03 13:59+0100\n"
-"PO-Revision-Date: 2010-08-12 15:51+0100\n"
-"Last-Translator: Robert Moerland <veel_mail@xs4all.nl>\n"
+"POT-Creation-Date: 2010-08-15 14:50+0100\n"
+"PO-Revision-Date: 2010-08-17 11:56+0000\n"
+"Last-Translator: Robert Moerland <Unknown>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2010-08-12 13:32+0000\n"
+"X-Launchpad-Export-Date: 2010-08-22 18:36+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: gui/dcApp.cpp:53
-msgid "run in portable mode: save configuration files in the application folder."
-msgstr "uitvoeren in draagbare modus: de bestanden met instellingen opslaan in de programmamap"
+msgid ""
+"run in portable mode: save configuration files in the application folder."
+msgstr ""
+"uitvoeren in draagbare modus: de bestanden met instellingen opslaan in de "
+"programmamap"
 
 #: gui/dcApp.cpp:57
-msgid "clean without showing a GUI. If a preset to be loaded is specified (option -r), the items checked in the specified preset will be cleaned. Otherwise, the items checked the last time Disk Cleaner was run in interactive mode are cleaned."
-msgstr "schoonmaken zonder een venster te laten zien. Als er een voorkeursinstelling wordt opgegeven (optie -r), dan zullen de elementen die daarin aangevinkt zijn schoongemaakt worden. Anders zullen de elementen, die tijdens de laatste keer dat Disk Cleaner in interactieve modus werd gedraaid aangevinkt waren, schoongemaakt worden."
+msgid ""
+"clean without showing a GUI. If a preset to be loaded is specified (option -"
+"r), the items checked in the specified preset will be cleaned. Otherwise, "
+"the items checked the last time Disk Cleaner was run in interactive mode are "
+"cleaned."
+msgstr ""
+"schoonmaken zonder een venster te laten zien. Als er een voorkeursinstelling "
+"wordt opgegeven (optie -r), dan zullen de elementen die daarin aangevinkt "
+"zijn schoongemaakt worden. Anders zullen de elementen, die tijdens de "
+"laatste keer dat Disk Cleaner in interactieve modus werd gedraaid aangevinkt "
+"waren, schoongemaakt worden."
 
 #: gui/dcApp.cpp:64
-msgid "specify preset to be recalled for use. If /q (quiet mode) is also specified, the preset will be loaded and used for cleaning the items specified in the preset."
-msgstr "specificeer een voorkeuzeinstelling welke voor gebruik moet worden geladen. Als ook /q (stille modus) wordt gespecificeerd, dan zal de voorkeuzeinstelling worden geladen en worden gebruikt tijdens het schoonmaken."
+msgid ""
+"specify preset to be recalled for use. If /q (quiet mode) is also specified, "
+"the preset will be loaded and used for cleaning the items specified in the "
+"preset."
+msgstr ""
+"specificeer een voorkeuzeinstelling welke voor gebruik moet worden geladen. "
+"Als ook /q (stille modus) wordt gespecificeerd, dan zal de "
+"voorkeuzeinstelling worden geladen en worden gebruikt tijdens het "
+"schoonmaken."
 
 #: gui/dcApp.cpp:70
 msgid "do not use text plugins (.dct files). "
@@ -42,26 +61,34 @@ msgstr "ingebouwde plug-in niet gebruiken"
 msgid "Shows messages in a debug window "
 msgstr "Berichten weergeven in een debugvenster "
 
-#: gui/dcApp.cpp:104
+#: gui/dcApp.cpp:111
 msgid "Please select the language"
 msgstr "Kiest u alstublieft een taal"
 
-#: gui/dcApp.cpp:105
+#: gui/dcApp.cpp:112
 msgid "Languages"
 msgstr "Talen"
 
-#: gui/dcApp.cpp:170
+#: gui/dcApp.cpp:179
 msgid "Default"
 msgstr "Standaard"
 
-#: gui/dcApp.cpp:298
+#: gui/dcApp.cpp:307
 #, c-format
-msgid "I'm unable to save/load the per user settings in a file; I failed to create folder %s. "
-msgstr "Ik kan de per-gebruiker instelling niet opslaan in een bestand. Ik kon de map %s niet aanmaken. "
+msgid ""
+"I'm unable to save/load the per user settings in a file; I failed to create "
+"folder %s. "
+msgstr ""
+"Ik kan de per-gebruiker instelling niet opslaan in een bestand. Ik kon de "
+"map %s niet aanmaken. "
 
 #: gui/dcpresets.cpp:100
-msgid "I'm sorry, but I cannot find the specified preset. Please check the spelling of the preset name."
-msgstr "Het spijt me, maar ik kan de opgegeven voorkeursinstelling niet vinden. Controleer alstublieft of de naam van de voorkeursinstelling goed gespeld is."
+msgid ""
+"I'm sorry, but I cannot find the specified preset. Please check the spelling "
+"of the preset name."
+msgstr ""
+"Het spijt me, maar ik kan de opgegeven voorkeursinstelling niet vinden. "
+"Controleer alstublieft of de naam van de voorkeursinstelling goed gespeld is."
 
 #: gui/dcpresets.cpp:101
 msgid "Recall preset failed"
@@ -88,14 +115,19 @@ msgid "Please enter a name for the preset"
 msgstr "Geeft u alstublieft een naam voor deze voorkeursinstelling"
 
 #: gui/dc_frame.cpp:237
-msgid "Could not remove all files. Please close all open applications and retry."
-msgstr "Niet alle bestanden konden worden verwijderd. Probeer het alstublieft nog eens na alle openstaande programma's gesloten te hebben."
+msgid ""
+"Could not remove all files. Please close all open applications and retry."
+msgstr ""
+"Niet alle bestanden konden worden verwijderd. Probeer het alstublieft nog "
+"eens na alle openstaande programma's gesloten te hebben."
 
 #: gui/dc_frame.cpp:241
 msgid "Scheduled %I64d file for removal on reboot."
 msgid_plural "Scheduled %I64d files for removal on reboot."
-msgstr[0] "%I64d bestand klaargezet om te worden verwijderd bij een herstart."
-msgstr[1] "%I64d bestanden klaargezet om te worden verwijderd bij een herstart."
+msgstr[0] ""
+"%I64d bestand klaargezet om te worden verwijderd bij een herstart."
+msgstr[1] ""
+"%I64d bestanden klaargezet om te worden verwijderd bij een herstart."
 
 #: gui/dc_frame.cpp:248
 msgid "Cleaned total of %s in %I64d item"
@@ -190,7 +222,8 @@ msgstr "Selectie Omkeren"
 
 #: gui/dc_gui.cpp:205
 msgid "Please wait, Disk Cleaner is scanning the system."
-msgstr "Even wachten a.u.b. Disk Cleaner is bezig met het doorzoeken van het systeem."
+msgstr ""
+"Even wachten a.u.b. Disk Cleaner is bezig met het doorzoeken van het systeem."
 
 #: gui/dc_gui.cpp:215
 msgid "0 %"
@@ -234,19 +267,27 @@ msgstr "Resultaten &Opslaan"
 
 #: gui/dc_gui.cpp:381
 msgid "&Delete locked files on reboot if running as administrator"
-msgstr "In gebruik zijnde bestanden verwij&deren bij een herstart als het programma als administrator wordt uitgevoerd"
+msgstr ""
+"In gebruik zijnde bestanden verwij&deren bij een herstart als het programma "
+"als administrator wordt uitgevoerd"
 
 #: gui/dc_gui.cpp:384
 msgid "&Hide entries with zero items to clean (restarts Disk Cleaner)"
-msgstr "Regels, zonder een op te ruimen element, niet tonen (herstart Disk Cleaner)"
+msgstr ""
+"Regels, zonder een op te ruimen element, niet tonen (herstart Disk Cleaner)"
 
 #: gui/dc_gui.cpp:387
-msgid "H&ide items that need administrator priviliges for normal users (restarts Disk Cleaner)"
-msgstr "Elementen, die administrator rechten nodig hebben, n&iet tonen voor normale gebruikers (herstart Disk Cleaner)"
+msgid ""
+"H&ide items that need administrator priviliges for normal users (restarts "
+"Disk Cleaner)"
+msgstr ""
+"Elementen, die administrator rechten nodig hebben, n&iet tonen voor normale "
+"gebruikers (herstart Disk Cleaner)"
 
 #: gui/dc_gui.cpp:390
 msgid "&Warn when open applications can interfere with cleaning"
-msgstr "&Waarschuwen als nog openstaande programma's het opruimen kunnen verstoren"
+msgstr ""
+"&Waarschuwen als nog openstaande programma's het opruimen kunnen verstoren"
 
 #: gui/dc_gui.cpp:396
 msgid "Language:"
@@ -321,8 +362,12 @@ msgid "Internet Explorer Cache"
 msgstr "Internet Explorer Cache"
 
 #: gui/dc_gui.cpp:463
-msgid "Select a preset and click 'Install' to auto-run Disk Cleaner in quiet mode on start-up with the selected preset. "
-msgstr "Kies een voorkeuzeinstelling en druk op 'Installeer' om Disk Cleaner vanzelf te laten starten in stille modus, met de geselecteerde voorkeuzeinstelling. "
+msgid ""
+"Select a preset and click 'Install' to auto-run Disk Cleaner in quiet mode "
+"on start-up with the selected preset. "
+msgstr ""
+"Kies een voorkeuzeinstelling en druk op 'Installeer' om Disk Cleaner vanzelf "
+"te laten starten in stille modus, met de geselecteerde voorkeuzeinstelling. "
 
 #: gui/dc_gui.cpp:467
 msgid "Click 'Remove' to remove the shortcut."
@@ -389,8 +434,11 @@ msgid "Never show this warning again"
 msgstr "Deze waarschuwing nooit meer tonen"
 
 #: gui/prefs_dlg.cpp:88
-msgid "The shortcut installation functionality is not available in portable mode."
-msgstr "De functionaliteit voor het installeren van een snelkoppeling is niet beschikbaar in draagbare modus."
+msgid ""
+"The shortcut installation functionality is not available in portable mode."
+msgstr ""
+"De functionaliteit voor het installeren van een snelkoppeling is niet "
+"beschikbaar in draagbare modus."
 
 #: gui/prefs_dlg.cpp:214
 #: gui/prefs_dlg.cpp:231
@@ -402,19 +450,22 @@ msgstr "De handeling is succesvol verlopen"
 msgid "Operation failed."
 msgstr "De handeling is mislukt."
 
-#: gui/result_frame.cpp:43
+#: gui/result_frame.cpp:50
 msgid "Choose a location to save the results"
 msgstr "Kies een bestemming om de resultaten naar toe op te slaan."
 
-#: gui/result_frame.cpp:44
+#: gui/result_frame.cpp:51
 msgid "Log files (*.log)|*.log"
 msgstr "Log bestanden (*.log)|*.log"
 
-#: gui/result_frame.cpp:54
-msgid "Sorry, I couldn't write to that file. Please try another name or location"
-msgstr "Sorry, ik kon niet schrijven naar dat bestand. Probeer het alstublieft nog eens met een andere naam of bestemming"
+#: gui/result_frame.cpp:61
+msgid ""
+"Sorry, I couldn't write to that file. Please try another name or location"
+msgstr ""
+"Sorry, ik kon niet schrijven naar dat bestand. Probeer het alstublieft nog "
+"eens met een andere naam of bestemming"
 
-#: gui/wxlistctrllog.cpp:117
+#: gui/wxlistctrllog.cpp:134
 msgid "Fatal error"
 msgstr "Fatale fout"
 
@@ -448,7 +499,8 @@ msgstr "De Firefox geschiedenisdatabase wordt in grootte geminimaliseerd"
 
 #: core/built_in_plugins/firefox/firefox.cpp:383
 msgid "I cannot open Firefox' history file, is Firefox still running?"
-msgstr "Ik kan het geschiedenisbestand van Firefox niet openen. Draait Firefox nog?"
+msgstr ""
+"Ik kan het geschiedenisbestand van Firefox niet openen. Draait Firefox nog?"
 
 #: core/built_in_plugins/firefox/firefox.cpp:393
 msgid "Firefox Cookies"
@@ -482,6 +534,14 @@ msgstr "Internet Explorer Cookies"
 msgid "Removes Internet Explorer cookie files"
 msgstr "Internet Explorer Cookies verwijderen"
 
+#: core/built_in_plugins/recent docs/recentdocs.cpp:31
+msgid "Recent Documents"
+msgstr "Recente Documenten"
+
+#: core/built_in_plugins/recent docs/recentdocs.cpp:32
+msgid "Clears the Recent Documents in the Start menu"
+msgstr "Leegt de lijst van Recente Documenten in het Start menu"
+
 #: core/built_in_plugins/recycle bin/rbin.cpp:32
 msgid "Recycle Bin"
 msgstr "Prullenbak"
@@ -500,11 +560,16 @@ msgstr "Tijdelijke bestanden"
 
 #: core/built_in_plugins/system temp/systemp.cpp:35
 msgid "Removes temporary files from the current user's temporary folder, "
-msgstr "Verwijdert tijdelijke bestanden uit de huidige gebruiker zijn tijdelijk map, "
+msgstr ""
+"Verwijdert tijdelijke bestanden uit de huidige gebruiker zijn tijdelijk map, "
 
-#: core/built_in_plugins/system temp/systemp.cpp:126
-msgid "Could not clean the temporary folder. The location of this folder could not be determined reliably."
-msgstr "Kon de tijdelijk map niet schoonmaken. The lokatie van de map kon niet betrouwbaar worden vastgesteld."
+#: core/built_in_plugins/system temp/systemp.cpp:127
+msgid ""
+"Could not clean the temporary folder. The location of this folder could not "
+"be determined reliably."
+msgstr ""
+"Kon de tijdelijk map niet schoonmaken. The lokatie van de map kon niet "
+"betrouwbaar worden vastgesteld."
 
 #: gui/dc_gui.h:87
 msgid "Disk Cleaner"
@@ -528,4 +593,3 @@ msgstr "Disk Cleaner Informatie"
 
 msgid "Autostart"
 msgstr "Automatisch starten"
-

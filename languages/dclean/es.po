@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dclean\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-08-03 13:59+0100\n"
-"PO-Revision-Date: 2010-08-14 14:31+0000\n"
+"POT-Creation-Date: 2010-08-15 14:50+0100\n"
+"PO-Revision-Date: 2010-08-17 12:19+0000\n"
 "Last-Translator: Robert Moerland <Unknown>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2010-08-15 11:56+0000\n"
+"X-Launchpad-Export-Date: 2010-08-22 18:36+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: gui/dcApp.cpp:53
@@ -59,19 +59,19 @@ msgstr "no usar plugins de texto (archivos .dct)"
 msgid "Shows messages in a debug window "
 msgstr "Visualizar mensajes en una ventana de análisis "
 
-#: gui/dcApp.cpp:104
+#: gui/dcApp.cpp:111
 msgid "Please select the language"
 msgstr "Por favor, seleccione el idioma"
 
-#: gui/dcApp.cpp:105
+#: gui/dcApp.cpp:112
 msgid "Languages"
 msgstr "Idiomas"
 
-#: gui/dcApp.cpp:170
+#: gui/dcApp.cpp:179
 msgid "Default"
 msgstr "Predeterminado"
 
-#: gui/dcApp.cpp:298
+#: gui/dcApp.cpp:307
 #, c-format
 msgid ""
 "I'm unable to save/load the per user settings in a file; I failed to create "
@@ -134,8 +134,8 @@ msgstr[1] "Borrados un total de %s de los %I64d objetos."
 #: gui/dc_frame.cpp:287
 msgid "%s: Cleaned %s in %I64d item."
 msgid_plural "%s: Cleaned %s in %I64d items."
-msgstr[0] "%s: Borrado %s del objeto %I64d."
-msgstr[1] "%s: Borrado %s de los %I64d objetos."
+msgstr[0] "%s: Borrado un total de %s de %I64d objeto."
+msgstr[1] "%s: Borrado un total de %s de los %I64d objetos."
 
 #: gui/dc_frame.cpp:540
 #: gui/prefs_dlg.cpp:95
@@ -308,7 +308,7 @@ msgstr "Borrar subcarpetas &vacías"
 
 #: gui/dc_gui.cpp:428
 msgid "Minimum age before removal (days)"
-msgstr "AntigÜedad mínima antes de eliminar (días)"
+msgstr "Antigüedad mínima antes de eliminar (días)"
 
 #: gui/dc_gui.cpp:432
 #: gui/dc_gui.cpp:555
@@ -448,22 +448,22 @@ msgstr "La operación se realizó con éxito."
 msgid "Operation failed."
 msgstr "La operación falló."
 
-#: gui/result_frame.cpp:43
+#: gui/result_frame.cpp:50
 msgid "Choose a location to save the results"
 msgstr "Seleccione una localización para guardar los resultados"
 
-#: gui/result_frame.cpp:44
+#: gui/result_frame.cpp:51
 msgid "Log files (*.log)|*.log"
 msgstr "Archivos Log (*.log)|*.log"
 
-#: gui/result_frame.cpp:54
+#: gui/result_frame.cpp:61
 msgid ""
 "Sorry, I couldn't write to that file. Please try another name or location"
 msgstr ""
 "Lo siento, no se puede escribir en ese archivo. Pruebe con diferente nombre "
 "o localización"
 
-#: gui/wxlistctrllog.cpp:117
+#: gui/wxlistctrllog.cpp:134
 msgid "Fatal error"
 msgstr "Error fatal"
 
@@ -533,6 +533,14 @@ msgstr "Cookies de Internet Explorer"
 msgid "Removes Internet Explorer cookie files"
 msgstr "Elimina los archivos de las cookies de Internet Explorer"
 
+#: core/built_in_plugins/recent docs/recentdocs.cpp:31
+msgid "Recent Documents"
+msgstr "Documentos Recientes"
+
+#: core/built_in_plugins/recent docs/recentdocs.cpp:32
+msgid "Clears the Recent Documents in the Start menu"
+msgstr "Borra la relación de Documentos Recientes en el menú de Inicio"
+
 #: core/built_in_plugins/recycle bin/rbin.cpp:32
 msgid "Recycle Bin"
 msgstr "Papelera de reciclaje"
@@ -555,7 +563,7 @@ msgstr ""
 "Elimina los archivos temporales de la carpeta de archivos temporales del "
 "usuario actual, "
 
-#: core/built_in_plugins/system temp/systemp.cpp:126
+#: core/built_in_plugins/system temp/systemp.cpp:127
 msgid ""
 "Could not clean the temporary folder. The location of this folder could not "
 "be determined reliably."

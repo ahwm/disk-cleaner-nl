@@ -1,7 +1,0 @@
-[info]
-Title=aMule Log Files
-Description=Removes aMule's log file and backups.
-
-[files]
-%APPDATA%\amule\logfile
-%APPDATA\amule\logfile.bak

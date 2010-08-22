@@ -1,6 +1,0 @@
-[Info]
-Title=Google Updater Cache
-Description=Removes Google Updater Cache Files
-
-[files]
-%commonappdata%\Google Updater\cache\*.* /s

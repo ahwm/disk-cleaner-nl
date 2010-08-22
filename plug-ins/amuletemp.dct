@@ -1,6 +1,0 @@
-[info]
-Title=aMule Temporary Files
-Description=Removes aMule's Temporary Files
-
-[files]
-%APPDATA%\amule\Temp\*.* /s

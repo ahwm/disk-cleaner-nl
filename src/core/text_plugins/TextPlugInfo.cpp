@@ -265,7 +265,6 @@ namespace diskcleaner
         {
 
             GetPrivateProfileString( L"Info", L"Title", L"Error: No title given", strbuff,MAX_PATH+1, aFile.c_str() );
-            //ShortDesc = strbuff;
             ShortDesc = wxGetTranslation( strbuff );
 
             GetPrivateProfileString( L"Info", L"Description", L"Error: No description given", strbuff,MAX_PATH+1, aFile.c_str() );

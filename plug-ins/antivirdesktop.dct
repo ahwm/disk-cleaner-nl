@@ -1,9 +1,0 @@
-[Info]
-Title=AntiVir Desktop
-Description=Clear AntiVir Desktop temp files
-
-[files]
-%commonappdata%\Avira\AntiVir Desktop\TEMP\*.*
-%programfiles%\Avira\AntiVir Desktop\*.old
-%programfiles%\Avira\AntiVir Desktop\*.tmp
-%programfiles%\Avira\AntiVir Desktop\FAILSAFE\*.tmp

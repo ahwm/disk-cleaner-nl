@@ -1,6 +1,0 @@
-[Info]
-Title=Windows Explorer Search History
-Description=Clear the list of entered items in the Search dialog
-
-[registry]
-HKEY_CURRENT_USER|Software\Microsoft\Search Assistant\ACMru

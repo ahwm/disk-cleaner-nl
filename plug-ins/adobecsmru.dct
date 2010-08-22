@@ -1,6 +1,0 @@
-[Info]
-Title=Adobe Creative Suite Recent Files
-Description=Clear Adobe Creative Suite list of recent files
-
-[registry]
-HKEY_CURRENT_USER|Software\Adobe\MediaBrowser\MRU

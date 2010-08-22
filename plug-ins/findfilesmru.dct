@@ -1,6 +1,0 @@
-[Info]
-Title=Windows Explorer Find Files List
-Description=Clear the list of entered items in the Find Files dialog
-
-[registry]
-HKEY_CURRENT_USER|Software\Microsoft\Windows\CurrentVersion\Explorer\Doc Find Spec MRU

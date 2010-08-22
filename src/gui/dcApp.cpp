@@ -28,9 +28,6 @@
 #include "processes_dlg.h"
 #include <wx/stdpaths.h>
 #include <wx/fileconf.h>
-#include <wx/dir.h>
-#include <wx/filename.h>
-#include <wx/choicdlg.h>
 #include <wx/log.h>
 #include <wx/cmdline.h>
 
@@ -49,23 +46,17 @@ IMPLEMENT_APP(dcApp);
 /// Available command line switches
 static const wxCmdLineEntryDesc cmdLineDesc[] =
 {
-    {
-        wxCMD_LINE_SWITCH, L"p", L"portable", _( "run in portable mode: save configuration files in the application "
-        "folder." )
-    },
-    {
-        wxCMD_LINE_SWITCH, L"q", L"quiet",    _( "clean without showing a GUI. If a preset to be loaded is specified "
-        "(option -r), the items checked in the specified preset will be cleaned. "
-        "Otherwise, the items checked the last time Disk Cleaner was run in "
-        "interactive mode are cleaned." )
-    },
+    { wxCMD_LINE_SWITCH, L"p", L"portable", _( "run in portable mode: save configuration files in the application "
+                                                "folder." ) },
+    { wxCMD_LINE_SWITCH, L"q", L"quiet",    _( "clean without showing a GUI. If a preset to be loaded is specified "
+                                               "(option -r), the items checked in the specified preset will be cleaned. "
+                                               "Otherwise, the items checked the last time Disk Cleaner was run in "
+                                               "interactive mode are cleaned." ) },
 
-    {
-        wxCMD_LINE_OPTION, L"r", L"recall-preset", _( "specify preset to be recalled for use. If /q (quiet mode) "
-        "is also specified, the preset will be loaded and "
-        "used for cleaning the items specified in the preset." ),
-        wxCMD_LINE_VAL_STRING
-    },
+    { wxCMD_LINE_OPTION, L"r", L"recall-preset", _( "specify preset to be recalled for use. If /q (quiet mode) "
+                                                    "is also specified, the preset will be loaded and "
+                                                    "used for cleaning the items specified in the preset." ),
+                                                 wxCMD_LINE_VAL_STRING},
 //    { wxCMD_LINE_SWITCH, L"l", L"log-to-file", L"log the results of the cleaning to file." },
     { wxCMD_LINE_SWITCH, L"nt", L"no-text-plugins", _( "do not use text plugins (.dct files). " ) },
     { wxCMD_LINE_SWITCH, L"nb", L"no-builtin-plugins", _( "do not use the built-in plugins" ) },
@@ -94,34 +85,6 @@ bool dcApp::OnInit()
     {
 
         settings.Load();
-
-        if ( settings.global.first_run )
-        {
-            int lang_index;
-            wxArrayString names;
-            wxArrayLong identifiers;
-            GetInstalledLanguages( names, identifiers );
-
-            if (identifiers.GetCount() < 2 )
-            {
-                lang_index = wxLANGUAGE_DEFAULT;
-            }
-            else
-            {
-                lang_index = wxGetSingleChoiceIndex(_("Please select the language"),
-                                                    _("Languages"), names);
-
-                if ( lang_index == -1 ) lang_index = 0;
-            }
-
-            settings.global.language_id = identifiers[ lang_index ];
-
-        }
-
-        the_locale.Init( settings.global.language_id, 0 );
-        the_locale.AddCatalogLookupPathPrefix( strAppDirectory + L"\\lang" );
-        the_locale.AddCatalog(this->GetAppName());
-        the_locale.AddCatalog( L"plugins" );
 
         frame = new dc_frame(0L, settings);
 
@@ -162,59 +125,16 @@ bool dcApp::OnInit()
     return false;
 }
 
-void dcApp::GetInstalledLanguages( wxArrayString& names,
-                                   wxArrayLong& identifiers)
-{
-    names.Clear();
-    identifiers.Clear();
-
-    wxString lang_dir = strAppDirectory + L"\\lang";
-
-    const wxLanguageInfo * langinfo;
-
-    wxString name = wxLocale::GetLanguageName( wxLANGUAGE_DEFAULT );
-
-    if( !name.IsEmpty() )
-    {
-        names.Add( _("Default") );
-        identifiers.Add( wxLANGUAGE_DEFAULT );
-    }
-
-    WIN32_FIND_DATA finddata;
-    HANDLE fHandle = FindFirstFile( ( lang_dir + L"\\*.*" ).c_str(), &finddata );
-
-    if (fHandle != INVALID_HANDLE_VALUE)
-    {
-        do
-        {
-
-            if ( finddata.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY &&
-                    !( GetFileAttributes( lang_dir + L"\\" + wxString( finddata.cFileName ) + L"\\"
-                                          + GetAppName() + L".mo" )  & FILE_ATTRIBUTE_DIRECTORY ) )
-            {
-                langinfo = wxLocale::FindLanguageInfo( finddata.cFileName );
-
-                names.Add(langinfo->Description);
-                identifiers.Add(langinfo->Language);
-            }
-
-        }
-        while  ( FindNextFile( fHandle, &finddata ) );
-    }
-    FindClose(fHandle);
-
-}
-
-//FROM MSDN
-/**
-Routine Description: This routine returns TRUE if the caller's
-process is a member of the Administrators local group. Caller is NOT
-expected to be impersonating anyone and is expected to be able to
-open its own process and process token.
-\return
-   true - Caller has Administrators local group.
-   false - Caller does not have Administrators local group.
-*/
+    //FROM MSDN
+    /**
+    Routine Description: This routine returns TRUE if the caller's
+    process is a member of the Administrators local group. Caller is NOT
+    expected to be impersonating anyone and is expected to be able to
+    open its own process and process token.
+    \return
+       true - Caller has Administrators local group.
+       false - Caller does not have Administrators local group.
+    */
 bool dcApp::IsUserAdmin()
 {
     BOOL b;
@@ -305,7 +225,7 @@ bool dcApp::OnCmdLineParsed(wxCmdLineParser& parser)
             if ( !::wxMkdir( configpath ) )
             {
                 wxLogError( _( "I'm unable to save/load the per user settings in a file; I failed to create folder %s. "
-                               L"Saving settings to the registry instead." ) , configpath.c_str() );
+                            L"Saving settings to the registry instead." ) , configpath.c_str() );
 
                 //Let wxWidgets figure it out.
                 wxConfigBase::Create();

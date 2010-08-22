@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Dec 17 2009)
+// C++ code generated with wxFormBuilder (version Feb 17 2010)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -84,7 +84,7 @@ class dc_base_frame : public wxDialog
 	
 	public:
 		
-		dc_base_frame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Disk Cleaner"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER );
+		dc_base_frame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Disk Cleaner"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 500,426 ), long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER );
 		~dc_base_frame();
 		
 		void dc_base_frameOnContextMenu( wxMouseEvent &event )
@@ -109,7 +109,7 @@ class wait_base_dlg : public wxDialog
 	
 	public:
 		
-		wait_base_dlg( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Please wait..."), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_DIALOG_STYLE );
+		wait_base_dlg( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Please wait..."), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 260,103 ), long style = wxDEFAULT_DIALOG_STYLE );
 		~wait_base_dlg();
 	
 };
@@ -152,7 +152,6 @@ class result_base_frame : public wxDialog
 	protected:
 		wxStaticText* m_staticText19;
 		wxListCtrlLog* result_lc;
-		wxGauge* progress_bar;
 		wxButton* back_btn;
 		wxButton* save_btn;
 		
@@ -167,7 +166,7 @@ class result_base_frame : public wxDialog
 	
 	public:
 		
-		result_base_frame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER );
+		result_base_frame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 440,318 ), long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER );
 		~result_base_frame();
 	
 };
@@ -186,9 +185,6 @@ class prefs_dlg_base : public wxDialog
 		wxCheckBox* hide_empty_cb;
 		wxCheckBox* hide_admin_items_cb;
 		wxCheckBox* warn_open_processes_cb;
-		wxStaticText* m_staticText22;
-		wxChoice* LanguageChoice;
-		wxStaticText* m_staticText23;
 		wxPanel* m_panel3;
 		wxCheckBox* delete_readonly_cb;
 		wxCheckBox* delete_emptyfolder_cb;
@@ -196,27 +192,18 @@ class prefs_dlg_base : public wxDialog
 		wxChoice* minage_combo;
 		wxPanel* m_panel4;
 		wxCheckBox* tempinet_offline_cb;
-		wxPanel* m_panel2;
-		wxStaticText* m_staticText11;
-		wxStaticText* m_staticText24;
-		wxChoice* preset_box;
-		wxButton* autostart_install_btn;
-		wxButton* autostart_remove_btn;
-		wxStaticText* shortcut_status_txt;
 		wxStdDialogButtonSizer* ok_cancel;
 		wxButton* ok_cancelOK;
 		wxButton* ok_cancelCancel;
 		
 		// Virtual event handlers, overide them in your derived class
-		virtual void autostart_install_btn_clicked( wxCommandEvent& event ) { event.Skip(); }
-		virtual void autostart_remove_btn_clicked( wxCommandEvent& event ) { event.Skip(); }
 		virtual void cancel_btn_clicked( wxCommandEvent& event ) { event.Skip(); }
 		virtual void ok_btn_clicked( wxCommandEvent& event ) { event.Skip(); }
 		
 	
 	public:
 		
-		prefs_dlg_base( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Preferences"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_DIALOG_STYLE|wxCLIP_CHILDREN );
+		prefs_dlg_base( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Preferences"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 467,368 ), long style = wxDEFAULT_DIALOG_STYLE|wxCLIP_CHILDREN );
 		~prefs_dlg_base();
 	
 };
@@ -230,6 +217,11 @@ class MyDialog6 : public wxDialog
 	
 	protected:
 		wxNotebook* m_notebook2;
+		wxPanel* m_panel2;
+		wxStaticText* m_staticText11;
+		wxChoice* preset_combo;
+		wxButton* autostart_install_btn;
+		wxButton* autostart_remove_btn;
 		wxPanel* m_panel5;
 		wxCheckBox* cookie_filter_cb;
 		wxStaticText* m_staticText13;
@@ -273,7 +265,7 @@ class processes_dlg_base : public wxDialog
 	
 	public:
 		
-		processes_dlg_base( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Disk Cleaner Information"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_DIALOG_STYLE );
+		processes_dlg_base( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Disk Cleaner Information"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 272,219 ), long style = wxDEFAULT_DIALOG_STYLE );
 		~processes_dlg_base();
 	
 };

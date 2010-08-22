@@ -1,9 +1,0 @@
-[Info]
-Title=AntiVir Personal 8
-Description=Clear AntiVir Personal 8 temp files and logs
-
-[files]
-%commonappdata%\Avira\AntiVir PersonalEdition Classic\BACKUP\FAILSAFE\*.tmp
-%commonappdata%\Avira\AntiVir PersonalEdition Classic\LOGFILES\*.log
-%ProgramFiles%\Avira\AntiVir PersonalEdition Classic\*.tmp
-%ProgramFiles%\Avira\AntiVir PersonalEdition Classic\FAILSAFE\*.tmp

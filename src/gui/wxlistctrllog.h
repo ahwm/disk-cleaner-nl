@@ -17,8 +17,6 @@
 #include <wx/listctrl.h>
 #include <wx/imaglist.h>
 #include <wx/log.h>
-#include <wx/file.h>
-#include <wx/filename.h>
 
 
 class wxImageList;
@@ -35,8 +33,6 @@ public:
 
     virtual void Flush();
 
-    bool SetDebugFile( wxString PathAndFilename, int Flags = wxFile::write );
-
 protected:
 private:
     wxLog*          m_previoustarget;
@@ -47,8 +43,6 @@ private:
     bool            m_bErrors;
 
     wxImageList     m_imageList;
-    wxFile          m_logfile;
-
 };
 
 #endif // WXLISTBOXLOG_H

@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Dec 17 2009)
+// C++ code generated with wxFormBuilder (version Feb 17 2010)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -121,7 +121,9 @@ dc_base_frame::dc_base_frame( wxWindow* parent, wxWindowID id, const wxString& t
 	bSizer3->Add( 0, 0, 1, wxEXPAND, 5 );
 	
 	runasadmin_btn = new wxButton( this, wxID_ANY, _("&Run as Administrator"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer3->Add( runasadmin_btn, 0, wxTOP|wxEXPAND, 5 );
+	runasadmin_btn->SetMinSize( wxSize( 150,-1 ) );
+	
+	bSizer3->Add( runasadmin_btn, 0, wxEXPAND|wxTOP, 5 );
 	
 	
 	bSizer3->Add( 0, 0, 1, wxEXPAND, 5 );
@@ -135,7 +137,6 @@ dc_base_frame::dc_base_frame( wxWindow* parent, wxWindowID id, const wxString& t
 	
 	this->SetSizer( bSizer17 );
 	this->Layout();
-	bSizer17->Fit( this );
 	context_menu = new wxMenu();
 	wxMenuItem* m_select_all;
 	m_select_all = new wxMenuItem( context_menu, wxID_ANY, wxString( _("Select All") ) , wxEmptyString, wxITEM_NORMAL );
@@ -194,7 +195,7 @@ dc_base_frame::~dc_base_frame()
 
 wait_base_dlg::wait_base_dlg( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
 {
-	this->SetSizeHints( wxSize( 260,103 ), wxDefaultSize );
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
 	this->SetBackgroundColour( wxColour( 255, 255, 255 ) );
 	
 	wxFlexGridSizer* fgSizer6;
@@ -229,7 +230,6 @@ wait_base_dlg::wait_base_dlg( wxWindow* parent, wxWindowID id, const wxString& t
 	
 	this->SetSizer( fgSizer6 );
 	this->Layout();
-	fgSizer6->Fit( this );
 	
 	this->Centre( wxBOTH );
 }
@@ -256,7 +256,7 @@ about_base_dlg::about_base_dlg( wxWindow* parent, wxWindowID id, const wxString&
 	
 	m_staticText16 = new wxStaticText( this, wxID_ANY, _("A fast open source disk cleanup tool"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText16->Wrap( -1 );
-	bSizer7->Add( m_staticText16, 0, wxALL, 5 );
+	bSizer7->Add( m_staticText16, 0, wxBOTTOM|wxRIGHT|wxLEFT, 5 );
 	
 	version_text = new wxStaticText( this, wxID_ANY, _("Version"), wxDefaultPosition, wxDefaultSize, 0 );
 	version_text->Wrap( -1 );
@@ -305,7 +305,7 @@ result_base_frame::result_base_frame( wxWindow* parent, wxWindowID id, const wxS
 	bSizer18 = new wxBoxSizer( wxVERTICAL );
 	
 	wxFlexGridSizer* fgSizer1;
-	fgSizer1 = new wxFlexGridSizer( 4, 1, 0, 0 );
+	fgSizer1 = new wxFlexGridSizer( 3, 1, 0, 0 );
 	fgSizer1->AddGrowableCol( 0 );
 	fgSizer1->AddGrowableRow( 1 );
 	fgSizer1->SetFlexibleDirection( wxBOTH );
@@ -320,9 +320,6 @@ result_base_frame::result_base_frame( wxWindow* parent, wxWindowID id, const wxS
 	
 	result_lc = new wxListCtrlLog( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_NO_HEADER|wxLC_REPORT );
 	fgSizer1->Add( result_lc, 1, wxEXPAND|wxALL, 5 );
-	
-	progress_bar = new wxGauge( this, wxID_ANY, 100, wxDefaultPosition, wxSize( -1,15 ), wxGA_HORIZONTAL );
-	fgSizer1->Add( progress_bar, 0, wxEXPAND|wxRIGHT|wxLEFT, 5 );
 	
 	wxBoxSizer* bSizer3;
 	bSizer3 = new wxBoxSizer( wxHORIZONTAL );
@@ -347,7 +344,6 @@ result_base_frame::result_base_frame( wxWindow* parent, wxWindowID id, const wxS
 	
 	this->SetSizer( bSizer18 );
 	this->Layout();
-	bSizer18->Fit( this );
 	
 	// Connect Events
 	this->Connect( wxEVT_INIT_DIALOG, wxInitDialogEventHandler( result_base_frame::init_result_dlg ) );
@@ -368,7 +364,7 @@ result_base_frame::~result_base_frame()
 
 prefs_dlg_base::prefs_dlg_base( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
 {
-	this->SetSizeHints( wxSize( 467,368 ), wxDefaultSize );
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
 	
 	wxBoxSizer* bSizer4;
 	bSizer4 = new wxBoxSizer( wxVERTICAL );
@@ -389,24 +385,6 @@ prefs_dlg_base::prefs_dlg_base( wxWindow* parent, wxWindowID id, const wxString&
 	
 	warn_open_processes_cb = new wxCheckBox( m_panel1, wxID_ANY, _("&Warn when open applications can interfere with cleaning"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer6->Add( warn_open_processes_cb, 0, wxBOTTOM|wxRIGHT|wxLEFT, 10 );
-	
-	wxBoxSizer* bSizer20;
-	bSizer20 = new wxBoxSizer( wxHORIZONTAL );
-	
-	m_staticText22 = new wxStaticText( m_panel1, wxID_ANY, _("Language:"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText22->Wrap( -1 );
-	bSizer20->Add( m_staticText22, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
-	
-	wxArrayString LanguageChoiceChoices;
-	LanguageChoice = new wxChoice( m_panel1, wxID_ANY, wxDefaultPosition, wxDefaultSize, LanguageChoiceChoices, 0 );
-	LanguageChoice->SetSelection( 0 );
-	bSizer20->Add( LanguageChoice, 0, wxALIGN_CENTER_VERTICAL|wxALL|wxEXPAND, 5 );
-	
-	bSizer6->Add( bSizer20, 1, wxEXPAND|wxBOTTOM|wxLEFT, 5 );
-	
-	m_staticText23 = new wxStaticText( m_panel1, wxID_ANY, _("Note: changing the language restarts Disk Cleaner"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText23->Wrap( -1 );
-	bSizer6->Add( m_staticText23, 0, wxALIGN_CENTER_VERTICAL|wxBOTTOM|wxRIGHT|wxLEFT, 10 );
 	
 	m_panel1->SetSizer( bSizer6 );
 	m_panel1->Layout();
@@ -454,46 +432,8 @@ prefs_dlg_base::prefs_dlg_base( wxWindow* parent, wxWindowID id, const wxString&
 	m_panel4->Layout();
 	bSizer14->Fit( m_panel4 );
 	prefsbook->AddPage( m_panel4, _("Internet Explorer Cache"), false );
-	m_panel2 = new wxPanel( prefsbook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-	m_panel2->Hide();
 	
-	wxBoxSizer* bSizer7;
-	bSizer7 = new wxBoxSizer( wxVERTICAL );
-	
-	m_staticText11 = new wxStaticText( m_panel2, wxID_ANY, _("Select a preset and click 'Install' to auto-run Disk Cleaner in quiet mode on start-up with the selected preset. "), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText11->Wrap( -1 );
-	bSizer7->Add( m_staticText11, 0, wxALL, 10 );
-	
-	m_staticText24 = new wxStaticText( m_panel2, wxID_ANY, _("Click 'Remove' to remove the shortcut."), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText24->Wrap( -1 );
-	bSizer7->Add( m_staticText24, 1, wxEXPAND|wxBOTTOM|wxRIGHT|wxLEFT, 10 );
-	
-	wxBoxSizer* bSizer161;
-	bSizer161 = new wxBoxSizer( wxHORIZONTAL );
-	
-	wxArrayString preset_boxChoices;
-	preset_box = new wxChoice( m_panel2, wxID_ANY, wxDefaultPosition, wxDefaultSize, preset_boxChoices, 0 );
-	preset_box->SetSelection( 0 );
-	bSizer161->Add( preset_box, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 10 );
-	
-	autostart_install_btn = new wxButton( m_panel2, wxID_ANY, _("&Install"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer161->Add( autostart_install_btn, 0, wxTOP|wxBOTTOM|wxALIGN_CENTER_VERTICAL, 10 );
-	
-	autostart_remove_btn = new wxButton( m_panel2, wxID_ANY, _("&Remove"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer161->Add( autostart_remove_btn, 0, wxALL|wxALIGN_CENTER_VERTICAL, 10 );
-	
-	bSizer7->Add( bSizer161, 0, wxEXPAND, 5 );
-	
-	shortcut_status_txt = new wxStaticText( m_panel2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	shortcut_status_txt->Wrap( -1 );
-	bSizer7->Add( shortcut_status_txt, 0, wxALIGN_CENTER_VERTICAL|wxBOTTOM|wxRIGHT|wxLEFT, 10 );
-	
-	m_panel2->SetSizer( bSizer7 );
-	m_panel2->Layout();
-	bSizer7->Fit( m_panel2 );
-	prefsbook->AddPage( m_panel2, _("Quiet mode autostart"), false );
-	
-	bSizer4->Add( prefsbook, 1, wxEXPAND|wxALL, 5 );
+	bSizer4->Add( prefsbook, 1, wxALL|wxEXPAND, 5 );
 	
 	ok_cancel = new wxStdDialogButtonSizer();
 	ok_cancelOK = new wxButton( this, wxID_OK );
@@ -505,11 +445,8 @@ prefs_dlg_base::prefs_dlg_base( wxWindow* parent, wxWindowID id, const wxString&
 	
 	this->SetSizer( bSizer4 );
 	this->Layout();
-	bSizer4->Fit( this );
 	
 	// Connect Events
-	autostart_install_btn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( prefs_dlg_base::autostart_install_btn_clicked ), NULL, this );
-	autostart_remove_btn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( prefs_dlg_base::autostart_remove_btn_clicked ), NULL, this );
 	ok_cancelCancel->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( prefs_dlg_base::cancel_btn_clicked ), NULL, this );
 	ok_cancelOK->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( prefs_dlg_base::ok_btn_clicked ), NULL, this );
 }
@@ -517,8 +454,6 @@ prefs_dlg_base::prefs_dlg_base( wxWindow* parent, wxWindowID id, const wxString&
 prefs_dlg_base::~prefs_dlg_base()
 {
 	// Disconnect Events
-	autostart_install_btn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( prefs_dlg_base::autostart_install_btn_clicked ), NULL, this );
-	autostart_remove_btn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( prefs_dlg_base::autostart_remove_btn_clicked ), NULL, this );
 	ok_cancelCancel->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( prefs_dlg_base::cancel_btn_clicked ), NULL, this );
 	ok_cancelOK->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( prefs_dlg_base::ok_btn_clicked ), NULL, this );
 	
@@ -532,6 +467,36 @@ MyDialog6::MyDialog6( wxWindow* parent, wxWindowID id, const wxString& title, co
 	bSizer16 = new wxBoxSizer( wxVERTICAL );
 	
 	m_notebook2 = new wxNotebook( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
+	m_panel2 = new wxPanel( m_notebook2, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	m_panel2->Hide();
+	
+	wxBoxSizer* bSizer7;
+	bSizer7 = new wxBoxSizer( wxVERTICAL );
+	
+	m_staticText11 = new wxStaticText( m_panel2, wxID_ANY, _("Select a preset and click 'Install' to auto-run Disk Cleaner in quiet mode on start-up with the selected preset. Click 'Remove' to remove the shortcut."), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText11->Wrap( -1 );
+	bSizer7->Add( m_staticText11, 1, wxALL|wxEXPAND, 10 );
+	
+	wxBoxSizer* bSizer161;
+	bSizer161 = new wxBoxSizer( wxHORIZONTAL );
+	
+	wxArrayString preset_comboChoices;
+	preset_combo = new wxChoice( m_panel2, wxID_ANY, wxDefaultPosition, wxDefaultSize, preset_comboChoices, 0 );
+	preset_combo->SetSelection( 0 );
+	bSizer161->Add( preset_combo, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 10 );
+	
+	autostart_install_btn = new wxButton( m_panel2, wxID_ANY, _("&Install"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer161->Add( autostart_install_btn, 0, wxTOP|wxBOTTOM, 10 );
+	
+	autostart_remove_btn = new wxButton( m_panel2, wxID_ANY, _("&Remove"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer161->Add( autostart_remove_btn, 0, wxALL, 10 );
+	
+	bSizer7->Add( bSizer161, 0, wxEXPAND, 5 );
+	
+	m_panel2->SetSizer( bSizer7 );
+	m_panel2->Layout();
+	bSizer7->Fit( m_panel2 );
+	m_notebook2->AddPage( m_panel2, _("Autostart"), false );
 	m_panel5 = new wxPanel( m_notebook2, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	m_panel5->Hide();
 	
@@ -639,7 +604,7 @@ MyDialog6::~MyDialog6()
 
 processes_dlg_base::processes_dlg_base( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
 {
-	this->SetSizeHints( wxSize( 272,219 ), wxDefaultSize );
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
 	this->SetBackgroundColour( wxColour( 255, 255, 255 ) );
 	
 	wxFlexGridSizer* fgSizer11;
@@ -676,7 +641,6 @@ processes_dlg_base::processes_dlg_base( wxWindow* parent, wxWindowID id, const w
 	
 	this->SetSizer( fgSizer11 );
 	this->Layout();
-	fgSizer11->Fit( this );
 	
 	this->Centre( wxBOTH );
 	

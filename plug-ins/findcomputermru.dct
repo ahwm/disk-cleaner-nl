@@ -1,6 +1,0 @@
-[Info]
-Title=Windows Explorer Find Computer
-Description=Clear list of entered items in the Find Computer dialog
-
-[registry]
-HKEY_CURRENT_USER|Software\Microsoft\Windows\CurrentVersion\Explorer\FindComputerMRU

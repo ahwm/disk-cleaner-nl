@@ -26,7 +26,6 @@
 #include "../reg scan/regenum.h"
 
 #include "wx/log.h"
-#include "wx/intl.h"
 
 namespace
 {
@@ -265,11 +264,10 @@ namespace diskcleaner
         {
 
             GetPrivateProfileString( L"Info", L"Title", L"Error: No title given", strbuff,MAX_PATH+1, aFile.c_str() );
-            //ShortDesc = strbuff;
-            ShortDesc = wxGetTranslation( strbuff );
+            ShortDesc = strbuff;
 
             GetPrivateProfileString( L"Info", L"Description", L"Error: No description given", strbuff,MAX_PATH+1, aFile.c_str() );
-            LongDesc = wxGetTranslation( strbuff );
+            LongDesc = strbuff;
 
             //Process to check if running, see processes_dlg
             GetPrivateProfileString( L"Info", L"Process", L"", strbuff,MAX_PATH+1, aFile.c_str() );

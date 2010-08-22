@@ -19,7 +19,6 @@
 #define DCAPP_H
 
 #include <wx/app.h>
-#include <wx/intl.h>
 #include <string>
 #include <memory>
 
@@ -29,14 +28,11 @@
 class dc_frame;
 class wxLogWindow;
 
+
 class dcApp : public wxApp
 {
     // Main window pointer
     dc_frame* frame;
-
-    wxLocale the_locale;
-
-    // Application directory
     std::wstring strAppDirectory;
 
     // Name of preset to recall
@@ -65,10 +61,6 @@ public:
     virtual bool OnInit();
     virtual void OnInitCmdLine(wxCmdLineParser& parser);
     virtual bool OnCmdLineParsed(wxCmdLineParser& parser);
-
-    /// Retrieve the languages installed on disk
-    void GetInstalledLanguages( wxArrayString& names,
-	                        wxArrayLong& identifiers);
 
     /// True if portable mode is specified on command line
     bool IsPortable()

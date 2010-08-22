@@ -112,6 +112,9 @@ dc_frame::dc_frame( wxWindow* parent, diskcleaner::dcsettings& _settings ):
     plugin_listctrl_hwnd = static_cast<HWND>( plugin_listctrl->GetHandle() );
     plugin_listctrl->SetBackgroundImage( L"background_icon" );
 
+    // settings should be saved before exit
+    settings_already_saved = false;
+
 }
 
 void dc_frame::preset_save_btn_click( wxCommandEvent& event )
@@ -215,10 +218,8 @@ void dc_frame::clean_btn_click( wxCommandEvent& event )
                           settings.ui.result_frame_size.width, settings.ui.result_frame_size.height );
     }
 
-    rsframe->set_progress_range( plugin_listctrl->GetItemCount() );
-
     // Hide the main window
-    // Unfortunately also hides the taskbar button on Vista
+    // Unfortunately also hides the taskbar button
     Hide();
 
     rsframe->disable_controls();
@@ -234,20 +235,18 @@ void dc_frame::clean_btn_click( wxCommandEvent& event )
 
     if ( !GetAllFilesRemoved() )
     {
-        wxLogMessage( _( "Could not remove all files. Please close all open applications and retry." ) );
+        wxLogMessage( _("Could not remove all files. Please close all open applications and retry.") );
     }
 
     wxString schedulestr;
-    schedulestr.Printf( wxPLURAL( "Scheduled %I64d file for removal on reboot.",
-                                  "Scheduled %I64d files for removal on reboot." , GetFilesScheduledRemoveOnReboot() ),
-                        GetFilesScheduledRemoveOnReboot() );
+    schedulestr.Printf( _( "Scheduled %I64d %s for removal on reboot." ), GetFilesScheduledRemoveOnReboot(),
+                        wxPLURAL( "file", "files", GetFilesScheduledRemoveOnReboot() ) );
 
     wxLogMessage(  schedulestr );
 
 
-    schedulestr.Printf( wxPLURAL( "Cleaned total of %s in %I64d item",
-                                  "Cleaned total of %s in %I64d items" , total_files ),
-                        bytes_to_string( total_bytes ).c_str(), total_files );
+    schedulestr.Printf( _( "Cleaned total of %s in %I64d %s") , bytes_to_string( total_bytes ).c_str(),
+                        total_files, wxPLURAL( "item", "items", total_files) );
     wxLogMessage(  schedulestr );
 
     rsframe->enable_controls();
@@ -262,14 +261,6 @@ void dc_frame::clean(__int64& total_files, __int64& total_bytes)
     for (int i = 0, num_items = plugin_listctrl->GetItemCount() ; i < num_items ; ++i )
     {
 
-        // Hack! Needs to be better separated from GUI stuff
-        // This function was created to ge rid of the IsQuietMode calls
-        // all over the place. :/
-        if ( rsframe.get() )
-        {
-            rsframe->Increment();
-        }
-
         if ( plugin_listctrl->IsChecked( i ) )
         {
             pinfo = (PlugInfo* ) plugin_listctrl->GetItemData( i );
@@ -283,17 +274,11 @@ void dc_frame::clean(__int64& total_files, __int64& total_bytes)
 
             // Produce result summary line
             wxString line;
-            line.Printf(
-                        wxPLURAL( "%s: Cleaned %s in %I64d item.",
-                                  "%s: Cleaned %s in %I64d items.",
-                                  pinfo->GetItemsCleaned() ),
-                            pinfo->GetShortDesc().c_str(),
-                            bytes_to_string(pinfo->GetBytesCleaned() ).c_str(),
-                            pinfo->GetItemsCleaned() );
+            line.Printf( L"%s: Cleaned %s in %I64d %s.", pinfo->GetShortDesc().c_str(),
+                         bytes_to_string(pinfo->GetBytesCleaned() ).c_str(),
+                         pinfo->GetItemsCleaned(), wxPLURAL( "item", "items", pinfo->GetItemsCleaned() ) );
             wxLogMessage( line.c_str() );
             wxLogMessage( L"" ); //Skip a line for readability
-
-
         }
     }
 }
@@ -308,6 +293,12 @@ void dc_frame::runasadmin_btn_click( wxCommandEvent& event )
 
 void dc_frame::run_diskcleaner( bool as_admin )
 {
+    // First save the UI settings
+    // done here to prevent clash with child process
+    // sets settings_already_saved to true
+    save_settings();
+
+    // Create child process
     SHELLEXECUTEINFO   sei;
     ZeroMemory ( &sei, sizeof(sei) );
 
@@ -627,7 +618,7 @@ void dc_frame::add_plugin_to_listctrl( diskcleaner::PlugInfo* pi)
         plugin_listctrl->InsertItem( index, pi->GetShortDesc() );
 
 
-        tmpString.Printf( L"%I64d", pi->GetItemsFound() );
+        tmpString.Printf( _( "%I64d" ), pi->GetItemsFound() );
         plugin_listctrl->SetItem( index, 1, tmpString );
 
         bytes_string = bytes_to_string( pi->GetBytesFound() );
@@ -681,32 +672,18 @@ void dc_frame::plugin_listctrl_column_clicked( wxListEvent& event )
 
 void dc_frame::dc_base_frame_onclose( wxCloseEvent& event )
 {
+    // We used to save the settings here first, and then close the app.
+    // Unfortunately this clashes with the back and run-as-admin buttons
+    // on slow (flash) disks. Before Disk Cleaner has written the data, the new
+    // process is created immediately accessing the config file. This causes the parent
+    // process to be denied access to the config file, resulting in an error.
+    //
+    // Workaround: *before* starting the child process, save the settings.
+    // Raise a flag that settings are already saved, so don't do it here again.
 
-    dcApp& app = wxGetApp();
-
-    //Only bother with saving sizes, checked and unchecked items
-    // and positions if we were run in interactive mode.
-    if ( !app.IsQuietMode() )
+    if ( !settings_already_saved )
     {
-
-        //Save the size of the main window plus the column widths
-        wxLogDebug( L"%hs: saving main window sizes", __FUNCTION__ );
-        GetSize( &settings.ui.dc_frame_size.width, &settings.ui.dc_frame_size.height );
-        GetPosition( &settings.ui.dc_frame_size.topx, &settings.ui.dc_frame_size.topy );
-        settings.ui.col_sdesc_width = plugin_listctrl->GetColumnWidth( 0 );
-        settings.ui.col_item_width = plugin_listctrl->GetColumnWidth( 1 );
-        settings.ui.col_size_width = plugin_listctrl->GetColumnWidth( 2 );
-        settings.ui.col_ldesc_width = plugin_listctrl->GetColumnWidth( 3 );
-
-        settings.Save();
-
-        //FIRST save the currently checked and unchecked items
-        wxLogDebug( L"%hs: saving currently checked items", __FUNCTION__ );
-        ppreset_handler->save_last_used();
-    }
-    else
-    {
-        wxLogDebug( L"%hs: skipping saving of presets and sizes, quiet mode active", __FUNCTION__ );
+      save_settings();
     }
 
     //THEN delete all PlugInfo objects
@@ -782,4 +759,36 @@ void dc_frame::result_frame_finished_signal( bool restart )
 
     // We always end here.
     Close();
+}
+
+void dc_frame::save_settings()
+{
+    dcApp& app = wxGetApp();
+
+    //Only bother with saving sizes, checked and unchecked items
+    // and positions if we were run in interactive mode.
+    if ( !app.IsQuietMode() )
+    {
+
+        //Save the size of the main window plus the column widths
+        wxLogDebug( L"%hs: saving main window sizes", __FUNCTION__ );
+        GetSize( &settings.ui.dc_frame_size.width, &settings.ui.dc_frame_size.height );
+        GetPosition( &settings.ui.dc_frame_size.topx, &settings.ui.dc_frame_size.topy );
+        settings.ui.col_sdesc_width = plugin_listctrl->GetColumnWidth( 0 );
+        settings.ui.col_item_width = plugin_listctrl->GetColumnWidth( 1 );
+        settings.ui.col_size_width = plugin_listctrl->GetColumnWidth( 2 );
+        settings.ui.col_ldesc_width = plugin_listctrl->GetColumnWidth( 3 );
+
+        settings.Save();
+
+        //FIRST save the currently checked and unchecked items
+        wxLogDebug( L"%hs: saving currently checked items", __FUNCTION__ );
+        ppreset_handler->save_last_used();
+    }
+    else
+    {
+        wxLogDebug( L"%hs: skipping saving of presets and sizes, quiet mode active", __FUNCTION__ );
+    }
+
+    settings_already_saved = true;
 }

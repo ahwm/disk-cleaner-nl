@@ -22,8 +22,6 @@
 
 #include "DiskScan.h"
 
-// Note: this *really* should be refactored into an object model.
-
 namespace DiskScan
 {
     // Globals related to the scheduling of files for removal on reboot
@@ -112,14 +110,6 @@ bool ProcessFilesInFolder(const wchar_t* folder, const wchar_t* masks, TScanOpti
 
     if ( !so->SubFolderOnly ) //Do scan in this folder (option:  /so)
     {
-
-        // Set the attributes that files to be cleaned should NOT have
-        DWORD unwanted_attributes = FILE_ATTRIBUTE_DIRECTORY | FILE_ATTRIBUTE_OFFLINE;
-        if ( !so->System )
-        {
-            unwanted_attributes |= FILE_ATTRIBUTE_SYSTEM;
-        }
-
         //scan this folder with the masks provided
         while ( *masks )
         {
@@ -134,7 +124,9 @@ bool ProcessFilesInFolder(const wchar_t* folder, const wchar_t* masks, TScanOpti
             {
                 do
                 {
-                    if ( !(sr.dwFileAttributes & unwanted_attributes ) )
+                    if ( !(sr.dwFileAttributes & (FILE_ATTRIBUTE_DIRECTORY|
+                                                 FILE_ATTRIBUTE_OFFLINE|
+                                                 FILE_ATTRIBUTE_SYSTEM) ) )
                     {
                         ::wxLogDebug( L"%hs: FindFirstFile() found: %s ",__FUNCTION__, sr.cFileName );
                         *ptr = 0;
@@ -313,11 +305,27 @@ inline ProcessFileResult ProcessFile( const wchar_t * const the_file, std::vecto
     }
     else
     {
+//        int swresult = 0;
+//              if(so->Secure)
+//              {
+//                swresult = SWWipeFileByName(localfolder,dcglobals::ctxt);
+//                if(!swresult)
+//                {
+////                 addlog("Warning - unable to wipe file: "  + String(localfolder));
+//                 FileList.push_back("Warning - unable to wipe file: " + String(localfolder));
+//                }
+//              }
         ::wxLogDebug( L"%hs: Delete %s", __FUNCTION__, the_file );
 
         if ( DeleteFile( the_file ) )
         {
 
+//                            if (swresult)
+//                            {
+//                                FileList.push_back( ( L"Wiped and deleted: ") +  std::wstring(localfolder));
+//                            }
+//                            else
+//            {
             ::wxLogDebug( L"%hs: Deleted %s", __FUNCTION__, the_file );
             return pfOK;
 //            }
@@ -337,6 +345,11 @@ inline ProcessFileResult ProcessFile( const wchar_t * const the_file, std::vecto
                 {
                     ++DiskScan::FilesScheduled;
 
+//                    if ( swresult )
+//                    {
+//                        :wxLogMessage( L"Wiped and scheduled for removal on reboot: %s", localfolder );
+//                    }
+//                    else
                     {
                         ::wxLogMessage( _T( "Scheduled for removal on reboot: %s" ), the_file );
                     }

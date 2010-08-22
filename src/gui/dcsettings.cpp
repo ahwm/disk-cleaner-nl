@@ -16,14 +16,13 @@
 */
 #include "gui/dcsettings.h"
 #include <wx/confbase.h>
-#include <wx/intl.h>
 
 namespace diskcleaner
 {
     /// \see dcApp::OnCmdLineParsed(wxCmdLineParser& parser)
     bool dcsettings::Save()
     {
-        return Save( wxConfigBase::Get( false ) );
+        bool value = Save( wxConfigBase::Get( false ) );
     }
 
 
@@ -51,9 +50,6 @@ namespace diskcleaner
         cf->Write( L"Global/Hide Empty", global.hide_empty );
         cf->Write( L"Global/Hide Admin", global.hide_admin );
         cf->Write( L"Global/Show Running Processes", global.show_running_processes );
-        cf->Write( L"Global/First Run", false );
-        cf->Write( L"Global/Language ID", global.language_id );
-
 
         cf->Write( L"System Temp/Delete ReadOnly", systemp.delete_ro );
         cf->Write( L"System Temp/Delete Empty Subfolders", systemp.delete_subfolders );
@@ -62,6 +58,10 @@ namespace diskcleaner
         cf->Write( L"Temporary Internet Files/Delete Offline", tempinternetfiles.delete_offline );
         cf->Write( L"Internet Explorer Cookies/Use Cookie Filter", cookies.use_cookie_filter );
         cf->Write( L"Internet Explorer Cookies/Minimum Age", cookies.min_cookie_age );
+
+        // Immediately flush the settings, otherwise we clash with any possible
+        // child process that we've created.
+        cf->Flush();
 
         //TODO: return something meaningful
         return true;
@@ -95,8 +95,6 @@ namespace diskcleaner
         cf->Read( L"Global/Hide Empty" , &global.hide_empty, true );
         cf->Read( L"Global/Hide Admin" , &global.hide_admin, true );
         cf->Read( L"Global/Show Running Processes" , &global.show_running_processes, true );
-        cf->Read( L"Global/First Run" , &global.first_run, true );
-        cf->Read( L"Global/Language ID" , &global.language_id, wxLANGUAGE_DEFAULT );
 
         cf->Read( L"System Temp/Delete ReadOnly", &systemp.delete_ro, true );
         cf->Read( L"System Temp/Delete Empty Subfolders", &systemp.delete_subfolders, true );

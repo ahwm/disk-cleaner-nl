@@ -22,18 +22,6 @@
 #endif // Windows
 
 
-bool wxListCtrlLog::SetDebugFile( wxString PathAndFilename, int Flags )
-{
-#ifdef __WXDEBUG__
-    if ( m_logfile.IsOpened() )
-    {
-        m_logfile.Close();
-    }
-
-    return m_logfile.Create( PathAndFilename, true  );
-#endif
-}
-
 wxListCtrlLog::wxListCtrlLog(wxWindow* parent, wxWindowID id, const wxPoint& pt,
                                          const wxSize& sz, long style) : wxLog( ),
                                          wxListCtrl(parent, id, pt, sz, style), m_bErrors( false ),
@@ -111,11 +99,6 @@ void wxListCtrlLog::DoLog(wxLogLevel level, const wxChar *szString, time_t t)
             // debug window anyhow
             str += wxT("\r\n");
             OutputDebugString(str);
-            if ( m_logfile.IsOpened() )
-            {
-                m_logfile.Write( szString );
-                m_logfile.Write( L"\r\n" );
-            }
 #else
             // send them to stderr
             wxFprintf(stderr, wxT("[%s] %s\n"),

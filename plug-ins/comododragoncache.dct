@@ -1,6 +1,0 @@
-[Info]
-Title=Comodo Dragon Cache
-Description=Clear the Comodo Dragon cache
-
-[files]
-%localappdata%\COMODO\Dragon\User Data\Default\Cache\*.* /s

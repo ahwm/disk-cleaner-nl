@@ -20,7 +20,6 @@
 #pragma hdrstop
 
 #include <wx/log.h>
-#include <wx/intl.h>
 #include <string.h>
 #include <shellapi.h>
 #include "rbin.h"
@@ -29,8 +28,8 @@ namespace diskcleaner
 {
     RecycleBinInfo::RecycleBinInfo() : PlugInfo()
     {
-        ShortDesc = _( "Recycle Bin" );
-        LongDesc =  _( "Empties the Recycle Bin on the desktop" );
+        ShortDesc = L"Recycle Bin";
+        LongDesc =  L"Empties the Recycle Bin on the desktop";
     }
 
     void RecycleBinInfo::Preview()
@@ -79,6 +78,6 @@ namespace diskcleaner
 
     void RecycleBinInfo::GetFilesAsStrings(std::vector<std::wstring>& files)
     {
-        files.push_back( std::wstring( _( "Recycle bin does not support file listing" ) )  );
+        files.push_back( std::wstring( L"Recycle bin does not support file listing" ) );
     }
 }

@@ -1,6 +1,0 @@
-[info]
-Title=Microsoft Wordpad History
-Description=Clear the list of recent files in Wordpad
-
-[registry]
-HKEY_CURRENT_USER|Software\Microsoft\Windows\CurrentVersion\Applets\Wordpad\Recent File List

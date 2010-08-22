@@ -1,9 +1,0 @@
-[info]
-Title=Google Chrome Current and Last Session
-Description=Remove data about the current and last session
-
-[files]
-%appdata%\Google\Chrome\User Data\Default\Current Session
-%appdata%\Google\Chrome\User Data\Default\Current Tabs
-%appdata%\Google\Chrome\User Data\Default\Last Session
-%appdata%\Google\Chrome\User Data\Default\Last Tabs

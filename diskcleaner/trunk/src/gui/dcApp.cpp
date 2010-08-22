@@ -180,6 +180,9 @@ void dcApp::GetInstalledLanguages( wxArrayString& names,
         identifiers.Add( wxLANGUAGE_DEFAULT );
     }
 
+    names.Add( L"English" );
+    identifiers.Add( wxLANGUAGE_ENGLISH );
+
     WIN32_FIND_DATA finddata;
     HANDLE fHandle = FindFirstFile( ( lang_dir + L"\\*.*" ).c_str(), &finddata );
 

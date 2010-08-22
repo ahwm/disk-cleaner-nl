@@ -1,0 +1,531 @@
+# Russian translation for dclean
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# This file is distributed under the same license as the dclean package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: dclean\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2010-08-03 13:59+0100\n"
+"PO-Revision-Date: 2010-08-12 15:51+0100\n"
+"Last-Translator: Robert Moerland <veel_mail@xs4all.nl>\n"
+"Language-Team: Russian <ru@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Launchpad-Export-Date: 2010-08-12 13:32+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+#: gui/dcApp.cpp:53
+msgid "run in portable mode: save configuration files in the application folder."
+msgstr "выполнить в простом режиме: сохранить конфигурационные файлы в папке приложения."
+
+#: gui/dcApp.cpp:57
+msgid "clean without showing a GUI. If a preset to be loaded is specified (option -r), the items checked in the specified preset will be cleaned. Otherwise, the items checked the last time Disk Cleaner was run in interactive mode are cleaned."
+msgstr "очистить без использования графического интерфейса пользователя. Если была указана особая схема (параметр -r), выделенные объекты в указанной схеме будут очищены. В противном случае, объекты последний раз выделенные в Disk Cleaner в интерактивном режиме будут очищены."
+
+#: gui/dcApp.cpp:64
+msgid "specify preset to be recalled for use. If /q (quiet mode) is also specified, the preset will be loaded and used for cleaning the items specified in the preset."
+msgstr ""
+
+#: gui/dcApp.cpp:70
+msgid "do not use text plugins (.dct files). "
+msgstr "не использовать текстовые надстройки (файлы .dct). "
+
+#: gui/dcApp.cpp:71
+msgid "do not use the built-in plugins"
+msgstr "не использовать встроенные надстройки"
+
+#: gui/dcApp.cpp:73
+msgid "Shows messages in a debug window "
+msgstr "Показывает сообщения в окне отладки "
+
+#: gui/dcApp.cpp:104
+msgid "Please select the language"
+msgstr ""
+
+#: gui/dcApp.cpp:105
+msgid "Languages"
+msgstr ""
+
+#: gui/dcApp.cpp:170
+msgid "Default"
+msgstr ""
+
+#: gui/dcApp.cpp:298
+#, c-format
+msgid "I'm unable to save/load the per user settings in a file; I failed to create folder %s. "
+msgstr "Невозможно сохранить/загрузить параметр для пользователя в файл; ошибка создания каталога %s. "
+
+#: gui/dcpresets.cpp:100
+msgid "I'm sorry, but I cannot find the specified preset. Please check the spelling of the preset name."
+msgstr "Невозможно найти указанную схему. Пожалуйста, убедитесь что вы ввели имя схемы правильно."
+
+#: gui/dcpresets.cpp:101
+msgid "Recall preset failed"
+msgstr "Ошибка вызова схемы"
+
+#: gui/dc_frame.cpp:105
+msgid "Title"
+msgstr "Название"
+
+#: gui/dc_frame.cpp:106
+msgid "Items"
+msgstr "Объекты"
+
+#: gui/dc_frame.cpp:107
+msgid "Size"
+msgstr "Размер"
+
+#: gui/dc_frame.cpp:108
+msgid "Description"
+msgstr "Описание"
+
+#: gui/dc_frame.cpp:119
+msgid "Please enter a name for the preset"
+msgstr "Пожалуйста введите название схемы"
+
+#: gui/dc_frame.cpp:237
+msgid "Could not remove all files. Please close all open applications and retry."
+msgstr "Невозможно удалить все файлы."
+
+#: gui/dc_frame.cpp:241
+msgid "Scheduled %I64d file for removal on reboot."
+msgid_plural "Scheduled %I64d files for removal on reboot."
+msgstr[0] ""
+msgstr[1] ""
+
+#: gui/dc_frame.cpp:248
+msgid "Cleaned total of %s in %I64d item"
+msgid_plural "Cleaned total of %s in %I64d items"
+msgstr[0] ""
+msgstr[1] ""
+
+#: gui/dc_frame.cpp:287
+msgid "%s: Cleaned %s in %I64d item."
+msgid_plural "%s: Cleaned %s in %I64d items."
+msgstr[0] ""
+msgstr[1] ""
+
+#: gui/dc_frame.cpp:540
+#: gui/prefs_dlg.cpp:95
+msgid "<last used>"
+msgstr ""
+
+#: gui/dc_frame.cpp:575
+msgid "%I64d b"
+msgstr "%I64d б"
+
+#: gui/dc_frame.cpp:582
+msgid "%I64d kB"
+msgstr "%I64d КБ"
+
+#: gui/dc_frame.cpp:589
+msgid "%I64d MB"
+msgstr "%I64d МБ"
+
+#: gui/dc_frame.cpp:593
+#, c-format
+msgid "%5.2f GB"
+msgstr "%5.2f ГБ"
+
+#: gui/dc_gui.cpp:37
+msgid "Check the items to remove"
+msgstr "Выделите объекты, которые хотите удалить"
+
+#: gui/dc_gui.cpp:56
+msgid "Presets"
+msgstr "Схемы"
+
+#: gui/dc_gui.cpp:63
+msgid "Program"
+msgstr "Программа"
+
+#: gui/dc_gui.cpp:82
+msgid "&Save..."
+msgstr "&Сохранить..."
+
+#: gui/dc_gui.cpp:85
+msgid "Delete"
+msgstr "Удалить"
+
+#: gui/dc_gui.cpp:96
+msgid "Options..."
+msgstr "Параметры..."
+
+#: gui/dc_gui.cpp:99
+msgid "About..."
+msgstr "Сведения о программе..."
+
+#: gui/dc_gui.cpp:106
+msgid "Actions"
+msgstr "Действия"
+
+#: gui/dc_gui.cpp:116
+msgid "&Clean"
+msgstr "&Очистить"
+
+#: gui/dc_gui.cpp:123
+msgid "&Run as Administrator"
+msgstr "&Выполнить от имени администратора"
+
+#: gui/dc_gui.cpp:129
+#: gui/dc_gui.cpp:340
+msgid "&Exit"
+msgstr "&Выйти"
+
+#: gui/dc_gui.cpp:141
+msgid "Select All"
+msgstr "Выделить всё"
+
+#: gui/dc_gui.cpp:145
+msgid "Select None"
+msgstr "Отменить выбор"
+
+#: gui/dc_gui.cpp:149
+msgid "Invert Selection"
+msgstr "Обратить выделение"
+
+#: gui/dc_gui.cpp:205
+msgid "Please wait, Disk Cleaner is scanning the system."
+msgstr "Пожалуйста, подождите, Disk Cleaner выполняет сканирование системы."
+
+#: gui/dc_gui.cpp:215
+msgid "0 %"
+msgstr "0 %"
+
+#: gui/dc_gui.cpp:224
+msgid "100 %"
+msgstr "100 %"
+
+#: gui/dc_gui.cpp:257
+msgid "A fast open source disk cleanup tool"
+msgstr "Быстрый инструмент для очистки системы с открытым исходным кодом"
+
+#: gui/dc_gui.cpp:261
+msgid "Version"
+msgstr "Версия"
+
+#: gui/dc_gui.cpp:265
+msgid "Copyright 1999-2010 R. J. Moerland"
+msgstr "Авторские права 1999-2010 R. J. Moerland"
+
+#: gui/dc_gui.cpp:269
+msgid "http://www.diskcleaner.nl"
+msgstr "http://www.diskcleaner.nl"
+
+#: gui/dc_gui.cpp:272
+msgid "Released under the GPL v2"
+msgstr "Издано по лицензии GPL v2"
+
+#: gui/dc_gui.cpp:314
+msgid "Cleaning results"
+msgstr "Результаты очистки"
+
+#: gui/dc_gui.cpp:330
+msgid "&Back"
+msgstr "&Назад"
+
+#: gui/dc_gui.cpp:334
+msgid "&Save results..."
+msgstr "&Сохранить результаты..."
+
+#: gui/dc_gui.cpp:381
+msgid "&Delete locked files on reboot if running as administrator"
+msgstr "&Удалить заблокированные файлы при перезагрузки, если выполняется от имени администратора"
+
+#: gui/dc_gui.cpp:384
+msgid "&Hide entries with zero items to clean (restarts Disk Cleaner)"
+msgstr "&Скрыть записи с нулевыми объектами для очистки (перезапускает Disk Cleaner)"
+
+#: gui/dc_gui.cpp:387
+msgid "H&ide items that need administrator priviliges for normal users (restarts Disk Cleaner)"
+msgstr "С&крыть объекты, для действий над которыми требуются права администратора (перезапускает Disk Cleaner)"
+
+#: gui/dc_gui.cpp:390
+msgid "&Warn when open applications can interfere with cleaning"
+msgstr "&Предупреждать при открытии приложений, которые могут препятствовать очистке"
+
+#: gui/dc_gui.cpp:396
+msgid "Language:"
+msgstr ""
+
+#: gui/dc_gui.cpp:407
+msgid "Note: changing the language restarts Disk Cleaner"
+msgstr ""
+
+#: gui/dc_gui.cpp:414
+msgid "Global"
+msgstr "Общий"
+
+#: gui/dc_gui.cpp:419
+msgid "&Delete read-only files"
+msgstr "&Удалить файлы с атрибутом только для чтения"
+
+#: gui/dc_gui.cpp:422
+msgid "Delete &empty subfolders"
+msgstr "Удалить &пустые подкаталоги"
+
+#: gui/dc_gui.cpp:428
+msgid "Minimum age before removal (days)"
+msgstr "Минимальный срок перед удалением (дней)"
+
+#: gui/dc_gui.cpp:432
+#: gui/dc_gui.cpp:555
+msgid "0"
+msgstr "0"
+
+#: gui/dc_gui.cpp:432
+#: gui/dc_gui.cpp:555
+msgid "1"
+msgstr "1"
+
+#: gui/dc_gui.cpp:432
+#: gui/dc_gui.cpp:555
+msgid "2"
+msgstr "2"
+
+#: gui/dc_gui.cpp:432
+#: gui/dc_gui.cpp:555
+msgid "5"
+msgstr "5"
+
+#: gui/dc_gui.cpp:432
+#: gui/dc_gui.cpp:555
+msgid "10"
+msgstr "10"
+
+#: gui/dc_gui.cpp:432
+#: gui/dc_gui.cpp:555
+msgid "20"
+msgstr "20"
+
+#: gui/dc_gui.cpp:432
+#: gui/dc_gui.cpp:555
+msgid "50"
+msgstr "50"
+
+#: gui/dc_gui.cpp:443
+msgid "System temporary files"
+msgstr "Временные системные файла"
+
+#: gui/dc_gui.cpp:450
+msgid "&Delete off-line items"
+msgstr "&Удалить автономные объекты"
+
+#: gui/dc_gui.cpp:456
+#: core/built_in_plugins/internet_explorer/internet_explorer.cpp:231
+msgid "Internet Explorer Cache"
+msgstr "Кэш Internet Explorer"
+
+#: gui/dc_gui.cpp:463
+msgid "Select a preset and click 'Install' to auto-run Disk Cleaner in quiet mode on start-up with the selected preset. "
+msgstr ""
+
+#: gui/dc_gui.cpp:467
+msgid "Click 'Remove' to remove the shortcut."
+msgstr ""
+
+#: gui/dc_gui.cpp:479
+msgid "&Install"
+msgstr "&Установить"
+
+#: gui/dc_gui.cpp:482
+msgid "&Remove"
+msgstr "&Удалить"
+
+#: gui/dc_gui.cpp:494
+msgid "Quiet mode autostart"
+msgstr ""
+
+#: gui/dc_gui.cpp:545
+msgid "Use cookie filtering"
+msgstr "Использовать фильтрацию cookie"
+
+#: gui/dc_gui.cpp:551
+msgid "Keep cookies for "
+msgstr "Сохранять cookie в течении "
+
+#: gui/dc_gui.cpp:561
+msgid "days"
+msgstr "дней"
+
+#: gui/dc_gui.cpp:578
+msgid "Protected cookies:"
+msgstr "Защищённые cookies:"
+
+#: gui/dc_gui.cpp:596
+msgid "&<"
+msgstr "&<"
+
+#: gui/dc_gui.cpp:599
+msgid "&>"
+msgstr "&>"
+
+#: gui/dc_gui.cpp:610
+msgid "Unprotected cookies:"
+msgstr ""
+
+#: gui/dc_gui.cpp:621
+msgid "Protected cookies are never deleted"
+msgstr "Защищённые cookies никогда не удаляются"
+
+#: gui/dc_gui.cpp:628
+msgid "Cookies"
+msgstr ""
+
+#: gui/dc_gui.cpp:652
+msgid "The following applications are still running."
+msgstr "Следующий приложения до сих пор выполняются."
+
+#: gui/dc_gui.cpp:658
+msgid "Please close them for optimal cleaning:"
+msgstr "Пожалуйста, закройте их для проведения эффективной очистки:"
+
+#: gui/dc_gui.cpp:668
+msgid "Never show this warning again"
+msgstr "Не показывать это предупреждение в будущем"
+
+#: gui/prefs_dlg.cpp:88
+msgid "The shortcut installation functionality is not available in portable mode."
+msgstr ""
+
+#: gui/prefs_dlg.cpp:214
+#: gui/prefs_dlg.cpp:231
+msgid "Operation was successful."
+msgstr ""
+
+#: gui/prefs_dlg.cpp:218
+#: gui/prefs_dlg.cpp:235
+msgid "Operation failed."
+msgstr ""
+
+#: gui/result_frame.cpp:43
+msgid "Choose a location to save the results"
+msgstr "Выберите размещение для сохранения результатов"
+
+#: gui/result_frame.cpp:44
+msgid "Log files (*.log)|*.log"
+msgstr "Файлы журнала (*.log)|*.log"
+
+#: gui/result_frame.cpp:54
+msgid "Sorry, I couldn't write to that file. Please try another name or location"
+msgstr "Извините, невозможно записать в этот файл. Пожалуйста, укажите другое имя или размещение"
+
+#: gui/wxlistctrllog.cpp:117
+msgid "Fatal error"
+msgstr "Критическая ошибка"
+
+#: core/built_in_plugins/firefox/firefox.cpp:211
+msgid "Firefox"
+msgstr ""
+
+#: core/built_in_plugins/firefox/firefox.cpp:212
+msgid "Firefox Cache"
+msgstr "Кэш Firefox"
+
+#: core/built_in_plugins/firefox/firefox.cpp:213
+msgid "Clears the Firefox cache"
+msgstr "Очищает кэш Firefox"
+
+#: core/built_in_plugins/firefox/firefox.cpp:290
+msgid "Firefox History"
+msgstr "Журнал Firefox"
+
+#: core/built_in_plugins/firefox/firefox.cpp:291
+msgid "Removes Firefox history records"
+msgstr "Удаляет записи журнала Firefox"
+
+#: core/built_in_plugins/firefox/firefox.cpp:344
+msgid "Unable to delete firefox history"
+msgstr "Невозможно очистить журнал firefox"
+
+#: core/built_in_plugins/firefox/firefox.cpp:377
+msgid "Compacting the Firefox history database"
+msgstr "Сжатие базы данных журнала Firefox"
+
+#: core/built_in_plugins/firefox/firefox.cpp:383
+msgid "I cannot open Firefox' history file, is Firefox still running?"
+msgstr "Невозможно открыть журнал Firefox, Firefox до сих пор запущен?"
+
+#: core/built_in_plugins/firefox/firefox.cpp:393
+msgid "Firefox Cookies"
+msgstr ""
+
+#: core/built_in_plugins/firefox/firefox.cpp:394
+msgid "Removes Firefox cookies"
+msgstr "Удалить cookie Firefox"
+
+#: core/built_in_plugins/internet_explorer/internet_explorer.cpp:229
+msgid "Internet Explorer"
+msgstr ""
+
+#: core/built_in_plugins/internet_explorer/internet_explorer.cpp:232
+msgid "Clears the Internet Explorer browser cache"
+msgstr ""
+
+#: core/built_in_plugins/internet_explorer/internet_explorer.cpp:284
+msgid "Internet Explorer History"
+msgstr "Журнал Internet Explorer"
+
+#: core/built_in_plugins/internet_explorer/internet_explorer.cpp:285
+msgid "Removes Internet Explorer history records"
+msgstr "Удалить записи журнала Internet Explorer"
+
+#: core/built_in_plugins/internet_explorer/internet_explorer.cpp:352
+msgid "Internet Explorer Cookies"
+msgstr ""
+
+#: core/built_in_plugins/internet_explorer/internet_explorer.cpp:353
+msgid "Removes Internet Explorer cookie files"
+msgstr "Удаляет файлы cookie Internet Explorer"
+
+#: core/built_in_plugins/recycle bin/rbin.cpp:32
+msgid "Recycle Bin"
+msgstr ""
+
+#: core/built_in_plugins/recycle bin/rbin.cpp:33
+msgid "Empties the Recycle Bin on the desktop"
+msgstr ""
+
+#: core/built_in_plugins/recycle bin/rbin.cpp:82
+msgid "Recycle bin does not support file listing"
+msgstr ""
+
+#: core/built_in_plugins/system temp/systemp.cpp:34
+msgid "Temporary files"
+msgstr "Временные файлы"
+
+#: core/built_in_plugins/system temp/systemp.cpp:35
+msgid "Removes temporary files from the current user's temporary folder, "
+msgstr "Удаляет временные файлы из временной папки текущего пользователя, "
+
+#: core/built_in_plugins/system temp/systemp.cpp:126
+msgid "Could not clean the temporary folder. The location of this folder could not be determined reliably."
+msgstr "Невозможно очистить временную папку. Размещение этой папки не может быть достоверно определено."
+
+#: gui/dc_gui.h:87
+msgid "Disk Cleaner"
+msgstr ""
+
+#: gui/dc_gui.h:112
+msgid "Please wait..."
+msgstr "Пожалуйста, подождите..."
+
+#: gui/dc_gui.h:140
+msgid "About"
+msgstr "Сведения о программе"
+
+#: gui/dc_gui.h:219
+msgid "Preferences"
+msgstr "Свойства"
+
+#: gui/dc_gui.h:276
+msgid "Disk Cleaner Information"
+msgstr "Сведения Disk Cleaner"
+
+msgid "Autostart"
+msgstr "Автозапуск"
+

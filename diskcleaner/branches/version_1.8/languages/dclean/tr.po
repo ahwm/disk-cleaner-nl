@@ -7,27 +7,35 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dclean\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-08-03 13:59+0100\n"
-"PO-Revision-Date: 2010-08-12 15:51+0100\n"
-"Last-Translator: Robert Moerland <veel_mail@xs4all.nl>\n"
+"POT-Creation-Date: 2010-08-15 14:50+0100\n"
+"PO-Revision-Date: 2010-08-17 07:29+0000\n"
+"Last-Translator: Robert Moerland <Unknown>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2010-08-12 13:32+0000\n"
+"X-Launchpad-Export-Date: 2010-08-22 18:36+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: gui/dcApp.cpp:53
-msgid "run in portable mode: save configuration files in the application folder."
+msgid ""
+"run in portable mode: save configuration files in the application folder."
 msgstr ""
 
 #: gui/dcApp.cpp:57
-msgid "clean without showing a GUI. If a preset to be loaded is specified (option -r), the items checked in the specified preset will be cleaned. Otherwise, the items checked the last time Disk Cleaner was run in interactive mode are cleaned."
+msgid ""
+"clean without showing a GUI. If a preset to be loaded is specified (option -"
+"r), the items checked in the specified preset will be cleaned. Otherwise, "
+"the items checked the last time Disk Cleaner was run in interactive mode are "
+"cleaned."
 msgstr ""
 
 #: gui/dcApp.cpp:64
-msgid "specify preset to be recalled for use. If /q (quiet mode) is also specified, the preset will be loaded and used for cleaning the items specified in the preset."
+msgid ""
+"specify preset to be recalled for use. If /q (quiet mode) is also specified, "
+"the preset will be loaded and used for cleaning the items specified in the "
+"preset."
 msgstr ""
 
 #: gui/dcApp.cpp:70
@@ -42,25 +50,29 @@ msgstr ""
 msgid "Shows messages in a debug window "
 msgstr ""
 
-#: gui/dcApp.cpp:104
+#: gui/dcApp.cpp:111
 msgid "Please select the language"
 msgstr ""
 
-#: gui/dcApp.cpp:105
+#: gui/dcApp.cpp:112
 msgid "Languages"
 msgstr ""
 
-#: gui/dcApp.cpp:170
+#: gui/dcApp.cpp:179
 msgid "Default"
 msgstr ""
 
-#: gui/dcApp.cpp:298
+#: gui/dcApp.cpp:307
 #, c-format
-msgid "I'm unable to save/load the per user settings in a file; I failed to create folder %s. "
+msgid ""
+"I'm unable to save/load the per user settings in a file; I failed to create "
+"folder %s. "
 msgstr ""
 
 #: gui/dcpresets.cpp:100
-msgid "I'm sorry, but I cannot find the specified preset. Please check the spelling of the preset name."
+msgid ""
+"I'm sorry, but I cannot find the specified preset. Please check the spelling "
+"of the preset name."
 msgstr ""
 
 #: gui/dcpresets.cpp:101
@@ -88,7 +100,8 @@ msgid "Please enter a name for the preset"
 msgstr ""
 
 #: gui/dc_frame.cpp:237
-msgid "Could not remove all files. Please close all open applications and retry."
+msgid ""
+"Could not remove all files. Please close all open applications and retry."
 msgstr ""
 
 #: gui/dc_frame.cpp:241
@@ -241,7 +254,9 @@ msgid "&Hide entries with zero items to clean (restarts Disk Cleaner)"
 msgstr ""
 
 #: gui/dc_gui.cpp:387
-msgid "H&ide items that need administrator priviliges for normal users (restarts Disk Cleaner)"
+msgid ""
+"H&ide items that need administrator priviliges for normal users (restarts "
+"Disk Cleaner)"
 msgstr ""
 
 #: gui/dc_gui.cpp:390
@@ -321,7 +336,9 @@ msgid "Internet Explorer Cache"
 msgstr "Internet Explorer Ön belleği"
 
 #: gui/dc_gui.cpp:463
-msgid "Select a preset and click 'Install' to auto-run Disk Cleaner in quiet mode on start-up with the selected preset. "
+msgid ""
+"Select a preset and click 'Install' to auto-run Disk Cleaner in quiet mode "
+"on start-up with the selected preset. "
 msgstr ""
 
 #: gui/dc_gui.cpp:467
@@ -389,7 +406,8 @@ msgid "Never show this warning again"
 msgstr ""
 
 #: gui/prefs_dlg.cpp:88
-msgid "The shortcut installation functionality is not available in portable mode."
+msgid ""
+"The shortcut installation functionality is not available in portable mode."
 msgstr ""
 
 #: gui/prefs_dlg.cpp:214
@@ -402,19 +420,20 @@ msgstr ""
 msgid "Operation failed."
 msgstr ""
 
-#: gui/result_frame.cpp:43
+#: gui/result_frame.cpp:50
 msgid "Choose a location to save the results"
 msgstr ""
 
-#: gui/result_frame.cpp:44
+#: gui/result_frame.cpp:51
 msgid "Log files (*.log)|*.log"
 msgstr ""
 
-#: gui/result_frame.cpp:54
-msgid "Sorry, I couldn't write to that file. Please try another name or location"
+#: gui/result_frame.cpp:61
+msgid ""
+"Sorry, I couldn't write to that file. Please try another name or location"
 msgstr ""
 
-#: gui/wxlistctrllog.cpp:117
+#: gui/wxlistctrllog.cpp:134
 msgid "Fatal error"
 msgstr "Önemli hata"
 
@@ -482,6 +501,14 @@ msgstr "Internet Explorer Çerezleri"
 msgid "Removes Internet Explorer cookie files"
 msgstr "Internet Explorer Çerezleri kaldır"
 
+#: core/built_in_plugins/recent docs/recentdocs.cpp:31
+msgid "Recent Documents"
+msgstr ""
+
+#: core/built_in_plugins/recent docs/recentdocs.cpp:32
+msgid "Clears the Recent Documents in the Start menu"
+msgstr ""
+
 #: core/built_in_plugins/recycle bin/rbin.cpp:32
 msgid "Recycle Bin"
 msgstr ""
@@ -502,8 +529,10 @@ msgstr "Geçici dosyalar"
 msgid "Removes temporary files from the current user's temporary folder, "
 msgstr ""
 
-#: core/built_in_plugins/system temp/systemp.cpp:126
-msgid "Could not clean the temporary folder. The location of this folder could not be determined reliably."
+#: core/built_in_plugins/system temp/systemp.cpp:127
+msgid ""
+"Could not clean the temporary folder. The location of this folder could not "
+"be determined reliably."
 msgstr ""
 
 #: gui/dc_gui.h:87
@@ -528,4 +557,3 @@ msgstr ""
 
 msgid "Autostart"
 msgstr "Otomatik Başlangıç"
-

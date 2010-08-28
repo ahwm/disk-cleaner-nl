@@ -26,16 +26,19 @@
 namespace diskcleaner
 {
 
-    dcpreset_handler::dcpreset_handler(wxConfigBase* const config, wxCheckedListCtrl* const checklist_ctrlwindow ) :
-            cfg_file(config), checklist_ctrl(checklist_ctrlwindow)
+    dcpreset_handler::dcpreset_handler( wxCheckedListCtrl* const checklist_ctrlwindow ) :
+                                        checklist_ctrl(checklist_ctrlwindow)
     {
 
     }
 
     void dcpreset_handler::get_saved_preset_names( wxArrayString& presetlist )
     {
-        csave_restore_path srp(this);
+        wxConfigBase* cfg_file = wxConfigBase::Get();
 
+        if ( !cfg_file ) return;
+
+        csave_restore_path srp( cfg_file );
 
         cfg_file->SetPath( L"/SavedPresets" );
 
@@ -56,7 +59,11 @@ namespace diskcleaner
 
     bool dcpreset_handler::save_preset( const std::wstring preset_name )
     {
-        csave_restore_path srp(this);
+        wxConfigBase* cfg_file = wxConfigBase::Get();
+
+        if ( !cfg_file ) return false;
+
+        csave_restore_path srp( cfg_file );
 
         cfg_file->SetPath( L"/SavedPresets/" +  preset_name );
 
@@ -76,7 +83,11 @@ namespace diskcleaner
 
     void dcpreset_handler::load_preset( const std::wstring preset_name )
     {
-        csave_restore_path srp(this);
+        wxConfigBase* cfg_file = wxConfigBase::Get();
+
+        if ( !cfg_file ) return;
+
+        csave_restore_path srp( cfg_file );
 
         cfg_file->SetPath( L"/SavedPresets/" );
 
@@ -109,7 +120,11 @@ namespace diskcleaner
 
      bool dcpreset_handler::delete_preset( const std::wstring preset_name )
     {
-        csave_restore_path srp(this);
+        wxConfigBase* cfg_file = wxConfigBase::Get();
+
+        if ( !cfg_file ) return false;
+
+        csave_restore_path srp( cfg_file );
 
         cfg_file->SetPath( L"/SavedPresets" );
 
@@ -119,7 +134,11 @@ namespace diskcleaner
 
     bool dcpreset_handler::save_last_used( )
     {
-        csave_restore_path srp( this );
+        wxConfigBase* cfg_file = wxConfigBase::Get();
+
+        if ( !cfg_file ) return false;
+
+        csave_restore_path srp( cfg_file );
 
         cfg_file->SetPath( L"/LastUsedPreset" );
 
@@ -142,7 +161,11 @@ namespace diskcleaner
 
     void dcpreset_handler::load_last_used( )
     {
-        csave_restore_path srp( this );
+        wxConfigBase* cfg_file = wxConfigBase::Get();
+
+        if ( !cfg_file ) return;
+
+        csave_restore_path srp( cfg_file );
 
         cfg_file->SetPath( L"/LastUsedPreset" );
         long count = checklist_ctrl->GetItemCount();
@@ -162,11 +185,11 @@ namespace diskcleaner
 
     }
 
-    csave_restore_path::csave_restore_path( const dcpreset_handler* const adph ) :
-            dph( adph ), current_path ( dph->cfg_file->GetPath() ) {};
+    csave_restore_path::csave_restore_path( wxConfigBase* const config_object ) :
+            cfg( config_object ), current_path ( config_object->GetPath() ) {};
 
     csave_restore_path::~csave_restore_path()
     {
-        dph->cfg_file->SetPath( current_path );
+        cfg->SetPath( current_path );
     };
 }

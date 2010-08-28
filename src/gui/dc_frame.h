@@ -52,12 +52,6 @@ class dc_frame : public dc_base_frame
 	friend class result_frame;
 	void result_frame_finished_signal( bool restart );
 
-	// bool to indicate that the settings are saved already
-	// and that they shouldn't be saved on exit again
-	// prevents a clash between the parent and child
-	// Disk Cleaner processes accessing the config file
-	bool settings_already_saved;
-
 	/// function to save the UI settings.
 	/// functionality used to be in dc_base_frame_on_close
 	/// \see dc_frame::run_diskcleaner(bool as_admin)

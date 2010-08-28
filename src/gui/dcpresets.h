@@ -20,35 +20,32 @@
 
 #include <string>
 #include <vector>
-#include "wx/fileconf.h"
-
 #include "core\plugin_info_base.h"
 
-
+class wxConfigBase;
 class wxCheckedListCtrl;
 class wxArrayString;
 
 namespace diskcleaner
 {
 
-
+    /// utility class to handle loading presets
     class dcpreset_handler
     {
     public:
+        dcpreset_handler( wxCheckedListCtrl* const checklist_ctrlwindow );
 
-        /// Constructor. checklist_ctrlwindow can be NULL
-        dcpreset_handler(wxConfigBase* const cf, wxCheckedListCtrl* const checklist_ctrlwindow );
+        // Returns a vector of wstrings containing the names of all saved presets
+        // No interaction with wxCheckedListCtrl necessary
+        static void get_saved_preset_names( wxArrayString& presetlist );
 
-        //Returns a vector of wstrings containing the names of all saved presets
-        void get_saved_preset_names( wxArrayString& presetlist );
-
-        //bool is_enabled( const std::wstring& preset_name, const std::wstring& name );
+        // No interaction with wxCheckedListCtrl necessary
+        static bool delete_preset( const std::wstring preset_name );
 
         bool save_preset( const std::wstring preset_name );
 
         void load_preset( const std::wstring preset_name );
 
-        bool delete_preset( const std::wstring preset_name );
 
         bool save_last_used();
 
@@ -58,8 +55,6 @@ namespace diskcleaner
     private:
         friend class csave_restore_path;
 
-
-        wxConfigBase* cfg_file;
         wxCheckedListCtrl* checklist_ctrl;
     };
 
@@ -67,11 +62,11 @@ namespace diskcleaner
     class csave_restore_path
     {
     private:
-        const dcpreset_handler* dph;
+        wxConfigBase* const cfg;
         std::wstring current_path;
 
     public:
-        csave_restore_path( const dcpreset_handler* const adph );
+        csave_restore_path( wxConfigBase* const config_object );
 
         ~csave_restore_path();
 

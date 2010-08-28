@@ -29,6 +29,8 @@ namespace diskcleaner
 
     bool dcsettings::Save( wxConfigBase* cf )
     {
+        if ( !cf ) return false;
+
         cf->Write( L"UI/DCFrameWidth", ui.dc_frame_size.width );
         cf->Write( L"UI/DCFrameHeight", ui.dc_frame_size.height );
         cf->Write( L"UI/DCFrameTopX", ui.dc_frame_size.topx );
@@ -67,7 +69,6 @@ namespace diskcleaner
         // child process that we've created.
         cf->Flush();
 
-        //TODO: return something meaningful
         return true;
     }
 
@@ -78,6 +79,8 @@ namespace diskcleaner
 
     bool dcsettings::Load( wxConfigBase* cf )
     {
+        if ( !cf ) return false;
+
         cf->Read( L"UI/DCFrameWidth", &ui.dc_frame_size.width, 0 );
         cf->Read( L"UI/DCFrameHeight", &ui.dc_frame_size.height, 0 );
         cf->Read( L"UI/DCFrameTopX", &ui.dc_frame_size.topx, 0 );
@@ -110,8 +113,6 @@ namespace diskcleaner
         cf->Read( L"Internet Explorer Cookies/Use Cookie Filter", &cookies.use_cookie_filter, false );
         cf->Read( L"Internet Explorer Cookies/Minimum Age", &cookies.min_cookie_age, 0 );
 
-
-        //TODO: something meaningful here
         return true;
     }
 }

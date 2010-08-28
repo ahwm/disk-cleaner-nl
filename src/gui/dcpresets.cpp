@@ -20,21 +20,25 @@
 #include <wx/arrstr.h>
 #include <wx/log.h>
 #include <wx/intl.h>
+#include <wx/fileconf.h>
 #include "wxCheckedListCtrl.h"
 
 namespace diskcleaner
 {
 
-    dcpreset_handler::dcpreset_handler(wxConfigBase* const config, wxCheckedListCtrl* const checklist_ctrlwindow ) :
-            cfg_file(config), checklist_ctrl(checklist_ctrlwindow)
+    dcpreset_handler::dcpreset_handler( wxCheckedListCtrl* const checklist_ctrlwindow ) :
+                                        checklist_ctrl(checklist_ctrlwindow)
     {
 
     }
 
     void dcpreset_handler::get_saved_preset_names( wxArrayString& presetlist )
     {
-        csave_restore_path srp(this);
+        wxConfigBase* cfg_file = wxConfigBase::Get();
 
+        if ( !cfg_file ) return;
+
+        csave_restore_path srp( cfg_file );
 
         cfg_file->SetPath( L"/SavedPresets" );
 
@@ -61,7 +65,12 @@ namespace diskcleaner
             return true;
         }
 
-        csave_restore_path srp(this);
+
+        wxConfigBase* cfg_file = wxConfigBase::Get();
+
+        if ( !cfg_file ) return false;
+
+        csave_restore_path srp( cfg_file );
 
         cfg_file->SetPath( L"/SavedPresets/" +  preset_name );
 
@@ -87,7 +96,11 @@ namespace diskcleaner
             return;
         }
 
-        csave_restore_path srp(this);
+        wxConfigBase* cfg_file = wxConfigBase::Get();
+
+        if ( !cfg_file ) return;
+
+        csave_restore_path srp( cfg_file );
 
         cfg_file->SetPath( L"/SavedPresets/" );
 
@@ -118,9 +131,13 @@ namespace diskcleaner
 
     }
 
-     bool dcpreset_handler::delete_preset( const std::wstring preset_name )
+    bool dcpreset_handler::delete_preset( const std::wstring preset_name )
     {
-        csave_restore_path srp(this);
+        wxConfigBase* cfg_file = wxConfigBase::Get();
+
+        if ( !cfg_file ) return false;
+
+        csave_restore_path srp( cfg_file );
 
         cfg_file->SetPath( L"/SavedPresets" );
 
@@ -136,7 +153,11 @@ namespace diskcleaner
             return true;
         }
 
-        csave_restore_path srp( this );
+        wxConfigBase* cfg_file = wxConfigBase::Get();
+
+        if ( !cfg_file ) return false;
+
+        csave_restore_path srp( cfg_file );
 
         cfg_file->SetPath( L"/LastUsedPreset" );
 
@@ -149,10 +170,7 @@ namespace diskcleaner
             wxString item( pi->GetShortDesc() );
 
             success &= cfg_file->Write( item, checklist_ctrl->IsChecked( k ) );
-
-
         };
-
 
         return success;
     }
@@ -165,7 +183,11 @@ namespace diskcleaner
             return;
         }
 
-        csave_restore_path srp( this );
+        wxConfigBase* cfg_file = wxConfigBase::Get();
+
+        if ( !cfg_file ) return;
+
+        csave_restore_path srp( cfg_file );
 
         cfg_file->SetPath( L"/LastUsedPreset" );
         long count = checklist_ctrl->GetItemCount();
@@ -186,16 +208,13 @@ namespace diskcleaner
     }
 
     /// The Constructor saves the current path in a config file into the variable current_path.
-    /// The path is restored upon destruction of this class.
-    csave_restore_path::csave_restore_path( const dcpreset_handler* const adph ) :
-            dph( adph ), current_path ( dph->cfg_file->GetPath() )
-    {
+    csave_restore_path::csave_restore_path( wxConfigBase* const config_object ) :
+            cfg( config_object ), current_path ( config_object->GetPath() ) {};
 
-    };
 
     /// The destructor restores the path in a config file to its original settings
     csave_restore_path::~csave_restore_path()
     {
-        dph->cfg_file->SetPath( current_path );
+        cfg->SetPath( current_path );
     };
 }

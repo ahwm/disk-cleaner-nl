@@ -94,7 +94,7 @@ prefs_dlg::prefs_dlg( wxWindow* parent, diskcleaner::dcsettings& prefs )
         preset_box->Clear();
         preset_box->Append( _( "<last used>" ) );
 
-        diskcleaner::dcpreset_handler preset_handler( wxConfigBase::Get( false ), NULL );
+        diskcleaner::dcpreset_handler preset_handler( NULL );
 
         //Get saved presets
         wxArrayString preset_list;

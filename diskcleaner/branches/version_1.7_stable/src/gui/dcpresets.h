@@ -34,7 +34,7 @@ namespace diskcleaner
     class dcpreset_handler
     {
     public:
-        dcpreset_handler(wxConfigBase* const cf, wxCheckedListCtrl* const checklist_ctrlwindow );
+        dcpreset_handler( wxCheckedListCtrl* const checklist_ctrlwindow );
 
         //Returns a vector of wstrings containing the names of all saved presets
         void get_saved_preset_names( wxArrayString& presetlist );
@@ -55,20 +55,17 @@ namespace diskcleaner
     private:
         friend class csave_restore_path;
 
-
-        wxConfigBase* cfg_file;
         wxCheckedListCtrl* checklist_ctrl;
-        //std::vector<boost::shared_ptr<diskcleaner::PlugInfo> >& pi_list;
     };
 
     class csave_restore_path
     {
     private:
-        const dcpreset_handler* dph;
+        wxConfigBase* const cfg;
         std::wstring current_path;
 
     public:
-        csave_restore_path( const dcpreset_handler* const adph );
+        csave_restore_path( wxConfigBase* const config_object );
 
         ~csave_restore_path();
 

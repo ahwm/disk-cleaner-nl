@@ -94,13 +94,11 @@ prefs_dlg::prefs_dlg( wxWindow* parent, diskcleaner::dcsettings& prefs )
         preset_box->Clear();
         preset_box->Append( _( "<last used>" ) );
 
-        diskcleaner::dcpreset_handler preset_handler( NULL );
-
         //Get saved presets
         wxArrayString preset_list;
         preset_list.Empty();
 
-        preset_handler.get_saved_preset_names( preset_list );
+        diskcleaner::dcpreset_handler::get_saved_preset_names( preset_list );
 
         //Add the saved preset list to the preset combo box
         preset_box->Append( preset_list );

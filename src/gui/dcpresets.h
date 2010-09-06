@@ -18,8 +18,6 @@
 #ifndef DCPRESETS_H
 #define DCPRESETS_H
 
-#include <string>
-#include <vector>
 #include "core\plugin_info_base.h"
 
 class wxConfigBase;
@@ -37,7 +35,7 @@ namespace diskcleaner
 
         // Returns a vector of wstrings containing the names of all saved presets
         // No interaction with wxCheckedListCtrl necessary
-        static void get_saved_preset_names( wxArrayString& presetlist );
+        static bool get_saved_preset_names( wxArrayString& presetlist );
 
         // No interaction with wxCheckedListCtrl necessary
         static bool delete_preset( const std::wstring preset_name );

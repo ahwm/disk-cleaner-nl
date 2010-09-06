@@ -3,15 +3,14 @@ Title=Acrobat Reader
 Description=Clears Acrobat Reader's Recent Files list and Cache
 
 [files]
- %appdata%\Adobe\Acrobat\6.0\Cache\*.* /s
- %localappdata%\Adobe\Acrobat\6.0\Cache\*.* /s
- %appdata%\Adobe\Acrobat\7.0\Cache\*.* /s
- %localappdata%\Adobe\Acrobat\7.0\Cache\*.* /s
- %appdata%\Adobe\Acrobat\8.0\Cache\*.* /s
- %localappdata%\Adobe\Acrobat\8.0\Cache\*.* /s
- %appdata%\Adobe\Acrobat\9.0\Cache\*.* /s
- %localappdata%\Adobe\Acrobat\9.0\Cache\*.* /s
-
+%appdata%\Adobe\Acrobat\6.0\Cache\*.* /s
+%localappdata%\Adobe\Acrobat\6.0\Cache\*.* /s
+%appdata%\Adobe\Acrobat\7.0\Cache\*.* /s
+%localappdata%\Adobe\Acrobat\7.0\Cache\*.* /s
+%appdata%\Adobe\Acrobat\8.0\Cache\*.* /s
+%localappdata%\Adobe\Acrobat\8.0\Cache\*.* /s
+%appdata%\Adobe\Acrobat\9.0\Cache\*.* /s
+%localappdata%\Adobe\Acrobat\9.0\Cache\*.* /s
 
 [registry]
 HKEY_CURRENT_USER|Software\Adobe\Acrobat Reader\5.0\AVGeneral\cRecentFiles

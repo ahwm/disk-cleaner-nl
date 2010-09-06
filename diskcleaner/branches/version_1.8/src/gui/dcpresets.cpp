@@ -17,7 +17,7 @@
 
 #include "dcpresets.h"
 #include "wx/wx.h"
-#include <wx/arrstr.h>
+#include <wx/debug.h>
 #include <wx/log.h>
 #include <wx/intl.h>
 #include <wx/fileconf.h>
@@ -32,11 +32,11 @@ namespace diskcleaner
 
     }
 
-    void dcpreset_handler::get_saved_preset_names( wxArrayString& presetlist )
+    bool dcpreset_handler::get_saved_preset_names( wxArrayString& presetlist )
     {
         wxConfigBase* cfg_file = wxConfigBase::Get();
 
-        if ( !cfg_file ) return;
+        if ( !cfg_file ) return false;
 
         csave_restore_path srp( cfg_file );
 
@@ -54,16 +54,13 @@ namespace diskcleaner
             more = cfg_file->GetNextGroup( preset_name, index );
         }
 
+        return true;
 
     }
 
     bool dcpreset_handler::save_preset( const std::wstring preset_name )
     {
-        if ( checklist_ctrl == NULL )
-        {
-            wxLogWarning( L"Tried to save/load a preset without having a wxCheckListCtrl attached");
-            return true;
-        }
+        wxCHECK2( checklist_ctrl != NULL, wxMessageBox(L"Sorry, but Disk Cleaner has encounted a serious bug. Please report this to the author"));
 
 
         wxConfigBase* cfg_file = wxConfigBase::Get();
@@ -90,11 +87,7 @@ namespace diskcleaner
 
     void dcpreset_handler::load_preset( const std::wstring preset_name )
     {
-        if ( checklist_ctrl == NULL )
-        {
-            wxLogWarning( L"Tried to save/load a preset without having a wxCheckListCtrl attached");
-            return;
-        }
+        wxCHECK2( checklist_ctrl != NULL, wxMessageBox(L"Sorry, but Disk Cleaner has encounted a serious bug. Please report this to the author"));
 
         wxConfigBase* cfg_file = wxConfigBase::Get();
 
@@ -147,11 +140,7 @@ namespace diskcleaner
 
     bool dcpreset_handler::save_last_used( )
     {
-        if ( checklist_ctrl == NULL )
-        {
-            wxLogWarning( L"Tried to save a preset without having a wxCheckListCtrl attached");
-            return true;
-        }
+        wxCHECK2( checklist_ctrl != NULL, wxMessageBox(L"Sorry, but Disk Cleaner has encounted a serious bug. Please report this to the author"));
 
         wxConfigBase* cfg_file = wxConfigBase::Get();
 
@@ -177,11 +166,7 @@ namespace diskcleaner
 
     void dcpreset_handler::load_last_used( )
     {
-        if ( checklist_ctrl == NULL )
-        {
-            wxLogWarning( L"Tried to save a preset without having a wxCheckListCtrl attached");
-            return;
-        }
+        wxCHECK2( checklist_ctrl != NULL, wxMessageBox(L"Sorry, but Disk Cleaner has encounted a serious bug. Please report this to the author"));
 
         wxConfigBase* cfg_file = wxConfigBase::Get();
 

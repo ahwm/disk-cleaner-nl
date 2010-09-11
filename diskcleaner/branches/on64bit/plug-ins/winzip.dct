@@ -1,0 +1,8 @@
+[info]
+Title=Winzip History
+Description=Clears Winzip history
+
+[registry]
+HKEY_CURRENT_USER|Software\Nico Mak Computing\WinZip\mru
+HKEY_CURRENT_USER\Software\Nico Mak Computing\WinZip\extract
+HKEY_CURRENT_USER\Software\Nico Mak Computing\WinZip\filemenu

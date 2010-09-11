@@ -1,0 +1,6 @@
+[info]
+Title=Windows Recent Destinations
+Description=Removes the automatically added recent items in the task bar's jump list.
+
+[Files]
+%appdata%\Microsoft\Windows\Recent\AutomaticDestinations\*.*

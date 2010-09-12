@@ -363,6 +363,9 @@ void dc_frame::init_dialog()
     //Dynamically link with SHGetKnownfolderPath
     InitializeSHGetKnownFolderPath();
 
+    //Dynamically link with IsWow64Process
+    InitializeIsWow64Process();
+
     dcApp& app = wxGetApp();
     if ( settings.global.delete_locked)
     {
@@ -719,6 +722,11 @@ void dc_frame::dc_base_frame_onclose( wxCloseEvent& event )
     //which is Vista+ only.
     wxLogDebug( L"%hs: unloading SHGetKnownFolderPath", __FUNCTION__ );
     UninitializeSHGetKnownFolderPath();
+
+    //Unload the dynamically loaded shell function IsWOW64Process()
+    //which is XP SP 2 +.
+    wxLogDebug( L"%hs: unloading IsWOW64Process", __FUNCTION__ );
+    UninitializeIsWow64Process();
 
     Destroy();
 }

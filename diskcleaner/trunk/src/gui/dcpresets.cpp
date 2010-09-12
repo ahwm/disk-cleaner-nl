@@ -17,24 +17,28 @@
 
 #include "dcpresets.h"
 #include "wx/wx.h"
-#include <wx/arrstr.h>
+#include <wx/debug.h>
 #include <wx/log.h>
 #include <wx/intl.h>
+#include <wx/fileconf.h>
 #include "wxCheckedListCtrl.h"
 
 namespace diskcleaner
 {
 
-    dcpreset_handler::dcpreset_handler(wxConfigBase* const config, wxCheckedListCtrl* const checklist_ctrlwindow ) :
-            cfg_file(config), checklist_ctrl(checklist_ctrlwindow)
+    dcpreset_handler::dcpreset_handler( wxCheckedListCtrl* const checklist_ctrlwindow ) :
+                                        checklist_ctrl(checklist_ctrlwindow)
     {
 
     }
 
-    void dcpreset_handler::get_saved_preset_names( wxArrayString& presetlist )
+    bool dcpreset_handler::get_saved_preset_names( wxArrayString& presetlist )
     {
-        csave_restore_path srp(this);
+        wxConfigBase* cfg_file = wxConfigBase::Get();
 
+        if ( !cfg_file ) return false;
+
+        csave_restore_path srp( cfg_file );
 
         cfg_file->SetPath( L"/SavedPresets" );
 
@@ -50,18 +54,20 @@ namespace diskcleaner
             more = cfg_file->GetNextGroup( preset_name, index );
         }
 
+        return true;
 
     }
 
     bool dcpreset_handler::save_preset( const std::wstring preset_name )
     {
-        if ( checklist_ctrl == NULL )
-        {
-            wxLogWarning( L"Tried to save/load a preset without having a wxCheckListCtrl attached");
-            return true;
-        }
+        wxCHECK2( checklist_ctrl != NULL, wxMessageBox(L"Sorry, but Disk Cleaner has encounted a serious bug. Please report this to the author"));
 
-        csave_restore_path srp(this);
+
+        wxConfigBase* cfg_file = wxConfigBase::Get();
+
+        if ( !cfg_file ) return false;
+
+        csave_restore_path srp( cfg_file );
 
         cfg_file->SetPath( L"/SavedPresets/" +  preset_name );
 
@@ -81,13 +87,13 @@ namespace diskcleaner
 
     void dcpreset_handler::load_preset( const std::wstring preset_name )
     {
-        if ( checklist_ctrl == NULL )
-        {
-            wxLogWarning( L"Tried to save/load a preset without having a wxCheckListCtrl attached");
-            return;
-        }
+        wxCHECK2( checklist_ctrl != NULL, wxMessageBox(L"Sorry, but Disk Cleaner has encounted a serious bug. Please report this to the author"));
 
-        csave_restore_path srp(this);
+        wxConfigBase* cfg_file = wxConfigBase::Get();
+
+        if ( !cfg_file ) return;
+
+        csave_restore_path srp( cfg_file );
 
         cfg_file->SetPath( L"/SavedPresets/" );
 
@@ -118,9 +124,13 @@ namespace diskcleaner
 
     }
 
-     bool dcpreset_handler::delete_preset( const std::wstring preset_name )
+    bool dcpreset_handler::delete_preset( const std::wstring preset_name )
     {
-        csave_restore_path srp(this);
+        wxConfigBase* cfg_file = wxConfigBase::Get();
+
+        if ( !cfg_file ) return false;
+
+        csave_restore_path srp( cfg_file );
 
         cfg_file->SetPath( L"/SavedPresets" );
 
@@ -130,13 +140,13 @@ namespace diskcleaner
 
     bool dcpreset_handler::save_last_used( )
     {
-        if ( checklist_ctrl == NULL )
-        {
-            wxLogWarning( L"Tried to save a preset without having a wxCheckListCtrl attached");
-            return true;
-        }
+        wxCHECK2( checklist_ctrl != NULL, wxMessageBox(L"Sorry, but Disk Cleaner has encounted a serious bug. Please report this to the author"));
 
-        csave_restore_path srp( this );
+        wxConfigBase* cfg_file = wxConfigBase::Get();
+
+        if ( !cfg_file ) return false;
+
+        csave_restore_path srp( cfg_file );
 
         cfg_file->SetPath( L"/LastUsedPreset" );
 
@@ -149,23 +159,20 @@ namespace diskcleaner
             wxString item( pi->GetShortDesc() );
 
             success &= cfg_file->Write( item, checklist_ctrl->IsChecked( k ) );
-
-
         };
-
 
         return success;
     }
 
     void dcpreset_handler::load_last_used( )
     {
-        if ( checklist_ctrl == NULL )
-        {
-            wxLogWarning( L"Tried to save a preset without having a wxCheckListCtrl attached");
-            return;
-        }
+        wxCHECK2( checklist_ctrl != NULL, wxMessageBox(L"Sorry, but Disk Cleaner has encounted a serious bug. Please report this to the author"));
 
-        csave_restore_path srp( this );
+        wxConfigBase* cfg_file = wxConfigBase::Get();
+
+        if ( !cfg_file ) return;
+
+        csave_restore_path srp( cfg_file );
 
         cfg_file->SetPath( L"/LastUsedPreset" );
         long count = checklist_ctrl->GetItemCount();
@@ -186,16 +193,13 @@ namespace diskcleaner
     }
 
     /// The Constructor saves the current path in a config file into the variable current_path.
-    /// The path is restored upon destruction of this class.
-    csave_restore_path::csave_restore_path( const dcpreset_handler* const adph ) :
-            dph( adph ), current_path ( dph->cfg_file->GetPath() )
-    {
+    csave_restore_path::csave_restore_path( wxConfigBase* const config_object ) :
+            cfg( config_object ), current_path ( config_object->GetPath() ) {};
 
-    };
 
     /// The destructor restores the path in a config file to its original settings
     csave_restore_path::~csave_restore_path()
     {
-        dph->cfg_file->SetPath( current_path );
+        cfg->SetPath( current_path );
     };
 }

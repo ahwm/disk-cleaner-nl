@@ -42,11 +42,15 @@ typedef GUID KNOWNFOLDERID;
             DWORD dwFlags,
             HANDLE hToken,
             PWSTR *path);
+    typedef BOOL (WINAPI* nsIsWow64Process)( HANDLE hProcess, bool* Wow64Process );
 
 
     static nsGetKnownFolderPath gGetKnownFolderPath = NULL;
+    static nsIsWow64Process gIsWow64Process = NULL;
+    static HINSTANCE gKernel32DLLInst = NULL;
     static HINSTANCE gShell32DLLInst = NULL;
 
+    static bool is64bit = false;
     std::wstring GetFolderLocation(const std::wstring& folder)
     {
         int nFolder=0;
@@ -192,6 +196,53 @@ typedef GUID KNOWNFOLDERID;
         wchar_t buff[MAX_PATH];
         wchar_t* pstring = buff;
         std::wstring temp;
+
+        // On windows 64 bit, the %programfiles% environment variable points to
+        // %programfiles(x86)%, but we want to search the 64 bit binaries
+        // folder as well.
+
+        if ( is64bit )
+        {
+            temp = source;
+            std::transform(temp.begin(), temp.end(), temp.begin(), tolower );
+            // Check for %programfiles% string
+            int find_result = temp.find( L"%programfiles%");
+
+            if ( find_result != std::string::npos )
+            {
+               // Replace the %programfiles% string with an explicit 64 bit
+               // %programw6432%
+               temp.replace( find_result, 14, L"%programw6432%");
+
+               // Let windows take care of the environment variable expansion
+                int returnval = ExpandEnvironmentStrings(temp.c_str(),buff,MAX_PATH);
+                if ( returnval && *buff != '%' )
+                {
+                    ::wxLogDebug( L"64 bit: ExpandEnvironmentString(temp) = %s", buff);
+                    dest.push_back(buff);
+                }
+            }
+
+            // Check for %commonprogramfiles% string
+            find_result = temp.find( L"%commonprogramfiles%");
+
+            if ( find_result != std::string::npos )
+            {
+               // Specify the explitcit 64 bit location
+               temp.replace( find_result, 18, L"%commonprogramw6432%");
+
+               // Let windows take care of the environment variable expansion
+                int returnval = ExpandEnvironmentStrings(temp.c_str(),buff,MAX_PATH);
+                if ( returnval && *buff != '%' )
+                {
+                    ::wxLogDebug( L"64 bit: ExpandEnvironmentString(temp) = %s", buff);
+                    dest.push_back(buff);
+                }
+            }
+
+        }
+
+        // Let windows take care of the environment variable expansion
         int returnval = ExpandEnvironmentStrings(source.c_str(),buff,MAX_PATH);
 
         if ( returnval && *buff != '%' )
@@ -238,6 +289,7 @@ typedef GUID KNOWNFOLDERID;
         {
             // Add the found folder location to the Enviroment Variables
             // Windows will take care of the substitution next time :)
+            wxLogDebug( L"Enviroment variable: %s", buff + 1 );
 
             SetEnvironmentVariable( substring.substr( 1, substring.length() - 2 ).c_str(), temp.c_str() );
             wxLogDebug( L"Adding environment variable: %s", substring.substr( 1, substring.length() - 2 ).c_str() );
@@ -594,7 +646,6 @@ namespace diskcleaner
             {
                 ::wxLogDebug( L"InitializeSHGetKnownFolderPath != NULL" );
 
-                 return true;
             }
 
         }
@@ -607,6 +658,39 @@ namespace diskcleaner
         ::wxLogDebug( L"%hs: setting variables to NULL", __FUNCTION__ );
         gGetKnownFolderPath = NULL;
         gShell32DLLInst = NULL;
+
+        return true;
+    }
+
+    bool InitializeIsWow64Process()
+    {
+        //We always load Kernel32.dll
+        gKernel32DLLInst = GetModuleHandle( L"Kernel32.dll" );
+        if ( gKernel32DLLInst )
+        {
+
+            gIsWow64Process = (nsIsWow64Process) GetProcAddress(gKernel32DLLInst, "IsWow64Process");
+            if ( gIsWow64Process )
+            {
+                ::wxLogDebug( L"IsWow64Process != NULL" );
+
+                gIsWow64Process( GetCurrentProcess(), &is64bit );
+
+                ::wxLogDebug( L" is64bit = %d", is64bit );
+
+                return true;
+            }
+
+        }
+
+        return false;
+    }
+
+     bool UninitializeIsWow64Process()
+    {
+        ::wxLogDebug( L"%hs: setting variables to NULL", __FUNCTION__ );
+        gIsWow64Process = NULL;
+        gKernel32DLLInst = NULL;
 
         return true;
     }

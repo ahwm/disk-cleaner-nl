@@ -55,7 +55,8 @@ protected:
     bool InitializeSHGetKnownFolderPath();
     bool UninitializeSHGetKnownFolderPath();
 
-
+    bool InitializeIsWow64Process();
+    bool UninitializeIsWow64Process();
 
 
 } //namespace

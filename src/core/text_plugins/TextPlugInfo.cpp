@@ -199,21 +199,20 @@ typedef GUID KNOWNFOLDERID;
             return 1;
         }
 
-        const wchar_t* string = source.c_str();
+        // ExpandEnvironmentStrings didn't succeed in expanding the variable
+        // Get the value of the variable ourself
 
-        wchar_t* nextperc = wcsstr( const_cast<wchar_t*>( string ) + 1, L"%" );
+        int nextperc = source.find( L"%", 1 );
 
-        if ( !nextperc ) return 0;
+        if ( nextperc == std::string::npos ) return 0;
 
-        int n = nextperc - string + 1;
-
-        lstrcpyn( buff, string, n + 1 ); // Include NULL termination
+        std::wstring substring = source.substr( 0, nextperc );
 
         // Ensure that comparison in GetFolderLocation is in lowercase
-        CharLower( buff );
+        std::transform( substring.begin(), substring.end(), substring.begin(), tolower );
 
-        ::wxLogDebug( L"%hs: Expand %s" , __FUNCTION__, buff);
-        if ( !wcsicmp( L"%drive%", buff ) )
+        ::wxLogDebug( L"%hs: Expand %s" , __FUNCTION__, substring.c_str());
+        if ( substring == L"%drive%" )
         {
             ::wxLogDebug( L"Expanding %%drive%% construct" );
 
@@ -223,7 +222,7 @@ typedef GUID KNOWNFOLDERID;
                 if ( GetDriveType(pstring) == DRIVE_FIXED )
                 {
                     ::wxLogDebug( L"Reported as fixed drive: %s", pstring );
-                    dest.push_back( std::wstring( pstring )+std::wstring( nextperc+1 ) );
+                    dest.push_back( std::wstring( pstring ) + source.substr( nextperc + 1, std::string::npos ) );
                 }
 
                 pstring += 4;
@@ -232,19 +231,25 @@ typedef GUID KNOWNFOLDERID;
             return  dest.size();
         }
 
-        temp = GetFolderLocation( std::wstring( buff ) );
-        ::wxLogDebug( L"%hs: GetFolderLocation returned %s = %s" , __FUNCTION__, buff, temp.c_str() );
+        temp = GetFolderLocation( substring );
+        ::wxLogDebug( L"%hs: GetFolderLocation returned %s = %s" , __FUNCTION__, substring.c_str(), temp.c_str() );
 
         if ( temp != L"" )
         {
             // Add the found folder location to the Enviroment Variables
             // Windows will take care of the substitution next time :)
-            nextperc = wcsstr( buff + 1, L"%" );
-            *nextperc = L'\0';
-            SetEnvironmentVariable( buff + 1, temp.c_str() );
 
-            // Add the folder to be scanned to the list of folders
-            dest.push_back( temp + std::wstring( nextperc + 1 ) );
+            SetEnvironmentVariable( substring.substr( 1, substring.length() - 2 ).c_str(), temp.c_str() );
+            wxLogDebug( L"Enviroment variable: %s", substring.substr( 1, substring.length() - 2 ).c_str() );
+
+            // Try again after having added the variable
+            returnval = ExpandEnvironmentStrings(source.c_str(), buff, MAX_PATH);
+
+            if ( returnval && *buff != '%' )
+            {
+                ::wxLogDebug( L"ExpandEnvironmentString(source) = %s", buff);
+                dest.push_back(buff);
+            }
         }
 
         return dest.size();

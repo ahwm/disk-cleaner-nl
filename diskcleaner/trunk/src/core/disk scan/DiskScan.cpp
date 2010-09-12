@@ -267,13 +267,15 @@ inline ProcessFileResult ProcessFile( const wchar_t * const the_file, std::vecto
     {
 
         ::wxLogDebug( L"%hs: Checking file age of %s", __FUNCTION__, the_file );
-        ULARGE_INTEGER ftime_int64 = { find_data.ftLastWriteTime.dwLowDateTime, find_data.ftLastWriteTime.dwHighDateTime };
+        ULARGE_INTEGER ftime_int64 = { {find_data.ftLastWriteTime.dwLowDateTime, find_data.ftLastWriteTime.dwHighDateTime} };
 
         FILETIME systime;
+#ifdef __WXDEBUG__
         SYSTEMTIME debug;
+#endif
         GetSystemTimeAsFileTime( & systime );
 
-        ULARGE_INTEGER stime_int64 = { systime.dwLowDateTime, systime.dwHighDateTime };
+        ULARGE_INTEGER stime_int64 = { {systime.dwLowDateTime, systime.dwHighDateTime} };
 #ifdef __WXDEBUG__
         FileTimeToSystemTime( &find_data.ftLastWriteTime, &debug);
 

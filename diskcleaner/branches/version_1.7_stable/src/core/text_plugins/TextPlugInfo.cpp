@@ -46,15 +46,16 @@ typedef GUID KNOWNFOLDERID;
     static nsGetKnownFolderPath gGetKnownFolderPath = NULL;
     static HINSTANCE gShell32DLLInst = NULL;
 
-    // Note: for bug-free operation all %folder% constructs must be in lowercase!
     std::wstring GetFolderLocation(const std::wstring& folder)
     {
         int nFolder=0;
         wchar_t buff[MAX_PATH];
-        //wcscpy(buff, folder.c_str() );
 
         ::wxLogDebug( L"%hs: find %s", __FUNCTION__, folder.c_str() );
         std::wstring folder_copy( folder );
+
+        // Ensure the string is in lowercase before comparison
+        std::transform( folder_copy.begin(), folder_copy.end(), folder_copy.begin(), tolower );
 
 
         if ( folder_copy.find(L"%windir%") != std::string::npos )  //all
@@ -125,11 +126,12 @@ typedef GUID KNOWNFOLDERID;
         {
             if (SHGetFolderPath(NULL, nFolder, NULL, 0, buff) == S_OK)
             {
-
-                //if(buff[strlen(buff) - 1] != '\\') strcat (buff,"\\");
-                ::wxLogDebug( L"SHGetFolderPath == S_OK" );
                 ::wxLogDebug( L"SHGetFolderPath returns: %s", buff );
                 return std::wstring(buff);
+            }
+            else
+            {
+                ::wxLogDebug( L"SHGetFolderPath != S_OK" );
             }
         }
 
@@ -138,7 +140,7 @@ typedef GUID KNOWNFOLDERID;
             wxLogDebug( L"found %%localappdatalow%%" );
             if ( gGetKnownFolderPath )
             {
-                const GUID LocalAppDataLow = {0xA520A1A4L, 0x1780, 0x4FF6, 0xBD, 0x18, 0x16, 0x73, 0x43, 0xC5, 0xAF, 0x16 };
+                const GUID LocalAppDataLow = {0xA520A1A4L, 0x1780, 0x4FF6, {0xBD, 0x18, 0x16, 0x73, 0x43, 0xC5, 0xAF, 0x16 } };
                 std::wstring path;
                 PWSTR pszPath;
                 HRESULT error = gGetKnownFolderPath( LocalAppDataLow, 0, NULL, &pszPath );
@@ -153,7 +155,7 @@ typedef GUID KNOWNFOLDERID;
             }
         }
 
-
+        // return empty string
         return std::wstring();
 
     }
@@ -201,14 +203,12 @@ typedef GUID KNOWNFOLDERID;
         // ExpandEnvironmentStrings didn't succeed in expanding the variable
         // Get the value of the variable ourself
 
-        int nextperc = source.find( L"%", 1 );
+        unsigned int nextperc = source.find( L"%", 1 );
 
         if ( nextperc == std::string::npos ) return 0;
 
-        std::wstring substring = source.substr( 0, nextperc );
-
-        // Ensure that comparison in GetFolderLocation is in lowercase
-        std::transform( substring.begin(), substring.end(), substring.begin(), tolower );
+        // Copy %string% to a new std::wstring instance
+        std::wstring substring = source.substr( 0, nextperc + 1 );
 
         ::wxLogDebug( L"%hs: Expand %s" , __FUNCTION__, substring.c_str());
         if ( substring == L"%drive%" )
@@ -239,7 +239,7 @@ typedef GUID KNOWNFOLDERID;
             // Windows will take care of the substitution next time :)
 
             SetEnvironmentVariable( substring.substr( 1, substring.length() - 2 ).c_str(), temp.c_str() );
-            wxLogDebug( L"Enviroment variable: %s", substring.substr( 1, substring.length() - 2 ).c_str() );
+            wxLogDebug( L"Adding environment variable: %s", substring.substr( 1, substring.length() - 2 ).c_str() );
 
             // Try again after having added the variable
             returnval = ExpandEnvironmentStrings(source.c_str(), buff, MAX_PATH);
@@ -252,7 +252,6 @@ typedef GUID KNOWNFOLDERID;
         }
 
         return dest.size();
-
     }
 
 

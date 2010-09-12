@@ -47,15 +47,16 @@ typedef GUID KNOWNFOLDERID;
     static nsGetKnownFolderPath gGetKnownFolderPath = NULL;
     static HINSTANCE gShell32DLLInst = NULL;
 
-    // Note: for bug-free operation all %folder% constructs must be in lowercase!
     std::wstring GetFolderLocation(const std::wstring& folder)
     {
         int nFolder=0;
         wchar_t buff[MAX_PATH];
-        //wcscpy(buff, folder.c_str() );
 
         ::wxLogDebug( L"%hs: find %s", __FUNCTION__, folder.c_str() );
         std::wstring folder_copy( folder );
+
+        // Ensure the string is in lowercase before comparison
+        std::transform( folder_copy.begin(), folder_copy.end(), folder_copy.begin(), tolower );
 
 
         if ( folder_copy.find(L"%windir%") != std::string::npos )  //all
@@ -126,11 +127,12 @@ typedef GUID KNOWNFOLDERID;
         {
             if (SHGetFolderPath(NULL, nFolder, NULL, 0, buff) == S_OK)
             {
-
-                //if(buff[strlen(buff) - 1] != '\\') strcat (buff,"\\");
-                ::wxLogDebug( L"SHGetFolderPath == S_OK" );
                 ::wxLogDebug( L"SHGetFolderPath returns: %s", buff );
                 return std::wstring(buff);
+            }
+            else
+            {
+                ::wxLogDebug( L"SHGetFolderPath != S_OK" );
             }
         }
 
@@ -139,7 +141,7 @@ typedef GUID KNOWNFOLDERID;
             wxLogDebug( L"found %%localappdatalow%%" );
             if ( gGetKnownFolderPath )
             {
-                const GUID LocalAppDataLow = {0xA520A1A4L, 0x1780, 0x4FF6, 0xBD, 0x18, 0x16, 0x73, 0x43, 0xC5, 0xAF, 0x16 };
+                const GUID LocalAppDataLow = {0xA520A1A4L, 0x1780, 0x4FF6, {0xBD, 0x18, 0x16, 0x73, 0x43, 0xC5, 0xAF, 0x16 } };
                 std::wstring path;
                 PWSTR pszPath;
                 HRESULT error = gGetKnownFolderPath( LocalAppDataLow, 0, NULL, &pszPath );
@@ -154,7 +156,7 @@ typedef GUID KNOWNFOLDERID;
             }
         }
 
-
+        // return empty string
         return std::wstring();
 
     }
@@ -199,21 +201,18 @@ typedef GUID KNOWNFOLDERID;
             return 1;
         }
 
-        const wchar_t* string = source.c_str();
+        // ExpandEnvironmentStrings didn't succeed in expanding the variable
+        // Get the value of the variable ourself
 
-        wchar_t* nextperc = wcsstr( const_cast<wchar_t*>( string ) + 1, L"%" );
+        unsigned int nextperc = source.find( L"%", 1 );
 
-        if ( !nextperc ) return 0;
+        if ( nextperc == std::string::npos ) return 0;
 
-        int n = nextperc - string + 1;
+        // Copy %string% to a new std::wstring instance
+        std::wstring substring = source.substr( 0, nextperc + 1 );
 
-        lstrcpyn( buff, string, n + 1 ); // Include NULL termination
-
-        // Ensure that comparison in GetFolderLocation is in lowercase
-        CharLower( buff );
-
-        ::wxLogDebug( L"%hs: Expand %s" , __FUNCTION__, buff);
-        if ( !wcsicmp( L"%drive%", buff ) )
+        ::wxLogDebug( L"%hs: Expand %s" , __FUNCTION__, substring.c_str());
+        if ( substring == L"%drive%" )
         {
             ::wxLogDebug( L"Expanding %%drive%% construct" );
 
@@ -223,7 +222,7 @@ typedef GUID KNOWNFOLDERID;
                 if ( GetDriveType(pstring) == DRIVE_FIXED )
                 {
                     ::wxLogDebug( L"Reported as fixed drive: %s", pstring );
-                    dest.push_back( std::wstring( pstring )+std::wstring( nextperc+1 ) );
+                    dest.push_back( std::wstring( pstring ) + source.substr( nextperc + 1, std::string::npos ) );
                 }
 
                 pstring += 4;
@@ -232,23 +231,28 @@ typedef GUID KNOWNFOLDERID;
             return  dest.size();
         }
 
-        temp = GetFolderLocation( std::wstring( buff ) );
-        ::wxLogDebug( L"%hs: GetFolderLocation returned %s = %s" , __FUNCTION__, buff, temp.c_str() );
+        temp = GetFolderLocation( substring );
+        ::wxLogDebug( L"%hs: GetFolderLocation returned %s = %s" , __FUNCTION__, substring.c_str(), temp.c_str() );
 
         if ( temp != L"" )
         {
             // Add the found folder location to the Enviroment Variables
             // Windows will take care of the substitution next time :)
-            nextperc = wcsstr( buff + 1, L"%" );
-            *nextperc = L'\0';
-            SetEnvironmentVariable( buff + 1, temp.c_str() );
 
-            // Add the folder to be scanned to the list of folders
-            dest.push_back( temp + std::wstring( nextperc + 1 ) );
+            SetEnvironmentVariable( substring.substr( 1, substring.length() - 2 ).c_str(), temp.c_str() );
+            wxLogDebug( L"Adding environment variable: %s", substring.substr( 1, substring.length() - 2 ).c_str() );
+
+            // Try again after having added the variable
+            returnval = ExpandEnvironmentStrings(source.c_str(), buff, MAX_PATH);
+
+            if ( returnval && *buff != '%' )
+            {
+                ::wxLogDebug( L"ExpandEnvironmentString(source) = %s", buff);
+                dest.push_back(buff);
+            }
         }
 
         return dest.size();
-
     }
 
 
@@ -265,7 +269,6 @@ namespace diskcleaner
         {
 
             GetPrivateProfileString( L"Info", L"Title", L"Error: No title given", strbuff,MAX_PATH+1, aFile.c_str() );
-            //ShortDesc = strbuff;
             ShortDesc = wxGetTranslation( strbuff );
 
             GetPrivateProfileString( L"Info", L"Description", L"Error: No description given", strbuff,MAX_PATH+1, aFile.c_str() );

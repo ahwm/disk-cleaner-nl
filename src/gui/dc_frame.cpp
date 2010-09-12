@@ -112,9 +112,6 @@ dc_frame::dc_frame( wxWindow* parent, diskcleaner::dcsettings& _settings ):
     plugin_listctrl_hwnd = static_cast<HWND>( plugin_listctrl->GetHandle() );
     plugin_listctrl->SetBackgroundImage( L"background_icon" );
 
-    // settings should be saved before exit
-    settings_already_saved = false;
-
 }
 
 void dc_frame::preset_save_btn_click( wxCommandEvent& event )
@@ -315,6 +312,14 @@ void dc_frame::run_diskcleaner( bool as_admin )
     // done here to prevent clash with child process
     // sets settings_already_saved to true
     save_settings();
+
+    // Close ini file by delete-ing wxFileConfig class instance
+
+    delete wxConfigBase::Get();
+
+    // Set pointer to NULL. dcsettings and dcpresets classes check for NULL pointers
+    // after a wxConfigBase::Get()
+    wxConfigBase::Set( NULL );
 
     // Create child process
     SHELLEXECUTEINFO   sei;
@@ -549,7 +554,7 @@ void dc_frame::init_dialog()
     preset_box->Append( _( "<last used>" ) );
 
     ppreset_handler  = std::auto_ptr<diskcleaner::dcpreset_handler>
-                       (new diskcleaner::dcpreset_handler( wxConfigBase::Get( false ), plugin_listctrl ) );
+                       (new diskcleaner::dcpreset_handler( plugin_listctrl ) );
 
     //Get saved presets
     wxArrayString preset_list;
@@ -699,10 +704,7 @@ void dc_frame::dc_base_frame_onclose( wxCloseEvent& event )
     // Workaround: *before* starting the child process, save the settings.
     // Raise a flag that settings are already saved, so don't do it here again.
 
-    if ( !settings_already_saved )
-    {
-      save_settings();
-    }
+    save_settings();
 
     //THEN delete all PlugInfo objects
     for ( int k = 0, items = plugin_listctrl->GetItemCount(); k < items; ++k )
@@ -807,6 +809,4 @@ void dc_frame::save_settings()
     {
         wxLogDebug( L"%hs: skipping saving of presets and sizes, quiet mode active", __FUNCTION__ );
     }
-
-    settings_already_saved = true;
 }

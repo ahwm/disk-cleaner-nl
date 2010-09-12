@@ -206,7 +206,7 @@ typedef GUID KNOWNFOLDERID;
             temp = source;
             std::transform(temp.begin(), temp.end(), temp.begin(), tolower );
             // Check for %programfiles% string
-            int find_result = temp.find( L"%programfiles%");
+            unsigned int find_result = temp.find( L"%programfiles%");
 
             if ( find_result != std::string::npos )
             {

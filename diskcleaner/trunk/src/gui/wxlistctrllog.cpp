@@ -31,6 +31,8 @@ bool wxListCtrlLog::SetDebugFile( wxString PathAndFilename, int Flags )
     }
 
     return m_logfile.Create( PathAndFilename, true  );
+#else
+    return false;
 #endif
 }
 

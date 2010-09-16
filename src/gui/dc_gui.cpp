@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Dec 17 2009)
+// C++ code generated with wxFormBuilder (version Feb 17 2010)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -256,7 +256,7 @@ about_base_dlg::about_base_dlg( wxWindow* parent, wxWindowID id, const wxString&
 	
 	m_staticText16 = new wxStaticText( this, wxID_ANY, _("A fast open source disk cleanup tool"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText16->Wrap( -1 );
-	bSizer7->Add( m_staticText16, 0, wxALL, 5 );
+	bSizer7->Add( m_staticText16, 0, wxTOP|wxRIGHT|wxLEFT, 5 );
 	
 	version_text = new wxStaticText( this, wxID_ANY, _("Version"), wxDefaultPosition, wxDefaultSize, 0 );
 	version_text->Wrap( -1 );
@@ -273,11 +273,18 @@ about_base_dlg::about_base_dlg( wxWindow* parent, wxWindowID id, const wxString&
 	m_staticText6->Wrap( -1 );
 	bSizer7->Add( m_staticText6, 0, wxBOTTOM|wxRIGHT|wxLEFT, 5 );
 	
+	m_staticText26 = new wxStaticText( this, wxID_ANY, _("Contains contributions by:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText26->Wrap( -1 );
+	bSizer7->Add( m_staticText26, 0, wxALL, 5 );
+	
+	contributions_lb = new wxListBox( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0, NULL, 0 ); 
+	bSizer7->Add( contributions_lb, 1, wxEXPAND|wxALL, 5 );
+	
 	ok_sizer = new wxStdDialogButtonSizer();
 	ok_sizerOK = new wxButton( this, wxID_OK );
 	ok_sizer->AddButton( ok_sizerOK );
 	ok_sizer->Realize();
-	bSizer7->Add( ok_sizer, 1, wxTOP|wxRIGHT|wxALIGN_RIGHT, 10 );
+	bSizer7->Add( ok_sizer, 0, wxTOP|wxRIGHT|wxALIGN_RIGHT, 10 );
 	
 	fgSizer8->Add( bSizer7, 1, wxEXPAND|wxBOTTOM|wxLEFT, 10 );
 	

@@ -27,6 +27,11 @@ about_base_dlg( parent )
     text.sprintf( L"Version %d.%d (build %d)", AutoVersion::MAJOR, AutoVersion::MINOR, AutoVersion::BUILD  );
 
     version_text->SetLabel( text );
+    contributions_lb->Append( L"Antonio Pérez" );
+    contributions_lb->Append( L"Curt" );
+    contributions_lb->Append( L"Giulio Fornasar");
+    contributions_lb->Append( L"NerdFencer" );
+    contributions_lb->Append( L"Raph4" );
 
     ok_sizerOK->SetFocus();
 }

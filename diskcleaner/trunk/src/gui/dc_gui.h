@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Dec 17 2009)
+// C++ code generated with wxFormBuilder (version Feb 17 2010)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -31,10 +31,10 @@ class wxListCtrlLog;
 #include <wx/gauge.h>
 #include <wx/statbmp.h>
 #include <wx/hyperlink.h>
+#include <wx/listbox.h>
 #include <wx/checkbox.h>
 #include <wx/panel.h>
 #include <wx/notebook.h>
-#include <wx/listbox.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -128,6 +128,8 @@ class about_base_dlg : public wxDialog
 		wxStaticText* m_staticText3;
 		wxHyperlinkCtrl* m_hyperlink1;
 		wxStaticText* m_staticText6;
+		wxStaticText* m_staticText26;
+		wxListBox* contributions_lb;
 		wxStdDialogButtonSizer* ok_sizer;
 		wxButton* ok_sizerOK;
 		

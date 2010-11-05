@@ -110,6 +110,8 @@
 		<Unit filename="core\text_plugins\TextPlugInfo.h" />
 		<Unit filename="gui\about_frame.cpp" />
 		<Unit filename="gui\about_frame.h" />
+		<Unit filename="gui\add_location_dlg.cpp" />
+		<Unit filename="gui\add_location_dlg.h" />
 		<Unit filename="gui\dcApp.cpp" />
 		<Unit filename="gui\dcApp.h" />
 		<Unit filename="gui\dc_frame.cpp" />

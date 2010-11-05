@@ -17,6 +17,9 @@
 #ifndef _DCSETTINGS_H_
 #define _DCSETTINGS_H_
 
+#include <wx/string.h>
+#include <vector>
+
 class wxConfigBase;
 
 namespace diskcleaner
@@ -75,25 +78,42 @@ namespace diskcleaner
         long min_cookie_age;            //not implemented
     };
 
+    struct user_location
+    {
+       wxString  Path;
+       bool readonly;
+       bool hidden;
+       bool system;
+       bool subfolders;
+       bool subfoldersonly;
+       bool includebasefolder;
+       bool filesonly;
+    };
+
     /// Class that combines all user preferences and defines methods to load and store them on disk
     class dcsettings
     {
+        /// Load user's preferences, use config_object
+        bool Load( wxConfigBase* const config_object );
+
+        /// Save user's preferences, use config_object
+        bool Save( wxConfigBase* const config_object ) ;
+
         public:
 
-        global_             global;
-        UI_                 ui;
-        systemp_            systemp;
-        tempinternetfiles_  tempinternetfiles;
-        cookies_            cookies;
+        global_                     global;
+        UI_                         ui;
+        systemp_                    systemp;
+        tempinternetfiles_          tempinternetfiles;
+        cookies_                    cookies;
+        std::vector<user_location>  userlocations;
 
         /// Save user's preferences, get the config object via wxConfigBase::Get()
         bool Save();
-        /// Save user's preferences, use config_object
-        bool Save( wxConfigBase* const config_object ) ;
+
         /// Load user's preferences, get the config object via wxConfigBase::Get()
         bool Load();
-        /// Load user's preferences, use config_object
-        bool Load( wxConfigBase* const config_object );
+
     };
 
 } //namespace diskcleaner

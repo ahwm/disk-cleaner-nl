@@ -31,10 +31,13 @@ class wxListCtrlLog;
 #include <wx/gauge.h>
 #include <wx/statbmp.h>
 #include <wx/hyperlink.h>
+#include <wx/listbox.h>
 #include <wx/checkbox.h>
 #include <wx/panel.h>
+#include <wx/valtext.h>
+#include <wx/radiobut.h>
 #include <wx/notebook.h>
-#include <wx/listbox.h>
+#include <wx/filepicker.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -109,7 +112,7 @@ class wait_base_dlg : public wxDialog
 	
 	public:
 		
-		wait_base_dlg( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Please wait..."), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_DIALOG_STYLE );
+		wait_base_dlg( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Please wait..."), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxCAPTION );
 		~wait_base_dlg();
 	
 };
@@ -128,6 +131,8 @@ class about_base_dlg : public wxDialog
 		wxStaticText* m_staticText3;
 		wxHyperlinkCtrl* m_hyperlink1;
 		wxStaticText* m_staticText6;
+		wxStaticText* m_staticText30;
+		wxListBox* m_contrib_lb;
 		wxStdDialogButtonSizer* ok_sizer;
 		wxButton* ok_sizerOK;
 		
@@ -189,8 +194,30 @@ class prefs_dlg_base : public wxDialog
 		wxStaticText* m_staticText22;
 		wxChoice* LanguageChoice;
 		wxStaticText* m_staticText23;
+		wxPanel* m_userlocationspanel;
+		wxStaticText* m_staticText29;
+		wxListBox* m_userlocation_box;
+		wxStaticText* m_staticText26;
+		wxRadioButton* m_no_option;
+		wxRadioButton* m_option_s;
+		
+		wxCheckBox* m_option_si;
+		wxRadioButton* m_option_so;
+		wxRadioButton* m_option_sf;
+		wxStaticText* m_staticText27;
+		wxCheckBox* m_option_ah;
+		wxCheckBox* m_option_ar;
+		wxCheckBox* m_option_as;
+		wxButton* add_location_btn;
+		wxButton* edit_location_btn;
+		wxButton* remove_location_btn;
+		wxButton* preview_btn;
+		
+		wxButton* save_plugin_btn;
 		wxPanel* m_panel3;
 		wxCheckBox* delete_readonly_cb;
+		wxCheckBox* delete_hidden_cb;
+		wxCheckBox* delete_system_cb;
 		wxCheckBox* delete_emptyfolder_cb;
 		wxStaticText* m_staticText12;
 		wxChoice* minage_combo;
@@ -198,25 +225,31 @@ class prefs_dlg_base : public wxDialog
 		wxCheckBox* tempinet_offline_cb;
 		wxPanel* m_panel2;
 		wxStaticText* m_staticText11;
+		wxStaticText* m_staticText28;
 		wxStaticText* m_staticText24;
 		wxChoice* preset_box;
 		wxButton* autostart_install_btn;
 		wxButton* autostart_remove_btn;
 		wxStaticText* shortcut_status_txt;
-		wxStdDialogButtonSizer* ok_cancel;
-		wxButton* ok_cancelOK;
-		wxButton* ok_cancelCancel;
+		wxButton* ok_btn;
+		wxButton* cancel_btn;
 		
 		// Virtual event handlers, overide them in your derived class
+		virtual void userlocationbox_change( wxCommandEvent& event ) { event.Skip(); }
+		virtual void userlocationbox_clicked( wxCommandEvent& event ) { event.Skip(); }
+		virtual void option_s_click( wxCommandEvent& event ) { event.Skip(); }
+		virtual void add_location_btn_clicked( wxCommandEvent& event ) { event.Skip(); }
+		virtual void edit_location_btn_click( wxCommandEvent& event ) { event.Skip(); }
+		virtual void remove_location_btn_clicked( wxCommandEvent& event ) { event.Skip(); }
 		virtual void autostart_install_btn_clicked( wxCommandEvent& event ) { event.Skip(); }
 		virtual void autostart_remove_btn_clicked( wxCommandEvent& event ) { event.Skip(); }
-		virtual void cancel_btn_clicked( wxCommandEvent& event ) { event.Skip(); }
 		virtual void ok_btn_clicked( wxCommandEvent& event ) { event.Skip(); }
+		virtual void cancel_btn_clicked( wxCommandEvent& event ) { event.Skip(); }
 		
 	
 	public:
 		
-		prefs_dlg_base( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Preferences"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_DIALOG_STYLE|wxCLIP_CHILDREN );
+		prefs_dlg_base( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Preferences"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 520,392 ), long style = wxDEFAULT_DIALOG_STYLE|wxCLIP_CHILDREN );
 		~prefs_dlg_base();
 	
 };
@@ -275,6 +308,50 @@ class processes_dlg_base : public wxDialog
 		
 		processes_dlg_base( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Disk Cleaner Information"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_DIALOG_STYLE );
 		~processes_dlg_base();
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class preview_dlg_base
+///////////////////////////////////////////////////////////////////////////////
+class preview_dlg_base : public wxDialog 
+{
+	private:
+	
+	protected:
+		wxListBox* m_listBox5;
+	
+	public:
+		
+		preview_dlg_base( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Preview of found items"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 343,348 ), long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER );
+		~preview_dlg_base();
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class add_location_dlg_base
+///////////////////////////////////////////////////////////////////////////////
+class add_location_dlg_base : public wxDialog 
+{
+	private:
+	
+	protected:
+		wxStaticText* m_staticText31;
+		wxStaticText* m_staticText32;
+		wxDirPickerCtrl* m_dirpicker;
+		
+		wxButton* add_location_btn;
+		wxButton* cancel_btn;
+		
+		// Virtual event handlers, overide them in your derived class
+		virtual void add_location_btn_click( wxCommandEvent& event ) { event.Skip(); }
+		virtual void cancel_btn_click( wxCommandEvent& event ) { event.Skip(); }
+		
+	
+	public:
+		
+		add_location_dlg_base( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Please specify the location"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_DIALOG_STYLE );
+		~add_location_dlg_base();
 	
 };
 

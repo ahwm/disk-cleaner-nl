@@ -18,6 +18,7 @@
 #ifndef __prefs_dlg__
 #define __prefs_dlg__
 
+#include <vector>
 #include "wx/fileconf.h"
 #include "dc_gui.h"
 #include "dcsettings.h"
@@ -31,18 +32,35 @@ private:
     //Hide this constructor, a dcsettings ref should be provided (see below)
     prefs_dlg( wxWindow* parent );
 
-protected:
+    /// Initializes the global preferences notebook sheet
+    void InitializeGlobal();
 
-    diskcleaner::dcsettings& rsettings; ///< reference to a global diskcleaner::dcsettings instance in dc_frame
-public:
-	/** Constructor */
-	prefs_dlg( wxWindow* parent, diskcleaner::dcsettings& prefs );
+    /// Initializes the system temporary files preferences notebook sheet
+    void InitializeSystemTemporary();
+
+    /// Initializes the User Locations preferences notebook sheet
+    void InitializeUserLocations();
+
+    /// Initializes the Autostart Shortcut preferences notebook sheet
+    void InitializeAutostartShortcut();
 
 	// Virtual event handlers, overide them in your derived class
     virtual void cancel_btn_clicked( wxCommandEvent& event );
 	virtual void ok_btn_clicked( wxCommandEvent& event );
 	virtual void autostart_install_btn_clicked( wxCommandEvent& event );
 	virtual void autostart_remove_btn_clicked( wxCommandEvent& event );
+	virtual void userlocationbox_change( wxCommandEvent& event );
+	virtual void userlocationbox_clicked( wxCommandEvent& event );
+	virtual void add_location_btn_clicked( wxCommandEvent& event );
+
+protected:
+
+    diskcleaner::dcsettings& rsettings; ///< reference to a global diskcleaner::dcsettings instance in dc_frame
+    std::vector<diskcleaner::user_location> local_user_locations;
+public:
+	/** Constructor */
+	prefs_dlg( wxWindow* parent, diskcleaner::dcsettings& prefs );
+
 
 };
 

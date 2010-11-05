@@ -26,7 +26,7 @@ LANGUAGE 0, 0
             BLOCK "040904B0"
                 BEGIN
                     //VALUE "CompanyName", ""
-                    VALUE "FileDescription", "Disk Cleaner main executable"
+                    VALUE "FileDescription", "Disk Cleaner"
                     VALUE "FileVersion", RC_FILEVERSION_STRING
                     VALUE "LegalCopyright", "1999-2010 R.J. Moerland"
                     VALUE "ProductName", "Disk Cleaner"

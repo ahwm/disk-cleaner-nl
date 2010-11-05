@@ -1,5 +1,6 @@
 #include "processes_dlg.h"
 #include <windows.h>
+#include <wx/msw/winundef.h>
 #include <tlhelp32.h>
 #include <wx/log.h>
 

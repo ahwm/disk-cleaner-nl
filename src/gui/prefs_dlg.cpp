@@ -14,31 +14,58 @@
 ** along with this program; if not, write to the Free Software
 ** Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
-#include <windows.h>
-#include <shlobj.h>
-#include <objidl.h>
 
 #include <wx/log.h>
 #include <wx/stdpaths.h>
 #include <wx/msgdlg.h>
 
-
 #include "prefs_dlg.h"
 #include "dcApp.h"
 #include "dcpresets.h"
+#include "add_location_dlg.h"
+
+#include <windows.h>
+#include <shlobj.h>
+#include <objidl.h>
+
 
 const wchar_t* DCLinkName = L"\\Disk Cleaner.lnk";
 
 prefs_dlg::prefs_dlg( wxWindow* parent, diskcleaner::dcsettings& prefs )
     : prefs_dlg_base( parent ), rsettings( prefs )
 {
+
+    InitializeGlobal();
+
+    InitializeSystemTemporary();
+
+    InitializeAutostartShortcut();
+
+    InitializeUserLocations();
+
+    // Temporary internet files settings
+    tempinet_offline_cb->SetValue( prefs.tempinternetfiles.delete_offline );
+
+//    cookie_filter_cb->SetValue( prefs.cookies.use_cookie_filter );
+//   swprintf( age, L"%d", prefs.cookies.min_cookie_age );
+//   cookie_age_combo->SetStringSelection( std::wstring( age ) );
+//    ok_cancelOK->SetDefault();
+
+    prefsbook->SetSelection( 0 );
+
+
+}
+
+
+void prefs_dlg::InitializeGlobal()
+{
     dcApp& app = wxGetApp();
 
     // Set indicators to global settings
-    delete_locked_cb->SetValue( prefs.global.delete_locked );
-    hide_empty_cb->SetValue( prefs.global.hide_empty );
-    hide_admin_items_cb->SetValue( prefs.global.hide_admin );
-    warn_open_processes_cb->SetValue( prefs.global.show_running_processes );
+    delete_locked_cb->SetValue( rsettings.global.delete_locked );
+    hide_empty_cb->SetValue( rsettings.global.hide_empty );
+    hide_admin_items_cb->SetValue( rsettings.global.hide_admin );
+    warn_open_processes_cb->SetValue( rsettings.global.show_running_processes );
 
 
     // Get installed languages and set choice box to current language
@@ -63,26 +90,26 @@ prefs_dlg::prefs_dlg( wxWindow* parent, diskcleaner::dcsettings& prefs )
         LanguageChoice->SetSelection( 0 );
     }
 
+}
+
+void prefs_dlg::InitializeSystemTemporary()
+{
     // System temp files settings
-    delete_readonly_cb->SetValue( prefs.systemp.delete_ro );
-    delete_emptyfolder_cb->SetValue(prefs.systemp.delete_subfolders );
+    delete_readonly_cb->SetValue( rsettings.systemp.delete_ro );
+    delete_emptyfolder_cb->SetValue(rsettings.systemp.delete_subfolders );
 
     wchar_t age[17] = { 0 };
-    swprintf( age, L"%d", prefs.systemp.min_age );
+    swprintf( age, L"%d", rsettings.systemp.min_age );
     minage_combo->SetStringSelection( std::wstring( age ) );
 
-    // Temporary internet files settings
-    tempinet_offline_cb->SetValue( prefs.tempinternetfiles.delete_offline );
+}
 
-//    cookie_filter_cb->SetValue( prefs.cookies.use_cookie_filter );
-//   swprintf( age, L"%d", prefs.cookies.min_cookie_age );
-//   cookie_age_combo->SetStringSelection( std::wstring( age ) );
-    ok_cancelOK->SetDefault();
-    prefsbook->SetSelection( 0 );
-
+void prefs_dlg::InitializeAutostartShortcut()
+{
     // If we're in portable mode, don't allow the user to install an
     // autostart shortcut
 
+    dcApp& app = wxGetApp();
     if ( app.IsPortable() )
     {
         shortcut_status_txt->SetLabel( _("The shortcut installation functionality is not available in portable mode." ) );
@@ -109,6 +136,38 @@ prefs_dlg::prefs_dlg( wxWindow* parent, diskcleaner::dcsettings& prefs )
         // Set status text to ""
         shortcut_status_txt->SetLabel( L"" );
     }
+}
+
+void prefs_dlg::InitializeUserLocations()
+{
+    local_user_locations.clear();
+    local_user_locations.reserve( rsettings.userlocations.size() );
+
+    for ( unsigned int idx = 0; idx < rsettings.userlocations.size(); ++idx )
+    {
+        m_userlocation_box->Append( rsettings.userlocations[idx].Path );
+        local_user_locations.push_back( rsettings.userlocations[idx] );
+    }
+
+    if ( rsettings.userlocations.size() > 0 )
+    {
+        m_userlocation_box->Select( 0 );
+    }
+}
+
+void prefs_dlg::add_location_btn_clicked( wxCommandEvent& event )
+{
+    add_location_dlg addloc( this );
+    if ( addloc.ShowModal() == wxOK )
+    {
+        m_userlocation_box->Append( addloc.GetValue() );
+        diskcleaner::user_location loc;
+        loc.Path = addloc.GetValue();
+        loc.filesonly = loc.hidden = loc.includebasefolder = loc.readonly = loc.subfolders
+                        = loc.subfoldersonly = loc.system = false;
+        local_user_locations.push_back( loc );
+    }
+
 
 }
 
@@ -142,6 +201,7 @@ void prefs_dlg::ok_btn_clicked( wxCommandEvent& event )
     rsettings.global.language_id                = (long) LanguageChoice->GetClientData( LanguageChoice->GetSelection() );
     rsettings.systemp.delete_ro                 = delete_readonly_cb->IsChecked();
     rsettings.systemp.delete_subfolders         = delete_emptyfolder_cb->IsChecked();
+    rsettings.userlocations.swap( local_user_locations );
 
     minage_combo->GetString( minage_combo->GetSelection() ).ToLong( &rsettings.systemp.min_age );
 
@@ -235,4 +295,27 @@ void prefs_dlg::autostart_remove_btn_clicked( wxCommandEvent& event )
             shortcut_status_txt->SetLabel( _( "Operation failed." ) );
         }
     }
+}
+
+void prefs_dlg::userlocationbox_change( wxCommandEvent& event )
+{
+    int idx = m_userlocation_box->GetSelection();
+    diskcleaner::user_location& loc = local_user_locations[idx];
+
+    // Safe to start with
+    m_no_option->SetValue( true );
+
+    if ( loc.subfoldersonly ) m_option_so->SetValue( true );
+    if ( loc.includebasefolder) m_option_si->SetValue( true );
+    if ( loc.subfolders ) m_option_s->SetValue( true );
+
+    if ( loc.readonly ) m_option_ar->SetValue( true );
+    if ( loc.hidden ) m_option_ah->SetValue( true );
+    if ( loc.system ) m_option_as->SetValue( true );
+
+
+}
+void prefs_dlg::userlocationbox_clicked( wxCommandEvent& event )
+{
+
 }

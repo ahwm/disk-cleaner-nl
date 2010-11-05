@@ -1,4 +1,4 @@
-/*
+﻿/*
 ** Copyright (C) 2009 Robert Moerland
 **
 ** This program is free software; you can redistribute it and/or modify
@@ -28,6 +28,8 @@ about_base_dlg( parent )
 
     version_text->SetLabel( text );
 
+    m_contrib_lb->Append( L"Antonio Pérez" );
+	m_contrib_lb->Append( L"Curt" );
     ok_sizerOK->SetFocus();
 }
 

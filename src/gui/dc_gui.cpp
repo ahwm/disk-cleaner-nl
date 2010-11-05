@@ -260,7 +260,7 @@ about_base_dlg::about_base_dlg( wxWindow* parent, wxWindowID id, const wxString&
 	
 	version_text = new wxStaticText( this, wxID_ANY, _("Version"), wxDefaultPosition, wxDefaultSize, 0 );
 	version_text->Wrap( -1 );
-	bSizer7->Add( version_text, 0, wxALL, 5 );
+	bSizer7->Add( version_text, 0, wxBOTTOM|wxRIGHT|wxLEFT, 5 );
 	
 	m_staticText3 = new wxStaticText( this, wxID_ANY, _("Copyright 1999-2010 R. J. Moerland"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText3->Wrap( -1 );
@@ -273,13 +273,20 @@ about_base_dlg::about_base_dlg( wxWindow* parent, wxWindowID id, const wxString&
 	m_staticText6->Wrap( -1 );
 	bSizer7->Add( m_staticText6, 0, wxBOTTOM|wxRIGHT|wxLEFT, 5 );
 	
+	m_staticText30 = new wxStaticText( this, wxID_ANY, _("Contains contributions by:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText30->Wrap( -1 );
+	bSizer7->Add( m_staticText30, 0, wxALL, 5 );
+	
+	m_contrib_lb = new wxListBox( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0, NULL, 0 ); 
+	bSizer7->Add( m_contrib_lb, 0, wxEXPAND|wxLEFT, 5 );
+	
 	ok_sizer = new wxStdDialogButtonSizer();
 	ok_sizerOK = new wxButton( this, wxID_OK );
 	ok_sizer->AddButton( ok_sizerOK );
 	ok_sizer->Realize();
 	bSizer7->Add( ok_sizer, 1, wxTOP|wxRIGHT|wxALIGN_RIGHT, 10 );
 	
-	fgSizer8->Add( bSizer7, 1, wxEXPAND|wxBOTTOM|wxLEFT, 10 );
+	fgSizer8->Add( bSizer7, 1, wxEXPAND|wxBOTTOM|wxRIGHT|wxLEFT, 10 );
 	
 	this->SetSizer( fgSizer8 );
 	this->Layout();
@@ -382,13 +389,13 @@ prefs_dlg_base::prefs_dlg_base( wxWindow* parent, wxWindowID id, const wxString&
 	bSizer6->Add( delete_locked_cb, 0, wxALL, 10 );
 	
 	hide_empty_cb = new wxCheckBox( m_panel1, wxID_ANY, _("&Hide entries with zero items to clean (restarts Disk Cleaner)"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer6->Add( hide_empty_cb, 0, wxBOTTOM|wxRIGHT|wxLEFT, 10 );
+	bSizer6->Add( hide_empty_cb, 0, wxALL, 10 );
 	
 	hide_admin_items_cb = new wxCheckBox( m_panel1, wxID_ANY, _("H&ide items that need administrator priviliges for normal users (restarts Disk Cleaner)"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer6->Add( hide_admin_items_cb, 0, wxBOTTOM|wxRIGHT|wxLEFT, 10 );
+	bSizer6->Add( hide_admin_items_cb, 0, wxALL, 10 );
 	
 	warn_open_processes_cb = new wxCheckBox( m_panel1, wxID_ANY, _("&Warn when open applications can interfere with cleaning"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer6->Add( warn_open_processes_cb, 0, wxBOTTOM|wxRIGHT|wxLEFT, 10 );
+	bSizer6->Add( warn_open_processes_cb, 0, wxALL, 10 );
 	
 	wxBoxSizer* bSizer20;
 	bSizer20 = new wxBoxSizer( wxHORIZONTAL );
@@ -402,7 +409,7 @@ prefs_dlg_base::prefs_dlg_base( wxWindow* parent, wxWindowID id, const wxString&
 	LanguageChoice->SetSelection( 0 );
 	bSizer20->Add( LanguageChoice, 0, wxALIGN_CENTER_VERTICAL|wxALL|wxEXPAND, 5 );
 	
-	bSizer6->Add( bSizer20, 1, wxEXPAND|wxBOTTOM|wxLEFT, 5 );
+	bSizer6->Add( bSizer20, 0, wxBOTTOM|wxLEFT|wxEXPAND, 5 );
 	
 	m_staticText23 = new wxStaticText( m_panel1, wxID_ANY, _("Note: changing the language restarts Disk Cleaner"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText23->Wrap( -1 );
@@ -411,7 +418,119 @@ prefs_dlg_base::prefs_dlg_base( wxWindow* parent, wxWindowID id, const wxString&
 	m_panel1->SetSizer( bSizer6 );
 	m_panel1->Layout();
 	bSizer6->Fit( m_panel1 );
-	prefsbook->AddPage( m_panel1, _("Global"), true );
+	prefsbook->AddPage( m_panel1, _("Global"), false );
+	m_userlocationspanel = new wxPanel( prefsbook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* bSizer21;
+	bSizer21 = new wxBoxSizer( wxVERTICAL );
+	
+	wxFlexGridSizer* fgSizer13;
+	fgSizer13 = new wxFlexGridSizer( 2, 1, 0, 0 );
+	fgSizer13->AddGrowableCol( 0 );
+	fgSizer13->AddGrowableRow( 0 );
+	fgSizer13->SetFlexibleDirection( wxBOTH );
+	fgSizer13->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	
+	wxBoxSizer* bSizer27;
+	bSizer27 = new wxBoxSizer( wxVERTICAL );
+	
+	m_staticText29 = new wxStaticText( m_userlocationspanel, wxID_ANY, _("Folder Locations"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText29->Wrap( -1 );
+	m_staticText29->SetFont( wxFont( wxNORMAL_FONT->GetPointSize(), 70, 90, 92, false, wxEmptyString ) );
+	
+	bSizer27->Add( m_staticText29, 0, wxTOP|wxBOTTOM|wxRIGHT, 5 );
+	
+	wxBoxSizer* bSizer271;
+	bSizer271 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_userlocation_box = new wxListBox( m_userlocationspanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0, NULL, wxLB_SINGLE ); 
+	bSizer271->Add( m_userlocation_box, 1, wxEXPAND|wxALL, 5 );
+	
+	wxBoxSizer* bSizer24;
+	bSizer24 = new wxBoxSizer( wxVERTICAL );
+	
+	m_staticText26 = new wxStaticText( m_userlocationspanel, wxID_ANY, _("Subfolders"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText26->Wrap( -1 );
+	m_staticText26->SetFont( wxFont( wxNORMAL_FONT->GetPointSize(), 70, 90, 92, false, wxEmptyString ) );
+	
+	bSizer24->Add( m_staticText26, 0, wxBOTTOM|wxRIGHT, 5 );
+	
+	m_no_option = new wxRadioButton( m_userlocationspanel, wxID_ANY, _("Look only in this folder"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer24->Add( m_no_option, 0, wxALL, 5 );
+	
+	m_option_s = new wxRadioButton( m_userlocationspanel, wxID_ANY, _("Look in subfolders too"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer24->Add( m_option_s, 0, wxALL, 5 );
+	
+	wxBoxSizer* bSizer25;
+	bSizer25 = new wxBoxSizer( wxHORIZONTAL );
+	
+	
+	bSizer25->Add( 0, 0, 1, wxEXPAND, 5 );
+	
+	m_option_si = new wxCheckBox( m_userlocationspanel, wxID_ANY, _("Also remove this folder itself"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer25->Add( m_option_si, 0, wxALL, 5 );
+	
+	bSizer24->Add( bSizer25, 1, wxEXPAND|wxRIGHT, 5 );
+	
+	m_option_so = new wxRadioButton( m_userlocationspanel, wxID_ANY, _("Look in subfolders only"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer24->Add( m_option_so, 0, wxALL, 5 );
+	
+	m_option_sf = new wxRadioButton( m_userlocationspanel, wxID_ANY, _("Only remove files, not folders"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer24->Add( m_option_sf, 0, wxALL, 5 );
+	
+	m_staticText27 = new wxStaticText( m_userlocationspanel, wxID_ANY, _("Special File Types"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText27->Wrap( -1 );
+	m_staticText27->SetFont( wxFont( wxNORMAL_FONT->GetPointSize(), 70, 90, 92, false, wxEmptyString ) );
+	
+	bSizer24->Add( m_staticText27, 0, wxTOP|wxBOTTOM|wxRIGHT, 5 );
+	
+	m_option_ah = new wxCheckBox( m_userlocationspanel, wxID_ANY, _("Include hidden files"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer24->Add( m_option_ah, 0, wxALL, 5 );
+	
+	m_option_ar = new wxCheckBox( m_userlocationspanel, wxID_ANY, _("Include read-only files"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer24->Add( m_option_ar, 0, wxALL, 5 );
+	
+	m_option_as = new wxCheckBox( m_userlocationspanel, wxID_ANY, _("Include system files (dangerous!)"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer24->Add( m_option_as, 0, wxTOP|wxBOTTOM|wxLEFT, 5 );
+	
+	bSizer271->Add( bSizer24, 0, wxALL, 5 );
+	
+	bSizer27->Add( bSizer271, 1, wxEXPAND, 5 );
+	
+	fgSizer13->Add( bSizer27, 1, wxEXPAND, 5 );
+	
+	wxBoxSizer* bSizer23;
+	bSizer23 = new wxBoxSizer( wxHORIZONTAL );
+	
+	add_location_btn = new wxButton( m_userlocationspanel, wxID_ANY, _("&Add Location"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer23->Add( add_location_btn, 0, wxALL, 5 );
+	
+	edit_location_btn = new wxButton( m_userlocationspanel, wxID_ANY, _("Edit Location"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer23->Add( edit_location_btn, 0, wxALL, 5 );
+	
+	remove_location_btn = new wxButton( m_userlocationspanel, wxID_ANY, _("&Remove Location"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer23->Add( remove_location_btn, 0, wxALL, 5 );
+	
+	preview_btn = new wxButton( m_userlocationspanel, wxID_ANY, _("&Preview"), wxDefaultPosition, wxDefaultSize, 0 );
+	preview_btn->Hide();
+	
+	bSizer23->Add( preview_btn, 0, wxALL, 5 );
+	
+	
+	bSizer23->Add( 0, 0, 1, wxEXPAND, 5 );
+	
+	save_plugin_btn = new wxButton( m_userlocationspanel, wxID_ANY, _("Save as plug-in..."), wxDefaultPosition, wxDefaultSize, 0 );
+	save_plugin_btn->Hide();
+	
+	bSizer23->Add( save_plugin_btn, 0, wxALL|wxALIGN_RIGHT, 5 );
+	
+	fgSizer13->Add( bSizer23, 0, wxEXPAND, 5 );
+	
+	bSizer21->Add( fgSizer13, 1, wxEXPAND|wxALL, 5 );
+	
+	m_userlocationspanel->SetSizer( bSizer21 );
+	m_userlocationspanel->Layout();
+	bSizer21->Fit( m_userlocationspanel );
+	prefsbook->AddPage( m_userlocationspanel, _("User Locations"), true );
 	m_panel3 = new wxPanel( prefsbook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxBoxSizer* bSizer12;
 	bSizer12 = new wxBoxSizer( wxVERTICAL );
@@ -419,8 +538,14 @@ prefs_dlg_base::prefs_dlg_base( wxWindow* parent, wxWindowID id, const wxString&
 	delete_readonly_cb = new wxCheckBox( m_panel3, wxID_ANY, _("&Delete read-only files"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer12->Add( delete_readonly_cb, 0, wxALL, 10 );
 	
+	delete_hidden_cb = new wxCheckBox( m_panel3, wxID_ANY, _("Delete hidden files"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer12->Add( delete_hidden_cb, 0, wxALL, 10 );
+	
+	delete_system_cb = new wxCheckBox( m_panel3, wxID_ANY, _("Delete system files"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer12->Add( delete_system_cb, 0, wxALL, 10 );
+	
 	delete_emptyfolder_cb = new wxCheckBox( m_panel3, wxID_ANY, _("Delete &empty subfolders"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer12->Add( delete_emptyfolder_cb, 0, wxBOTTOM|wxRIGHT|wxLEFT, 10 );
+	bSizer12->Add( delete_emptyfolder_cb, 0, wxALL, 10 );
 	
 	wxBoxSizer* bSizer10;
 	bSizer10 = new wxBoxSizer( wxHORIZONTAL );
@@ -460,13 +585,17 @@ prefs_dlg_base::prefs_dlg_base( wxWindow* parent, wxWindowID id, const wxString&
 	wxBoxSizer* bSizer7;
 	bSizer7 = new wxBoxSizer( wxVERTICAL );
 	
-	m_staticText11 = new wxStaticText( m_panel2, wxID_ANY, _("Select a preset and click 'Install' to auto-run Disk Cleaner in quiet mode on start-up with the selected preset. "), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText11 = new wxStaticText( m_panel2, wxID_ANY, _("Select a preset and click 'Install' to install an auto-run shortcut."), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText11->Wrap( -1 );
 	bSizer7->Add( m_staticText11, 0, wxALL, 10 );
 	
+	m_staticText28 = new wxStaticText( m_panel2, wxID_ANY, _("Disk Cleaner will run in quiet mode on start-up with the selected preset. "), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText28->Wrap( -1 );
+	bSizer7->Add( m_staticText28, 0, wxBOTTOM|wxRIGHT|wxLEFT, 10 );
+	
 	m_staticText24 = new wxStaticText( m_panel2, wxID_ANY, _("Click 'Remove' to remove the shortcut."), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText24->Wrap( -1 );
-	bSizer7->Add( m_staticText24, 1, wxEXPAND|wxBOTTOM|wxRIGHT|wxLEFT, 10 );
+	bSizer7->Add( m_staticText24, 0, wxEXPAND|wxBOTTOM|wxRIGHT|wxLEFT, 10 );
 	
 	wxBoxSizer* bSizer161;
 	bSizer161 = new wxBoxSizer( wxHORIZONTAL );
@@ -482,7 +611,7 @@ prefs_dlg_base::prefs_dlg_base( wxWindow* parent, wxWindowID id, const wxString&
 	autostart_remove_btn = new wxButton( m_panel2, wxID_ANY, _("&Remove"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer161->Add( autostart_remove_btn, 0, wxALL|wxALIGN_CENTER_VERTICAL, 10 );
 	
-	bSizer7->Add( bSizer161, 0, wxEXPAND, 5 );
+	bSizer7->Add( bSizer161, 0, wxEXPAND|wxTOP, 5 );
 	
 	shortcut_status_txt = new wxStaticText( m_panel2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	shortcut_status_txt->Wrap( -1 );
@@ -495,32 +624,46 @@ prefs_dlg_base::prefs_dlg_base( wxWindow* parent, wxWindowID id, const wxString&
 	
 	bSizer4->Add( prefsbook, 1, wxEXPAND|wxALL, 5 );
 	
-	ok_cancel = new wxStdDialogButtonSizer();
-	ok_cancelOK = new wxButton( this, wxID_OK );
-	ok_cancel->AddButton( ok_cancelOK );
-	ok_cancelCancel = new wxButton( this, wxID_CANCEL );
-	ok_cancel->AddButton( ok_cancelCancel );
-	ok_cancel->Realize();
-	bSizer4->Add( ok_cancel, 0, wxEXPAND|wxTOP|wxBOTTOM, 5 );
+	wxBoxSizer* bSizer22;
+	bSizer22 = new wxBoxSizer( wxHORIZONTAL );
+	
+	ok_btn = new wxButton( this, wxID_OK, _("&OK"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer22->Add( ok_btn, 0, wxALL, 5 );
+	
+	cancel_btn = new wxButton( this, wxID_CANCEL, _("&Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer22->Add( cancel_btn, 0, wxALL, 5 );
+	
+	bSizer4->Add( bSizer22, 0, wxALIGN_RIGHT, 5 );
 	
 	this->SetSizer( bSizer4 );
 	this->Layout();
-	bSizer4->Fit( this );
 	
 	// Connect Events
+	m_userlocation_box->Connect( wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler( prefs_dlg_base::userlocationbox_change ), NULL, this );
+	m_userlocation_box->Connect( wxEVT_COMMAND_LISTBOX_DOUBLECLICKED, wxCommandEventHandler( prefs_dlg_base::userlocationbox_clicked ), NULL, this );
+	m_option_s->Connect( wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler( prefs_dlg_base::option_s_click ), NULL, this );
+	add_location_btn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( prefs_dlg_base::add_location_btn_clicked ), NULL, this );
+	edit_location_btn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( prefs_dlg_base::edit_location_btn_click ), NULL, this );
+	remove_location_btn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( prefs_dlg_base::remove_location_btn_clicked ), NULL, this );
 	autostart_install_btn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( prefs_dlg_base::autostart_install_btn_clicked ), NULL, this );
 	autostart_remove_btn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( prefs_dlg_base::autostart_remove_btn_clicked ), NULL, this );
-	ok_cancelCancel->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( prefs_dlg_base::cancel_btn_clicked ), NULL, this );
-	ok_cancelOK->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( prefs_dlg_base::ok_btn_clicked ), NULL, this );
+	ok_btn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( prefs_dlg_base::ok_btn_clicked ), NULL, this );
+	cancel_btn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( prefs_dlg_base::cancel_btn_clicked ), NULL, this );
 }
 
 prefs_dlg_base::~prefs_dlg_base()
 {
 	// Disconnect Events
+	m_userlocation_box->Disconnect( wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler( prefs_dlg_base::userlocationbox_change ), NULL, this );
+	m_userlocation_box->Disconnect( wxEVT_COMMAND_LISTBOX_DOUBLECLICKED, wxCommandEventHandler( prefs_dlg_base::userlocationbox_clicked ), NULL, this );
+	m_option_s->Disconnect( wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler( prefs_dlg_base::option_s_click ), NULL, this );
+	add_location_btn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( prefs_dlg_base::add_location_btn_clicked ), NULL, this );
+	edit_location_btn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( prefs_dlg_base::edit_location_btn_click ), NULL, this );
+	remove_location_btn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( prefs_dlg_base::remove_location_btn_clicked ), NULL, this );
 	autostart_install_btn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( prefs_dlg_base::autostart_install_btn_clicked ), NULL, this );
 	autostart_remove_btn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( prefs_dlg_base::autostart_remove_btn_clicked ), NULL, this );
-	ok_cancelCancel->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( prefs_dlg_base::cancel_btn_clicked ), NULL, this );
-	ok_cancelOK->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( prefs_dlg_base::ok_btn_clicked ), NULL, this );
+	ok_btn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( prefs_dlg_base::ok_btn_clicked ), NULL, this );
+	cancel_btn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( prefs_dlg_base::cancel_btn_clicked ), NULL, this );
 	
 }
 
@@ -688,5 +831,80 @@ processes_dlg_base::~processes_dlg_base()
 {
 	// Disconnect Events
 	m_button15->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( processes_dlg_base::ok_btn_click ), NULL, this );
+	
+}
+
+preview_dlg_base::preview_dlg_base( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+	
+	wxFlexGridSizer* fgSizer14;
+	fgSizer14 = new wxFlexGridSizer( 2, 1, 0, 0 );
+	fgSizer14->AddGrowableCol( 0 );
+	fgSizer14->AddGrowableRow( 0 );
+	fgSizer14->SetFlexibleDirection( wxBOTH );
+	fgSizer14->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	
+	m_listBox5 = new wxListBox( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0, NULL, 0 ); 
+	fgSizer14->Add( m_listBox5, 1, wxALL|wxEXPAND, 5 );
+	
+	this->SetSizer( fgSizer14 );
+	this->Layout();
+	
+	this->Centre( wxBOTH );
+}
+
+preview_dlg_base::~preview_dlg_base()
+{
+}
+
+add_location_dlg_base::add_location_dlg_base( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+	
+	wxBoxSizer* bSizer29;
+	bSizer29 = new wxBoxSizer( wxVERTICAL );
+	
+	m_staticText31 = new wxStaticText( this, wxID_ANY, _("Type the full path and filename to search for."), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText31->Wrap( -1 );
+	bSizer29->Add( m_staticText31, 0, wxALL, 5 );
+	
+	m_staticText32 = new wxStaticText( this, wxID_ANY, _("You need to specify a filename or wildcard (like *.*) as well, otherwise nothing will be found"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText32->Wrap( -1 );
+	bSizer29->Add( m_staticText32, 0, wxBOTTOM|wxRIGHT|wxLEFT, 5 );
+	
+	m_dirpicker = new wxDirPickerCtrl( this, wxID_ANY, wxEmptyString, _("Select a folder"), wxDefaultPosition, wxDefaultSize, wxDIRP_DEFAULT_STYLE );
+	bSizer29->Add( m_dirpicker, 0, wxALL|wxEXPAND, 5 );
+	
+	wxBoxSizer* bSizer30;
+	bSizer30 = new wxBoxSizer( wxHORIZONTAL );
+	
+	
+	bSizer30->Add( 0, 0, 1, wxEXPAND, 5 );
+	
+	add_location_btn = new wxButton( this, wxID_OK, _("Add"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer30->Add( add_location_btn, 0, wxALL, 5 );
+	
+	cancel_btn = new wxButton( this, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer30->Add( cancel_btn, 0, wxALL, 5 );
+	
+	bSizer29->Add( bSizer30, 0, wxEXPAND|wxBOTTOM, 5 );
+	
+	this->SetSizer( bSizer29 );
+	this->Layout();
+	bSizer29->Fit( this );
+	
+	this->Centre( wxBOTH );
+	
+	// Connect Events
+	add_location_btn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( add_location_dlg_base::add_location_btn_click ), NULL, this );
+	cancel_btn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( add_location_dlg_base::cancel_btn_click ), NULL, this );
+}
+
+add_location_dlg_base::~add_location_dlg_base()
+{
+	// Disconnect Events
+	add_location_btn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( add_location_dlg_base::add_location_btn_click ), NULL, this );
+	cancel_btn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( add_location_dlg_base::cancel_btn_click ), NULL, this );
 	
 }

@@ -23,7 +23,7 @@ namespace diskcleaner
     /// \see dcApp::OnCmdLineParsed(wxCmdLineParser& parser)
     bool dcsettings::Save()
     {
-        bool value = Save( wxConfigBase::Get( false ) );
+        return Save( wxConfigBase::Get( false ) );
     }
 
 
@@ -62,6 +62,26 @@ namespace diskcleaner
         cf->Write( L"Temporary Internet Files/Delete Offline", tempinternetfiles.delete_offline );
         cf->Write( L"Internet Explorer Cookies/Use Cookie Filter", cookies.use_cookie_filter );
         cf->Write( L"Internet Explorer Cookies/Minimum Age", cookies.min_cookie_age );
+
+        cf->DeleteGroup( L"User Locations");
+        wxString currentpath( cf->GetPath() );
+
+        for (unsigned int i = 0;i < userlocations.size() ; ++i )
+        {
+            wxString location;
+            location.sprintf( L"/User Locations/Location %d", i);
+            cf->SetPath( location );
+
+            cf->Write( L"Path", userlocations[i].Path );
+            cf->Write( L"Subfolders", userlocations[i].subfolders );
+            cf->Write( L"Subfolders Only", userlocations[i].subfoldersonly );
+            cf->Write( L"Include Basefolder", userlocations[i].includebasefolder );
+            cf->Write( L"Files Only", userlocations[i].filesonly );
+            cf->Write( L"Hidden", userlocations[i].hidden );
+            cf->Write( L"Read Only", userlocations[i].readonly );
+            cf->Write( L"System", userlocations[i].system );
+        }
+        cf->SetPath( currentpath );
 
         // Immediately flush the settings, otherwise we clash with any possible
         // child process that we've created.
@@ -110,6 +130,35 @@ namespace diskcleaner
         cf->Read( L"Internet Explorer Cookies/Use Cookie Filter", &cookies.use_cookie_filter, false );
         cf->Read( L"Internet Explorer Cookies/Minimum Age", &cookies.min_cookie_age, 0 );
 
+        wxString currentpath( cf->GetPath() );
+        cf->SetPath( L"/User Locations");
+        bool continue_read = true;
+        int i = 0;
+        while ( continue_read )
+        {
+            wxString location;
+            location.sprintf( L"Location %d", i);
+            if ( cf->HasGroup( location ) )
+            {
+                cf->SetPath( location );
+
+                user_location loc;
+
+                cf->Read( L"Path", &loc.Path );
+                cf->Read( L"Subfolders", &loc.subfolders );
+                cf->Read( L"Subfolders Only", &loc.subfoldersonly );
+                cf->Read( L"Include Basefolder", &loc.includebasefolder );
+                cf->Read( L"Files Only", &loc.filesonly );
+                cf->Read( L"Hidden", &loc.hidden );
+                cf->Read( L"Read Only", &loc.readonly );
+                cf->Read( L"System", &loc.system );
+
+                userlocations.push_back( loc );
+            }
+            else continue_read = false;
+
+        }
+        cf->SetPath( currentpath );
 
         //TODO: something meaningful here
         return true;
